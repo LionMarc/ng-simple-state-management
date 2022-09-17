@@ -41,5 +41,5 @@ jobs:
         gistID: 0e6ea813e47d66e72b3c7b1be39bd10e
         filename: test_results.json
         label: tests
-        message: ${{ steps.testsReport.passed }} passed ${{ steps.testsReport.failed }} failed
+        message: ${{ steps.testsReport.outputs.passed }} passed ${{ steps.testsReport.outputs.failed }} failed
         color: green
