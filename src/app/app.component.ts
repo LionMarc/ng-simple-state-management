@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavigationSection } from 'ngssm-toolkit';
+import { ConsoleAppender, NavigationSection } from 'ngssm-toolkit';
 
 @Component({
   selector: 'app-root',
@@ -22,4 +22,8 @@ export class AppComponent {
       items: []
     }
   ];
+
+  constructor(consoleAppender: ConsoleAppender) {
+    consoleAppender.start();
+  }
 }

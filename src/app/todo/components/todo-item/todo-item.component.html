@@ -1,0 +1,5 @@
+<mat-card *ngIf="(todoItem$ | async) as todoItem">
+    <mat-card-title>
+        {{todoItem.title}}
+    </mat-card-title>
+</mat-card>

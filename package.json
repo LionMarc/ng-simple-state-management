@@ -14,7 +14,8 @@
     "test:store": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-store --code-coverage",
     "build:schematics": "ng build --project=ngssm-schematics && cd projects/ngssm-schematics && npm run build",
     "link:schematics": "npm link ./dist/ngssm-schematics --configuration=production",
-    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics",
+    "build:remote-data": "ng build --project=ngssm-remote-data --configuration=production",
+    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data",
     "test:ci": "npm run test:toolkit && npm run test:store"
   },
   "private": true,

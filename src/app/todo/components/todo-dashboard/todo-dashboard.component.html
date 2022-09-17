@@ -1,6 +1,8 @@
-<mat-card fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+<mat-card fxFlex fxLayout="column" fxLayoutAlign=" stretch" [displayOverlay]="(status$ | async) === dataStatus.loading">
     <mat-card-title>Todo Dashboard</mat-card-title>
-    <mat-card-content fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+    <mat-card-content fxFlex fxLayout="column">
+        <app-todo-item *ngFor="let id of todoItemIds$ | async" [todoId]="id">
 
+        </app-todo-item>
     </mat-card-content>
 </mat-card>

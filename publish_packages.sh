@@ -2,7 +2,7 @@
 
 echo Publishing packages for release $1
 
-packages=( 'ngssm-toolkit' 'ngssm-store' 'ngssm-schematics' )
+packages=( 'ngssm-toolkit' 'ngssm-store' 'ngssm-schematics' 'ngssm-remote-data' )
 
 for package in ${packages[@]}
 do
