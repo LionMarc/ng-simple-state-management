@@ -45,3 +45,8 @@ body {
     flex-direction: column;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.ngssm-shell-main-container mat-sidenav {
+    min-width: 260px;
+    max-width: 260px;
+}

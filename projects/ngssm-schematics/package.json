@@ -7,7 +7,7 @@
   "scripts": {
     "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
     "copy:schemas": "cp --parents schematics/*/schema.json ../../dist/ngssm-schematics/",
-    "copy:files": "cp --parents -p schematics/*/files/** ../../dist/ngssm-schematics/",
+    "copy:files": "cp --parents -p -r schematics/*/files/** ../../dist/ngssm-schematics/",
     "copy:collection": "cp schematics/collection.json ../../dist/ngssm-schematics/schematics/collection.json",
     "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
   },

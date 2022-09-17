@@ -6,10 +6,11 @@ import { MaterialImportsModule, NgssmToolkitModule } from 'ngssm-toolkit';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { TodoModule } from './todo/public-api';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [MaterialImportsModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule, NgssmToolkitModule],
+  imports: [MaterialImportsModule, BrowserModule, BrowserAnimationsModule, NgssmToolkitModule, TodoModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })

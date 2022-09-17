@@ -1,0 +1,22 @@
+import update, { Spec } from 'immutability-helper';
+
+import { NgSsmFeatureState, State } from 'ngssm-store';
+
+export const select<%= classify(name) %>State = (state: State): <%= classify(name) %>State =>
+    state[<%= classify(name) %>StateSpecification.featureStateKey] as <%= classify(name) %>State;
+
+export const update<%= classify(name) %>State = (state: State, command: Spec<<%= classify(name) %>State, never>): State =>
+  update(state, {
+    [<%= classify(name) %>StateSpecification.featureStateKey]: command
+  });
+
+export interface <%= classify(name) %>State {}
+
+@NgSsmFeatureState({
+  featureStateKey: <%= classify(name) %>StateSpecification.featureStateKey,
+  initialState: <%= classify(name) %>StateSpecification.initialState
+})
+export class <%= classify(name) %>StateSpecification {
+  public static readonly featureStateKey = '<%= dasherize(name) %>-state';
+  public static readonly initialState: <%= classify(name) %>State = {};
+}
