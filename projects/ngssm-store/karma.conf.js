@@ -35,7 +35,8 @@ module.exports = function (config) {
     },
     junitReporter: {
       outputDir: require('path').join(__dirname, '../../artifacts/tests-results'),
-      outputFile: 'ngssm-store-results.xml'
+      outputFile: 'ngssm-store-results.xml',
+      useBrowserName: false
     },
     reporters: ['progress', 'kjhtml', 'junit'],
     port: 9876,
