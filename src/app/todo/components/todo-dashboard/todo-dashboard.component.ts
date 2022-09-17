@@ -1,6 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 
+import { DataStatus, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
+
+import { TodoItem, todoItemsKey } from '../../model';
 
 @Component({
   selector: 'app-todo-dashboard',
@@ -9,7 +13,17 @@ import { NgSsmComponent, Store } from 'ngssm-store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoDashboardComponent extends NgSsmComponent {
-  constructor(store: Store) { 
+  public readonly dataStatus = DataStatus;
+
+  constructor(store: Store) {
     super(store);
+  }
+
+  public get status$(): Observable<DataStatus> {
+    return this.watch((s) => selectRemoteData(s, todoItemsKey).status);
+  }
+
+  public get todoItemIds$(): Observable<number[]> {
+    return this.watch((s) => (selectRemoteData(s, todoItemsKey).data ?? []).map((t: TodoItem) => t.id));
   }
 }

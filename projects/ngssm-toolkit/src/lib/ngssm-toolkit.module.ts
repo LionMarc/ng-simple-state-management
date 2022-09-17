@@ -9,6 +9,6 @@ import { ShellComponent } from './shell';
 @NgModule({
   declarations: [ShellComponent, ComponentOverlayDirective, MessageOverlayComponent, EmptyOverlayComponent, NotFoundComponent],
   imports: [RouterModule, MaterialImportsModule],
-  exports: [ShellComponent]
+  exports: [ShellComponent, ComponentOverlayDirective]
 })
 export class NgssmToolkitModule {}
