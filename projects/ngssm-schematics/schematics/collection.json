@@ -1,0 +1,62 @@
+{
+    "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+    "schematics": {
+        "ng-add": {
+            "description": "Used to initialize a new workspace with all the required dependencies.",
+            "factory": "./ng-add/index",
+            "schema": "./ng-add/schema.json",
+            "hidden": true
+        },
+        "add-eslint": {
+            "description": "Used to initialize a new workspace with all the required dependencies.",
+            "factory": "./add-eslint/index",
+            "schema": "./add-eslint/schema.json"
+        },
+        "add-material": {
+            "description": "Add @angular/material and @angular/flex-layout to the project",
+            "factory": "./add-material/index",
+            "schema": "./add-material/schema.json"
+        },
+        "add-fontawesome": {
+            "description": "Add @fortawesome/fontawesome-free to the project",
+            "factory": "./add-fontawesome/index",
+            "schema": "./add-fontawesome/schema.json"
+        },
+        "exec-lint": {
+            "description": "Execute lint when the installation is done",
+            "factory": "./exec-lint/index",
+            "schema": "./exec-lint/schema.json",
+            "hidden": true
+        },
+        "feature-state": {
+            "description": "Generate a feature state.",
+            "factory": "./feature-state/index#featureState",
+            "schema": "./feature-state/schema.json"
+        },
+        "component": {
+            "description": "Generate a component.",
+            "factory": "./component/index#component",
+            "schema": "./component/schema.json"
+        },
+        "reducer": {
+            "description": "Generate a reducer.",
+            "factory": "./reducer/index#reducer",
+            "schema": "./reducer/schema.json"
+        },
+        "effect": {
+            "description": "Generate an effect.",
+            "factory": "./effect/index#effect",
+            "schema": "./effect/schema.json"
+        },
+        "action": {
+            "description": "Generate an action.",
+            "factory": "./action/index#action",
+            "schema": "./action/schema.json"
+        },
+        "module": {
+            "description": "Generate a module.",
+            "factory": "./module/index",
+            "schema": "./module/schema.json"
+        }
+    }
+}

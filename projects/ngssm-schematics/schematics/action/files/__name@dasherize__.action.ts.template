@@ -1,0 +1,5 @@
+import { Action } from 'ngssm-store';
+
+export class <%= classify(name) %>Action implements Action {
+  public readonly type:string = '<%= name %>';
+}

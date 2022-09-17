@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SchematicsAddFontawesome",
+  "title": "@fortawesome/fontawesome-free installation",
+  "type": "object",
+  "description": "Install and configure @fortawesome/fontawesome-free",
+  "additionalProperties": false,
+  "properties": {
+  },
+  "required": []
+}

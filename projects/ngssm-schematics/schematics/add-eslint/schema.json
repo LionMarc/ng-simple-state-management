@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SchematicsAddEslint",
+  "title": "Eslint and prettier installation",
+  "type": "object",
+  "description": "Install and configure eslint and prettier",
+  "additionalProperties": false,
+  "properties": {
+  },
+  "required": []
+}

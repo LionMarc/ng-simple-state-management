@@ -1,0 +1,18 @@
+import { Injectable, Provider } from '@angular/core';
+
+import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+
+@Injectable()
+export class <%= classify(name) %>Reducer implements Reducer {
+  public readonly processedActions:string[] = [];
+
+  public updateState(state: State, action: Action): State {
+    return state;
+  }
+}
+
+export const <%= providerName %>: Provider = {
+  provide: NGSSM_REDUCER,
+  useClass: <%= classify(name) %>Reducer,
+  multi: true
+}; 

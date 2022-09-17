@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SchematicsNgAdd",
+  "title": "Initialize workpsace",
+  "type": "object",
+  "description": "Initialize worspace by installing all the required dependencies",
+  "additionalProperties": false,
+  "properties": {
+    "addEslint": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to set up eslint.",
+      "x-prompt": "Install and setup eslint and prettier ?"
+    },
+    "addMaterial": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to add @angular/material.",
+      "x-prompt": "Install and setup @angular/material ?"
+    },
+    "addFontawesome": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to add @fortawesome/fontawesome-free.",
+      "x-prompt": "Install and setup @fortawesome/fontawesome-free ?"
+    }
+  },
+  "required": []
+}

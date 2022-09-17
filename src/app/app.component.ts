@@ -14,6 +14,12 @@ export class AppComponent {
       label: 'Home',
       route: '/home',
       items: []
+    },
+    {
+      iconClass: 'fa-solid fa-clipboard-list',
+      label: 'ToDo',
+      route: '/todo',
+      items: []
     }
   ];
 }

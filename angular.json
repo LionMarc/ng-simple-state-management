@@ -208,6 +208,46 @@
           }
         }
       }
+    },
+    "ngssm-schematics": {
+      "projectType": "library",
+      "root": "projects/ngssm-schematics",
+      "sourceRoot": "projects/ngssm-schematics/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngssm-schematics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngssm-schematics/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngssm-schematics/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngssm-schematics/src/test.ts",
+            "tsConfig": "projects/ngssm-schematics/tsconfig.spec.json",
+            "karmaConfig": "projects/ngssm-schematics/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngssm-schematics/**/*.ts",
+              "projects/ngssm-schematics/**/*.html"
+            ]
+          }
+        }
+      }
     }
   }
 }

@@ -1,0 +1,10 @@
+import { NgModule } from '@angular/core';
+
+import { <%= classify(name) %>RoutingModule } from './<%= dasherize(name) %>-routing.module';
+
+@NgModule({
+  declarations: [],
+  imports: [<%= classify(name) %>RoutingModule],
+  providers: []
+})
+export class <%= classify(name) %>Module {}
