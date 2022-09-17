@@ -12,6 +12,9 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "ngssm-store": [
+        "dist/ngssm-store"
+      ],
       "ngssm-toolkit": [
         "dist/ngssm-toolkit"
       ]
