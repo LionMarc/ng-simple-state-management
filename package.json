@@ -10,8 +10,10 @@
     "lint": "ng lint",
     "build:toolkit": "ng build --project=ngssm-toolkit --configuration=production",
     "test:toolkit": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-toolkit --code-coverage",
-    "build:ci": "npm run build:toolkit",
-    "test:ci" : "npm run test:toolkit"
+    "build:store": "ng build --project=ngssm-store --configuration=production",
+    "test:store": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-store --code-coverage",
+    "build:ci": "npm run build:toolkit && npm run build:store",
+    "test:ci": "npm run test:toolkit && npm run test:store"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +29,7 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "@fortawesome/fontawesome-free": "^6.2.0",
+    "immutability-helper": "^3.1.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
