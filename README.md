@@ -10,3 +10,4 @@ This project provides several libraries:
 - [ngssm-toolkit](/projects/ngssm-toolkit/README.md): provides some utilities;
 - [ngssm-store](/projects/ngssm-store/README.md) : simple state management implementation;
 - [ngssm-schematics](/projects/ngssm-schematics/README.md) : provides schematics to initialize workspace, create custom components, services...
+- [ngssm-remote-data](/projects/ngssm-remote-data/README.md) : helpers to manage data provided by remote services.

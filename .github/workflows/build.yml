@@ -23,3 +23,12 @@ jobs:
     - run: npm ci
     - run: npm run build:ci
     - run: npm run test:ci
+
+    - name: Report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Angular tests,
+        path: artifacts/tests-results/*.xml
+        reporter: java-junit
+        fail-on-error: true

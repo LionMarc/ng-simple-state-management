@@ -32,7 +32,11 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    junitReporter: {
+      outputDir: require('path').join(__dirname, '../../artifacts/tests-results'),
+      outputFile: 'ngssm-toolkit-results.xml'
+    },
+    reporters: ['progress', 'kjhtml', 'junit'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
