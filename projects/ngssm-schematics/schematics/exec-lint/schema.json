@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SchematicsExeclint",
+  "title": "Execute lint when installation is done",
+  "type": "object",
+  "description": "Execute lint when installation is done",
+  "additionalProperties": false,
+  "properties": {
+  },
+  "required": []
+}

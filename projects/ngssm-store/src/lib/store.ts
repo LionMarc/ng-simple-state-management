@@ -13,7 +13,7 @@ import { Effect, NGSSM_EFFECT } from './effect';
 import { NGSSM_STATE_INITIALIZER, StateInitializer } from './state-initializer';
 
 const featureStateSpecifications: FeatureStateSpecification[] = [];
-export const leonoFeatureState = (specification: FeatureStateSpecification) => {
+export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
   return (target: object) => {
     featureStateSpecifications.push(specification);
   };

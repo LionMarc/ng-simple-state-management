@@ -12,7 +12,9 @@
     "test:toolkit": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-toolkit --code-coverage",
     "build:store": "ng build --project=ngssm-store --configuration=production",
     "test:store": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-store --code-coverage",
-    "build:ci": "npm run build:toolkit && npm run build:store",
+    "build:schematics": "ng build --project=ngssm-schematics && cd projects/ngssm-schematics && npm run build",
+    "link:schematics": "npm link ./dist/ngssm-schematics --configuration=production",
+    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics",
     "test:ci": "npm run test:toolkit && npm run test:store"
   },
   "private": true,
@@ -59,6 +61,6 @@
     "ng-packagr": "^14.2.0",
     "prettier": "^2.7.1",
     "prettier-eslint": "^15.0.1",
-    "typescript": "~4.7.2"
+    "typescript": "4.8.3"
   }
 }

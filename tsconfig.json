@@ -12,6 +12,9 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "ngssm-schematics": [
+        "dist/ngssm-schematics"
+      ],
       "ngssm-store": [
         "dist/ngssm-store"
       ],
