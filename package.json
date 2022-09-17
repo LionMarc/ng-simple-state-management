@@ -7,15 +7,22 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "build:toolkit": "ng build --project=ngssm-toolkit --configuration=production",
+    "test:toolkit": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-toolkit --code-coverage",
+    "build:ci": "npm run build:toolkit",
+    "test:ci" : "npm run test:toolkit"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^14.2.0",
+    "@angular/cdk": "^14.2.2",
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
     "@angular/core": "^14.2.0",
+    "@angular/flex-layout": "^14.0.0-beta.40",
     "@angular/forms": "^14.2.0",
+    "@angular/material": "^14.2.2",
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
@@ -46,6 +53,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "ng-packagr": "^14.2.0",
     "prettier": "^2.7.1",
     "prettier-eslint": "^15.0.1",
     "typescript": "~4.7.2"
