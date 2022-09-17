@@ -11,9 +11,9 @@ import { ShellComponent } from './shell.component';
 @Component({
   selector: 'ngssm-testing',
   template: `
-    <leono-shell [navigationSections]="navigationSections">
+    <ngssm-shell [navigationSections]="navigationSections">
       <div fxLayout="row" fxLayoutAlign=" center" id="header-title">Testing component</div>
-    </leono-shell>
+    </ngssm-shell>
   `,
   styles: [
     `
