@@ -25,6 +25,7 @@ jobs:
     - run: npm run test:ci
 
     - name: Report
+      id: testsReport
       uses: dorny/test-reporter@v1
       if: always()
       with:
@@ -32,3 +33,13 @@ jobs:
         path: artifacts/tests-results/*.xml
         reporter: java-junit
         fail-on-error: true
+
+    - name: Create badge
+      uses: schneegans/dynamic-badges-action@v1.0.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: 0e6ea813e47d66e72b3c7b1be39bd10e
+        filename: test_results.json
+        label: tests
+        message: ${{ steps.testsReport.passed }} passed ${{ steps.testsReport.failed }} failed
+        color: green
