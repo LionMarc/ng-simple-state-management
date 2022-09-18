@@ -4,7 +4,7 @@ import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
 
 @Injectable()
 export class <%= classify(name) %>Effect implements Effect {
-  public readonly processedActions:string[] = [];
+  public readonly processedActions: string[] = [];
 
   public processAction(store: Store, state: State, action: Action): void {}
 }

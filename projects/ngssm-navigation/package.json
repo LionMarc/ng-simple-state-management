@@ -1,0 +1,20 @@
+{
+  "name": "ngssm-navigation",
+  "version": "0.0.1",
+  "description": "NgSsm - Helpers to control angular navigation.",
+  "author": "Lion Marc",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^14.2.0",
+    "@angular/core": "^14.2.0",
+    "ngssm-store": "NGSSM_VERSION"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LionMarc/ng-simple-state-management",
+    "directory": "projects/ngssm-navigation"
+  }
+}

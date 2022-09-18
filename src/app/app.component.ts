@@ -17,8 +17,8 @@ export class AppComponent {
     },
     {
       iconClass: 'fa-solid fa-clipboard-list',
-      label: 'ToDo',
-      route: '/todo',
+      label: 'To-Do List',
+      route: '/todo-list',
       items: []
     }
   ];

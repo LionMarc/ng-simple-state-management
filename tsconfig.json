@@ -12,6 +12,9 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "ngssm-navigation": [
+        "dist/ngssm-navigation"
+      ],
       "ngssm-remote-data": [
         "dist/ngssm-remote-data"
       ],
