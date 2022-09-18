@@ -30,9 +30,6 @@ export default function (options: Schema): Rule {
       context.logger.warn('@fortawesome/fontawesome-free will not be installed.');
     }
 
-    const installTaskId = context.addTask(new RunSchematicTask('add-leono', {}), [...taksIds]);
-    taksIds.push(installTaskId);
-
     // Last task
     if (options.addEslint) {
       context.addTask(new RunSchematicTask('exec-lint', {}), [...taksIds]);
