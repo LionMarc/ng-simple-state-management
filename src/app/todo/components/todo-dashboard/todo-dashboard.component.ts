@@ -5,6 +5,7 @@ import { DataStatus, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { TodoItem, todoItemsKey } from '../../model';
+import { TodoActionType } from '../../actions';
 
 @Component({
   selector: 'app-todo-dashboard',
@@ -25,5 +26,9 @@ export class TodoDashboardComponent extends NgSsmComponent {
 
   public get todoItemIds$(): Observable<number[]> {
     return this.watch((s) => (selectRemoteData(s, todoItemsKey).data ?? []).map((t: TodoItem) => t.id));
+  }
+
+  public addTodo(): void {
+    this.dispatchActionType(TodoActionType.addTodoItem);
   }
 }

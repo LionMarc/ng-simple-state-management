@@ -5,6 +5,7 @@ import { selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { TodoItem, todoItemsKey } from '../../model';
+import { EditTodoItemAction } from '../../actions';
 
 @Component({
   selector: 'app-todo-item',
@@ -31,5 +32,9 @@ export class TodoItemComponent extends NgSsmComponent {
 
   public get todoItem$(): Observable<TodoItem | undefined> {
     return this._todoItem$.asObservable();
+  }
+
+  public editTodoItem(id: number): void {
+    this.dispatchAction(new EditTodoItemAction(id));
   }
 }

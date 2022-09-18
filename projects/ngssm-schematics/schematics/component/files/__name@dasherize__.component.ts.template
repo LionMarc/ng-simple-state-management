@@ -21,7 +21,7 @@ import { NgSsmComponent, Store } from 'ngssm-store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class <%= classify(name) %><%= classify(type) %> extends NgSsmComponent {
-  constructor(store: Store) { 
+  constructor(store: Store) {
     super(store);
   }
 }

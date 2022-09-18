@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 const modules = [
@@ -38,6 +39,7 @@ const modules = [
   MatDialogModule,
   MatProgressSpinnerModule,
   MatCheckboxModule,
+  MatTooltipModule,
   FlexLayoutModule
 ];
 

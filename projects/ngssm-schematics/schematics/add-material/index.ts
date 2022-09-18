@@ -25,7 +25,7 @@ export default function (): Rule {
         typography: false
       }),
       addFlexLayoutDependency(),
-      (__:Tree, ___: SchematicContext) => context.logger.info('✔️ @angular/material and @angular/flex-layout installed and configured')
-    ])
+      (__: Tree, ___: SchematicContext) => context.logger.info('✔️ @angular/material and @angular/flex-layout installed and configured')
+    ]);
   };
 }

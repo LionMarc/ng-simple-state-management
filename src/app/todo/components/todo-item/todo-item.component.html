@@ -1,5 +1,10 @@
 <mat-card *ngIf="(todoItem$ | async) as todoItem">
-    <mat-card-title>
-        {{todoItem.title}}
-    </mat-card-title>
+    <mat-card-title-group>
+        <mat-card-title>
+            {{todoItem.title}}
+        </mat-card-title>
+        <button mat-icon-button color="primary" (click)="editTodoItem(todoItem.id ?? -1)" matTooltip="Edit To-Do">
+            <mat-icon class="fa-solid fa-pen-to-square"></mat-icon>
+        </button>
+    </mat-card-title-group>
 </mat-card>

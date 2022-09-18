@@ -15,8 +15,10 @@
     "build:schematics": "ng build --project=ngssm-schematics && cd projects/ngssm-schematics && npm run build",
     "link:schematics": "npm link ./dist/ngssm-schematics --configuration=production",
     "build:remote-data": "ng build --project=ngssm-remote-data --configuration=production",
-    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data",
-    "test:ci": "npm run test:toolkit && npm run test:store"
+    "build:navigation": "ng build --project=ngssm-navigation --configuration=production",
+    "test:navigation": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-navigation --code-coverage",
+    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data && npm run build:navigation",
+    "test:ci": "npm run test:toolkit && npm run test:store && npm run test:navigation"
   },
   "private": true,
   "dependencies": {

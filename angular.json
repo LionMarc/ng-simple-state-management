@@ -288,6 +288,46 @@
           }
         }
       }
+    },
+    "ngssm-navigation": {
+      "projectType": "library",
+      "root": "projects/ngssm-navigation",
+      "sourceRoot": "projects/ngssm-navigation/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngssm-navigation/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngssm-navigation/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngssm-navigation/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngssm-navigation/src/test.ts",
+            "tsConfig": "projects/ngssm-navigation/tsconfig.spec.json",
+            "karmaConfig": "projects/ngssm-navigation/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngssm-navigation/**/*.ts",
+              "projects/ngssm-navigation/**/*.html"
+            ]
+          }
+        }
+      }
     }
   }
 }

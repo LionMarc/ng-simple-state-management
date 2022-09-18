@@ -8,7 +8,7 @@ import { todoItemsKey } from './model';
 
 const routes: Routes = [
   {
-    path: 'todo',
+    path: 'todo-list',
     component: TodoDashboardComponent,
     canActivate: [RemoteDataLoadingGuard],
     data: {
