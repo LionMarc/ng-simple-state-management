@@ -8,7 +8,6 @@ Executed when installing the package with the `ng add` command, this schematics 
 - [add-eslint](#add-eslint)
 - [add-fontawesome](#add-fontawesome)
 - [add-material](#add-material)
-- [add-leono](#add-leono)
 
 At the end, this schematic executes `ng lint --fix` if *@angular-eslint* has been installed.
 
