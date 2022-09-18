@@ -10,6 +10,7 @@
     "lint": "ng lint",
     "build:toolkit": "ng build --project=ngssm-toolkit --configuration=production",
     "test:toolkit": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-toolkit --code-coverage",
+    "lint:toolkit": "ng lint --project=ngssm-toolkit --format json --silent --output-file artifacts/lint/ngssm-toolkit.json",
     "build:store": "ng build --project=ngssm-store --configuration=production",
     "test:store": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-store --code-coverage",
     "build:schematics": "ng build --project=ngssm-schematics && cd projects/ngssm-schematics && npm run build",
@@ -18,7 +19,8 @@
     "build:navigation": "ng build --project=ngssm-navigation --configuration=production",
     "test:navigation": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-navigation --code-coverage",
     "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data && npm run build:navigation",
-    "test:ci": "npm run test:toolkit && npm run test:store && npm run test:navigation"
+    "test:ci": "npm run test:toolkit && npm run test:store && npm run test:navigation",
+    "lint:ci": "npm run lint:toolkit"
   },
   "private": true,
   "dependencies": {

@@ -24,6 +24,9 @@ jobs:
     - run: npm run build:ci
     - run: npm run test:ci
 
+    - name: Lint
+      run: npm run lint:ci
+
     - name: Report
       id: testsReport
       uses: dorny/test-reporter@v1
