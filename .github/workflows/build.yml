@@ -27,6 +27,12 @@ jobs:
     - name: Lint
       run: npm run lint:ci
 
+    - name: Archive lint results
+      uses: actions/upload-artifact@v3
+      with:
+        name: lint-reports
+        path: artifacts/lint/*.json
+
     - name: Report
       id: testsReport
       uses: dorny/test-reporter@v1
