@@ -3,6 +3,7 @@
 ![build workflow](https://github.com/LionMarc/ng-simple-state-management/actions/workflows/build.yml/badge.svg)
 [![Tests](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/LionMarc/0e6ea813e47d66e72b3c7b1be39bd10e/raw)](https://github.com/LionMarc/ng-simple-state-management/actions/workflows/build.yml)
 ![publish workflow](https://github.com/LionMarc/ng-simple-state-management/actions/workflows/publish.yml/badge.svg)
+[![npm version](https://badge.fury.io/js/ngssm-store.svg)](https://badge.fury.io/js/ngssm-store)
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 
 Simple state management implementation for angular applications.
