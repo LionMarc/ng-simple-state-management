@@ -4,7 +4,7 @@ import { ModuleOptions } from './module-options';
 
 export default function (options: ModuleOptions): Rule {
   return async (_: Tree, __: SchematicContext) => {
-    const modulePath = options.path + '/' + options.name;
+    const modulePath = options.path + '/' + strings.dasherize(options.name);
     const templateSource = apply(url('./files'), [
       applyTemplates({
         classify: strings.classify,
