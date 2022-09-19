@@ -1,1 +1,1 @@
-export * from './<% dasherize(name) %>.state';
+export * from './<%= dasherize(name) %>.state';
