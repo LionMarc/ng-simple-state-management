@@ -3,7 +3,7 @@
 ![build workflow](https://github.com/LionMarc/ng-simple-state-management/actions/workflows/build.yml/badge.svg)
 [![Tests](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/LionMarc/0e6ea813e47d66e72b3c7b1be39bd10e/raw)](https://github.com/LionMarc/ng-simple-state-management/actions/workflows/build.yml)
 ![publish workflow](https://github.com/LionMarc/ng-simple-state-management/actions/workflows/publish.yml/badge.svg)
-[![npm version](https://badge.fury.io/js/ngssm-store.svg)](https://badge.fury.io/js/ngssm-store)
+[![npm version](https://img.shields.io/npm/v/ngssm-store.svg)](https://www.npmjs.com/package/ngssm-store)
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![HitCount](https://hits.dwyl.com/LionMarc/ng-simple-state-management.svg?style=flat-square)](http://hits.dwyl.com/LionMarc/ng-simple-state-management)
 [![NPM](https://nodei.co/npm-dl/ngssm-store.png?month=12)](https://nodei.co/npm/ngssm-store/)
