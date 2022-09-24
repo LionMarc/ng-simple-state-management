@@ -6,7 +6,7 @@
 [![npm version](https://img.shields.io/npm/v/ngssm-store.svg)](https://www.npmjs.com/package/ngssm-store)
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 [![HitCount](https://hits.dwyl.com/LionMarc/ng-simple-state-management.svg?style=flat-square)](http://hits.dwyl.com/LionMarc/ng-simple-state-management)
-[![NPM](https://nodei.co/npm-dl/ngssm-store.png?month=12)](https://nodei.co/npm/ngssm-store/)
+[![Npm package monthly downloads](https://badgen.net/npm/dm/ngssm-store)](https://npmjs.ccom/package/ngssm-store)
 
 Simple state management implementation for angular applications.
 
