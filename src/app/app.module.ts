@@ -3,6 +3,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { NgssmAgGridModule } from 'ngssm-ag-grid';
 import { NgssmNavigationModule } from 'ngssm-navigation';
 import { NgssmRemoteDataModule } from 'ngssm-remote-data';
 import { MaterialImportsModule, NgssmToolkitModule, useDefaultErrorStateMatcher } from 'ngssm-toolkit';
@@ -20,6 +21,7 @@ import { TodoModule } from './todo/public-api';
     NgssmToolkitModule,
     NgssmRemoteDataModule,
     NgssmNavigationModule,
+    NgssmAgGridModule.forRoot(),
     TodoModule,
     AppRoutingModule
   ],

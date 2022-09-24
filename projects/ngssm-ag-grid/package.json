@@ -1,0 +1,22 @@
+{
+  "name": "ngssm-ag-grid",
+  "version": "0.0.1",
+  "description": "NgSsm - Helpers for ag-grid and columns state save/restore feature.",
+  "author": "Lion Marc",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^14.2.0",
+    "@angular/core": "^14.2.0",
+    "ag-grid-angular": "^28.1.1",
+    "ag-grid-community": "^28.1.1",
+    "ngssm-store": "NGSSM_VERSION"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LionMarc/ng-simple-state-management",
+    "directory": "projects/ngssm-ag-grid"
+  }
+}

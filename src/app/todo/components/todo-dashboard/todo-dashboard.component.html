@@ -6,9 +6,15 @@
             Add to-do
         </button>
     </mat-card-title>
-    <mat-card-content fxFlex fxLayout="column">
-        <app-todo-item *ngFor="let id of todoItemIds$ | async" [todoId]="id">
+    <mat-card-content fxFlex fxLayout="row" fxLayoutAlign=" stretch">
+        <div fxFlex fxLayout="column">
+            <app-todo-item *ngFor="let id of todoItemIds$ | async" [todoId]="id">
 
-        </app-todo-item>
+            </app-todo-item>
+        </div>
+
+        <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="todoItems$ | async" [ngssm-ag-grid]="'todo-items'">
+
+        </ag-grid-angular>
     </mat-card-content>
 </mat-card>
