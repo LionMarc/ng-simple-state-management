@@ -5,6 +5,8 @@ import { MaterialImportsModule, NgssmToolkitModule } from 'ngssm-toolkit';
 import { NGSSM_REMOTE_DATA_PROVIDER } from 'ngssm-remote-data';
 import { NGSSM_NAVIGATION_LOCKING_CONFIG } from 'ngssm-navigation';
 
+import { AgGridModule } from 'ag-grid-angular';
+
 import { TodoRoutingModule } from './todo-routing.module';
 import { TodoDashboardComponent } from './components/todo-dashboard/todo-dashboard.component';
 import { TodoItemsService } from './services';
@@ -14,10 +16,11 @@ import { todoEditorEffectProvider } from './effects/todo-editor.effect';
 import { todoItemEditorReducerProvider } from './reducers/todo-item-editor.reducer';
 import { TodoActionType } from './actions';
 import { editedTodoItemSubmissionEffectProvider } from './effects/edited-todo-item-submission.effect';
+import { NgssmAgGridModule } from 'ngssm-ag-grid';
 
 @NgModule({
   declarations: [TodoDashboardComponent, TodoItemComponent, TodoItemEditorComponent],
-  imports: [ReactiveFormsModule, MaterialImportsModule, NgssmToolkitModule, TodoRoutingModule],
+  imports: [ReactiveFormsModule, MaterialImportsModule, AgGridModule, NgssmToolkitModule, NgssmAgGridModule, TodoRoutingModule],
   providers: [
     { provide: NGSSM_REMOTE_DATA_PROVIDER, useClass: TodoItemsService, multi: true },
     todoEditorEffectProvider,

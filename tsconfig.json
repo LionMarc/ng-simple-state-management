@@ -12,6 +12,9 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "ngssm-ag-grid": [
+        "dist/ngssm-ag-grid"
+      ],
       "ngssm-navigation": [
         "dist/ngssm-navigation"
       ],

@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { GetRowIdParams, GridOptions } from 'ag-grid-community';
+
 import { DataStatus, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
@@ -15,6 +17,27 @@ import { TodoActionType } from '../../actions';
 })
 export class TodoDashboardComponent extends NgSsmComponent {
   public readonly dataStatus = DataStatus;
+  public readonly gridOptions: GridOptions = {
+    defaultColDef: {
+      resizable: true,
+      sortable: true
+    },
+    columnDefs: [
+      {
+        field: 'id',
+        headerName: 'Id',
+        filter: 'agNumberColumnFilter',
+        width: 80
+      },
+      {
+        field: 'title',
+        headerName: 'Title',
+        filter: 'agTextColumnFilter',
+        width: 800
+      }
+    ],
+    getRowId: (params: GetRowIdParams<TodoItem>) => params.data.id?.toString() ?? ''
+  };
 
   constructor(store: Store) {
     super(store);
@@ -26,6 +49,10 @@ export class TodoDashboardComponent extends NgSsmComponent {
 
   public get todoItemIds$(): Observable<number[]> {
     return this.watch((s) => (selectRemoteData(s, todoItemsKey).data ?? []).map((t: TodoItem) => t.id));
+  }
+
+  public get todoItems$(): Observable<TodoItem[]> {
+    return this.watch((s) => selectRemoteData(s, todoItemsKey).data ?? []);
   }
 
   public addTodo(): void {
