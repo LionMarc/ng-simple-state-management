@@ -9,5 +9,5 @@ import { NavigationSection } from './navigation-section';
 })
 export class ShellComponent {
   @Input() public navigationSections: NavigationSection[] = [];
-  @Input() public logo: string = 'assets/leono-logo.png';
+  @Input() public logo: string = './assets/leono-logo.png';
 }
