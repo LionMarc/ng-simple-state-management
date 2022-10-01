@@ -26,6 +26,7 @@ export class LocalStorageEffect implements Effect {
 
       case AgGridActionType.resetColumnsStateFromDisk:
         const stored = localStorage.getItem(this.getColumnsStateLocalStorageKey(agGridAction.gridId));
+        console.log(stored);
         if (stored) {
           try {
             const columnsState = JSON.parse(stored);
