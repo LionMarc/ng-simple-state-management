@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BehaviorSubject } from 'rxjs';
 
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { GetRowIdParams, GridOptions } from 'ag-grid-community';
 
-import { Action, Store } from 'ngssm-store';
+import { Store, StoreMock } from 'ngssm-store';
 
 import { AgGridStateSpecification, ChangeOrigin, updateAgGridState } from '../state';
 import { NgssmAgGridDirective } from './ngssm-ag-grid.directive';
@@ -155,18 +154,6 @@ class TestingWithConfigComponent {
     gridId: 'items',
     keepSelection: true
   };
-}
-
-class StoreMock {
-  public state$ = new BehaviorSubject<{ [key: string]: any }>({});
-
-  constructor(initialState: { [key: string]: any }) {
-    this.state$.next(initialState);
-  }
-
-  public dispatchAction(action: Action): void {}
-
-  public dispatchActionType(type: string): void {}
 }
 
 describe('NgssmAgGridDirective', () => {

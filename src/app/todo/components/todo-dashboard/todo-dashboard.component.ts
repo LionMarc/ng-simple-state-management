@@ -27,6 +27,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
       {
         field: 'id',
         headerName: '',
+        colId: 'selection',
         checkboxSelection: true,
         headerCheckboxSelection: true,
         width: 60,
@@ -52,7 +53,8 @@ export class TodoDashboardComponent extends NgSsmComponent {
 
   public readonly agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
-    keepSelection: true
+    keepSelection: true,
+    canSaveOnDiskColumnsState: true
   };
 
   constructor(store: Store) {
