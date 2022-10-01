@@ -5,6 +5,7 @@ import { GetRowIdParams, GridOptions } from 'ag-grid-community';
 
 import { DataStatus, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
+import { NgssmAgGridConfig } from 'ngssm-ag-grid';
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { TodoActionType } from '../../actions';
@@ -25,6 +26,15 @@ export class TodoDashboardComponent extends NgSsmComponent {
     columnDefs: [
       {
         field: 'id',
+        headerName: '',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        width: 60,
+        pinned: 'left',
+        resizable: false
+      },
+      {
+        field: 'id',
         headerName: 'Id',
         filter: 'agNumberColumnFilter',
         width: 80
@@ -36,7 +46,13 @@ export class TodoDashboardComponent extends NgSsmComponent {
         width: 800
       }
     ],
-    getRowId: (params: GetRowIdParams<TodoItem>) => params.data.id?.toString() ?? ''
+    getRowId: (params: GetRowIdParams<TodoItem>) => params.data.id?.toString() ?? '',
+    rowSelection: 'multiple'
+  };
+
+  public readonly agGridConfig: NgssmAgGridConfig = {
+    gridId: 'todo-items',
+    keepSelection: true
   };
 
   constructor(store: Store) {

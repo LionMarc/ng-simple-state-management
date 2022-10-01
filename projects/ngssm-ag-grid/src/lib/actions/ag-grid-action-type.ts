@@ -1,3 +1,4 @@
 export enum AgGridActionType {
-  registerAgGridState = '[AgGridActionType] registerAgGridState'
+  registerAgGridState = '[AgGridActionType] registerAgGridState',
+  registerSelectedRows = '[AgGridActionType] registerSelectedRows'
 }
