@@ -29,7 +29,7 @@ describe('LocalStorageEffect', () => {
   });
 
   describe(`when processing action of type '${AgGridActionType.saveColumnsStateOnDisk}'`, () => {
-    it('should no call the localStorage when there is no columns state set in store', () => {
+    it('should not call the localStorage when there is no columns state set in store', () => {
       spyOn(window.localStorage, 'setItem');
       const state = updateAgGridState(store.state$.getValue(), {
         gridStates: {}
