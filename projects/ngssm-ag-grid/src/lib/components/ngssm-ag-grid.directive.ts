@@ -2,10 +2,11 @@ import { Directive, Input, OnDestroy } from '@angular/core';
 import { combineLatest, map, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 
 import { AgGridAngular } from 'ag-grid-angular';
+import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community';
 
 import { Store } from 'ngssm-store';
 
-import { RegisterAgGridStateAction, RegisterSelectedRowsAction } from '../actions';
+import { AgGridAction, AgGridActionType, RegisterAgGridStateAction, RegisterSelectedRowsAction } from '../actions';
 import { ChangeOrigin, selectAgGridState } from '../state';
 import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
 
@@ -73,6 +74,12 @@ export class NgssmAgGridDirective implements OnDestroy {
           });
         }
       });
+
+    this._config$.pipe(take(1)).subscribe((config) => {
+      if (config.canSaveOnDiskColumnsState === true) {
+        this.agGridAngular.getContextMenuItems = (params) => this.getContextMenuItems(params);
+      }
+    });
   }
 
   @Input('ngssm-ag-grid') public set config(value: string | NgssmAgGridConfig) {
@@ -116,5 +123,34 @@ export class NgssmAgGridDirective implements OnDestroy {
         this.store.dispatchAction(new RegisterSelectedRowsAction(config.gridId, ChangeOrigin.agGrid, selectedRows));
       }
     });
+  }
+
+  private getContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
+    console.log(params.defaultItems);
+    return [
+      ...(params.defaultItems ?? []),
+      'separator',
+      {
+        name: 'Save columns state',
+        action: () =>
+          this._config$
+            .pipe(take(1))
+            .subscribe((config) => this.store.dispatchAction(new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, config.gridId))),
+        icon: '<i class="fa-regular fa-floppy-disk"></i>'
+      },
+      {
+        name: 'Restore columns state',
+        action: () =>
+          this._config$
+            .pipe(take(1))
+            .subscribe((config) => this.store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, config.gridId))),
+        icon: '<i class="fa-solid fa-rotate-right"></i>'
+      },
+      {
+        name: 'Reset columns state to default',
+        action: () => this.agGridAngular.columnApi.resetColumnState(),
+        icon: '<i class="fa-solid fa-clock-rotate-left"></i>'
+      }
+    ];
   }
 }
