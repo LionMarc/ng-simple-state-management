@@ -20,7 +20,7 @@ interface Item {
 
 @Component({
   template: `
-    <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssm-ag-grid]="'items'">
+    <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="'items'">
     </ag-grid-angular>
   `,
   styles: [
@@ -78,7 +78,7 @@ class TestingComponent {
 
 @Component({
   template: `
-    <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssm-ag-grid]="config">
+    <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="config">
     </ag-grid-angular>
   `,
   styles: [

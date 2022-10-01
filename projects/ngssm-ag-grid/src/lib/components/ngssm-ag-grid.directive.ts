@@ -11,8 +11,7 @@ import { ChangeOrigin, selectAgGridState } from '../state';
 import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[ngssm-ag-grid]'
+  selector: '[ngssmAgGrid]'
 })
 export class NgssmAgGridDirective implements OnDestroy {
   private readonly unsubsribeAll$ = new Subject<void>();
@@ -82,7 +81,7 @@ export class NgssmAgGridDirective implements OnDestroy {
     });
   }
 
-  @Input('ngssm-ag-grid') public set config(value: string | NgssmAgGridConfig) {
+  @Input('ngssmAgGrid') public set config(value: string | NgssmAgGridConfig) {
     if (typeof value === 'string') {
       this._config$.next({
         gridId: value as string
