@@ -2,6 +2,7 @@ import update, { Spec } from 'immutability-helper';
 
 import { NgSsmFeatureState, State } from 'ngssm-store';
 import { GridState } from './grid-state';
+import { SelectedRows } from './selected-rows';
 
 export const selectAgGridState = (state: State): AgGridState => state[AgGridStateSpecification.featureStateKey] as AgGridState;
 
@@ -12,6 +13,7 @@ export const updateAgGridState = (state: State, command: Spec<AgGridState, never
 
 export interface AgGridState {
   gridStates: { [key: string]: GridState };
+  selectedRows: { [key: string]: SelectedRows };
 }
 
 @NgSsmFeatureState({
@@ -21,6 +23,7 @@ export interface AgGridState {
 export class AgGridStateSpecification {
   public static readonly featureStateKey = 'ag-grid-state';
   public static readonly initialState: AgGridState = {
-    gridStates: {}
+    gridStates: {},
+    selectedRows: {}
   };
 }

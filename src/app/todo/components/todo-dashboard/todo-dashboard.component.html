@@ -13,7 +13,7 @@
             </app-todo-item>
         </div>
 
-        <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="todoItems$ | async" [ngssm-ag-grid]="'todo-items'">
+        <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="todoItems$ | async" [ngssm-ag-grid]="agGridConfig">
 
         </ag-grid-angular>
     </mat-card-content>
