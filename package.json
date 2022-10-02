@@ -19,8 +19,10 @@
     "test:navigation": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-navigation --code-coverage",
     "build:ag-grid": "ng build --project=ngssm-ag-grid --configuration=production",
     "test:ag-grid": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-ag-grid --code-coverage",
-    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid",
-    "test:ci": "npm run test:toolkit && npm run test:store && npm run test:navigation && npm run test:ag-grid"
+    "build:shell": "ng build --project=ngssm-shell --configuration=production",
+    "test:shell": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-shell --code-coverage",
+    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:shell",
+    "test:ci": "npm run test:toolkit && npm run test:store && npm run test:navigation && npm run test:ag-grid && npm run test:shell"
   },
   "private": true,
   "dependencies": {

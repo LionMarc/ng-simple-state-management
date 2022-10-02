@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NavigationSection } from './navigation-section';
 
 @Component({
-  selector: 'ngssm-shell',
+  selector: 'ngssm-shelltk',
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

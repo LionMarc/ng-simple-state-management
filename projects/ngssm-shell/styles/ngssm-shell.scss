@@ -1,0 +1,53 @@
+@use '@angular/material'as mat;
+@include mat.core();
+
+.ngssm-shell {
+    display: flex;
+    flex-direction: column;
+}
+
+.ngssm-shell-header {
+    background: mat.get-color-from-palette(mat.$indigo-palette, 500);
+    color: mat.get-color-from-palette(mat.$indigo-palette, 50);
+}
+
+.ngssm-shell-header-logo {
+    height: 50px;
+    margin-right: 10px;
+}
+
+.ngssm-shell-header-title {
+    font-size: 24px;
+}
+
+.ngssm-shell-navigation-bar {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.ngssm-shell-content {
+    flex: 1;
+    display: flex !important;
+    flex-direction: column;
+}
+
+.ngssm-shell-messages-bar {
+    display: flex;
+    flex-direction: column;
+}
+
+.ngssm-shell-footer {
+    min-height: 50px;
+    max-height: 50px;
+    border-top: thick double mat.get-color-from-palette(mat.$indigo-palette, 500);
+
+    ngssm-wrapper {
+        margin-right: 4px;
+    }
+}
+
+.ngssm-shell-no-config {
+    color: red;
+    font-weight: bold;
+    font-size: 2em;
+}

@@ -17,4 +17,5 @@ This project provides several libraries:
 - [ngssm-schematics](/projects/ngssm-schematics/README.md) : provides schematics to initialize workspace, create custom components, services...
 - [ngssm-remote-data](/projects/ngssm-remote-data/README.md) : helpers to manage data provided by remote services;
 - [ngssm-navigation](/projects/ngssm-navigation/README.md) : helpers to control angular navigation;
-- [ngssm-ag-grid](/projects/ngssm-ag-grid/README.md) : used to manage [ag-grid](https://www.ag-grid.com/) state with the store.
+- [ngssm-ag-grid](/projects/ngssm-ag-grid/README.md) : used to manage [ag-grid](https://www.ag-grid.com/) state with the store;
+- [ngssm-shell](/projects/ngssm-shell/README.md) : a complete customizable shell component.

@@ -1,0 +1,40 @@
+<mat-nav-list class="ngssm-sidenav-main-container" *ngIf="(sidenavConfig$ | async) as config">
+    <div mat-header *ngIf="config.title">{{config.title}}</div>
+    <mat-divider *ngIf="config.title"></mat-divider>
+    <ng-container *ngFor="let section of config.sections;let last = last;" class="ngssm-sidenav-section-container">
+        <mat-list-item mat-subheader class="ngssm-sidenav-section-item-container">
+            <div *ngIf="!section.route" class="ngssm-sidenav-section-item">
+                <span *ngIf="section.icon" [innerHTML]="section.icon" class="ngssm-sidenav-item-icon"></span>
+                {{section.label}}
+                <ngssm-wrapper *ngIf="section.component" [item]="section.component"></ngssm-wrapper>
+            </div>
+
+            <a [routerLink]="section.route" routerLinkActive="ngssm-sidenav-active-link"
+                [routerLinkActiveOptions]="{exact:false}" *ngIf="section.route" class="ngssm-sidenav-section-item">
+                <div fxLayout="row" fxLayoutAlign=" center" fxFlex>
+                    <span *ngIf="section.icon" [innerHTML]="section.icon" class="ngssm-sidenav-item-icon"></span>
+                    {{section.label}}
+                    <ngssm-wrapper *ngIf="section.component" [item]="section.component"></ngssm-wrapper>
+                </div>
+            </a>
+        </mat-list-item>
+        <mat-list-item *ngFor="let item of section.items" class="ngssm-sidenav-item-container">
+            <div *ngIf="!item.route" class="ngssm-sidenav-section-item">
+                <span *ngIf="item.icon" [innerHTML]="item.icon" class="ngssm-sidenav-item-icon"></span>
+                {{item.label}}
+                <ngssm-wrapper *ngIf="item.component" [item]="item.component"></ngssm-wrapper>
+            </div>
+
+            <a [routerLink]="item.route" routerLinkActive="ngssm-sidenav-active-link"
+                [routerLinkActiveOptions]="{exact:true}" *ngIf="item.route" class="ngssm-sidenav-section-item">
+                <div>
+                    <span *ngIf="item.icon" [innerHTML]="item.icon" class="ngssm-sidenav-item-icon"></span>
+                    {{item.label}}
+                    <ngssm-wrapper *ngIf="item.component" [item]="item.component"></ngssm-wrapper>
+                </div>
+            </a>
+        </mat-list-item>
+
+        <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+</mat-nav-list>

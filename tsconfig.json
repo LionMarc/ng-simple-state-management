@@ -24,6 +24,9 @@
       "ngssm-schematics": [
         "dist/ngssm-schematics"
       ],
+      "ngssm-shell": [
+        "dist/ngssm-shell"
+      ],
       "ngssm-store": [
         "dist/ngssm-store"
       ],
