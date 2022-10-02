@@ -17,9 +17,11 @@ import { todoItemEditorReducerProvider } from './reducers/todo-item-editor.reduc
 import { TodoActionType } from './actions';
 import { editedTodoItemSubmissionEffectProvider } from './effects/edited-todo-item-submission.effect';
 import { NgssmAgGridModule } from 'ngssm-ag-grid';
+import { TodoCountComponent } from './components/todo-count/todo-count.component';
+import { TodoFooterComponent } from './components/todo-footer/todo-footer.component';
 
 @NgModule({
-  declarations: [TodoDashboardComponent, TodoItemComponent, TodoItemEditorComponent],
+  declarations: [TodoDashboardComponent, TodoItemComponent, TodoItemEditorComponent, TodoCountComponent, TodoFooterComponent],
   imports: [ReactiveFormsModule, MaterialImportsModule, AgGridModule, NgssmToolkitModule, NgssmAgGridModule, TodoRoutingModule],
   providers: [
     { provide: NGSSM_REMOTE_DATA_PROVIDER, useClass: TodoItemsService, multi: true },

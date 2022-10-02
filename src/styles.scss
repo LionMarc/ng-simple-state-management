@@ -32,7 +32,9 @@ $ng-simple-state-management-theme: mat.define-light-theme((color: (primary: $ng-
 /* You can add global styles to this file, and also import other style files */
 @import "@fortawesome/fontawesome-free/css/fontawesome.css";
 @import "@fortawesome/fontawesome-free/css/all.css";
-@import "ngssm-toolkit/styles/ngssm-shell.scss";
+@import "ngssm-toolkit/styles/ngssm.scss";
+@import "ngssm-shell/styles/ngssm-shell.scss";
+@import "ngssm-shell/styles/ngssm-sidenav.scss";
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-material.css';
 
@@ -48,7 +50,20 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.ngssm-shell-main-container mat-sidenav {
-    min-width: 260px;
-    max-width: 260px;
+.ngssm-chip.ngssm-chip-info {
+    color: white;
+    background-color: var(--primary-color, blue);
+}
+
+.ngssm-chip.ngssm-chip-error {
+    color: white;
+    background-color: var(--danger-color, red);
+}
+
+.footer-message {
+    font-size: 12px;
+    border: 1px solid blue;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 25px;
 }

@@ -11,9 +11,9 @@ import { ShellComponent } from './shell.component';
 @Component({
   selector: 'ngssm-testing',
   template: `
-    <ngssm-shell [navigationSections]="navigationSections">
+    <ngssm-shelltk [navigationSections]="navigationSections">
       <div fxLayout="row" fxLayoutAlign=" center" id="header-title">Testing component</div>
-    </ngssm-shell>
+    </ngssm-shelltk>
   `,
   styles: [
     `

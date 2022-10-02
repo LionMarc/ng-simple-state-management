@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgssmAgGridModule } from 'ngssm-ag-grid';
 import { NgssmNavigationModule } from 'ngssm-navigation';
 import { NgssmRemoteDataModule } from 'ngssm-remote-data';
+import { NgssmShellModule } from 'ngssm-shell';
 import { MaterialImportsModule, NgssmToolkitModule, useDefaultErrorStateMatcher } from 'ngssm-toolkit';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,7 @@ import { TodoModule } from './todo/public-api';
     MaterialImportsModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NgssmShellModule,
     NgssmToolkitModule,
     NgssmRemoteDataModule,
     NgssmNavigationModule,

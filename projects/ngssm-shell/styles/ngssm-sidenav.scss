@@ -1,0 +1,39 @@
+.ngssm-sidenav {
+    .mat-list-item {
+        cursor: default !important;
+    }
+}
+
+.ngssm-sidenav-main-container {
+    [mat-header] {
+        font-size: 24px;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+}
+
+.ngssm-sidenav-item-icon {
+    margin-right: 12px;
+}
+
+.ngssm-sidenav-section-container {}
+
+.ngssm-sidenav-section-item-container {
+    font-size: 20px !important;
+
+    .ngssm-sidenav-section-item {
+        width: 100%;
+    }
+}
+
+.ngssm-sidenav-item-container {
+
+    .ngssm-sidenav-section-item {
+        padding-left: 15px;
+        width: 100%;
+    }
+}
+
+.ngssm-sidenav-active-link {
+    color: blue !important;
+}

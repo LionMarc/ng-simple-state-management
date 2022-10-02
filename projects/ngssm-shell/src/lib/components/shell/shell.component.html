@@ -1,0 +1,43 @@
+<div fxFlex fxLayout="column" fxLayoutAlign=" stretch" class="ngssm-shell-container"
+    *ngIf="(shellConfig$ | async) as config; else noShellConfig">
+    <mat-sidenav-container fxFlex>
+        <mat-sidenav-content fxLayout="column">
+            <mat-toolbar fxLayout="row" fxLayoutAlign=" center" class="ngssm-shell-header">
+                <button mat-icon-button (click)="leftSidebar.toggle()">
+                    <mat-icon class="fa-solid fa-bars"></mat-icon>
+                </button>
+                <img [src]="config.logo" *ngIf="config.logo" class="ngssm-shell-header-logo" />
+                <span class="ngssm-shell-header-title" *ngIf="config.applicationTitle">
+                    {{config.applicationTitle}}
+                </span>
+            </mat-toolbar>
+
+            <mat-sidenav-container fxFlex>
+                <mat-sidenav mode="side" opened="true" #leftSidebar class="ngssm-shell-navigation-bar">
+                    <ngssm-side-nav [config]="config.sidenavConfig"></ngssm-side-nav>
+                </mat-sidenav>
+                <mat-sidenav-content class="ngssm-shell-content">
+                    <router-outlet></router-outlet>
+                </mat-sidenav-content>
+            </mat-sidenav-container>
+        </mat-sidenav-content>
+
+        <mat-sidenav mode="over" opened="false" #rightSidebar position="end" class="ngssm-shell-messages-bar">
+            TODO - display the notifications
+        </mat-sidenav>
+    </mat-sidenav-container>
+    <mat-toolbar fxLayout="row" fxLayoutAlign=" center" class="ngssm-shell-footer"
+        *ngIf="config.displayFooter === true">
+        <ngssm-wrapper *ngFor="let component of config.footerComponents" [item]="component"></ngssm-wrapper>
+        <span fxFlex></span>
+        <button mat-icon-button (click)="rightSidebar.toggle()" *ngIf="config.displayFooterNotificationsButton">
+            <mat-icon class="fa-regular fa-message"></mat-icon>
+        </button>
+    </mat-toolbar>
+</div>
+
+<ng-template #noShellConfig>
+    <div class="ngssm-shell-no-config">
+        Please, provide a config for the shell.
+    </div>
+</ng-template>
