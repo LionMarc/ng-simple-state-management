@@ -1,0 +1,8 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    .ngssm-ace-editor-container {
+        flex: 1;
+    }
+}

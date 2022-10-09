@@ -1,0 +1,19 @@
+{
+  "name": "ngssm-ace-editor",
+  "version": "0.0.1",
+  "description": "NgSsm - Simple warpper of ace-editor.",
+  "author": "Lion Marc",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^14.2.0",
+    "@angular/core": "^14.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LionMarc/ng-simple-state-management",
+    "directory": "projects/ngssm-ace-editor"
+  }
+}

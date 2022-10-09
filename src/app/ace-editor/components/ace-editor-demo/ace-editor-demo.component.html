@@ -1,0 +1,42 @@
+<div fxLayout="row" fxLayoutAlign=" stretch" fxFlex>
+    <mat-card class="options-container" fxLayout="column" fxLayoutAlign=" stretch">
+        <mat-card-title>Editor options</mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex>
+            <mat-checkbox [formControl]="readonlyControl">Read only</mat-checkbox>
+            <mat-form-field>
+                <mat-label>Select editor mode</mat-label>
+                <mat-select [formControl]="modeControl">
+                    <mat-option *ngFor="let mode of modes" [value]="mode.value">
+                        {{mode.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Set editor content</mat-label>
+                <textarea [formControl]="contentControl" matInput rows="10"></textarea>
+            </mat-form-field>
+            <mat-card class="updated-content-container" fxLayout="column" fxLayoutAlign=" stretch">
+                <mat-card-subtitle>Updated content</mat-card-subtitle>
+                <mat-card-content fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+                    <div fxFlex="100">
+                        {{ updatedContent$ | async}}
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <div *ngIf="(isValid$ | async) === false" fxLayout="row" fxLayoutAlign=" center" class="error-container">
+                <mat-icon class="fa-solid fa-triangle-exclamation" color="warn"></mat-icon>
+                Invalid content
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ace-container" fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+        <mat-card-title>Editor</mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex>
+            <ngssm-ace-editor fxFlex [content]="contentControl.value ?? ''" (contentChanged)="onContentChanged($event)"
+                [readonly]="readonlyControl.value ?? true" [editorMode]="modeControl.value ?? ''"
+                (isValidChanged)="onIsValidChanged($event)">
+            </ngssm-ace-editor>
+        </mat-card-content>
+    </mat-card>
+</div>

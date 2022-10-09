@@ -36,6 +36,11 @@
                 "input": "./dist/ngssm-toolkit/assets",
                 "output": "./assets/"
               },
+              {
+                "glob": "**/*.js",
+                "input": "node_modules/ace-builds/src-min",
+                "output": "./ace-builds/"
+              },
               "src/favicon.ico",
               "src/assets"
             ],
@@ -424,6 +429,46 @@
             "lintFilePatterns": [
               "projects/ngssm-shell/**/*.ts",
               "projects/ngssm-shell/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ngssm-ace-editor": {
+      "projectType": "library",
+      "root": "projects/ngssm-ace-editor",
+      "sourceRoot": "projects/ngssm-ace-editor/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngssm-ace-editor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngssm-ace-editor/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngssm-ace-editor/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngssm-ace-editor/src/test.ts",
+            "tsConfig": "projects/ngssm-ace-editor/tsconfig.spec.json",
+            "karmaConfig": "projects/ngssm-ace-editor/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngssm-ace-editor/**/*.ts",
+              "projects/ngssm-ace-editor/**/*.html"
             ]
           }
         }
