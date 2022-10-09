@@ -18,4 +18,5 @@ This project provides several libraries:
 - [ngssm-remote-data](/projects/ngssm-remote-data/README.md) : helpers to manage data provided by remote services;
 - [ngssm-navigation](/projects/ngssm-navigation/README.md) : helpers to control angular navigation;
 - [ngssm-ag-grid](/projects/ngssm-ag-grid/README.md) : used to manage [ag-grid](https://www.ag-grid.com/) state with the store;
-- [ngssm-shell](/projects/ngssm-shell/README.md) : a complete customizable shell component.
+- [ngssm-shell](/projects/ngssm-shell/README.md) : a complete customizable shell component;
+- [ngssm-ace-editor](/projects/ngssm-ace-editor/README.md) : simple wrapper of [ace-editor](https://ace.c9.io/).
