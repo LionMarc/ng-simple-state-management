@@ -1,0 +1,37 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    mat-card {
+        margin: 6px;
+    }
+
+    .options-container {
+        min-width: 600px !important;
+        max-width: 600px !important;
+    }
+
+    .updated-content-container {
+        min-height: 400px;
+        max-height: 400px;
+
+        mat-card-content {
+            overflow: hidden;
+        }
+
+        div {
+            white-space: pre;
+            overflow: auto;
+        }
+
+    }
+
+    .error-container {
+        .mat-icon {
+            margin-right: 6px;
+        }
+
+        color:red;
+    }
+}

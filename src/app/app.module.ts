@@ -12,6 +12,7 @@ import { MaterialImportsModule, NgssmToolkitModule, useDefaultErrorStateMatcher 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoModule } from './todo/public-api';
+import { AceEditorModule } from './ace-editor/public-api';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { TodoModule } from './todo/public-api';
     NgssmNavigationModule,
     NgssmAgGridModule.forRoot(),
     TodoModule,
+    AceEditorModule,
     AppRoutingModule
   ],
   providers: [

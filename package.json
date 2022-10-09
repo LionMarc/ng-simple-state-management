@@ -21,7 +21,8 @@
     "test:ag-grid": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-ag-grid --code-coverage",
     "build:shell": "ng build --project=ngssm-shell --configuration=production",
     "test:shell": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-shell --code-coverage",
-    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:shell",
+    "build:ace-editor": "ng build --project=ngssm-ace-editor --configuration=production",
+    "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:shell && build:ace-editor",
     "test:ci": "npm run test:toolkit && npm run test:store && npm run test:navigation && npm run test:ag-grid && npm run test:shell"
   },
   "private": true,
@@ -38,6 +39,7 @@
     "@angular/platform-browser-dynamic": "14.2.5",
     "@angular/router": "14.2.5",
     "@fortawesome/fontawesome-free": "^6.2.0",
+    "ace-builds": "1.11.2",
     "ag-grid-angular": "28.2.0",
     "ag-grid-community": "28.2.0",
     "ag-grid-enterprise": "28.2.0",

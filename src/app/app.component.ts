@@ -58,6 +58,11 @@ export class AppComponent {
               route: '/batches/failed'
             }
           ]
+        },
+        {
+          label: 'Ngssm Ace Editor',
+          icon: '<img src="./assets/ace-logo.png" height="20"/>',
+          route: '/ace-editor'
         }
       ]
     },
