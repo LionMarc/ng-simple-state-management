@@ -10,4 +10,7 @@ export interface SidenavItem {
 
   /** Angular component to display at the right of the label */
   component?: any;
+
+  /** If true the link is considered active only if the current route is equal to the item route */
+  linkActiveOnlyIfExact?: boolean;
 }
