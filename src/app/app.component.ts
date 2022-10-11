@@ -50,12 +50,14 @@ export class AppComponent {
               label: 'Running batches',
               icon: '<i class="fas fa-spinner fa-spin"></i>',
               route: '/batches/running',
-              component: '<div class="ngssm-chip ngssm-chip-error">Beta</div>'
+              component: '<div class="ngssm-chip ngssm-chip-error">Beta</div>',
+              linkActiveOnlyIfExact: true
             },
             {
               label: 'Failed batches',
               icon: '<i class="fa-solid fa-bomb"></i>',
-              route: '/batches/failed'
+              route: '/batches/failed',
+              linkActiveOnlyIfExact: false
             }
           ]
         },
