@@ -25,8 +25,9 @@
     "build:ci": "npm run build:toolkit && npm run build:store && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:shell && npm run build:ace-editor",
     "test:ci": "npm run test:toolkit && npm run test:store && npm run test:navigation && npm run test:ag-grid && npm run test:shell",
     "e2e": "ng e2e",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "DEBUG=cypress-cucumber-preprocessor cypress open",
+    "cypress:run": "cypress run",
+    "cypress:generate-report": "node cucumber-html-report.js"
   },
   "private": true,
   "dependencies": {
@@ -78,6 +79,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "karma-junit-reporter": "^2.0.1",
+    "multiple-cucumber-html-reporter": "^3.0.1",
     "ng-packagr": "14.2.1",
     "prettier": "^2.7.1",
     "prettier-eslint": "^15.0.1",

@@ -45,3 +45,4 @@ Thumbs.db
 
 /cypress/screenshots
 /cypress/videos/
+/reports

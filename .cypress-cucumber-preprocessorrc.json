@@ -1,3 +1,15 @@
 {
-    
+    "json": {
+        "enabled": true,
+        "output": "cypress/json-results/log.json",
+        "formatter": "cucumber-json-formatter.exe"
+    },
+    "stepDefinitions": [
+        "[filepath]/**/*.{js,ts}",
+        "[filepath].{js,ts}",
+        "cypress/e2e/step_definitions/*.{js,ts}",
+        "[filepath]\\***.{js,ts}",
+        "[filepath].{js,ts}",
+        "cypress\\e2e\\step_definitions\\*.{js,ts}"
+    ]
 }
