@@ -20,3 +20,56 @@ This project provides several libraries:
 - [ngssm-ag-grid](/projects/ngssm-ag-grid/README.md) : used to manage [ag-grid](https://www.ag-grid.com/) state with the store;
 - [ngssm-shell](/projects/ngssm-shell/README.md) : a complete customizable shell component;
 - [ngssm-ace-editor](/projects/ngssm-ace-editor/README.md) : simple wrapper of [ace-editor](https://ace.c9.io/).
+
+## Cypress and cucumber
+
+- Links:
+    - [cypress](https://github.com/cypress-io);
+    - [cypress schematics](https://github.com/cypress-io/cypress/tree/master/npm/cypress-schematic#readme);
+    - [cypress-cucumber-preprocessor](https://github.com/badeball/cypress-cucumber-preprocessor);
+    - [vs code cucumber](https://github.com/cucumber/vscode).
+
+- Installation
+    ```sh
+    ng add @cypress/schematic
+    npm install --save-dev @badeball/cypress-cucumber-preprocessor
+    npm install --save-dev @bahmutov/cypress-esbuild-preprocessor
+    ```
+
+- Setting *cypress-cucumber-preprocessor* in **cypress.config.ts**:
+    ```ts
+    import { defineConfig } from 'cypress';
+    import * as createBundler from '@bahmutov/cypress-esbuild-preprocessor';
+    import { addCucumberPreprocessorPlugin } from '@badeball/cypress-cucumber-preprocessor';
+    import createEsbuildPlugin from '@badeball/cypress-cucumber-preprocessor/esbuild';
+
+    export default defineConfig({
+        e2e: {
+            ...,
+            specPattern: '**/*.feature',
+            async setupNodeEvents(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions): Promise<Cypress.PluginConfigOptions> {
+            // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
+            await addCucumberPreprocessorPlugin(on, config);
+
+            on(
+                'file:preprocessor',
+                createBundler({
+                plugins: [createEsbuildPlugin(config)]
+                })
+            );
+
+            // Make sure to return the config object as it might have been modified by the plugin.
+            return config;
+            }
+        },
+        ...
+    });
+
+    ```
+
+- Setting *vs code cucumber* extension:
+    ```json
+    "cucumber.glue": [
+        "cypress/e2e/**/*.ts"
+    ]
+    ```
