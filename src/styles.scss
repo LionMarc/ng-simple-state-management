@@ -71,7 +71,8 @@ body {
 .ignored-row {
     position: absolute;
     background-color: lightgray;
-    opacity: 0.33;
+    opacity: 1;
+    z-index: 100;
 }
 
 .with-margin-right-12 {

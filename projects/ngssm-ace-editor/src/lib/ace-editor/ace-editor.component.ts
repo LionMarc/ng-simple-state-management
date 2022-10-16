@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnDe
 import { take } from 'rxjs';
 
 import { AceBuildsLoader } from '../ace-builds-loader';
+import { NgssmAceEditorApi } from '../ngssm-ace-editor-api';
 import { NgssmAceEditorMode } from '../ngssm-ace-editor-mode';
 
 @Component({
@@ -18,16 +19,16 @@ export class AceEditorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('aceEditor') public aceEditorDiv: ElementRef | undefined;
   @Output() public contentChanged = new EventEmitter<string>();
   @Output() public isValidChanged = new EventEmitter<boolean>();
-  @Output() public editorReady = new EventEmitter<any>();
+  @Output() public editorReady = new EventEmitter<NgssmAceEditorApi>();
 
-  public aceEditor: any;
+  public api: NgssmAceEditorApi | undefined;
 
   constructor(private aceBuildsLoader: AceBuildsLoader, private zone: NgZone) {}
 
   @Input() public set content(value: string) {
-    if (this.aceEditor) {
+    if (this.api?.aceEditor) {
       this.silentContentUpdate = true;
-      this.aceEditor.setValue(value, -1);
+      this.api.aceEditor.setValue(value, -1);
       this.silentContentUpdate = false;
     } else {
       this.initialContent = value;
@@ -35,16 +36,16 @@ export class AceEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   @Input() public set readonly(value: boolean) {
-    if (this.aceEditor) {
-      this.aceEditor.setReadOnly(value);
+    if (this.api?.aceEditor) {
+      this.api.aceEditor.setReadOnly(value);
     } else {
       this.initialReadonly = value;
     }
   }
 
   @Input() public set editorMode(value: string) {
-    if (this.aceEditor) {
-      this.aceEditor.session.setMode(value);
+    if (this.api?.aceEditor) {
+      this.api.aceEditor.session.setMode(value);
     } else {
       this.initialEditorMode = value;
     }
@@ -57,32 +58,33 @@ export class AceEditorComponent implements AfterViewInit, OnDestroy {
       .subscribe(() => {
         this.zone.runOutsideAngular(() => {
           const ace: any = (window as any).ace;
-          this.aceEditor = ace.edit(this.aceEditorDiv?.nativeElement);
-          if (this.aceEditor) {
-            this.aceEditor.$blockScrolling = Infinity;
-            this.aceEditor.setTheme('ace/theme/github');
-            this.aceEditor.session.setMode(this.initialEditorMode);
-            this.aceEditor.setReadOnly(this.initialReadonly);
-            this.aceEditor.setValue(this.initialContent, -1);
+          const aceEditor = ace.edit(this.aceEditorDiv?.nativeElement);
+          if (aceEditor) {
+            this.api = new NgssmAceEditorApi(aceEditor);
+            this.api.aceEditor.$blockScrolling = Infinity;
+            this.api.aceEditor.setTheme('ace/theme/github');
+            this.api.aceEditor.session.setMode(this.initialEditorMode);
+            this.api.aceEditor.setReadOnly(this.initialReadonly);
+            this.api.aceEditor.setValue(this.initialContent, -1);
 
-            this.aceEditor.on('change', () => {
+            this.api.aceEditor.on('change', () => {
               if (!this.silentContentUpdate) {
-                this.zone.run(() => this.contentChanged.emit(this.aceEditor.getValue()));
+                this.zone.run(() => this.contentChanged.emit(this.api?.aceEditor.getValue()));
               }
             });
-            this.aceEditor.getSession().on('changeAnnotation', () => {
-              const annotations: any[] = this.aceEditor.getSession().getAnnotations();
+            this.api.aceEditor.getSession().on('changeAnnotation', () => {
+              const annotations: any[] = this.api?.aceEditor.getSession().getAnnotations();
               const isValid = annotations.findIndex((annotation) => annotation.type === 'error') === -1;
               this.zone.run(() => this.isValidChanged.emit(isValid));
             });
 
-            this.editorReady.emit(this.aceEditor);
+            this.editorReady.emit(this.api);
           }
         });
       });
   }
 
   public ngOnDestroy(): void {
-    this.aceEditor?.destroy();
+    this.api?.aceEditor?.destroy();
   }
 }

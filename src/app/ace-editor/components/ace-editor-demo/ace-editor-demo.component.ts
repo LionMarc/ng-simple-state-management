@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { NgssmAceEditorMode } from 'ngssm-ace-editor';
+import { NgssmAceEditorApi, NgssmAceEditorMode } from 'ngssm-ace-editor';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
@@ -15,8 +15,7 @@ export class AceEditorDemoComponent extends NgSsmComponent {
   private readonly _updatedContent$ = new BehaviorSubject<string>('');
   private readonly _isValid$ = new BehaviorSubject<boolean>(true);
   private readonly _isReady$ = new BehaviorSubject<boolean>(false);
-  private readonly markerIds: number[] = [];
-  private aceEditor: any;
+  private aceEditorApi: NgssmAceEditorApi | undefined;
 
   public readonly readonlyControl = new FormControl(true);
   public readonly modes: { label: string; value: NgssmAceEditorMode }[] = [
@@ -53,21 +52,18 @@ export class AceEditorDemoComponent extends NgSsmComponent {
     this._isValid$.next(event);
   }
 
-  public onEditorReady(aceEditor: any): void {
+  public onEditorReady(aceEditorApi: NgssmAceEditorApi): void {
     this._isReady$.next(true);
-    this.aceEditor = aceEditor;
+    this.aceEditorApi = aceEditorApi;
   }
 
   public applyCommentPattern(): void {
-    this.markerIds.forEach((id) => this.aceEditor?.getSession().removeMarker(id));
-    this.markerIds.splice(0);
-    const result = (window as any).ace.require('ace/range');
+    this.aceEditorApi?.clearAllRowsMarkers();
     const pattern = new RegExp(this.commentPatternControl.value ?? '');
-    const editorContent = (this.aceEditor?.getValue() as string)?.split(/\n/);
+    const editorContent = (this.aceEditorApi?.aceEditor?.getValue() as string)?.split(/\r?\n/);
     editorContent.forEach((l, i) => {
       if (pattern.test(l)) {
-        const markerId = this.aceEditor?.getSession().addMarker(new result.Range(i, 0, i, Infinity), 'ignored-row', 'fullLine', true);
-        this.markerIds.push(markerId);
+        this.aceEditorApi?.addRowsMarker(i, i, 'ignored-row');
       }
     });
   }
