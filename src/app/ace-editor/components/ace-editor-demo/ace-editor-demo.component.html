@@ -1,6 +1,9 @@
 <div fxLayout="row" fxLayoutAlign=" stretch" fxFlex>
     <mat-card class="options-container" fxLayout="column" fxLayoutAlign=" stretch">
         <mat-card-title>Editor options</mat-card-title>
+        <mat-card-subtitle *ngIf="(isReady$ | async)===true">
+            Editor is ready.
+        </mat-card-subtitle>
         <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex>
             <mat-checkbox [formControl]="readonlyControl">Read only</mat-checkbox>
             <mat-form-field>
@@ -27,15 +30,25 @@
                 <mat-icon class="fa-solid fa-triangle-exclamation" color="warn"></mat-icon>
                 Invalid content
             </div>
+            <div fxLayout="row" fxLayoutAlign=" center">
+                <mat-form-field class="with-margin-right-12">
+                    <mat-label>Enter a comment pattern</mat-label>
+                    <input matInput [formControl]="commentPatternControl">
+                </mat-form-field>
+                <button mat-stroked-button color="primary" (click)="applyCommentPattern()"
+                    [disabled]="commentPatternControl.invalid">
+                    Apply
+                </button>
+            </div>
         </mat-card-content>
     </mat-card>
 
-    <mat-card class="ace-container" fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+    <mat-card class=" ace-container" fxFlex fxLayout="column" fxLayoutAlign=" stretch">
         <mat-card-title>Editor</mat-card-title>
         <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex>
             <ngssm-ace-editor fxFlex [content]="contentControl.value ?? ''" (contentChanged)="onContentChanged($event)"
                 [readonly]="readonlyControl.value ?? true" [editorMode]="modeControl.value ?? ''"
-                (isValidChanged)="onIsValidChanged($event)">
+                (isValidChanged)="onIsValidChanged($event)" (editorReady)="onEditorReady($event)">
             </ngssm-ace-editor>
         </mat-card-content>
     </mat-card>

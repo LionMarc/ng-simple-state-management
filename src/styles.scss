@@ -67,3 +67,13 @@ body {
     padding-right: 8px;
     border-radius: 25px;
 }
+
+.ignored-row {
+    position: absolute;
+    background-color: lightgray;
+    opacity: 0.33;
+}
+
+.with-margin-right-12 {
+    margin-right: 12px;
+}

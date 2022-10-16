@@ -16,8 +16,9 @@ export class AceEditorComponent implements AfterViewInit, OnDestroy {
   private silentContentUpdate = false;
 
   @ViewChild('aceEditor') public aceEditorDiv: ElementRef | undefined;
-  @Output() contentChanged = new EventEmitter<string>();
-  @Output() isValidChanged = new EventEmitter<boolean>();
+  @Output() public contentChanged = new EventEmitter<string>();
+  @Output() public isValidChanged = new EventEmitter<boolean>();
+  @Output() public editorReady = new EventEmitter<any>();
 
   public aceEditor: any;
 
@@ -74,6 +75,8 @@ export class AceEditorComponent implements AfterViewInit, OnDestroy {
               const isValid = annotations.findIndex((annotation) => annotation.type === 'error') === -1;
               this.zone.run(() => this.isValidChanged.emit(isValid));
             });
+
+            this.editorReady.emit(this.aceEditor);
           }
         });
       });
