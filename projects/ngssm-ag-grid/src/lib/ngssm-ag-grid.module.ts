@@ -8,13 +8,13 @@ import { localStorageEffectProvider } from './effects/local-storage.effect';
   declarations: [NgssmAgGridDirective],
   imports: [],
   exports: [NgssmAgGridDirective],
-  providers: [selectedRowsReducerProvider, localStorageEffectProvider]
+  providers: []
 })
 export class NgssmAgGridModule {
   static forRoot(): ModuleWithProviders<NgssmAgGridModule> {
     return {
       ngModule: NgssmAgGridModule,
-      providers: [gridStatesReducerProvider]
+      providers: [gridStatesReducerProvider, selectedRowsReducerProvider, localStorageEffectProvider]
     };
   }
 }
