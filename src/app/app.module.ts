@@ -20,7 +20,7 @@ import { AceEditorModule } from './ace-editor/public-api';
     MaterialImportsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    NgssmShellModule,
+    NgssmShellModule.forRoot(),
     NgssmToolkitModule,
     NgssmRemoteDataModule,
     NgssmNavigationModule,

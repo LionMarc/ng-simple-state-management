@@ -6,3 +6,5 @@ export * from './lib/ngssm-shell.module';
 export * from './lib/components/shell/shell.component';
 export * from './lib/components/side-nav/side-nav.component';
 export * from './lib/model';
+export * from './lib/state';
+export * from './lib/actions';

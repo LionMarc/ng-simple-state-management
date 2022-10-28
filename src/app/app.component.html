@@ -1,1 +1,8 @@
-<ngssm-shell [shellConfig]="shellConfig" fxFlex></ngssm-shell>
+<ngssm-shell [shellConfig]="shellConfig" fxFlex>
+    <button mat-stroked-button class="with-margin-right-12 with-margin-left-12" (click)="openNavigationBar()">
+        Open navigation bar
+    </button>
+    <button mat-stroked-button (click)="closeNavigationBar()">
+        Close navigation bar
+    </button>
+</ngssm-shell>
