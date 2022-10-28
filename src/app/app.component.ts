@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { ShellConfig } from 'ngssm-shell';
+import { ShellActionType, ShellConfig } from 'ngssm-shell';
+import { NgSsmComponent, Store } from 'ngssm-store';
 import { ConsoleAppender } from 'ngssm-toolkit';
 
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
@@ -10,7 +11,7 @@ import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent extends NgSsmComponent {
   private readonly footerComponents: any[] = [
     '<div class="footer-message">Demo application</div>',
     '<div class="footer-message">Another message</div>',
@@ -72,7 +73,16 @@ export class AppComponent {
     footerComponents: this.footerComponents
   };
 
-  constructor(consoleAppender: ConsoleAppender) {
+  constructor(store: Store, consoleAppender: ConsoleAppender) {
+    super(store);
     consoleAppender.start();
+  }
+
+  public closeNavigationBar(): void {
+    this.dispatchActionType(ShellActionType.closeNavigationBar);
+  }
+
+  public openNavigationBar(): void {
+    this.dispatchActionType(ShellActionType.openNavigationBar);
   }
 }

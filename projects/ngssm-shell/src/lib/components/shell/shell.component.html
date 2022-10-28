@@ -3,17 +3,19 @@
     <mat-sidenav-container fxFlex>
         <mat-sidenav-content fxLayout="column">
             <mat-toolbar fxLayout="row" fxLayoutAlign=" center" class="ngssm-shell-header">
-                <button mat-icon-button (click)="leftSidebar.toggle()">
+                <button mat-icon-button (click)="toggleNavigationBarState()">
                     <mat-icon class="fa-solid fa-bars"></mat-icon>
                 </button>
                 <img [src]="config.logo" *ngIf="config.logo" class="ngssm-shell-header-logo" />
                 <span class="ngssm-shell-header-title" *ngIf="config.applicationTitle">
                     {{config.applicationTitle}}
                 </span>
+                <ng-content></ng-content>
             </mat-toolbar>
 
             <mat-sidenav-container fxFlex>
-                <mat-sidenav mode="side" opened="true" #leftSidebar class="ngssm-shell-navigation-bar">
+                <mat-sidenav mode="side" [opened]="(navigationBarOpen$ | async)===true"
+                    class="ngssm-shell-navigation-bar">
                     <ngssm-side-nav [config]="config.sidenavConfig"></ngssm-side-nav>
                 </mat-sidenav>
                 <mat-sidenav-content class="ngssm-shell-content">

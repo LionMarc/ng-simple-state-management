@@ -4,7 +4,7 @@
         <mat-card-subtitle *ngIf="(isReady$ | async)===true">
             Editor is ready.
         </mat-card-subtitle>
-        <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex>
+        <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex class="with-overflow-auto">
             <mat-checkbox [formControl]="readonlyControl">Read only</mat-checkbox>
             <mat-form-field>
                 <mat-label>Select editor mode</mat-label>

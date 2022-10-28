@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { ShellConfig } from '../../model';
+import { selectShellState } from '../../state';
+import { ShellActionType } from '../../actions';
 
 @Component({
   selector: 'ngssm-shell',
@@ -23,7 +25,15 @@ export class ShellComponent extends NgSsmComponent {
     this._shellConfig$.next(value);
   }
 
+  public get navigationBarOpen$(): Observable<boolean> {
+    return this.watch((s) => selectShellState(s).navigationBarOpen);
+  }
+
   public get shellConfig$(): Observable<ShellConfig | undefined> {
     return this._shellConfig$.asObservable();
+  }
+
+  public toggleNavigationBarState(): void {
+    this.dispatchActionType(ShellActionType.toggleNavigationBarState);
   }
 }
