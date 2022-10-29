@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoModule } from './todo/public-api';
 import { AceEditorModule } from './ace-editor/public-api';
+import { ToolkitModule } from './toolkit/public-api';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { AceEditorModule } from './ace-editor/public-api';
     NgssmAgGridModule.forRoot(),
     TodoModule,
     AceEditorModule,
+    ToolkitModule,
     AppRoutingModule
   ],
   providers: [

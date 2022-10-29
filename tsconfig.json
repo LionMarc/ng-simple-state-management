@@ -54,5 +54,13 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "include": [
+    "src",
+    "projects",
+    "./cypress.config.ts"
+  ],
+  "exclude": [
+    "./cypress.config.ts"
+  ]
 }

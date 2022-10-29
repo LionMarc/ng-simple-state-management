@@ -16,3 +16,29 @@
 .with-margin-left-12 {
     margin-left: 12px !important;
 }
+
+.hidden {
+    display: none;
+}
+
+.file-picker-container {
+    display: flex;
+    flex: 1;
+    min-height: 15px;
+    align-items: center;
+
+    .file-picker-file-name {
+        font-weight: bold;
+        margin-right: 12px;
+        flex-shrink: 0;
+    }
+
+    .file-picker-file-information {
+        color: lightgray;
+        font-style: italic;
+    }
+
+    .picker-disabled {
+        background: #F5F5F5;
+    }
+}

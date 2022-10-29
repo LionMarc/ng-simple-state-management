@@ -66,6 +66,11 @@ export class AppComponent extends NgSsmComponent {
           label: 'Ngssm Ace Editor',
           icon: '<img src="./assets/ace-logo.png" height="20"/>',
           route: '/ace-editor'
+        },
+        {
+          label: 'Ngssm Toolkit',
+          icon: '<i class="fa-solid fa-toolbox"></i>',
+          route: '/ngssm-toolkit'
         }
       ]
     },
