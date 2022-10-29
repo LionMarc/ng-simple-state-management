@@ -1,0 +1,18 @@
+<mat-card fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+    <mat-card-title>Demo of the components provided by the ngssm-toolkit library</mat-card-title>
+    <mat-card-content fxFlex fxLayout="row wrap" fxLayoutAlign=" start">
+        <mat-card class="sub-card file-picker-demo" fxLayout="column" fxLayoutAlign=" stretch">
+            <mat-card-title>File Picker</mat-card-title>
+            <mat-card-content fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+                <mat-form-field>
+                    <mat-label>Select file</mat-label>
+                    <ngssm-file-picker [formControl]="fileControl"
+                        [displayDetails]="displayFilePickerDetailsControl.value ?? true"></ngssm-file-picker>
+                    <mat-icon matPrefix class="fa-solid fa-folder-open file-picker-icon" color="primary"></mat-icon>
+                </mat-form-field>
+                <mat-checkbox [formControl]="displayFilePickerDetailsControl">Display details</mat-checkbox>
+                {{fileControl.value?.name}}
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+</mat-card>
