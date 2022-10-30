@@ -71,11 +71,17 @@ export class AppComponent extends NgSsmComponent {
           label: 'Ngssm Toolkit',
           icon: '<i class="fa-solid fa-toolbox"></i>',
           route: '/ngssm-toolkit'
+        },
+        {
+          label: 'Shell notifications',
+          icon: '<i class="fa-regular fa-message"></i>',
+          route: '/shell-demo/notifications'
         }
       ]
     },
     displayFooter: true,
-    footerComponents: this.footerComponents
+    footerComponents: this.footerComponents,
+    displayFooterNotificationsButton: true
   };
 
   constructor(store: Store, consoleAppender: ConsoleAppender) {

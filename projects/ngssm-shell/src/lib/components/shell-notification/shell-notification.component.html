@@ -1,0 +1,24 @@
+<mat-card *ngIf="(shellNotification$ | async) as shellNotification; else noNotification"
+    class="ngssm-shell-notification-card">
+    <mat-card-header
+        [ngClass]="{'ngssm-shell-notification-success' : shellNotification.type === shellNotificationType.success, 'ngssm-shell-notification-error':shellNotification.type === shellNotificationType.error}">
+        <mat-icon mat-card-avatar class="fa-solid fa-check  ngssm-shell-avatar-notification "
+            *ngIf="shellNotification.type === shellNotificationType.success">
+        </mat-icon>
+        <mat-icon mat-card-avatar class="fa-solid fa-triangle-exclamation  ngssm-shell-avatar-notification "
+            *ngIf="shellNotification.type === shellNotificationType.error">
+        </mat-icon>
+        <mat-card-title>{{shellNotification.title}}</mat-card-title>
+        <mat-card-subtitle>{{shellNotification.timestamp | date:'shortTime'}}</mat-card-subtitle>
+    </mat-card-header>
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-button *ngIf="(displayDetailsButton$ | async) === true && shellNotification.details"
+            (click)="displayDetails()">
+            Display details
+        </button>
+    </div>
+</mat-card>
+
+<ng-template #noNotification>
+    No notification to display...
+</ng-template>

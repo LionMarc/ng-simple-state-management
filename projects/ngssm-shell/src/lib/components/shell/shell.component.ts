@@ -33,6 +33,10 @@ export class ShellComponent extends NgSsmComponent {
     return this._shellConfig$.asObservable();
   }
 
+  public get notificationsCount$(): Observable<number> {
+    return this.watch((s) => selectShellState(s).shellNotifications.notifications.length);
+  }
+
   public toggleNavigationBarState(): void {
     this.dispatchActionType(ShellActionType.toggleNavigationBarState);
   }

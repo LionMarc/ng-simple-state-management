@@ -25,7 +25,7 @@
         </mat-sidenav-content>
 
         <mat-sidenav mode="over" opened="false" #rightSidebar position="end" class="ngssm-shell-messages-bar">
-            TODO - display the notifications
+            <ngssm-shell-notifications fxFlex></ngssm-shell-notifications>
         </mat-sidenav>
     </mat-sidenav-container>
     <mat-toolbar fxLayout="row" fxLayoutAlign=" center" class="ngssm-shell-footer"
@@ -33,7 +33,11 @@
         <ngssm-wrapper *ngFor="let component of config.footerComponents" [item]="component"></ngssm-wrapper>
         <span fxFlex></span>
         <button mat-icon-button (click)="rightSidebar.toggle()" *ngIf="config.displayFooterNotificationsButton">
-            <mat-icon class="fa-regular fa-message"></mat-icon>
+            <mat-icon class="fa-regular fa-message" [matBadge]="notificationsCount$ | async"
+                *ngIf="(notificationsCount$ | async) ?? 0 > 0">
+            </mat-icon>
+            <mat-icon class="fa-regular fa-message" *ngIf="(notificationsCount$ | async) === 0">
+            </mat-icon>
         </button>
     </mat-toolbar>
 </div>

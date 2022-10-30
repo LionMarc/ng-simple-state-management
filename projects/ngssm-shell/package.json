@@ -6,7 +6,10 @@
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^14.2.0",
-    "@angular/core": "^14.2.0"
+    "@angular/core": "^14.2.0",
+    "ngssm-toolkit": "NGSSM_VERSION",
+    "ngssm-store": "NGSSM_VERSION",
+    "ngssm-ace-editor": "NGSSM_VERSION"
   },
   "dependencies": {
     "tslib": "^2.3.0"
