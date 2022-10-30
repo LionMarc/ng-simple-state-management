@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+
+    min-width: 400px;
+    max-width: 400px;
+
+    .notifications-container {
+        overflow: auto;
+    }
+
+    ngssm-shell-notification {
+        margin: 4px;
+    }
+}

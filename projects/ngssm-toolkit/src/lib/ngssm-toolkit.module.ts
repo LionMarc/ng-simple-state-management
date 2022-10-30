@@ -8,7 +8,14 @@ import { FilePickerComponent } from './file-picker/file-picker.component';
 import { FileSizePipe } from './file-picker/file-size.pipe';
 
 @NgModule({
-  declarations: [ComponentOverlayDirective, MessageOverlayComponent, EmptyOverlayComponent, NotFoundComponent, FilePickerComponent, FileSizePipe],
+  declarations: [
+    ComponentOverlayDirective,
+    MessageOverlayComponent,
+    EmptyOverlayComponent,
+    NotFoundComponent,
+    FilePickerComponent,
+    FileSizePipe
+  ],
   imports: [RouterModule, MaterialImportsModule],
   exports: [ComponentOverlayDirective, FilePickerComponent]
 })

@@ -1,0 +1,31 @@
+<mat-card fxFlex fxLayout="column" fxLayoutAlign=" stretch"
+    *ngIf="(notificationSelected$ | async) === false; else notificationDetails">
+    <mat-card-title fxLayout="row" fxLayoutAlign=" center">
+        Notifications
+        <span fxFlex></span>
+        <button mat-stroked-button color="primary" [disabled]="(notifications$ | async)?.length === 0"
+            (click)="clearAll()">
+            Clear all
+        </button>
+    </mat-card-title>
+    <mat-card-content fxFlex fxLayout="column" fxLayoutAlign=" stretch" class="notifications-container">
+        <ngssm-shell-notification *ngFor="let notification of notifications$ | async;let index=index"
+            [shellNotificationIndex]="index" [displayDetailsButton]="true">
+        </ngssm-shell-notification>
+    </mat-card-content>
+</mat-card>
+
+<ng-template #notificationDetails>
+    <mat-card fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+        <mat-card-title fxLayout="row" fxLayoutAlign=" center">
+            Notification details
+            <span fxFlex></span>
+            <button mat-icon-button (click)="closeDetailsPanel()">
+                <mat-icon class="fa-solid fa-rectangle-xmark"></mat-icon>
+            </button>
+        </mat-card-title>
+        <ngssm-ace-editor fxFlex [readonly]="true" [content]="(details$ | async) ?? ''"
+            [editorMode]="ngssmAceEditorMode.json">
+        </ngssm-ace-editor>
+    </mat-card>
+</ng-template>

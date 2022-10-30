@@ -18,6 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 const modules = [
@@ -40,6 +42,8 @@ const modules = [
   MatProgressSpinnerModule,
   MatCheckboxModule,
   MatTooltipModule,
+  MatBadgeModule,
+  MatSnackBarModule,
   FlexLayoutModule
 ];
 

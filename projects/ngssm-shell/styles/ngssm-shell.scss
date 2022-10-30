@@ -51,3 +51,29 @@
     font-weight: bold;
     font-size: 2em;
 }
+
+.ngssm-shell-notification-snack-panel {
+    background-color: transparent;
+    padding: 0 !important;
+}
+
+.ngssm-shell-notification-card {
+    .ngssm-shell-avatar-notification {
+        font-size: 42px;
+        border-radius: unset !important;
+        width: unset !important;
+    }
+
+    .ngssm-shell-notification-success {
+        color: green;
+    }
+
+    .ngssm-shell-notification-error {
+        color: red;
+    }
+
+    .mat-button {
+        color: lightgray;
+        font-style: italic;
+    }
+}

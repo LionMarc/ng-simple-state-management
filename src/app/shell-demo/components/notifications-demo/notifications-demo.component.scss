@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 8px;
+
+    .notification-container {
+        min-width: 600px;
+        max-width: 600px;
+    }
+
+    .notification-details-container {
+        min-height: 400px;
+        max-height: 400px;
+    }
+}
