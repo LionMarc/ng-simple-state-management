@@ -20,8 +20,7 @@ interface Item {
 
 @Component({
   template: `
-    <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="'items'">
-    </ag-grid-angular>
+    <ag-grid-angular class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="'items'"> </ag-grid-angular>
   `,
   styles: [
     `
@@ -30,6 +29,10 @@ interface Item {
         max-height: 400px;
         display: flex;
         flex-direction: column;
+      }
+
+      ag-grid-angular {
+        height: 100%;
       }
     `
   ]
@@ -78,8 +81,7 @@ class TestingComponent {
 
 @Component({
   template: `
-    <ag-grid-angular fxFlex class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="config">
-    </ag-grid-angular>
+    <ag-grid-angular class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="config"> </ag-grid-angular>
   `,
   styles: [
     `
@@ -88,6 +90,11 @@ class TestingComponent {
         max-height: 400px;
         display: flex;
         flex-direction: column;
+        align-items: stretch;
+      }
+
+      ag-grid-angular {
+        height: 100%;
       }
     `
   ]
