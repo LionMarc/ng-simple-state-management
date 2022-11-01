@@ -13,7 +13,7 @@
             "schema": "./add-eslint/schema.json"
         },
         "add-material": {
-            "description": "Add @angular/material and @angular/flex-layout to the project",
+            "description": "Add @angular/material to the project",
             "factory": "./add-material/index",
             "schema": "./add-material/schema.json"
         },

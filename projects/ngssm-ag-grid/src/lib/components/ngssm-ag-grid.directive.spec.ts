@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { GetRowIdParams, GridOptions } from 'ag-grid-community';
@@ -175,7 +174,7 @@ describe('NgssmAgGridDirective', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [AgGridModule, FlexLayoutModule],
+        imports: [AgGridModule],
         declarations: [NgssmAgGridDirective, TestingComponent],
         providers: [{ provide: Store, useValue: store }]
       }).compileComponents();
@@ -330,7 +329,7 @@ describe('NgssmAgGridDirective', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [AgGridModule, FlexLayoutModule],
+        imports: [AgGridModule],
         declarations: [NgssmAgGridDirective, TestingWithConfigComponent],
         providers: [{ provide: Store, useValue: store }]
       }).compileComponents();
