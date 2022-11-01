@@ -12,7 +12,7 @@
             <a [routerLink]="section.route" routerLinkActive="ngssm-sidenav-active-link"
                 [routerLinkActiveOptions]="{exact:section.linkActiveOnlyIfExact === true}" *ngIf="section.route"
                 class="ngssm-sidenav-section-item">
-                <div fxLayout="row" fxLayoutAlign=" center" fxFlex>
+                <div>
                     <span *ngIf="section.icon" [innerHTML]="section.icon" class="ngssm-sidenav-item-icon"></span>
                     {{section.label}}
                     <ngssm-wrapper *ngIf="section.component" [item]="section.component"></ngssm-wrapper>

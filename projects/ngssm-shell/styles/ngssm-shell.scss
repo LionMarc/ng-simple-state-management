@@ -4,11 +4,47 @@
 .ngssm-shell {
     display: flex;
     flex-direction: column;
-}
 
-.ngssm-shell-header {
-    background: mat.get-color-from-palette(mat.$indigo-palette, 500);
-    color: mat.get-color-from-palette(mat.$indigo-palette, 50);
+    mat-sidenav-container,
+    .ngssm-shell-container,
+    .ngssm-shell-notifications,
+    .ngssm-fxFlex {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 1e-9px;
+    }
+
+    mat-sidenav-content {
+        display:flex;
+        flex-direction: column;
+    }
+
+    .ngssm-shell-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ngssm-shell-header {
+        background: mat.get-color-from-palette(mat.$indigo-palette, 500);
+        color: mat.get-color-from-palette(mat.$indigo-palette, 50);
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .ngssm-shell-notifications {
+        height: 100%;
+    }
+
+    .ngssm-shell-messages-bar {
+        display: flex;
+        flex-direction: column;
+
+        .mat-drawer-inner-container {
+            display: flex !important;
+            flex-direction: column;
+        }
+    }
 }
 
 .ngssm-shell-header-logo {
@@ -28,11 +64,6 @@
 .ngssm-shell-content {
     flex: 1;
     display: flex !important;
-    flex-direction: column;
-}
-
-.ngssm-shell-messages-bar {
-    display: flex;
     flex-direction: column;
 }
 

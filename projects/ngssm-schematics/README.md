@@ -87,15 +87,11 @@ Add *@fortawesome/fontawesome-free* to the project.
 
 ## add-material
 
-Add *@angular/material* and *@angular/flex-layout* to the project.
+Add *@angular/material* to the project.
 
 - [material](https://material.angular.io/)
     ```
     ng add @angular/material
-    ```
-- [flex-layout](https://tburleson-layouts-demos.firebaseapp.com/#/docs)
-    ```
-    npm install @angular/flex-layout --save
     ```
 
 ## Schematics associated to the state management

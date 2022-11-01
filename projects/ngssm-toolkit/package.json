@@ -7,8 +7,7 @@
   "peerDependencies": {
     "@angular/common": "^14.2.0",
     "@angular/core": "^14.2.0",
-    "@angular/material": "^14.2.2",
-    "@angular/flex-layout": ">=14.0.0-beta"
+    "@angular/material": "^14.2.2"
   },
   "dependencies": {
     "tslib": "^2.3.0"

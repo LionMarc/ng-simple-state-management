@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "SchematicsAddMaterial",
-  "title": "Material and flex-layout installation",
+  "title": "Material installation",
   "type": "object",
-  "description": "Install and configure material and flex-layout",
+  "description": "Install and configure material",
   "additionalProperties": false,
   "properties": {
   },
