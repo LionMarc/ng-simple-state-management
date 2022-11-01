@@ -1,16 +1,16 @@
 <h2 mat-dialog-title>{{dialogTitle$ | async}}</h2>
-<mat-dialog-content fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+<mat-dialog-content class="flex-column-stretch fxFlex">
     <mat-form-field>
         <mat-label>Title</mat-label>
         <input matInput required [formControl]="titleControl">
     </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign=" center">
-    <div *ngIf="(submittingTodo$ | async) === true" fxLayout="row" fxLayoutAlign=" center">
+<mat-dialog-actions class="flex-row-center">
+    <div *ngIf="(submittingTodo$ | async) === true" class="flex-row-center">
         <mat-spinner diameter="20"></mat-spinner>
         Please wait while processing your request...
     </div>
-    <span fxFlex></span>
+    <span class="fxFlex"></span>
     <button mat-button (click)="closeEditor()" [disabled]="(submittingTodo$ | async) === true">Cancel</button>
     <button mat-raised-button color="primary" [disabled]="titleControl.invalid || (submittingTodo$ | async) === true"
         (click)="submit()">

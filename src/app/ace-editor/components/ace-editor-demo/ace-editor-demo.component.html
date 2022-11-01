@@ -1,10 +1,10 @@
-<div fxLayout="row" fxLayoutAlign=" stretch" fxFlex>
-    <mat-card class="options-container" fxLayout="column" fxLayoutAlign=" stretch">
+<div class="flex-row-stretch  flex1">
+    <mat-card class="options-container flex-column-stretch">
         <mat-card-title>Editor options</mat-card-title>
         <mat-card-subtitle *ngIf="(isReady$ | async)===true">
             Editor is ready.
         </mat-card-subtitle>
-        <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex class="with-overflow-auto">
+        <mat-card-content class="with-overflow-auto flex-column-stretch fxFlex">
             <mat-checkbox [formControl]="readonlyControl">Read only</mat-checkbox>
             <mat-form-field>
                 <mat-label>Select editor mode</mat-label>
@@ -18,19 +18,19 @@
                 <mat-label>Set editor content</mat-label>
                 <textarea [formControl]="contentControl" matInput rows="10"></textarea>
             </mat-form-field>
-            <mat-card class="updated-content-container" fxLayout="column" fxLayoutAlign=" stretch">
+            <mat-card class="updated-content-container flex-column-stretch">
                 <mat-card-subtitle>Updated content</mat-card-subtitle>
-                <mat-card-content fxFlex fxLayout="column" fxLayoutAlign=" stretch">
-                    <div fxFlex="100">
+                <mat-card-content class="flex-column-stretch fxFlex">
+                    <div class="fxFlex100">
                         {{ updatedContent$ | async}}
                     </div>
                 </mat-card-content>
             </mat-card>
-            <div *ngIf="(isValid$ | async) === false" fxLayout="row" fxLayoutAlign=" center" class="error-container">
+            <div *ngIf="(isValid$ | async) === false" class="error-container flex-row-center">
                 <mat-icon class="fa-solid fa-triangle-exclamation" color="warn"></mat-icon>
                 Invalid content
             </div>
-            <div fxLayout="row" fxLayoutAlign=" center">
+            <div class="flex-row-center">
                 <mat-form-field class="with-margin-right-12">
                     <mat-label>Enter a comment pattern</mat-label>
                     <input matInput [formControl]="commentPatternControl">
@@ -43,10 +43,10 @@
         </mat-card-content>
     </mat-card>
 
-    <mat-card class=" ace-container" fxFlex fxLayout="column" fxLayoutAlign=" stretch">
+    <mat-card class=" ace-container" class="flex-column-stretch fxFlex">
         <mat-card-title>Editor</mat-card-title>
-        <mat-card-content fxLayout="column" fxLayoutAlign=" stretch" fxFlex>
-            <ngssm-ace-editor fxFlex [content]="contentControl.value ?? ''" (contentChanged)="onContentChanged($event)"
+        <mat-card-content class="flex-column-stretch fxFlex">
+            <ngssm-ace-editor class="fxFlex" [content]="contentControl.value ?? ''" (contentChanged)="onContentChanged($event)"
                 [readonly]="readonlyControl.value ?? true" [editorMode]="modeControl.value ?? ''"
                 (isValidChanged)="onIsValidChanged($event)" (editorReady)="onEditorReady($event)">
             </ngssm-ace-editor>

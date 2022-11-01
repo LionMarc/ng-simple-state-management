@@ -1,8 +1,7 @@
-<div fxFlex fxLayout="column" fxLayoutAlign=" stretch" class="ngssm-shell-container"
-    *ngIf="(shellConfig$ | async) as config; else noShellConfig">
-    <mat-sidenav-container fxFlex>
-        <mat-sidenav-content fxLayout="column">
-            <mat-toolbar fxLayout="row" fxLayoutAlign=" center" class="ngssm-shell-header">
+<div class="ngssm-shell-container" *ngIf="(shellConfig$ | async) as config; else noShellConfig">
+    <mat-sidenav-container>
+        <mat-sidenav-content>
+            <mat-toolbar class="ngssm-shell-header">
                 <button mat-icon-button (click)="toggleNavigationBarState()">
                     <mat-icon class="fa-solid fa-bars"></mat-icon>
                 </button>
@@ -13,7 +12,7 @@
                 <ng-content></ng-content>
             </mat-toolbar>
 
-            <mat-sidenav-container fxFlex>
+            <mat-sidenav-container>
                 <mat-sidenav mode="side" [opened]="(navigationBarOpen$ | async)===true"
                     class="ngssm-shell-navigation-bar">
                     <ngssm-side-nav [config]="config.sidenavConfig"></ngssm-side-nav>
@@ -25,13 +24,12 @@
         </mat-sidenav-content>
 
         <mat-sidenav mode="over" opened="false" #rightSidebar position="end" class="ngssm-shell-messages-bar">
-            <ngssm-shell-notifications fxFlex></ngssm-shell-notifications>
+            <ngssm-shell-notifications class="ngssm-shell-notifications"></ngssm-shell-notifications>
         </mat-sidenav>
     </mat-sidenav-container>
-    <mat-toolbar fxLayout="row" fxLayoutAlign=" center" class="ngssm-shell-footer"
-        *ngIf="config.displayFooter === true">
+    <mat-toolbar class="ngssm-shell-footer" *ngIf="config.displayFooter === true">
         <ngssm-wrapper *ngFor="let component of config.footerComponents" [item]="component"></ngssm-wrapper>
-        <span fxFlex></span>
+        <span class="ngssm-fxFlex"></span>
         <button mat-icon-button (click)="rightSidebar.toggle()" *ngIf="config.displayFooterNotificationsButton">
             <mat-icon class="fa-regular fa-message" [matBadge]="notificationsCount$ | async"
                 *ngIf="(notificationsCount$ | async) ?? 0 > 0">
