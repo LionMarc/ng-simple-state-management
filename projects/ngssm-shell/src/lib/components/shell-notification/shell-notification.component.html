@@ -11,7 +11,8 @@
         <mat-card-title>{{shellNotification.title}}</mat-card-title>
         <mat-card-subtitle>{{shellNotification.timestamp | date:'shortTime'}}</mat-card-subtitle>
     </mat-card-header>
-    <div fxLayout="row" fxLayoutAlign="end center">
+    <div class="flex-row-center">
+        <span class="fxFlex"></span>
         <button mat-button *ngIf="(displayDetailsButton$ | async) === true && shellNotification.details"
             (click)="displayDetails()">
             Display details

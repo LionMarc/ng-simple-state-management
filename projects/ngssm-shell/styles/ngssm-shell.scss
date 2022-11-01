@@ -35,6 +35,16 @@
     .ngssm-shell-notifications {
         height: 100%;
     }
+
+    .ngssm-shell-messages-bar {
+        display: flex;
+        flex-direction: column;
+
+        .mat-drawer-inner-container {
+            display: flex !important;
+            flex-direction: column;
+        }
+    }
 }
 
 .ngssm-shell-header-logo {
@@ -54,11 +64,6 @@
 .ngssm-shell-content {
     flex: 1;
     display: flex !important;
-    flex-direction: column;
-}
-
-.ngssm-shell-messages-bar {
-    display: flex;
     flex-direction: column;
 }
 
