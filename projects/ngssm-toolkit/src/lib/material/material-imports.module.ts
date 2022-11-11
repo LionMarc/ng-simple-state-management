@@ -20,6 +20,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 const modules = [
   CommonModule,
@@ -42,7 +44,9 @@ const modules = [
   MatCheckboxModule,
   MatTooltipModule,
   MatBadgeModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTabsModule,
+  MatExpansionModule
 ];
 
 @NgModule({
