@@ -34,7 +34,7 @@ describe('SideNavComponent', () => {
       });
 
       it('Then the title is displayed in the sidenav', () => {
-        const title = fixture.debugElement.query(By.css('[mat-header]'));
+        const title = fixture.debugElement.query(By.css('.ngssm-sidenav-title'));
         expect(title).toBeTruthy();
         expect(title.nativeElement.innerHTML).toEqual('Menu Title');
       });
@@ -62,7 +62,7 @@ describe('SideNavComponent', () => {
       });
 
       it('Then the sections are displayed in the sidenav', () => {
-        const sections = fixture.debugElement.queryAll(By.css('[mat-subheader] div.ngssm-sidenav-section-item'));
+        const sections = fixture.debugElement.queryAll(By.css('.ngssm-sidenav-section-item-container div.ngssm-sidenav-section-item'));
         expect(sections.length).toEqual(2);
         expect(sections[0].nativeElement.innerHTML).toContain('Section 1');
         expect(sections[1].nativeElement.innerHTML).toContain('Section 2');
@@ -89,7 +89,7 @@ describe('SideNavComponent', () => {
       });
 
       it('Then the icon is displayed before the section in the sidenav', () => {
-        const sections = fixture.debugElement.queryAll(By.css('[mat-subheader] div.ngssm-sidenav-section-item'));
+        const sections = fixture.debugElement.queryAll(By.css('.ngssm-sidenav-section-item-container div.ngssm-sidenav-section-item'));
         expect(sections.length).toEqual(1);
         const pattern = new RegExp(`<i class="fa-solid fa-house"></i>.*Section 1`);
         expect(sections[0].nativeElement.innerHTML.replace(/(\r\n|\n|\r)/gm, '')).toMatch(pattern);
