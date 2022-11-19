@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ShellActionType, ShellConfig } from 'ngssm-shell';
+import { LockNavigationBarAction, LockStatus, ShellActionType, ShellConfig } from 'ngssm-shell';
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { ConsoleAppender } from 'ngssm-toolkit';
 
@@ -84,6 +84,8 @@ export class AppComponent extends NgSsmComponent {
     displayFooterNotificationsButton: true
   };
 
+  public readonly lockStatus = LockStatus;
+
   constructor(store: Store, consoleAppender: ConsoleAppender) {
     super(store);
     consoleAppender.start();
@@ -95,5 +97,9 @@ export class AppComponent extends NgSsmComponent {
 
   public openNavigationBar(): void {
     this.dispatchActionType(ShellActionType.openNavigationBar);
+  }
+
+  public lockNavigationBar(status: LockStatus): void {
+    this.dispatchAction(new LockNavigationBarAction(status));
   }
 }

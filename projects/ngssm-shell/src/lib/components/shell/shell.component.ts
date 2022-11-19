@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 
-import { ShellConfig } from '../../model';
+import { LockStatus, ShellConfig } from '../../model';
 import { selectShellState } from '../../state';
 import { ShellActionType } from '../../actions';
 
@@ -14,11 +14,35 @@ import { ShellActionType } from '../../actions';
 })
 export class ShellComponent extends NgSsmComponent {
   private readonly _shellConfig$ = new BehaviorSubject<ShellConfig | undefined>(undefined);
+  private readonly _navigationBarOpen$ = new BehaviorSubject<boolean>(true);
 
   @HostBinding('class') class = 'ngssm-shell';
 
   constructor(store: Store) {
     super(store);
+
+    combineLatest([
+      this.watch((s) => selectShellState(s).navigationBarOpen),
+      this.watch((s) => selectShellState(s).navigationBarLockStatus)
+    ]).subscribe((values) => {
+      let isOpen = false;
+
+      switch (values[1]) {
+        case LockStatus.lockedClosed:
+          isOpen = false;
+          break;
+
+        case LockStatus.lockedOpen:
+          isOpen = true;
+          break;
+
+        default:
+          isOpen = values[0];
+          break;
+      }
+
+      this._navigationBarOpen$.next(isOpen);
+    });
   }
 
   @Input() public set shellConfig(value: ShellConfig) {
@@ -26,7 +50,7 @@ export class ShellComponent extends NgSsmComponent {
   }
 
   public get navigationBarOpen$(): Observable<boolean> {
-    return this.watch((s) => selectShellState(s).navigationBarOpen);
+    return this._navigationBarOpen$.asObservable();
   }
 
   public get shellConfig$(): Observable<ShellConfig | undefined> {
