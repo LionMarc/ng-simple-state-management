@@ -2,7 +2,16 @@
     <button mat-stroked-button class="with-margin-right-12 with-margin-left-12" (click)="openNavigationBar()">
         Open navigation bar
     </button>
-    <button mat-stroked-button (click)="closeNavigationBar()">
+    <button mat-stroked-button (click)="closeNavigationBar()" class="with-margin-right-12">
         Close navigation bar
+    </button>
+    <button mat-stroked-button (click)="lockNavigationBar(lockStatus.lockedOpen)" class="with-margin-right-12">
+        Lock navigation bar open
+    </button>
+    <button mat-stroked-button (click)="lockNavigationBar(lockStatus.lockedClosed)" class="with-margin-right-12">
+        Lock navigation bar closed
+    </button>
+    <button mat-stroked-button (click)="lockNavigationBar(lockStatus.notLocked)" class="with-margin-right-12">
+        Unlock navigation bar
     </button>
 </ngssm-shell>
