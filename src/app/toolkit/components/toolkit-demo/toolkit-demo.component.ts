@@ -12,8 +12,17 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 export class ToolkitDemoComponent extends NgSsmComponent {
   public readonly fileControl = new FormControl<File | undefined>(undefined, Validators.required);
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
+  public readonly filePickerDisabledControl = new FormControl<boolean>(false);
 
   constructor(store: Store) {
     super(store);
+
+    this.filePickerDisabledControl.valueChanges.subscribe((v) => {
+      if (v) {
+        this.fileControl.disable();
+      } else {
+        this.fileControl.enable();
+      }
+    });
   }
 }

@@ -11,6 +11,7 @@
                     <mat-icon matPrefix class="fa-solid fa-folder-open file-picker-icon" color="primary"></mat-icon>
                 </mat-form-field>
                 <mat-checkbox [formControl]="displayFilePickerDetailsControl">Display details</mat-checkbox>
+                <mat-checkbox [formControl]="filePickerDisabledControl">File picker disabled</mat-checkbox>
                 {{fileControl.value?.name}}
             </mat-card-content>
         </mat-card>

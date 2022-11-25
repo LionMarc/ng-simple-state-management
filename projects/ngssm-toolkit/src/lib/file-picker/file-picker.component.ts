@@ -70,7 +70,7 @@ export class FilePickerComponent implements MatFormFieldControl<File>, ControlVa
   }
 
   public get errorState(): boolean {
-    return this.value === null && this.required;
+    return this.ngControl.invalid ?? false;
   }
 
   public get lastModificationDate(): string {
@@ -92,6 +92,10 @@ export class FilePickerComponent implements MatFormFieldControl<File>, ControlVa
   }
 
   public setDescribedByIds(ids: string[]): void {}
+
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 
   public onContainerClick(event: MouseEvent): void {
     if (!this.disabled) {
