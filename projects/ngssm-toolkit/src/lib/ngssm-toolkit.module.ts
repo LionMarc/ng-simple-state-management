@@ -17,6 +17,6 @@ import { FileSizePipe } from './file-picker/file-size.pipe';
     FileSizePipe
   ],
   imports: [RouterModule, MaterialImportsModule],
-  exports: [ComponentOverlayDirective, FilePickerComponent]
+  exports: [ComponentOverlayDirective, FilePickerComponent, FileSizePipe]
 })
 export class NgssmToolkitModule {}
