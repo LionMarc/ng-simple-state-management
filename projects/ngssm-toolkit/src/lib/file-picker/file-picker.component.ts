@@ -1,7 +1,7 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, ElementRef, HostBinding, Input, OnDestroy, Optional, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatLegacyFormFieldControl as MatFormFieldControl } from '@angular/material/legacy-form-field';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 export const noop = () => {};
