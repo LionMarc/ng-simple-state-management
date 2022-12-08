@@ -24,7 +24,7 @@
     }
 
     mat-sidenav-content {
-        display:flex;
+        display: flex;
         flex-direction: column;
     }
 
@@ -36,7 +36,7 @@
     .ngssm-shell-header {
         background: mat.get-color-from-palette(mat.$indigo-palette, 500);
         color: mat.get-color-from-palette(mat.$indigo-palette, 50);
-        display:flex;
+        display: flex;
         flex-direction: row;
         align-items: center;
     }
@@ -95,6 +95,7 @@
 .ngssm-shell-notification-snack-panel {
     background-color: transparent;
     padding: 0 !important;
+    margin: 0 !important;
 }
 
 .ngssm-shell-notification-card {
@@ -112,7 +113,7 @@
         color: red;
     }
 
-    .mat-button {
+    .mat-mdc-button {
         color: lightgray;
         font-style: italic;
     }

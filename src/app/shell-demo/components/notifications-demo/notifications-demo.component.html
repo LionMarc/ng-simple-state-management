@@ -1,17 +1,23 @@
-<mat-card class="flex-column-stretch fxFlex">
-    <mat-card-title class="flex-row-center">
-        Notifications Demo
-    </mat-card-title>
+<mat-card appearance="raised" class="flex-column-stretch fxFlex">
+    <mat-card-header>
+        <mat-card-title class="flex-row-center">
+            Notifications Demo
+        </mat-card-title>
+    </mat-card-header>
+
     <mat-card-content class="flex-row-start fxFlex">
-        <mat-card class="notification-container flex-column-stretch">
-            <mat-card-title class="flex-row-center">
-                Notification
-                <span class="fxFlex"></span>
-                <button mat-raised-button color="primary" [disabled]="formGroup.invalid"
-                    (click)="displayNotification()">
-                    Display notification
-                </button>
-            </mat-card-title>
+        <mat-card appearance="raised" class="notification-container flex-column-stretch">
+            <mat-card-header>
+                <mat-card-title class="flex-row-center">
+                    Notification
+                    <span class="fxFlex"></span>
+                    <button mat-raised-button color="primary" [disabled]="formGroup.invalid"
+                        (click)="displayNotification()">
+                        Display notification
+                    </button>
+                </mat-card-title>
+            </mat-card-header>
+
             <mat-card-content class="flex-column-stretch">
                 <mat-form-field>
                     <mat-label>Notification type</mat-label>
@@ -25,8 +31,10 @@
                     <mat-label>Notification title</mat-label>
                     <input matInput [formControl]="titleControl">
                 </mat-form-field>
-                <mat-card class="notification-details-container flex-column-stretch">
-                    <mat-card-subtitle>Notification details</mat-card-subtitle>
+                <mat-card appearance="raised" class="notification-details-container flex-column-stretch">
+                    <mat-card-header>
+                        <mat-card-subtitle>Notification details</mat-card-subtitle>
+                    </mat-card-header>
                     <ngssm-ace-editor class="fxFlex" (contentChanged)="onContentChanged($event)" [readonly]="false"
                         [editorMode]="ngssmAceEditorMode.json">
                     </ngssm-ace-editor>

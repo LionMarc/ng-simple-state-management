@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
   selector: 'ngssm-message-overlay',
   template: `
     <mat-card>
-      <mat-card-content>
+      <mat-card-content class="message-container">
         <mat-spinner></mat-spinner>
         {{ message$ | async }}
       </mat-card-content>
@@ -13,7 +13,7 @@ import { Observable, Subject } from 'rxjs';
   `,
   styles: [
     `
-      .mat-card-content {
+      .message-container {
         display: flex !important;
         flex-direction: column;
         align-items: flex-start;

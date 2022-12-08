@@ -1,5 +1,5 @@
 import { Injectable, Provider } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
 

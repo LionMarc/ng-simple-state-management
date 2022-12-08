@@ -1,4 +1,5 @@
-<mat-card *ngIf="(shellNotification$ | async) as shellNotification; else noNotification"
+<mat-card
+    appearance="outlined" *ngIf="(shellNotification$ | async) as shellNotification; else noNotification"
     class="ngssm-shell-notification-card">
     <mat-card-header
         [ngClass]="{'ngssm-shell-notification-success' : shellNotification.type === shellNotificationType.success, 'ngssm-shell-notification-error':shellNotification.type === shellNotificationType.error}">
