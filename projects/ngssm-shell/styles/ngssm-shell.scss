@@ -1,5 +1,14 @@
 @use '@angular/material'as mat;
-@include mat.core();
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+@include mat.all-legacy-component-typographies();
+@include mat.legacy-core();
 
 .ngssm-shell {
     display: flex;
@@ -15,7 +24,7 @@
     }
 
     mat-sidenav-content {
-        display:flex;
+        display: flex;
         flex-direction: column;
     }
 
@@ -27,7 +36,7 @@
     .ngssm-shell-header {
         background: mat.get-color-from-palette(mat.$indigo-palette, 500);
         color: mat.get-color-from-palette(mat.$indigo-palette, 50);
-        display:flex;
+        display: flex;
         flex-direction: row;
         align-items: center;
     }
@@ -86,6 +95,7 @@
 .ngssm-shell-notification-snack-panel {
     background-color: transparent;
     padding: 0 !important;
+    margin: 0 !important;
 }
 
 .ngssm-shell-notification-card {
@@ -103,7 +113,7 @@
         color: red;
     }
 
-    .mat-button {
+    .mat-mdc-button {
         color: lightgray;
         font-style: italic;
     }

@@ -19,10 +19,13 @@ $ng-simple-state-management-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$ng-simple-state-management-theme: mat.define-light-theme((color: (primary: $ng-simple-state-management-primary,
-            accent: $ng-simple-state-management-accent,
-            warn: $ng-simple-state-management-warn,
-        )));
+$ng-simple-state-management-theme: mat.define-light-theme((
+  color: (
+    primary: $ng-simple-state-management-primary,
+    accent: $ng-simple-state-management-accent,
+    warn: $ng-simple-state-management-warn,
+  )
+));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -73,4 +76,10 @@ body {
     background-color: lightgray;
     opacity: 1;
     z-index: 100;
+}
+
+// material overrides
+
+.mat-mdc-card-header-text {
+    flex: 1;
 }

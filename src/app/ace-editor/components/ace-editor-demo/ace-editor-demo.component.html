@@ -1,9 +1,12 @@
 <div class="flex-row-stretch  flex1">
-    <mat-card class="options-container flex-column-stretch">
-        <mat-card-title>Editor options</mat-card-title>
-        <mat-card-subtitle *ngIf="(isReady$ | async)===true">
-            Editor is ready.
-        </mat-card-subtitle>
+    <mat-card appearance="raised" class="options-container flex-column-stretch">
+        <mat-card-header>
+            <mat-card-title>Editor options</mat-card-title>
+            <mat-card-subtitle *ngIf="(isReady$ | async)===true">
+                Editor is ready.
+            </mat-card-subtitle>
+        </mat-card-header>
+
         <mat-card-content class="with-overflow-auto flex-column-stretch fxFlex">
             <mat-checkbox [formControl]="readonlyControl">Read only</mat-checkbox>
             <mat-form-field>
@@ -18,8 +21,11 @@
                 <mat-label>Set editor content</mat-label>
                 <textarea [formControl]="contentControl" matInput rows="10"></textarea>
             </mat-form-field>
-            <mat-card class="updated-content-container flex-column-stretch">
-                <mat-card-subtitle>Updated content</mat-card-subtitle>
+            <mat-card appearance="raised" class="updated-content-container flex-column-stretch">
+                <mat-card-header>
+                    <mat-card-subtitle>Updated content</mat-card-subtitle>
+                </mat-card-header>
+                
                 <mat-card-content class="flex-column-stretch fxFlex">
                     <div class="fxFlex100">
                         {{ updatedContent$ | async}}
@@ -43,8 +49,11 @@
         </mat-card-content>
     </mat-card>
 
-    <mat-card class=" ace-container" class="flex-column-stretch fxFlex">
-        <mat-card-title>Editor</mat-card-title>
+    <mat-card appearance="raised" class=" ace-container" class="flex-column-stretch fxFlex">
+        <mat-card-header>
+            <mat-card-title>Editor</mat-card-title>
+        </mat-card-header>
+        
         <mat-card-content class="flex-column-stretch fxFlex">
             <ngssm-ace-editor class="fxFlex" [content]="contentControl.value ?? ''" (contentChanged)="onContentChanged($event)"
                 [readonly]="readonlyControl.value ?? true" [editorMode]="modeControl.value ?? ''"
