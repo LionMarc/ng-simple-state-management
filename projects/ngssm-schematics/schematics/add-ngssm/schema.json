@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SchematicsAddNgssm",
+  "title": "ngssm-store installation",
+  "type": "object",
+  "description": "Install and configure ngssm-store and ngssm-toolkit",
+  "additionalProperties": false,
+  "properties": {
+  },
+  "required": []
+}

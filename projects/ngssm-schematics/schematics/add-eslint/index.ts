@@ -4,8 +4,8 @@ import { addPackageJsonDependency, NodeDependencyType, NodeDependency } from '@s
 function addPrettierDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
-      { type: NodeDependencyType.Dev, version: '^2.7.1', name: 'prettier' },
-      { type: NodeDependencyType.Dev, version: '^15.0.1', name: 'prettier-eslint' },
+      { type: NodeDependencyType.Dev, version: '^2.8.1', name: 'prettier' },
+      { type: NodeDependencyType.Dev, version: '^15.0.0', name: 'prettier-eslint' },
       { type: NodeDependencyType.Dev, version: '^8.5.0', name: 'eslint-config-prettier' },
       { type: NodeDependencyType.Dev, version: '^4.2.1', name: 'eslint-plugin-prettier' },
       { type: NodeDependencyType.Dev, version: '^1.3.2', name: 'eslint-plugin-deprecation' },
@@ -30,6 +30,9 @@ function updateEslintRc(): Rule {
       const config = JSON.parse(content?.toString() ?? '{}');
       context.logger.log('info', `Updating ${path}`, config);
       config.plugins = ['deprecation', 'unused-imports'];
+      config.overrides[0]['parserOptions'] = {
+        project: ['tsconfig.(app|spec).json']
+      };
       config.overrides[0].rules['deprecation/deprecation'] = 'error';
       config.overrides[0].rules['unused-imports/no-unused-imports'] = 'warn';
       config.overrides[0].extends.push('plugin:prettier/recommended');
@@ -51,7 +54,7 @@ function createPrettierRc(): Rule {
         endOfLine: 'auto',
         tabWidth: 2,
         bracketSameLine: true,
-        printWidth: 140
+        printWidth: 120
       };
       tree.create(path, JSON.stringify(config, null, 2));
     }
