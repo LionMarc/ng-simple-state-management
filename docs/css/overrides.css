@@ -1,0 +1,29 @@
+.md-container>.md-main>.md-grid,
+.md-header>.md-grid,
+.md-footer>.md-footer-meta>.md-grid {
+    margin-left: 12px;
+    margin-right: 12px;
+    max-width: 100%;
+}
+
+.md-footer>.md-grid{
+    display:none;
+}
+
+.md-logo img {
+    height: 40px !important;
+}
+
+.mermaid {
+    display: flex !important;
+    justify-content: center;
+}
+
+svg[id^="m"][width][height][viewBox] {
+    max-width: 95%;
+    max-height: 95%;
+}
+
+.note-container > rect {
+    fill: yellow !important;
+}
