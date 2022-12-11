@@ -22,6 +22,11 @@
             "factory": "./add-fontawesome/index",
             "schema": "./add-fontawesome/schema.json"
         },
+        "add-ngssm": {
+            "description": "Install and configure ngssm-store and ngssm-toolkit",
+            "factory": "./add-ngssm/index",
+            "schema": "./add-ngssm/schema.json"
+        },
         "exec-lint": {
             "description": "Execute lint when the installation is done",
             "factory": "./exec-lint/index",

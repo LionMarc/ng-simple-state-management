@@ -30,6 +30,10 @@ export default function (options: Schema): Rule {
       context.logger.warn('@fortawesome/fontawesome-free will not be installed.');
     }
 
+    context.logger.info('Add task to install ngssm-store');
+    const ngssmInstallTaskId = context.addTask(new RunSchematicTask('add-ngssm', {}), [...taksIds]);
+    taksIds.push(ngssmInstallTaskId);
+
     // Last task
     if (options.addEslint) {
       context.addTask(new RunSchematicTask('exec-lint', {}), [...taksIds]);
