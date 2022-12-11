@@ -1,0 +1,33 @@
+site_name: Simple State Management
+theme:
+  name: material
+  logo: assets/images/smusdi-logo.png
+  features:
+    - navigation.expand
+  palette: 
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+extra_css:
+  - css/overrides.css
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - tables
+plugins:
+  - search
+  - glightbox
+  - include-markdown
+nav:
+  - index.md
