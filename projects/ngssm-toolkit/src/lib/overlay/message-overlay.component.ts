@@ -16,8 +16,7 @@ import { Observable, Subject } from 'rxjs';
       .message-container {
         display: flex !important;
         flex-direction: column;
-        align-items: flex-start;
-        vertical-align: center;
+        align-items: center;
       }
     `
   ]

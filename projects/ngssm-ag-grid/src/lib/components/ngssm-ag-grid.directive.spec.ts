@@ -23,17 +23,17 @@ interface Item {
   `,
   styles: [
     `
-           :host {
-             min-height: 400px;
-             max-height: 400px;
-             display: flex;
-             flex-direction: column;
-           }
-     
-           ag-grid-angular {
-             height: 100%;
-           }
-         `
+      :host {
+        min-height: 400px;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      ag-grid-angular {
+        height: 100%;
+      }
+    `
   ]
 })
 class TestingComponent {
@@ -84,18 +84,18 @@ class TestingComponent {
   `,
   styles: [
     `
-           :host {
-             min-height: 400px;
-             max-height: 400px;
-             display: flex;
-             flex-direction: column;
-             align-items: stretch;
-           }
-     
-           ag-grid-angular {
-             height: 100%;
-           }
-         `
+      :host {
+        min-height: 400px;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      ag-grid-angular {
+        height: 100%;
+      }
+    `
   ]
 })
 class TestingWithConfigComponent {
