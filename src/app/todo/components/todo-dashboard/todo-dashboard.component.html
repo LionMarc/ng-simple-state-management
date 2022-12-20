@@ -1,4 +1,5 @@
-<mat-card appearance="outlined" [displayOverlay]="(status$ | async) === dataStatus.loading" class="flex-column-stretch fxFlex">
+<mat-card appearance="outlined" [displayOverlay]="(status$ | async) === dataStatus.loading"
+    class="flex-column-stretch fxFlex">
     <mat-card-header>
         <mat-card-title class="flex-row-center">
             To-Do List
@@ -16,9 +17,12 @@
             </app-todo-item>
         </div>
 
-        <ag-grid-angular class="ag-theme-material fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems$ | async"
-            [ngssmAgGrid]="agGridConfig">
+        <div class="flex-column-stretch fxFlex">
+            <mat-checkbox [formControl]="allowRestoringGridControl">Allow restoring grid?</mat-checkbox>
+            <ag-grid-angular class="ag-theme-material fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems$ | async"
+                [ngssmAgGrid]="agGridConfig">
 
-        </ag-grid-angular>
+            </ag-grid-angular>
+        </div>
     </mat-card-content>
 </mat-card>

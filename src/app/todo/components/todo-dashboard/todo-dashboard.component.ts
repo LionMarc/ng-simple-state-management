@@ -9,6 +9,7 @@ import { NgssmAgGridConfig } from 'ngssm-ag-grid';
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { TodoActionType } from '../../actions';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-dashboard',
@@ -18,6 +19,7 @@ import { TodoActionType } from '../../actions';
 })
 export class TodoDashboardComponent extends NgSsmComponent {
   public readonly dataStatus = DataStatus;
+  public readonly allowRestoringGridControl = new FormControl(true);
   public readonly gridOptions: GridOptions = {
     defaultColDef: {
       resizable: true,
@@ -51,7 +53,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
     rowSelection: 'multiple'
   };
 
-  public readonly agGridConfig: NgssmAgGridConfig = {
+  public agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
     keepSelection: true,
     canSaveOnDiskColumnsState: true
@@ -59,6 +61,10 @@ export class TodoDashboardComponent extends NgSsmComponent {
 
   constructor(store: Store) {
     super(store);
+
+    this.allowRestoringGridControl.valueChanges.subscribe((value) => {
+      this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskColumnsState: value ?? true };
+    });
   }
 
   public get status$(): Observable<DataStatus> {
