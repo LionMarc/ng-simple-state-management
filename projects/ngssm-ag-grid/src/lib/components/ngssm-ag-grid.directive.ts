@@ -1,5 +1,5 @@
 import { Directive, Input, OnDestroy } from '@angular/core';
-import { combineLatest, map, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Subject, take, takeUntil } from 'rxjs';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community';
@@ -15,7 +15,9 @@ import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
 })
 export class NgssmAgGridDirective implements OnDestroy {
   private readonly unsubsribeAll$ = new Subject<void>();
-  private readonly _config$ = new ReplaySubject<NgssmAgGridConfig>();
+  private readonly _config$ = new BehaviorSubject<NgssmAgGridConfig>({
+    gridId: ''
+  });
 
   constructor(private store: Store, private agGridAngular: AgGridAngular) {
     this.agGridAngular.gridReady.pipe(take(1)).subscribe((v) => {
@@ -74,11 +76,7 @@ export class NgssmAgGridDirective implements OnDestroy {
         }
       });
 
-    this._config$.pipe(take(1)).subscribe((config) => {
-      if (config.canSaveOnDiskColumnsState === true) {
-        this.agGridAngular.getContextMenuItems = (params) => this.getContextMenuItems(params);
-      }
-    });
+    this.agGridAngular.getContextMenuItems = (params) => this.getContextMenuItems(params);
   }
 
   @Input('ngssmAgGrid') public set config(value: string | NgssmAgGridConfig) {
@@ -125,31 +123,37 @@ export class NgssmAgGridDirective implements OnDestroy {
   }
 
   private getContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
-    console.log(params.defaultItems);
-    return [
-      ...(params.defaultItems ?? []),
-      'separator',
-      {
-        name: 'Save columns state',
-        action: () =>
-          this._config$
-            .pipe(take(1))
-            .subscribe((config) => this.store.dispatchAction(new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, config.gridId))),
-        icon: '<i class="fa-regular fa-floppy-disk"></i>'
-      },
-      {
-        name: 'Restore columns state',
-        action: () =>
-          this._config$
-            .pipe(take(1))
-            .subscribe((config) => this.store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, config.gridId))),
-        icon: '<i class="fa-solid fa-rotate-right"></i>'
-      },
-      {
-        name: 'Reset columns state to default',
-        action: () => this.agGridAngular.columnApi.resetColumnState(),
-        icon: '<i class="fa-solid fa-clock-rotate-left"></i>'
-      }
-    ];
+    const menuItems: (string | MenuItemDef)[] = [...(params.defaultItems ?? [])];
+    if (this._config$.getValue().canSaveOnDiskColumnsState === true) {
+      menuItems.push(
+        ...[
+          'separator',
+          {
+            name: 'Save columns state',
+            action: () =>
+              this._config$
+                .pipe(take(1))
+                .subscribe((config) => this.store.dispatchAction(new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, config.gridId))),
+            icon: '<i class="fa-regular fa-floppy-disk"></i>'
+          },
+          {
+            name: 'Restore columns state',
+            action: () =>
+              this._config$
+                .pipe(take(1))
+                .subscribe((config) =>
+                  this.store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, config.gridId))
+                ),
+            icon: '<i class="fa-solid fa-rotate-right"></i>'
+          },
+          {
+            name: 'Reset columns state to default',
+            action: () => this.agGridAngular.columnApi.resetColumnState(),
+            icon: '<i class="fa-solid fa-clock-rotate-left"></i>'
+          }
+        ]
+      );
+    }
+    return menuItems;
   }
 }
