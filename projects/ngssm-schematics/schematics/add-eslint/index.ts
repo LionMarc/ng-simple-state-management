@@ -31,7 +31,7 @@ function updateEslintRc(): Rule {
       context.logger.log('info', `Updating ${path}`, config);
       config.plugins = ['deprecation', 'unused-imports'];
       config.overrides[0]['parserOptions'] = {
-        project: ['tsconfig.(app|spec).json']
+        project: ['tsconfig.json', 'tsconfig.(app|spec).json']
       };
       config.overrides[0].rules['deprecation/deprecation'] = 'error';
       config.overrides[0].rules['unused-imports/no-unused-imports'] = 'warn';
@@ -63,6 +63,29 @@ function createPrettierRc(): Rule {
   };
 }
 
+function updateAngularJson(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const path = 'angular.json';
+    context.logger.log('info', `Updating ${path} with schematics settings`);
+    if (tree.exists(path)) {
+      var currentAngularJson = tree.read(path)!.toString('utf-8');
+      var json = JSON.parse(currentAngularJson);
+      json['schematics'] = {
+        '@angular-eslint/schematics:application': {
+          setParserOptionsProject: true
+        },
+        '@angular-eslint/schematics:library': {
+          setParserOptionsProject: true
+        }
+      };
+
+      tree.overwrite(path, JSON.stringify(json, null, 2));
+    }
+
+    return tree;
+  };
+}
+
 export default function (): Rule {
   return (_: Tree, context: SchematicContext) => {
     context.logger.info('Starting installation and configuration of eslint and prettier');
@@ -72,6 +95,7 @@ export default function (): Rule {
       addPrettierDependencies(),
       updateEslintRc(),
       createPrettierRc(),
+      updateAngularJson(),
       (__: Tree, ___: SchematicContext) => context.logger.info('✔️ Eslint and prettier installed and configured')
     ]);
   };
