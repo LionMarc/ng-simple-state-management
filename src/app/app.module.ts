@@ -42,7 +42,14 @@ import { ShellDemoModule } from './shell-demo/public-api';
     {
       provide: NGSSM_AG_GRID_OPTIONS,
       useValue: {
-        theme: 'ag-theme-alpine'
+        theme: 'ag-theme-alpine',
+        statusBar: {
+          statusPanels: [
+            {
+              statusPanel: 'agTotalAndFilteredRowCountComponent'
+            }
+          ]
+        }
       }
     }
   ],
