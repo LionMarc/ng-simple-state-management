@@ -3,11 +3,12 @@ import { NgssmAgGridDirective } from './components/ngssm-ag-grid.directive';
 import { gridStatesReducerProvider } from './reducers/grid-states.reducer';
 import { selectedRowsReducerProvider } from './reducers/selected-rows.reducer';
 import { localStorageEffectProvider } from './effects/local-storage.effect';
+import { NgssmAgGridThemeDirective } from './components/ngssm-ag-grid-theme.directive';
 
 @NgModule({
-  declarations: [NgssmAgGridDirective],
+  declarations: [NgssmAgGridDirective, NgssmAgGridThemeDirective],
   imports: [],
-  exports: [NgssmAgGridDirective],
+  exports: [NgssmAgGridDirective, NgssmAgGridThemeDirective],
   providers: []
 })
 export class NgssmAgGridModule {

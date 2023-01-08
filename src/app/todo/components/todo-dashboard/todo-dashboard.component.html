@@ -19,7 +19,7 @@
 
         <div class="flex-column-stretch fxFlex">
             <mat-checkbox [formControl]="allowRestoringGridControl">Allow restoring grid?</mat-checkbox>
-            <ag-grid-angular class="ag-theme-material fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems$ | async"
+            <ag-grid-angular ngssmAgGridTheme class="fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems$ | async"
                 [ngssmAgGrid]="agGridConfig">
 
             </ag-grid-angular>
