@@ -3,7 +3,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgssmAgGridModule } from 'ngssm-ag-grid';
+import { NgssmAgGridModule, NGSSM_AG_GRID_OPTIONS } from 'ngssm-ag-grid';
 import { NgssmNavigationModule } from 'ngssm-navigation';
 import { NgssmRemoteDataModule } from 'ngssm-remote-data';
 import { NgssmShellModule } from 'ngssm-shell';
@@ -38,7 +38,13 @@ import { ShellDemoModule } from './shell-demo/public-api';
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { position: { top: '40px' }, closeOnNavigation: false }
     },
-    useDefaultErrorStateMatcher
+    useDefaultErrorStateMatcher,
+    {
+      provide: NGSSM_AG_GRID_OPTIONS,
+      useValue: {
+        theme: 'ag-theme-alpine'
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })
