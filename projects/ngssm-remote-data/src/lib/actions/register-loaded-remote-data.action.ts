@@ -1,6 +1,6 @@
 import { Action } from 'ngssm-store';
 
-import { DataStatus } from '../data-status';
+import { DataStatus } from '../model';
 import { RemoteDataActionType } from './remote-data-action-type';
 
 export class RegisterLoadedRemoteDataAction implements Action {

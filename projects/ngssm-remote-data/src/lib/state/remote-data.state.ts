@@ -2,7 +2,7 @@ import update, { Spec } from 'immutability-helper';
 
 import { NgSsmFeatureState, State } from 'ngssm-store';
 
-import { RemoteData } from '../remote-data';
+import { RemoteData } from '../model';
 
 export const selectRemoteDataState = (state: State): RemoteDataState =>
   state[RemoteDataStateSpecification.featureStateKey] as RemoteDataState;
