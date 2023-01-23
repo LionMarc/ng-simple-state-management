@@ -3,7 +3,7 @@ import { Inject, Injectable, Optional, Provider } from '@angular/core';
 import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
 
 import { LoadRemoteDataAction, RegisterLoadedRemoteDataAction, RemoteDataActionType } from '../actions';
-import { DataStatus } from '../data-status';
+import { DataStatus } from '../model';
 import { RemoteDataProvider, NGSSM_REMOTE_DATA_PROVIDER } from '../remote-data-provider';
 import { selectRemoteDataState } from '../state';
 

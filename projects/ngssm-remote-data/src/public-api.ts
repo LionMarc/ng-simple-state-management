@@ -3,8 +3,7 @@
  */
 
 export * from './lib/ngssm-remote-data.module';
-export * from './lib/data-status';
-export * from './lib/remote-data';
+export * from './lib/model';
 export * from './lib/state';
 export * from './lib/actions';
 export * from './lib/remote-data-provider';
