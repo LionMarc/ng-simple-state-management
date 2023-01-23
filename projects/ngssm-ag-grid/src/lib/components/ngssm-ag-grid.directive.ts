@@ -51,7 +51,7 @@ export class NgssmAgGridDirective implements OnDestroy {
               const ids = values[0].selectedRows[values[1].gridId]?.ids ?? [];
               this.agGridAngular.api.forEachNode((node) => {
                 if (node.id) {
-                  node.selectThisNode(ids.includes(node.id));
+                  node.setSelected(ids.includes(node.id));
                 }
               });
             }
@@ -79,7 +79,7 @@ export class NgssmAgGridDirective implements OnDestroy {
           const ids = values[0][values[1].gridId]?.ids ?? [];
           this.agGridAngular.api.forEachNode((node) => {
             if (node.id) {
-              node.selectThisNode(ids.includes(node.id));
+              node.setSelected(ids.includes(node.id));
             }
           });
         }
