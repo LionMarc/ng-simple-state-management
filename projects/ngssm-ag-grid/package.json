@@ -7,8 +7,8 @@
   "peerDependencies": {
     "@angular/common": ">=15.0.0",
     "@angular/core": ">=15.0.0",
-    "ag-grid-angular": ">=28.1.1",
-    "ag-grid-community": ">=28.1.1",
+    "ag-grid-angular": ">=29.0.0",
+    "ag-grid-community": ">=29.0.0",
     "ngssm-store": "NGSSM_VERSION"
   },
   "dependencies": {
