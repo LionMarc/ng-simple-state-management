@@ -147,6 +147,10 @@ describe('NgssmActionsCellRendererComponent', () => {
     });
 
     it(`should not set button as disabled when observable value is false`, async () => {
+      testingDisabled$.next(false);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
       expect(await element.isDisabled()).toBeFalse();
