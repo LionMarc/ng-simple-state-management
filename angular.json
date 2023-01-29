@@ -411,8 +411,14 @@
             "karmaConfig": "projects/ngssm-ag-grid/karma.conf.js",
             "styles": [
               "node_modules/ag-grid-community/styles/ag-grid.css",
-              "node_modules/ag-grid-community/styles/ag-theme-material.css"
-            ]
+              "node_modules/ag-grid-community/styles/ag-theme-material.css",
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects"
+              ]
+            }
           }
         },
         "lint": {

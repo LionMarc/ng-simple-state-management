@@ -1,0 +1,33 @@
+.ngssm-actions-cell {
+    --ngssm-actions-cell-button-size: 20px;
+    --ngssm-actions-cell-icon-size: 18px;
+    --ngssm-actions-cell-icon-font-size: 10px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .ngssm-actions-cell-button {
+        line-height: var(--ngssm-actions-cell-button-size);
+        height: var(--ngssm-actions-cell-button-size);
+        width: var(--ngssm-actions-cell-button-size);
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: center;
+
+        mat-icon {
+            font-size: var(--ngssm-actions-cell-icon-font-size);
+            line-height: var(--ngssm-actions-cell-icon-size);
+            height: var(--ngssm-actions-cell-icon-size);
+            width: var(--ngssm-actions-cell-icon-size);
+        }
+
+        .mat-mdc-button-touch-target {
+            width: var(--ngssm-actions-cell-button-size);
+            height: var(--ngssm-actions-cell-button-size);
+            line-height: var(--ngssm-actions-cell-button-size);
+        }
+    }
+}

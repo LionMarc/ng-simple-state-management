@@ -19,13 +19,10 @@ $ng-simple-state-management-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$ng-simple-state-management-theme: mat.define-light-theme((
-  color: (
-    primary: $ng-simple-state-management-primary,
-    accent: $ng-simple-state-management-accent,
-    warn: $ng-simple-state-management-warn,
-  )
-));
+$ng-simple-state-management-theme: mat.define-light-theme((color: (primary: $ng-simple-state-management-primary,
+            accent: $ng-simple-state-management-accent,
+            warn: $ng-simple-state-management-warn,
+        )));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -38,6 +35,7 @@ $ng-simple-state-management-theme: mat.define-light-theme((
 @import "ngssm-toolkit/styles/ngssm.scss";
 @import "ngssm-shell/styles/ngssm-shell.scss";
 @import "ngssm-shell/styles/ngssm-sidenav.scss";
+@import "ngssm-ag-grid/styles/ngssm-actions-cell-renderer.scss";
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-material.css';
 @import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -45,6 +43,12 @@ $ng-simple-state-management-theme: mat.define-light-theme((
 html,
 body {
     height: 100%;
+}
+
+.ngssm-actions-cell {
+    --ngssm-actions-cell-button-size: 48px;
+    --ngssm-actions-cell-icon-size: 24px;
+    --ngssm-actions-cell-icon-font-size: 24px;
 }
 
 body {
