@@ -9,3 +9,4 @@ export * from './lib/components/ngssm-ag-grid.directive';
 export * from './lib/components/ngssm-ag-grid-config';
 export * from './lib/ngssm-ag-grid-options';
 export * from './lib/components/ngssm-ag-grid-theme.directive';
+export * from './lib/components/ngssm-actions-cell-renderer';

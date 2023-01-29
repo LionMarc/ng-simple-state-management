@@ -1,14 +1,14 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { GetRowIdParams, GridOptions } from 'ag-grid-community';
+import { GetRowIdParams, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 import { DataStatus, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmAgGridConfig } from 'ngssm-ag-grid';
+import { getNgssmActionsCellColDef, NgssmAgGridConfig } from 'ngssm-ag-grid';
 
 import { TodoItem, todoItemsKey } from '../../model';
-import { TodoActionType } from '../../actions';
+import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -33,6 +33,24 @@ export class TodoDashboardComponent extends NgSsmComponent {
         checkboxSelection: true,
         headerCheckboxSelection: true,
         width: 60,
+        pinned: 'left',
+        resizable: false
+      },
+      {
+        ...getNgssmActionsCellColDef({
+          actions: [
+            {
+              cssClass: 'fa-solid fa-pen-to-square',
+              color: 'primary',
+              isDisabled: (params: ICellRendererParams<TodoItem, number>) => params.value < 2,
+              click: (params: ICellRendererParams<TodoItem, number>) => this.dispatchAction(new EditTodoItemAction(params.value))
+            }
+          ]
+        }),
+        field: 'id',
+        headerName: 'actions',
+        colId: 'actions',
+        width: 80,
         pinned: 'left',
         resizable: false
       },
