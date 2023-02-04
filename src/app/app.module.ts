@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgssmAgGridModule, NGSSM_AG_GRID_OPTIONS } from 'ngssm-ag-grid';
 import { NgssmNavigationModule } from 'ngssm-navigation';
-import { NgssmRemoteDataModule } from 'ngssm-remote-data';
+import { provideNgssmRemoteData } from 'ngssm-remote-data';
 import { NgssmShellModule } from 'ngssm-shell';
 import { MaterialImportsModule, NgssmToolkitModule, useDefaultErrorStateMatcher } from 'ngssm-toolkit';
 
@@ -24,7 +24,6 @@ import { ShellDemoModule } from './shell-demo/public-api';
     BrowserAnimationsModule,
     NgssmShellModule.forRoot(),
     NgssmToolkitModule,
-    NgssmRemoteDataModule,
     NgssmNavigationModule,
     NgssmAgGridModule.forRoot(),
     TodoModule,
@@ -51,7 +50,8 @@ import { ShellDemoModule } from './shell-demo/public-api';
           ]
         }
       }
-    }
+    },
+    provideNgssmRemoteData()
   ],
   bootstrap: [AppComponent]
 })
