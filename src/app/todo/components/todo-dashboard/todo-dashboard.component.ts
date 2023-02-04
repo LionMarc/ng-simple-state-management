@@ -70,6 +70,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
     getRowId: (params: GetRowIdParams<TodoItem>) => params.data.id?.toString() ?? '',
     rowSelection: 'multiple'
   };
+  public readonly remoteDataKey = todoItemsKey;
 
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',

@@ -33,6 +33,7 @@ $ng-simple-state-management-theme: mat.define-light-theme((color: (primary: $ng-
 @import "@fortawesome/fontawesome-free/css/fontawesome.css";
 @import "@fortawesome/fontawesome-free/css/all.css";
 @import "ngssm-toolkit/styles/ngssm.scss";
+@import "ngssm-toolkit/styles/material.scss";
 @import "ngssm-shell/styles/ngssm-shell.scss";
 @import "ngssm-shell/styles/ngssm-sidenav.scss";
 @import "ngssm-ag-grid/styles/ngssm-actions-cell-renderer.scss";

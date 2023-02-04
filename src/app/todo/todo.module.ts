@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialImportsModule, NgssmToolkitModule } from 'ngssm-toolkit';
-import { NGSSM_REMOTE_DATA_PROVIDER } from 'ngssm-remote-data';
+import { NgssmRemoteDataReloadButtonComponent, NGSSM_REMOTE_DATA_PROVIDER } from 'ngssm-remote-data';
 import { NGSSM_NAVIGATION_LOCKING_CONFIG } from 'ngssm-navigation';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -22,7 +22,15 @@ import { TodoFooterComponent } from './components/todo-footer/todo-footer.compon
 
 @NgModule({
   declarations: [TodoDashboardComponent, TodoItemComponent, TodoItemEditorComponent, TodoCountComponent, TodoFooterComponent],
-  imports: [ReactiveFormsModule, MaterialImportsModule, AgGridModule, NgssmToolkitModule, NgssmAgGridModule, TodoRoutingModule],
+  imports: [
+    ReactiveFormsModule,
+    MaterialImportsModule,
+    AgGridModule,
+    NgssmToolkitModule,
+    NgssmAgGridModule,
+    TodoRoutingModule,
+    NgssmRemoteDataReloadButtonComponent
+  ],
   providers: [
     { provide: NGSSM_REMOTE_DATA_PROVIDER, useClass: TodoItemsService, multi: true },
     todoEditorEffectProvider,
