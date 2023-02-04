@@ -1,5 +1,4 @@
 {
-    "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
     "schematics": {
         "ng-add": {
             "description": "Used to initialize a new workspace with all the required dependencies.",
