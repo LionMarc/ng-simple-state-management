@@ -306,7 +306,12 @@
       "projectType": "library",
       "root": "projects/ngssm-remote-data",
       "sourceRoot": "projects/ngssm-remote-data/src",
-      "prefix": "lib",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "prefix": "ngssm",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -328,7 +333,15 @@
           "options": {
             "main": "projects/ngssm-remote-data/src/test.ts",
             "tsConfig": "projects/ngssm-remote-data/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-remote-data/karma.conf.js"
+            "karmaConfig": "projects/ngssm-remote-data/karma.conf.js",
+            "styles": [
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects"
+              ]
+            }
           }
         },
         "lint": {

@@ -3,6 +3,7 @@
     <mat-card-header>
         <mat-card-title class="flex-row-center">
             To-Do List
+            <ngssm-remote-data-reload-button [remoteDataKey]="remoteDataKey"></ngssm-remote-data-reload-button>
             <span class="fxFlex"></span>
             <button mat-raised-button color="primary" (click)="addTodo()">
                 Add to-do

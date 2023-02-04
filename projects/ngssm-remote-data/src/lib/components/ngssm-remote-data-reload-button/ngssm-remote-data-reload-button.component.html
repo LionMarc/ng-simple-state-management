@@ -1,0 +1,4 @@
+<button mat-icon-button color="primary" (click)="reload()" [matTooltip]="(tooltipMessage$ | async) ?? 'Reload'"
+    [disabled]="disabled$ | async">
+    <mat-icon class="fa-solid fa-rotate-right"></mat-icon>
+</button>
