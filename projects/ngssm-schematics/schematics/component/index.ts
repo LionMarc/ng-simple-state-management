@@ -13,10 +13,9 @@ import {
 import { strings, normalize } from '@angular-devkit/core';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import { parseName } from '@schematics/angular/utility/parse-name';
+import { AngularComponentOptionsSchema } from '@angular/cli/lib/config/workspace-schema';
 
-import { ComponentOptions } from './component-options';
-
-function buildSelector(options: ComponentOptions, projectPrefix: string) {
+function buildSelector(options: AngularComponentOptionsSchema, projectPrefix: string) {
   let selector = strings.dasherize(options.name);
   if (options.prefix) {
     // use prefix from options if provided
@@ -36,7 +35,7 @@ function getAngularComponentExtensions(extensions: any) {
   return {};
 }
 
-export function component(options: ComponentOptions): Rule {
+export function component(options: AngularComponentOptionsSchema): Rule {
   return async (host: Tree) => {
     const workspace = await getWorkspace(host);
     const project = workspace.projects.get(options.project as string);
@@ -62,14 +61,7 @@ export function component(options: ComponentOptions): Rule {
       applyTemplates({
         classify: strings.classify,
         dasherize: strings.dasherize,
-        name: angularComponentOptions.name,
-        skipSelector: angularComponentOptions.skipSelector,
-        inlineTemplate: angularComponentOptions.inlineTemplate,
-        inlineStyle: angularComponentOptions.inlineStyle,
-        displayBlock: angularComponentOptions.displayBlock,
-        selector: angularComponentOptions.selector,
-        type: angularComponentOptions.type,
-        style: angularComponentOptions.style
+        ...angularComponentOptions
       }),
       move(normalize(componentPath))
     ]);

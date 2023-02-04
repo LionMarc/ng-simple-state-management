@@ -1,9 +1,12 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';<% if(standalone) {%>
+import { CommonModule } from '@angular/common';<% } %>
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({<% if(!skipSelector) {%>
-  selector: '<%= selector %>',<%}%><% if(inlineTemplate) { %>
+  selector: '<%= selector %>',<%}%><% if(standalone) {%>
+  standalone: true,
+  imports: [CommonModule],<%}%><% if(inlineTemplate) { %>
   template: `
     <p>
       <%= dasherize(name) %> works!
