@@ -8,9 +8,9 @@
     align-items: center;
 
     .ngssm-actions-cell-button {
-        line-height: var(--ngssm-actions-cell-button-size);
-        height: var(--ngssm-actions-cell-button-size);
-        width: var(--ngssm-actions-cell-button-size);
+        line-height: var(--ngssm-actions-cell-button-size) !important;
+        height: var(--ngssm-actions-cell-button-size) !important;
+        width: var(--ngssm-actions-cell-button-size) !important;
         padding: 0 !important;
         display: flex !important;
         flex-direction: column !important;
@@ -18,16 +18,16 @@
         justify-content: center;
 
         mat-icon {
-            font-size: var(--ngssm-actions-cell-icon-font-size);
-            line-height: var(--ngssm-actions-cell-icon-size);
-            height: var(--ngssm-actions-cell-icon-size);
-            width: var(--ngssm-actions-cell-icon-size);
+            font-size: var(--ngssm-actions-cell-icon-font-size) !important;
+            line-height: var(--ngssm-actions-cell-icon-size) !important;
+            height: var(--ngssm-actions-cell-icon-size) !important;
+            width: var(--ngssm-actions-cell-icon-size) !important;
         }
 
         .mat-mdc-button-touch-target {
-            width: var(--ngssm-actions-cell-button-size);
-            height: var(--ngssm-actions-cell-button-size);
-            line-height: var(--ngssm-actions-cell-button-size);
+            width: var(--ngssm-actions-cell-button-size) !important;
+            height: var(--ngssm-actions-cell-button-size) !important;
+            line-height: var(--ngssm-actions-cell-button-size) !important;
         }
     }
 }
