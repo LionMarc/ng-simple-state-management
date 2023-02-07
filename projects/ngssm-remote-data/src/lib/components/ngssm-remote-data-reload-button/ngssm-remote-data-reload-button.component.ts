@@ -26,6 +26,8 @@ export class NgssmRemoteDataReloadButtonComponent extends NgSsmComponent {
   private readonly _tooltipMessage$ = new BehaviorSubject<string>('');
   private readonly _disabled$ = new BehaviorSubject<boolean>(false);
 
+  @Input() actionTypes: string[] = [];
+
   constructor(store: Store) {
     super(store);
     combineLatest([this.watch((s) => selectRemoteDataState(s)), this._remoteDataKey$]).subscribe((values) => {
@@ -59,5 +61,7 @@ export class NgssmRemoteDataReloadButtonComponent extends NgSsmComponent {
 
   public reload(): void {
     this.dispatchAction(new LoadRemoteDataAction(this._remoteDataKey$.getValue(), true));
+
+    (this.actionTypes ?? []).forEach((type) => this.dispatchActionType(type));
   }
 }

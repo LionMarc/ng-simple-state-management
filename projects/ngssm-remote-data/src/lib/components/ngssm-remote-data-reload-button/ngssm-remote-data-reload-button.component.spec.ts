@@ -95,6 +95,17 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
 
             expect(store.dispatchAction).toHaveBeenCalledWith(new LoadRemoteDataAction(remoteDataKey, true));
           });
+
+          it(`should dispatch 'action-01' and 'action-02' when those actions are registered and when clicking on button`, async () => {
+            spyOn(store, 'dispatchActionType');
+            component.actionTypes = ['action-01', 'action-02'];
+            const element = await loader.getHarness(MatButtonHarness);
+
+            await element.click();
+
+            expect(store.dispatchActionType).toHaveBeenCalledWith('action-01');
+            expect(store.dispatchActionType).toHaveBeenCalledWith('action-02');
+          });
         });
       });
 
