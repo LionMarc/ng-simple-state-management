@@ -9,3 +9,4 @@ export * from './lib/overlay';
 export * from './lib/default-error-state-matcher';
 export * from './lib/not-found.component';
 export * from './lib/file-picker';
+export * from './lib/notification';

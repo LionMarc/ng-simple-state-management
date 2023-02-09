@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
+import { NgssmNotifierService } from 'ngssm-toolkit';
 
 @Component({
   selector: 'app-toolkit-demo',
@@ -14,7 +15,7 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
   public readonly filePickerDisabledControl = new FormControl<boolean>(false);
 
-  constructor(store: Store) {
+  constructor(store: Store, private ngssmNotifierService: NgssmNotifierService) {
     super(store);
 
     this.filePickerDisabledControl.valueChanges.subscribe((v) => {
@@ -24,5 +25,13 @@ export class ToolkitDemoComponent extends NgSsmComponent {
         this.fileControl.enable();
       }
     });
+  }
+
+  public notifyError(message: string): void {
+    this.ngssmNotifierService.notifyError(message);
+  }
+
+  public notifySuccess(message: string): void {
+    this.ngssmNotifierService.notifySuccess(message);
   }
 }
