@@ -208,7 +208,15 @@
           "options": {
             "main": "projects/ngssm-toolkit/src/test.ts",
             "tsConfig": "projects/ngssm-toolkit/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-toolkit/karma.conf.js"
+            "karmaConfig": "projects/ngssm-toolkit/karma.conf.js",
+            "styles": [
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects"
+              ]
+            }
           }
         },
         "lint": {

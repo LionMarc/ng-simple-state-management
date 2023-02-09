@@ -8,6 +8,8 @@
         .mat-mdc-card-title {
             font-size: 16px;
         }
+
+        margin: 4px;
     }
 
     .file-picker-demo {
@@ -21,6 +23,11 @@
         .file-picker-icon {
             width: 24px !important;
         }
+    }
+
+    .notifier-demo {
+        width: 300px;
+        height: 400px;
     }
 
     app-overlay-demo {

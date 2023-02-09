@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { NgssmAgGridModule, NGSSM_AG_GRID_OPTIONS } from 'ngssm-ag-grid';
 import { NgssmNavigationModule } from 'ngssm-navigation';
@@ -36,6 +37,10 @@ import { ShellDemoModule } from './shell-demo/public-api';
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { position: { top: '40px' }, closeOnNavigation: false }
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: { horizontalPosition: 'right', verticalPosition: 'top', duration: 1000 }
     },
     useDefaultErrorStateMatcher,
     {

@@ -85,3 +85,25 @@
     flex-direction: column;
     align-items: stretch;
 }
+
+.flex-column-center {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+}
+
+// Notifications
+.ngssm-notification-error-message {
+    color: red;
+}
+
+.ngssm-notification-panel {
+    div {
+        background-color: white !important;
+    }
+}
+
+.ngssm-notification-success-message,
+.ngssm-notification-success-icon {
+    color: green !important;
+}
