@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
-import { Logger } from 'ngssm-toolkit';
+import { Logger } from 'ngssm-store';
 
 @Injectable({
   providedIn: 'root'

@@ -3,14 +3,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import update from 'immutability-helper';
 
-import { Logger } from 'ngssm-toolkit';
-
 import { FeatureStateSpecification } from './feature-state-specification';
 import { State } from './state';
 import { Action } from './action';
 import { NGSSM_REDUCER, Reducer } from './reducer';
 import { Effect, NGSSM_EFFECT } from './effect';
 import { NGSSM_STATE_INITIALIZER, StateInitializer } from './state-initializer';
+import { Logger } from './logging';
 
 const featureStateSpecifications: FeatureStateSpecification[] = [];
 export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {

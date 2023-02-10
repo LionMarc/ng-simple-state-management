@@ -1,7 +1,6 @@
 import { Injectable, Provider } from '@angular/core';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
-import { Logger } from 'ngssm-toolkit';
+import { Effect, Store, State, Action, NGSSM_EFFECT, Logger } from 'ngssm-store';
 
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction } from '../actions';
 import { ChangeOrigin, selectAgGridState } from '../state';

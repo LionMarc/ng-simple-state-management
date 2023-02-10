@@ -7,11 +7,10 @@
   "peerDependencies": {
     "@angular/common": ">=15.0.0",
     "@angular/core": ">=15.0.0",
-    "immutability-helper": "^3.1.1",
-    "ngssm-toolkit": "NGSSM_VERSION"
+    "immutability-helper": "^3.1.1"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.5.0"
   },
   "repository": {
     "type": "git",
