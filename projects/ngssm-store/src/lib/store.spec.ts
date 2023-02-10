@@ -2,14 +2,13 @@ import { fakeAsync, tick } from '@angular/core/testing';
 
 import update from 'immutability-helper';
 
-import { Logger } from 'ngssm-toolkit';
-
 import { State } from './state';
 import { StateInitializer } from './state-initializer';
 import { Store } from './store';
 import { Reducer } from './reducer';
 import { Action } from './action';
 import { Effect } from './effect';
+import { Logger } from './logging';
 
 describe('Store', () => {
   let logger: Logger;

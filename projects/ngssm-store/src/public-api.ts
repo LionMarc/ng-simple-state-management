@@ -12,5 +12,5 @@ export * from './lib/effect';
 export * from './lib/feature-state-specification';
 export * from './lib/ngssm-component';
 export * from './lib/state-initializer';
-
+export * from './lib/logging';
 export * from './lib/store-mock';

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LockNavigationBarAction, LockStatus, ShellActionType, ShellConfig } from 'ngssm-shell';
-import { NgSsmComponent, Store } from 'ngssm-store';
-import { ConsoleAppender } from 'ngssm-toolkit';
+import { NgSsmComponent, Store, ConsoleAppender } from 'ngssm-store';
 
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 

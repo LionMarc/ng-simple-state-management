@@ -1,8 +1,7 @@
 import { Injectable, Provider } from '@angular/core';
 import { LoadRemoteDataAction } from 'ngssm-remote-data';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
-import { Logger } from 'ngssm-toolkit';
+import { Effect, Store, State, Action, NGSSM_EFFECT, Logger } from 'ngssm-store';
 
 import { TodoActionType } from '../actions';
 import { todoItemsKey } from '../model';
