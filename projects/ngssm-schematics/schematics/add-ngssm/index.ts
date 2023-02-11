@@ -32,7 +32,9 @@ function updateStyles(): Rule {
     context.logger.info(`Updating ${path}`);
     if (tree.exists(path)) {
       const content = tree.read(path)?.toString() ?? '';
-      const insertion = `@import "ngssm-toolkit/styles/ngssm.scss";`;
+      const insertion = `
+@import "ngssm-toolkit/styles/ngssm.scss";
+@import "ngssm-toolkit/styles/material.scss"`;
 
       if (content.includes(insertion)) {
         return tree;
@@ -50,6 +52,37 @@ function updateStyles(): Rule {
   };
 }
 
+function updateStylePreprocessorOptions(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const path = 'angular.json';
+    context.logger.log('info', `Updating ${path} with stylePreprocessorOptions`);
+    if (tree.exists(path)) {
+      var currentAngularJson = tree.read(path)!.toString('utf-8');
+      var json = JSON.parse(currentAngularJson);
+      Object.keys(json['projects']).forEach((key) => {
+        var buildOptions = json['projects'][key]['architect']['build']['options'];
+        if (buildOptions['stylePreprocessorOptions']) {
+          if (buildOptions['stylePreprocessorOptions']['includePaths']) {
+            if (!buildOptions['stylePreprocessorOptions']['includePaths'].includes('./node_modules')) {
+              buildOptions['stylePreprocessorOptions']['includePaths'].push('./node_modules');
+            }
+          } else {
+            buildOptions['stylePreprocessorOptions']['includePaths'] = ['./node_modules'];
+          }
+        } else {
+          buildOptions['stylePreprocessorOptions'] = {
+            includePaths: ['./node_modules']
+          };
+        }
+      });
+
+      tree.overwrite(path, JSON.stringify(json, null, 2));
+    }
+
+    return tree;
+  };
+}
+
 export default function (): Rule {
   return (_: Tree, context: SchematicContext) => {
     context.logger.info('Starting installation and configuration of ngssm');
@@ -58,6 +91,7 @@ export default function (): Rule {
       addDependencies(),
       installDependencies(),
       updateStyles(),
+      updateStylePreprocessorOptions(),
       (__: Tree, ___: SchematicContext) => context.logger.info('✔️ ngssm installed and configured')
     ]);
   };
