@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MaterialImportsModule, NgssmToolkitModule } from 'ngssm-toolkit';
+import { MaterialImportsModule, NgssmRegexEditorToggleComponent, NgssmToolkitModule } from 'ngssm-toolkit';
 
 import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { ToolkitDemoComponent } from './components/toolkit-demo/toolkit-demo.component';
@@ -9,6 +9,6 @@ import { OverlayDemoComponent } from './components/overlay-demo/overlay-demo.com
 
 @NgModule({
   declarations: [ToolkitDemoComponent, OverlayDemoComponent],
-  imports: [ReactiveFormsModule, MaterialImportsModule, NgssmToolkitModule, ToolkitRoutingModule]
+  imports: [ReactiveFormsModule, MaterialImportsModule, NgssmToolkitModule, ToolkitRoutingModule, NgssmRegexEditorToggleComponent]
 })
 export class ToolkitModule {}

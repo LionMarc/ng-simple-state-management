@@ -1,0 +1,14 @@
+:host {
+    width: 600px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+
+    .success {
+        color: green;
+    }
+
+    .failure {
+        color: red
+    }
+}

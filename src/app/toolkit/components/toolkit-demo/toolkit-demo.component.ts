@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
@@ -14,8 +14,9 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   public readonly fileControl = new FormControl<File | undefined>(undefined, Validators.required);
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
   public readonly filePickerDisabledControl = new FormControl<boolean>(false);
+  public readonly regexControl = new FormControl<string | null>(null);
 
-  constructor(store: Store, private ngssmNotifierService: NgssmNotifierService) {
+  constructor(store: Store, private ngssmNotifierService: NgssmNotifierService, private changeDetectorRef: ChangeDetectorRef) {
     super(store);
 
     this.filePickerDisabledControl.valueChanges.subscribe((v) => {
@@ -33,5 +34,13 @@ export class ToolkitDemoComponent extends NgSsmComponent {
 
   public notifySuccess(message: string): void {
     this.ngssmNotifierService.notifySuccess(message);
+  }
+
+  public toggleRegexControlState(): void {
+    if (this.regexControl.disabled) {
+      this.regexControl.enable();
+    } else {
+      this.regexControl.disable();
+    }
   }
 }

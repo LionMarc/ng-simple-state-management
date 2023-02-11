@@ -2,13 +2,13 @@
     <mat-card-header>
         <mat-card-title>Demo of the components provided by the ngssm-toolkit library</mat-card-title>
     </mat-card-header>
-    
+
     <mat-card-content class="flex-row-start flex-wrap fxFlex">
         <mat-card appearance="raised" class="sub-card file-picker-demo flex-column-stretch">
             <mat-card-header>
                 <mat-card-title>File Picker</mat-card-title>
             </mat-card-header>
-            
+
             <mat-card-content class="flex-column-stretch fxFlex">
                 <mat-form-field>
                     <mat-label>Select file</mat-label>
@@ -26,7 +26,7 @@
             <mat-card-header>
                 <mat-card-title>Notifier</mat-card-title>
             </mat-card-header>
-            
+
             <mat-card-content class="flex-column-stretch fxFlex">
                 <mat-form-field>
                     <mat-label>Enter notification message</mat-label>
@@ -37,6 +37,27 @@
                 </button>
                 <button mat-stroked-button color="primary" (click)="notifySuccess(message.value)">
                     Notify Success
+                </button>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card appearance="raised" class="sub-card regex-editor-demo flex-column-stretch">
+            <mat-card-header>
+                <mat-card-title>Regex Editor</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content class="flex-column-stretch fxFlex">
+                <mat-form-field>
+                    <mat-label>Regex</mat-label>
+                    <input matInput [formControl]="regexControl" #regexInput readonly
+                        (click)="editorToggle.openEditor($event)">
+                    <ngssm-regex-editor-toggle matSuffix [inputElement]="regexInput" #editorToggle
+                        [disabled]="regexControl.disabled">
+                    </ngssm-regex-editor-toggle>
+                </mat-form-field>
+
+                <button mat-stroked-button (click)="toggleRegexControlState()">
+                    Toggle enable/disable state
                 </button>
             </mat-card-content>
         </mat-card>
