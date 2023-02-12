@@ -15,4 +15,4 @@ export const <%= providerName %>: Provider = {
   provide: NGSSM_REDUCER,
   useClass: <%= classify(name) %>Reducer,
   multi: true
-}; 
+};

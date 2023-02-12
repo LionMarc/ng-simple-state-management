@@ -1,4 +1,4 @@
-import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { Rule, SchematicsException, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
 import { buildRelativePath } from '@schematics/angular/utility/find-module';
 import { addProviderToModule } from '@schematics/angular/utility/ast-utils';
@@ -18,7 +18,12 @@ export function readIntoSourceFile(host: Tree, modulePath: string) {
 }
 
 export function addDeclarationToNgModule(options: WithProviderOptions, objectType: string): Rule {
-  return (host: Tree) => {
+  return (host: Tree, context: SchematicContext) => {
+    if (options.standalone !== false) {
+      context.logger.info(`Standalone ${objectType} => no registration into a module.`);
+      return host;
+    }
+
     const modulePath = options.module;
     if (modulePath === undefined) {
       return host;
