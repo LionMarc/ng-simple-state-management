@@ -1,0 +1,5 @@
+import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+
+export const provide<%= classify(name) %> = (): EnvironmentProviders => {
+  return makeEnvironmentProviders([]);
+};
