@@ -75,6 +75,11 @@ export class AppComponent extends NgSsmComponent {
           label: 'Shell notifications',
           icon: '<i class="fa-regular fa-message"></i>',
           route: '/shell-demo/notifications'
+        },
+        {
+          label: 'Ngssm Tree',
+          icon: '<i class="fa-solid fa-folder-tree"></i>',
+          route: '/tree-demo'
         }
       ]
     },

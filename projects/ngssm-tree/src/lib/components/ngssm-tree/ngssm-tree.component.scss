@@ -1,0 +1,28 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    .tree-node {
+        height: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .fa-folder {
+            margin-right: 4px;
+        }
+
+        .fa-chevron-right:hover {
+            cursor: pointer;
+        }
+    }
+
+    .tree-node:hover {
+        cursor: pointer;
+        background-color: honeydew;
+    }
+
+    .not-exandable-padding {
+        width: 24px;
+    }
+}

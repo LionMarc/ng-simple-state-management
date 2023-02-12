@@ -3,7 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { NotFoundComponent } from 'ngssm-toolkit';
 
-const routes: Routes = [{ path: '**', component: NotFoundComponent }];
+import { NgssmTreeDemoComponent } from './ngssm-tree-demo/ngssm-tree-demo.component';
+import { TreeInitGuard } from './ngssm-tree-demo/tree-init.guard';
+
+const routes: Routes = [
+  {
+    path: 'tree-demo',
+    component: NgssmTreeDemoComponent,
+    canActivate: [TreeInitGuard]
+  },
+  { path: '**', component: NotFoundComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
