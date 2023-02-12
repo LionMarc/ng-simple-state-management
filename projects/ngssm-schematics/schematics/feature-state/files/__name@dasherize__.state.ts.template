@@ -3,7 +3,7 @@ import update, { Spec } from 'immutability-helper';
 import { NgSsmFeatureState, State } from 'ngssm-store';
 
 export const select<%= classify(name) %>State = (state: State): <%= classify(name) %>State =>
-    state[<%= classify(name) %>StateSpecification.featureStateKey] as <%= classify(name) %>State;
+  state[<%= classify(name) %>StateSpecification.featureStateKey] as <%= classify(name) %>State;
 
 export const update<%= classify(name) %>State = (state: State, command: Spec<<%= classify(name) %>State, never>): State =>
   update(state, {

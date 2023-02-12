@@ -1,4 +1,4 @@
-export interface ModuleOptions {
+export interface FeatureOptions {
   name: string;
   path: string;
 }

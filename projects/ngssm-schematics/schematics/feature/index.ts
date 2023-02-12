@@ -1,8 +1,8 @@
 import { Rule, apply, url, applyTemplates, move, mergeWith, Tree, MergeStrategy, SchematicContext } from '@angular-devkit/schematics';
 import { strings, normalize } from '@angular-devkit/core';
-import { ModuleOptions } from './module-options';
+import { FeatureOptions } from './feature-options';
 
-export default function (options: ModuleOptions): Rule {
+export default function (options: FeatureOptions): Rule {
   return async (_: Tree, __: SchematicContext) => {
     const modulePath = options.path + '/' + strings.dasherize(options.name);
     const templateSource = apply(url('./files'), [
