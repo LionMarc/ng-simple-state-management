@@ -1,0 +1,23 @@
+import { <%= classify(name) %>Reducer } from './<%= dasherize(name) %>.reducer';
+
+describe('<%= classify(name) %>Reducer', () => {
+  let reducer: <%= classify(name) %>Reducer;
+  let state: { [key: string]: any };
+
+  beforeEach(() => {
+    reducer = new <%= classify(name) %>Reducer();
+    state = {};
+  });
+
+  [].forEach((actionType: string) => {
+    it(`should process action of type '${actionType}'`, () => {
+      expect(reducer.processedActions).toContain(actionType);
+    });
+  });
+
+  it('should return input state when processing not valid action type', () => {
+    const updatedState = reducer.updateState(state, { type: 'not-processed' });
+
+    expect(updatedState).toBe(state);
+  });
+});
