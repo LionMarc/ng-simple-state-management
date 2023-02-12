@@ -1,7 +1,7 @@
 site_name: Simple State Management
 theme:
   name: material
-  logo: assets/images/smusdi-logo.png
+  logo: assets/images/logo.png
   features:
     - navigation.expand
   palette: 

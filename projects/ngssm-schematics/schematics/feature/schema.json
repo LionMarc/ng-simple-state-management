@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "SchematicsModule",
-  "title": "Feature module with state, action and all the folders",
+  "title": "Folder associated to a feature with state, action and all the folders",
   "type": "object",
-  "description": "Creates a new feature module.",
+  "description": "Creates a new feature folder.",
   "additionalProperties": false,
   "properties": {
     "name": {
-      "description": "The name of the feature module.",
+      "description": "The name of the feature.",
       "type": "string",
       "$default": {
         "$source": "argv",

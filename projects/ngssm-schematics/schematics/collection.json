@@ -57,10 +57,10 @@
             "factory": "./action/index#action",
             "schema": "./action/schema.json"
         },
-        "module": {
-            "description": "Generate a module.",
-            "factory": "./module/index",
-            "schema": "./module/schema.json"
+        "feature": {
+            "description": "Generate a feature.",
+            "factory": "./feature/index",
+            "schema": "./feature/schema.json"
         }
     }
 }

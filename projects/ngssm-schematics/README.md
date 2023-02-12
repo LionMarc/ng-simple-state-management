@@ -103,4 +103,4 @@ Add *@angular/material* to the project.
 | action | Creation of an action which implements **Action** |
 | reducer | Creation of a reducer which implements **Reducer** |
 | effect | Creation of an effect which implements **Effect** |
-| module | Create a module and all the folders for actions, components, reducers... |
+| feature | Create a feature folder and all the folders for actions, components, reducers... |
