@@ -12,6 +12,10 @@
         "index": 0
       }
     },
+    "standalone": {
+      "description": "If true, effect is not registered in a module.",
+      "type": "boolean"
+    },
     "path": {
       "type": "string",
       "format": "path",

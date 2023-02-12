@@ -13,4 +13,4 @@ export const <%= providerName %>: Provider = {
   provide: NGSSM_EFFECT,
   useClass: <%= classify(name) %>Effect,
   multi: true
-}; 
+};
