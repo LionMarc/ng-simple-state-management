@@ -9,6 +9,7 @@ import { NgssmNavigationModule } from 'ngssm-navigation';
 import { provideNgssmRemoteData } from 'ngssm-remote-data';
 import { NgssmShellModule } from 'ngssm-shell';
 import { MaterialImportsModule, NgssmToolkitModule, useDefaultErrorStateMatcher } from 'ngssm-toolkit';
+import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree } from 'ngssm-tree';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { TodoModule } from './todo/public-api';
 import { AceEditorModule } from './ace-editor/public-api';
 import { ToolkitModule } from './toolkit/public-api';
 import { ShellDemoModule } from './shell-demo/public-api';
+import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -56,7 +58,9 @@ import { ShellDemoModule } from './shell-demo/public-api';
         }
       }
     },
-    provideNgssmRemoteData()
+    provideNgssmRemoteData(),
+    provideNgssmTree(),
+    { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService }
   ],
   bootstrap: [AppComponent]
 })

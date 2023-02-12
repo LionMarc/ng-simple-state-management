@@ -1,0 +1,20 @@
+<mat-card class="flex-column-stretch fxFlex">
+    <mat-card-content class="flex-column-stretch fxFlex" *ngIf="(treeConfig$ | async) as treeConfig">
+        <cdk-virtual-scroll-viewport itemSize="30" class="fxFlex">
+            <div *cdkVirtualFor="let item of displayedItems$ | async; trackBy: getItemId" class="tree-node"
+                [style.padding-left.px]="item.level * 20">
+                <mat-icon class="fa-solid fa-chevron-right" *ngIf="item.isExpandable && item.isExpanded === false"
+                    (click)="expand(item)"></mat-icon>
+                <mat-icon class="fa-solid fa-chevron-down" *ngIf="item.isExpandable && item.isExpanded"
+                    (click)="collapse(item)"></mat-icon>
+                <mat-spinner diameter="20"
+                    *ngIf="item.isExpandable && item.status === dataStatus.loading"></mat-spinner>
+                <span *ngIf="!item.isExpandable" class="not-exandable-padding"></span>
+
+                <mat-icon class="{{treeConfig.iconClasses[item.type]}}" color="primary"></mat-icon>
+
+                {{item.label}}
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </mat-card-content>
+</mat-card>

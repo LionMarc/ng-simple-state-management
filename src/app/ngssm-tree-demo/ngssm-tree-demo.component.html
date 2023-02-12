@@ -1,0 +1,23 @@
+<mat-card class="flex-column-stretch fxFlex">
+    <mat-card-header>
+        <mat-icon class="fa-solid fa-folder-tree" mat-card-avatar color="primary"></mat-icon>
+        <mat-card-title>ngssm-tree demo</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="flex-row-stretch fxFlex">
+        <mat-card class="flex-column-stretch fxFlex">
+            <mat-card-header>
+                <mat-card-title>Demo setup</mat-card-title>
+            </mat-card-header>
+        </mat-card>
+        <mat-card class="flex-column-stretch fxFlex">
+            <mat-card-header>
+                <mat-card-title>
+                    ngssm-tree
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="flex-column-stretch fxFlex">
+                <ngssm-tree class="fxFlex" [treeConfig]="treeConfig"></ngssm-tree>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+</mat-card>
