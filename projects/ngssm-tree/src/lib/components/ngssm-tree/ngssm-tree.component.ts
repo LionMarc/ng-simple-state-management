@@ -9,7 +9,7 @@ import { BehaviorSubject, combineLatest, Observable, takeUntil } from 'rxjs';
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { DataStatus } from 'ngssm-remote-data';
 
-import { NgssmTreeConfig, NgssmTreeNode } from '../../model';
+import { NgssmTreeConfig, NgssmTreeNode, NodeData } from '../../model';
 import { selectNgssmTreeState } from '../../state';
 import { CollapseNodeAction, ExpandNodeAction } from '../../actions';
 
@@ -37,18 +37,24 @@ export class NgssmTreeComponent extends NgSsmComponent {
           this._displayedItems$.next([]);
           return;
         }
+
+        const alwaysTrue = (_: NodeData) => true;
+        const filter: (node: NodeData) => boolean = values[0].filter ?? alwaysTrue;
+
         const items: NgssmTreeNode[] = [];
         let hiddenLevel = -1;
         (values[1][values[0].treeId] ?? []).forEach((t) => {
-          if (t.isExpandable && t.isExpanded === false && hiddenLevel === -1) {
+          if (t.node.isExpandable && t.isExpanded === false && hiddenLevel === -1) {
             hiddenLevel = t.level;
           }
 
           if (hiddenLevel === -1 || t.level <= hiddenLevel) {
-            items.push(t);
+            if (filter(t.node)) {
+              items.push(t);
+            }
           }
 
-          if (t.isExpandable && t.level <= hiddenLevel) {
+          if (t.node.isExpandable && t.level <= hiddenLevel) {
             hiddenLevel = t.isExpanded === true ? -1 : t.level;
           }
         });
@@ -57,7 +63,7 @@ export class NgssmTreeComponent extends NgSsmComponent {
       });
   }
 
-  @Input() set treeConfig(value: NgssmTreeConfig) {
+  @Input() set treeConfig(value: NgssmTreeConfig | undefined | null) {
     if (value) {
       this._treeConfig$.next(value);
     }
@@ -72,20 +78,20 @@ export class NgssmTreeComponent extends NgSsmComponent {
   }
 
   public getItemId(_: number, node: NgssmTreeNode): string {
-    return node.id;
+    return node.node.nodeId;
   }
 
   public expand(node: NgssmTreeNode): void {
     const treeId = this._treeConfig$.getValue()?.treeId;
     if (treeId) {
-      this.dispatchAction(new ExpandNodeAction(treeId, node.id));
+      this.dispatchAction(new ExpandNodeAction(treeId, node.node.nodeId));
     }
   }
 
   public collapse(node: NgssmTreeNode): void {
     const treeId = this._treeConfig$.getValue()?.treeId;
     if (treeId) {
-      this.dispatchAction(new CollapseNodeAction(treeId, node.id));
+      this.dispatchAction(new CollapseNodeAction(treeId, node.node.nodeId));
     }
   }
 }

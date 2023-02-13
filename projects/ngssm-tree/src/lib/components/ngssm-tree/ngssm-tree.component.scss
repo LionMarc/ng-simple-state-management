@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
 
-    .tree-node {
+    .ngssm-tree-node {
         height: 30px;
         display: flex;
         flex-direction: row;
@@ -17,7 +17,7 @@
         }
     }
 
-    .tree-node:hover {
+    .ngssm-tree-node:hover {
         cursor: pointer;
         background-color: honeydew;
     }

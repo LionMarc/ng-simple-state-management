@@ -1,19 +1,21 @@
 <mat-card class="flex-column-stretch fxFlex">
     <mat-card-content class="flex-column-stretch fxFlex" *ngIf="(treeConfig$ | async) as treeConfig">
         <cdk-virtual-scroll-viewport itemSize="30" class="fxFlex">
-            <div *cdkVirtualFor="let item of displayedItems$ | async; trackBy: getItemId" class="tree-node"
+            <div *cdkVirtualFor="let item of displayedItems$ | async; trackBy: getItemId" class="ngssm-tree-node"
                 [style.padding-left.px]="item.level * 20">
-                <mat-icon class="fa-solid fa-chevron-right" *ngIf="item.isExpandable && item.isExpanded === false"
+                <mat-icon class="fa-solid fa-chevron-right" *ngIf="item.node.isExpandable && item.isExpanded === false"
                     (click)="expand(item)"></mat-icon>
-                <mat-icon class="fa-solid fa-chevron-down" *ngIf="item.isExpandable && item.isExpanded"
+                <mat-icon class="fa-solid fa-chevron-down" *ngIf="item.node.isExpandable && item.isExpanded"
                     (click)="collapse(item)"></mat-icon>
                 <mat-spinner diameter="20"
-                    *ngIf="item.isExpandable && item.status === dataStatus.loading"></mat-spinner>
-                <span *ngIf="!item.isExpandable" class="not-exandable-padding"></span>
+                    *ngIf="item.node.isExpandable && item.status === dataStatus.loading"></mat-spinner>
+                <span *ngIf="!item.node.isExpandable" class="not-exandable-padding"></span>
 
-                <mat-icon class="{{treeConfig.iconClasses[item.type]}}" color="primary"></mat-icon>
+                <mat-icon class="{{treeConfig.iconClasses[item.node.type]}}" color="primary"></mat-icon>
 
-                {{item.label}}
+                <span class="ngssm-tree-node-label">
+                    {{item.node.label}}
+                </span>
             </div>
         </cdk-virtual-scroll-viewport>
     </mat-card-content>

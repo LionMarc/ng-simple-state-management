@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmTreeComponent, NgssmTreeConfig } from 'ngssm-tree';
+import { NgssmTreeComponent, NgssmTreeConfig, NodeData } from 'ngssm-tree';
 
 @Component({
   selector: 'app-ngssm-tree-demo',
@@ -21,6 +21,15 @@ export class NgssmTreeDemoComponent extends NgSsmComponent {
       directory: 'fa-solid fa-folder',
       file: 'fa-regular fa-file'
     }
+  };
+
+  public readonly treeConfigForFolders: NgssmTreeConfig = {
+    treeId: 'demo',
+    iconClasses: {
+      directory: 'fa-solid fa-folder',
+      file: 'fa-regular fa-file'
+    },
+    filter: (node: NodeData) => node.type === 'directory'
   };
 
   constructor(store: Store) {

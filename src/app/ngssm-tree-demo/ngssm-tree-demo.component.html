@@ -4,19 +4,25 @@
         <mat-card-title>ngssm-tree demo</mat-card-title>
     </mat-card-header>
     <mat-card-content class="flex-row-stretch fxFlex">
-        <mat-card class="flex-column-stretch fxFlex">
-            <mat-card-header>
-                <mat-card-title>Demo setup</mat-card-title>
-            </mat-card-header>
-        </mat-card>
-        <mat-card class="flex-column-stretch fxFlex">
+        <mat-card class="flex-column-stretch tree-container">
             <mat-card-header>
                 <mat-card-title>
-                    ngssm-tree
+                    ngssm-tree 'demo' with no filter
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content class="flex-column-stretch fxFlex">
                 <ngssm-tree class="fxFlex" [treeConfig]="treeConfig"></ngssm-tree>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="flex-column-stretch tree-container">
+            <mat-card-header>
+                <mat-card-title>
+                    ngssm-tree 'demo' with only the folders displayed
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="flex-column-stretch fxFlex">
+                <ngssm-tree class="fxFlex" [treeConfig]="treeConfigForFolders"></ngssm-tree>
             </mat-card-content>
         </mat-card>
     </mat-card-content>

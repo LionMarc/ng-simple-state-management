@@ -19,13 +19,10 @@ export class TreesReducer implements Reducer {
             [initNgssmTreeAction.treeId]: {
               $set: [
                 {
-                  id: initNgssmTreeAction.root.nodeId,
-                  label: initNgssmTreeAction.root.label,
                   status: DataStatus.none,
                   isExpanded: false,
                   level: 0,
-                  isExpandable: initNgssmTreeAction.root.isExpandable,
-                  type: initNgssmTreeAction.root.type
+                  node: initNgssmTreeAction.root
                 }
               ]
             }
