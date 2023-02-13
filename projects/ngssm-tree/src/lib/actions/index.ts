@@ -4,3 +4,4 @@ export * from './expand-node.action';
 export * from './tree-action';
 export * from './register-nodes.action';
 export * from './collapse-node.action';
+export * from './select-node.action';

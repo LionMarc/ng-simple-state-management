@@ -20,26 +20,28 @@ export class TreeNodeExpandReducer implements Reducer {
         return updateNgssmTreeState(state, {
           trees: {
             [expandNodeAction.treeId]: {
-              $apply: (nodes: NgssmTreeNode[]) => {
-                const result = [...nodes];
-                const index = result.findIndex((n) => n.node.nodeId === expandNodeAction.nodeId);
-                if (index !== -1) {
-                  let item = result[index];
-                  if (item.status === DataStatus.loaded) {
-                    item = update(result[index], {
-                      isExpanded: { $set: true }
-                    });
-                  } else {
-                    item = update(result[index], {
-                      isExpanded: { $set: undefined },
-                      status: { $set: DataStatus.loading }
-                    });
+              nodes: {
+                $apply: (nodes: NgssmTreeNode[]) => {
+                  const result = [...nodes];
+                  const index = result.findIndex((n) => n.node.nodeId === expandNodeAction.nodeId);
+                  if (index !== -1) {
+                    let item = result[index];
+                    if (item.status === DataStatus.loaded) {
+                      item = update(result[index], {
+                        isExpanded: { $set: true }
+                      });
+                    } else {
+                      item = update(result[index], {
+                        isExpanded: { $set: undefined },
+                        status: { $set: DataStatus.loading }
+                      });
+                    }
+
+                    result.splice(index, 1, item);
                   }
 
-                  result.splice(index, 1, item);
+                  return result;
                 }
-
-                return result;
               }
             }
           }
@@ -51,18 +53,20 @@ export class TreeNodeExpandReducer implements Reducer {
         return updateNgssmTreeState(state, {
           trees: {
             [collapseNodeAction.treeId]: {
-              $apply: (nodes: NgssmTreeNode[]) => {
-                const result = [...nodes];
-                const index = result.findIndex((n) => n.node.nodeId === collapseNodeAction.nodeId);
-                if (index !== -1) {
-                  const item = update(result[index], {
-                    isExpanded: { $set: false }
-                  });
+              nodes: {
+                $apply: (nodes: NgssmTreeNode[]) => {
+                  const result = [...nodes];
+                  const index = result.findIndex((n) => n.node.nodeId === collapseNodeAction.nodeId);
+                  if (index !== -1) {
+                    const item = update(result[index], {
+                      isExpanded: { $set: false }
+                    });
 
-                  result.splice(index, 1, item);
+                    result.splice(index, 1, item);
+                  }
+
+                  return result;
                 }
-
-                return result;
               }
             }
           }

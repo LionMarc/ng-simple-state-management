@@ -1,7 +1,7 @@
 import update, { Spec } from 'immutability-helper';
 
 import { NgSsmFeatureState, State } from 'ngssm-store';
-import { NgssmTreeNode } from '../model';
+import { NgssmTree } from '../model';
 
 export const selectNgssmTreeState = (state: State): NgssmTreeState => state[NgssmTreeStateSpecification.featureStateKey] as NgssmTreeState;
 
@@ -11,7 +11,7 @@ export const updateNgssmTreeState = (state: State, command: Spec<NgssmTreeState,
   });
 
 export interface NgssmTreeState {
-  trees: { [key: string]: NgssmTreeNode[] };
+  trees: { [key: string]: NgssmTree };
 }
 
 @NgSsmFeatureState({
