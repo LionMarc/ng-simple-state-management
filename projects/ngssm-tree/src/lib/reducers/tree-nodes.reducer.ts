@@ -21,7 +21,7 @@ export class TreeNodesReducer implements Reducer {
           trees: {
             [registerNodesAction.treeId]: {
               $apply: (nodes: NgssmTreeNode[]) => {
-                const index = nodes.findIndex((n) => n.id === registerNodesAction.parentNodeId);
+                const index = nodes.findIndex((n) => n.node.nodeId === registerNodesAction.parentNodeId);
                 if (index === -1) {
                   return nodes;
                 }
@@ -30,13 +30,10 @@ export class TreeNodesReducer implements Reducer {
                   ...nodes.slice(0, index),
                   update(nodes[index], { status: { $set: registerNodesAction.dataStatus }, isExpanded: { $set: true } }),
                   ...registerNodesAction.nodes.map((i) => ({
-                    id: i.nodeId,
-                    label: i.label,
                     status: DataStatus.none,
                     isExpanded: false,
                     level: nodes[index].level + 1,
-                    isExpandable: i.isExpandable,
-                    type: i.type
+                    node: i
                   })),
                   ...nodes.slice(index + 1)
                 ];

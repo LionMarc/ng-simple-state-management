@@ -22,7 +22,7 @@ export class TreeNodeExpandReducer implements Reducer {
             [expandNodeAction.treeId]: {
               $apply: (nodes: NgssmTreeNode[]) => {
                 const result = [...nodes];
-                const index = result.findIndex((n) => n.id === expandNodeAction.nodeId);
+                const index = result.findIndex((n) => n.node.nodeId === expandNodeAction.nodeId);
                 if (index !== -1) {
                   let item = result[index];
                   if (item.status === DataStatus.loaded) {
@@ -53,7 +53,7 @@ export class TreeNodeExpandReducer implements Reducer {
             [collapseNodeAction.treeId]: {
               $apply: (nodes: NgssmTreeNode[]) => {
                 const result = [...nodes];
-                const index = result.findIndex((n) => n.id === collapseNodeAction.nodeId);
+                const index = result.findIndex((n) => n.node.nodeId === collapseNodeAction.nodeId);
                 if (index !== -1) {
                   const item = update(result[index], {
                     isExpanded: { $set: false }
