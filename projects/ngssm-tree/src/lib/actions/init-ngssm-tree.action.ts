@@ -1,10 +1,9 @@
-import { Action } from 'ngssm-store';
-
 import { NodeData } from '../model';
 import { NgssmTreeActionType } from './ngssm-tree-action-type';
+import { TreeAction } from './tree-action';
 
-export class InitNgssmTreeAction implements Action {
-  public readonly type: string = NgssmTreeActionType.initNgssmTree;
-
-  constructor(public readonly treeId: string, public readonly root: NodeData) {}
+export class InitNgssmTreeAction extends TreeAction {
+  constructor(treeId: string, public readonly root: NodeData) {
+    super(NgssmTreeActionType.initNgssmTree, treeId);
+  }
 }

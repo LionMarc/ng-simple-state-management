@@ -84,21 +84,23 @@ describe('NgssmTreeComponent', () => {
       const state = updateNgssmTreeState(store.state$.getValue(), {
         trees: {
           testing: {
-            $set: nodes.map((n) => ({
-              status: DataStatus.loaded,
-              isExpanded: true,
-              level: n.level,
+            $set: {
+              nodes: nodes.map((n) => ({
+                status: DataStatus.loaded,
+                isExpanded: true,
+                level: n.level,
 
-              node: {
-                nodeId: n.inode.toString(),
-                parentNodeId: n.parent?.toString(),
-                label: n.name,
-                type: n.type,
-                isExpandable: n.type === 'directory',
+                node: {
+                  nodeId: n.inode.toString(),
+                  parentNodeId: n.parent?.toString(),
+                  label: n.name,
+                  type: n.type,
+                  isExpandable: n.type === 'directory',
 
-                data: n
-              }
-            }))
+                  data: n
+                }
+              }))
+            }
           }
         }
       });

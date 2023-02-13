@@ -13,6 +13,12 @@ describe('TreeNodeExpandReducer', () => {
     state = {
       [NgssmTreeStateSpecification.featureStateKey]: NgssmTreeStateSpecification.initialState
     };
+
+    state = updateNgssmTreeState(state, {
+      trees: {
+        testing: { $set: { nodes: [] } }
+      }
+    });
   });
 
   [NgssmTreeActionType.expandNode, NgssmTreeActionType.collapseNode].forEach((actionType: string) => {
@@ -32,46 +38,48 @@ describe('TreeNodeExpandReducer', () => {
       state = updateNgssmTreeState(state, {
         trees: {
           testing: {
-            $set: [
-              {
-                status: DataStatus.loaded,
-                isExpanded: true,
-                level: 0,
-                node: {
-                  nodeId: '0',
-                  label: 'Root',
-                  type: 'folder',
-                  isExpandable: true,
-                  data: {}
+            nodes: {
+              $set: [
+                {
+                  status: DataStatus.loaded,
+                  isExpanded: true,
+                  level: 0,
+                  node: {
+                    nodeId: '0',
+                    label: 'Root',
+                    type: 'folder',
+                    isExpandable: true,
+                    data: {}
+                  }
+                },
+                {
+                  status: DataStatus.none,
+                  isExpanded: false,
+                  level: 1,
+                  node: {
+                    nodeId: '1',
+                    parentNodeId: '0',
+                    label: '01',
+                    type: 'folder',
+                    isExpandable: true,
+                    data: {}
+                  }
+                },
+                {
+                  status: DataStatus.loaded,
+                  isExpanded: false,
+                  level: 1,
+                  node: {
+                    nodeId: '2',
+                    parentNodeId: '0',
+                    label: '02',
+                    type: 'folder',
+                    isExpandable: true,
+                    data: {}
+                  }
                 }
-              },
-              {
-                status: DataStatus.none,
-                isExpanded: false,
-                level: 1,
-                node: {
-                  nodeId: '1',
-                  parentNodeId: '0',
-                  label: '01',
-                  type: 'folder',
-                  isExpandable: true,
-                  data: {}
-                }
-              },
-              {
-                status: DataStatus.loaded,
-                isExpanded: false,
-                level: 1,
-                node: {
-                  nodeId: '2',
-                  parentNodeId: '0',
-                  label: '02',
-                  type: 'folder',
-                  isExpandable: true,
-                  data: {}
-                }
-              }
-            ]
+              ]
+            }
           }
         }
       });
@@ -83,7 +91,7 @@ describe('TreeNodeExpandReducer', () => {
 
         const updatedState = reducer.updateState(state, action);
 
-        expect(selectNgssmTreeState(updatedState).trees['testing'][1].isExpanded).toEqual(undefined);
+        expect(selectNgssmTreeState(updatedState).trees['testing'].nodes[1].isExpanded).toEqual(undefined);
       });
 
       it(`should set the status to '${DataStatus.loading}'`, () => {
@@ -91,7 +99,7 @@ describe('TreeNodeExpandReducer', () => {
 
         const updatedState = reducer.updateState(state, action);
 
-        expect(selectNgssmTreeState(updatedState).trees['testing'][1].status).toEqual(DataStatus.loading);
+        expect(selectNgssmTreeState(updatedState).trees['testing'].nodes[1].status).toEqual(DataStatus.loading);
       });
     });
 
@@ -101,7 +109,7 @@ describe('TreeNodeExpandReducer', () => {
 
         const updatedState = reducer.updateState(state, action);
 
-        expect(selectNgssmTreeState(updatedState).trees['testing'][2].isExpanded).toBeTrue();
+        expect(selectNgssmTreeState(updatedState).trees['testing'].nodes[2].isExpanded).toBeTrue();
       });
 
       it(`should let the status to '${DataStatus.loaded}'`, () => {
@@ -109,7 +117,7 @@ describe('TreeNodeExpandReducer', () => {
 
         const updatedState = reducer.updateState(state, action);
 
-        expect(selectNgssmTreeState(updatedState).trees['testing'][2].status).toEqual(DataStatus.loaded);
+        expect(selectNgssmTreeState(updatedState).trees['testing'].nodes[2].status).toEqual(DataStatus.loaded);
       });
     });
   });
@@ -119,46 +127,48 @@ describe('TreeNodeExpandReducer', () => {
       state = updateNgssmTreeState(state, {
         trees: {
           testing: {
-            $set: [
-              {
-                status: DataStatus.loaded,
-                isExpanded: true,
-                level: 0,
-                node: {
-                  nodeId: '0',
-                  label: 'Root',
-                  type: 'folder',
-                  isExpandable: true,
-                  data: {}
+            nodes: {
+              $set: [
+                {
+                  status: DataStatus.loaded,
+                  isExpanded: true,
+                  level: 0,
+                  node: {
+                    nodeId: '0',
+                    label: 'Root',
+                    type: 'folder',
+                    isExpandable: true,
+                    data: {}
+                  }
+                },
+                {
+                  status: DataStatus.none,
+                  isExpanded: true,
+                  level: 1,
+                  node: {
+                    nodeId: '1',
+                    parentNodeId: '0',
+                    label: '01',
+                    type: 'folder',
+                    isExpandable: true,
+                    data: {}
+                  }
+                },
+                {
+                  status: DataStatus.loaded,
+                  isExpanded: false,
+                  level: 1,
+                  node: {
+                    nodeId: '2',
+                    parentNodeId: '0',
+                    label: '02',
+                    type: 'folder',
+                    isExpandable: true,
+                    data: {}
+                  }
                 }
-              },
-              {
-                status: DataStatus.none,
-                isExpanded: true,
-                level: 1,
-                node: {
-                  nodeId: '1',
-                  parentNodeId: '0',
-                  label: '01',
-                  type: 'folder',
-                  isExpandable: true,
-                  data: {}
-                }
-              },
-              {
-                status: DataStatus.loaded,
-                isExpanded: false,
-                level: 1,
-                node: {
-                  nodeId: '2',
-                  parentNodeId: '0',
-                  label: '02',
-                  type: 'folder',
-                  isExpandable: true,
-                  data: {}
-                }
-              }
-            ]
+              ]
+            }
           }
         }
       });
@@ -169,7 +179,7 @@ describe('TreeNodeExpandReducer', () => {
 
       const updatedState = reducer.updateState(state, action);
 
-      expect(selectNgssmTreeState(updatedState).trees['testing'][1].isExpanded).toBeFalse();
+      expect(selectNgssmTreeState(updatedState).trees['testing'].nodes[1].isExpanded).toBeFalse();
     });
   });
 });

@@ -15,7 +15,7 @@ export class TreeNodeLoadingEffect implements Effect {
 
   public processAction(store: Store, state: State, action: Action): void {
     const expandNodeAction = action as ExpandNodeAction;
-    const node = selectNgssmTreeState(state).trees[expandNodeAction.treeId].find((n) => n.node.nodeId === expandNodeAction.nodeId);
+    const node = selectNgssmTreeState(state).trees[expandNodeAction.treeId].nodes.find((n) => n.node.nodeId === expandNodeAction.nodeId);
     if (node?.status !== DataStatus.loading) {
       return;
     }

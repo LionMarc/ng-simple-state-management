@@ -11,7 +11,7 @@ import { DataStatus } from 'ngssm-remote-data';
 
 import { NgssmTreeConfig, NgssmTreeNode, NodeData } from '../../model';
 import { selectNgssmTreeState } from '../../state';
-import { CollapseNodeAction, ExpandNodeAction } from '../../actions';
+import { CollapseNodeAction, ExpandNodeAction, SelectNodeAction } from '../../actions';
 
 @Component({
   selector: 'ngssm-tree',
@@ -24,12 +24,14 @@ import { CollapseNodeAction, ExpandNodeAction } from '../../actions';
 export class NgssmTreeComponent extends NgSsmComponent {
   private readonly _treeConfig$ = new BehaviorSubject<NgssmTreeConfig | undefined>(undefined);
   private readonly _displayedItems$ = new BehaviorSubject<NgssmTreeNode[]>([]);
+  private readonly _selectedNodeId$ = new BehaviorSubject<string | undefined>(undefined);
 
   public readonly dataStatus = DataStatus;
 
   constructor(store: Store) {
     super(store);
 
+    // TODO - start watching when treeConfig is set
     combineLatest([this._treeConfig$, this.watch((s) => selectNgssmTreeState(s).trees)])
       .pipe(takeUntil(this.unsubscribeAll$))
       .subscribe((values) => {
@@ -43,7 +45,7 @@ export class NgssmTreeComponent extends NgSsmComponent {
 
         const items: NgssmTreeNode[] = [];
         let hiddenLevel = -1;
-        (values[1][values[0].treeId] ?? []).forEach((t) => {
+        (values[1][values[0].treeId]?.nodes ?? []).forEach((t) => {
           if (t.node.isExpandable && t.isExpanded === false && hiddenLevel === -1) {
             hiddenLevel = t.level;
           }
@@ -60,6 +62,8 @@ export class NgssmTreeComponent extends NgSsmComponent {
         });
 
         this._displayedItems$.next(items);
+
+        this._selectedNodeId$.next(values[1][values[0].treeId]?.selectedNode);
       });
   }
 
@@ -77,6 +81,10 @@ export class NgssmTreeComponent extends NgSsmComponent {
     return this._displayedItems$.asObservable();
   }
 
+  public get selectedNodeId$(): Observable<string | undefined> {
+    return this._selectedNodeId$.asObservable();
+  }
+
   public getItemId(_: number, node: NgssmTreeNode): string {
     return node.node.nodeId;
   }
@@ -92,6 +100,13 @@ export class NgssmTreeComponent extends NgSsmComponent {
     const treeId = this._treeConfig$.getValue()?.treeId;
     if (treeId) {
       this.dispatchAction(new CollapseNodeAction(treeId, node.node.nodeId));
+    }
+  }
+
+  public selectNode(node: NgssmTreeNode): void {
+    const treeId = this._treeConfig$.getValue()?.treeId;
+    if (treeId) {
+      this.dispatchAction(new SelectNodeAction(treeId, node.node.nodeId));
     }
   }
 }

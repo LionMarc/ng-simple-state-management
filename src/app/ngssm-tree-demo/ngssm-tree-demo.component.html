@@ -25,5 +25,19 @@
                 <ngssm-tree class="fxFlex" [treeConfig]="treeConfigForFolders"></ngssm-tree>
             </mat-card-content>
         </mat-card>
+
+        <mat-card class="flex-column-stretch selection-container">
+            <mat-card-header>
+                <mat-card-title>
+                    ngssm-tree 'demo' - selection
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="flex-column-stretch fxFlex">
+                <ag-grid-angular ngssmAgGridTheme class="fxFlex" [gridOptions]="gridOptions"
+                    [rowData]="selectedNodeChildren$ | async" [ngssmAgGrid]="agGridConfig">
+
+                </ag-grid-angular>
+            </mat-card-content>
+        </mat-card>
     </mat-card-content>
 </mat-card>

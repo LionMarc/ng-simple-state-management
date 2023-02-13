@@ -17,14 +17,16 @@ export class TreesReducer implements Reducer {
         return updateNgssmTreeState(state, {
           trees: {
             [initNgssmTreeAction.treeId]: {
-              $set: [
-                {
-                  status: DataStatus.none,
-                  isExpanded: false,
-                  level: 0,
-                  node: initNgssmTreeAction.root
-                }
-              ]
+              $set: {
+                nodes: [
+                  {
+                    status: DataStatus.none,
+                    isExpanded: false,
+                    level: 0,
+                    node: initNgssmTreeAction.root
+                  }
+                ]
+              }
             }
           }
         });

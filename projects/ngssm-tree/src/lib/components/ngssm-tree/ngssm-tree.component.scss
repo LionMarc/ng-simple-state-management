@@ -17,9 +17,16 @@
         }
     }
 
+    .ngssm-tree-node.selected {
+        background-color: #e4e6f1;
+    }
+
     .ngssm-tree-node:hover {
         cursor: pointer;
-        background-color: honeydew;
+    }
+
+    .ngssm-tree-node:hover:not(.selected) {
+        background-color: #f3f3f3;
     }
 
     .not-exandable-padding {
