@@ -24,6 +24,8 @@ export class TodoItemProviderService implements RemoteDataProvider<TodoItem, num
       return of(wanted);
     }
 
-    return throwError(() => 'Not Found');
+    return throwError(() => ({
+      error: { type: 'https://tools.ietf.org/html/rfc7231#section-6.5.4', title: 'Not Found', status: 404 }
+    }));
   }
 }

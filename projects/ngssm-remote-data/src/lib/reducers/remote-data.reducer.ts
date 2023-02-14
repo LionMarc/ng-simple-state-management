@@ -49,7 +49,8 @@ export class RemoteDataReducer implements Reducer {
               status: { $set: registerLoadedRemoteDataAction.status },
               data: { $set: registerLoadedRemoteDataAction.data },
               timestamp: { $set: new Date() },
-              message: { $set: registerLoadedRemoteDataAction.message }
+              message: { $set: registerLoadedRemoteDataAction.message },
+              error: { $set: registerLoadedRemoteDataAction.remoteCallError }
             }
           });
         }

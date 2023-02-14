@@ -1,6 +1,6 @@
 import { Action } from 'ngssm-store';
 
-import { DataStatus } from '../model';
+import { DataStatus, RemoteCallError } from '../model';
 import { RemoteDataActionType } from './remote-data-action-type';
 
 export class RegisterLoadedRemoteDataAction implements Action {
@@ -10,6 +10,7 @@ export class RegisterLoadedRemoteDataAction implements Action {
     public readonly remoteDataKey: string,
     public readonly status: DataStatus,
     public readonly data: any,
-    public readonly message?: string
+    public readonly message?: string,
+    public readonly remoteCallError?: RemoteCallError
   ) {}
 }
