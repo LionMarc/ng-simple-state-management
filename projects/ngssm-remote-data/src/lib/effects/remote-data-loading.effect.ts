@@ -1,6 +1,7 @@
 import { Inject, Injectable, Optional, Provider } from '@angular/core';
 
 import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
+import { NgssmNotifierService } from 'ngssm-toolkit';
 
 import { LoadRemoteDataAction, RegisterLoadedRemoteDataAction, RemoteDataActionType } from '../actions';
 import { DataStatus, RemoteDataProvider, NGSSM_REMOTE_DATA_PROVIDER } from '../model';
@@ -12,7 +13,10 @@ export class RemoteDataLoadingEffect implements Effect {
 
   public readonly processedActions: string[] = [RemoteDataActionType.loadRemoteData];
 
-  constructor(@Inject(NGSSM_REMOTE_DATA_PROVIDER) @Optional() remoteDataProviders: RemoteDataProvider[]) {
+  constructor(
+    @Inject(NGSSM_REMOTE_DATA_PROVIDER) @Optional() remoteDataProviders: RemoteDataProvider[],
+    private notifierService: NgssmNotifierService
+  ) {
     this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));
   }
 
@@ -34,7 +38,13 @@ export class RemoteDataLoadingEffect implements Effect {
       },
       error: (error) => {
         console.error(`Unable to load data for '${loadRemoteDataAction.remoteDataKey}'`, error);
-        store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.error, undefined));
+        if (loadRemoteDataAction.params?.errorNotificationMessage) {
+          this.notifierService.notifyError(loadRemoteDataAction.params.errorNotificationMessage(error?.error));
+        }
+
+        store.dispatchAction(
+          new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.error, undefined, error?.error)
+        );
       }
     });
   }

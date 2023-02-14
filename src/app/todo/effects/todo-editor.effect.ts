@@ -1,6 +1,6 @@
 import { Injectable, Provider } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { LoadRemoteDataAction } from 'ngssm-remote-data';
+import { LoadRemoteDataAction, RemoteCallError } from 'ngssm-remote-data';
 
 import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
@@ -37,10 +37,22 @@ export class TodoEditorEffect implements Effect {
           disableClose: true
         });
 
+        // To test error notification
+        store.dispatchAction(
+          new LoadRemoteDataAction(todoItemKey, true, {
+            serviceParams: 12345,
+            callbackAction: TodoActionType.todoItemLoaded,
+            errorNotificationMessage: (error?: RemoteCallError) =>
+              `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
+          })
+        );
+
         store.dispatchAction(
           new LoadRemoteDataAction(todoItemKey, true, {
             serviceParams: selectTodoState(state).todoItemEditor.todoItemId,
-            callbackAction: TodoActionType.todoItemLoaded
+            callbackAction: TodoActionType.todoItemLoaded,
+            errorNotificationMessage: (error?: RemoteCallError) =>
+              `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
           })
         );
 
@@ -53,7 +65,7 @@ export class TodoEditorEffect implements Effect {
         break;
 
       case TodoActionType.todoItemLoaded:
-        this.notifier.notifySuccess('Todo Item loaded');
+        console.log('TodoActionType.todoItemLoaded CALLED');
 
         break;
     }
