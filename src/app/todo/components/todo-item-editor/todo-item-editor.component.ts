@@ -6,6 +6,8 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { selectTodoState } from '../../state';
 import { TodoActionType, UpdateTodoItemPropertyAction } from '../../actions';
+import { selectRemoteData } from 'ngssm-remote-data';
+import { TodoItem, todoItemKey } from '../../model';
 
 @Component({
   selector: 'app-todo-item-editor',
@@ -22,18 +24,23 @@ export class TodoItemEditorComponent extends NgSsmComponent {
   constructor(store: Store) {
     super(store);
 
-    this.watch((s) => selectTodoState(s).todoItemEditor)
+    this.watch((s) => selectTodoState(s).todoItemEditor.todoItemId)
       .pipe(take(1))
       .subscribe((value) => {
-        if (value.todoItemId !== undefined) {
+        if (value !== undefined) {
           this._dialogTitle$.next(`To-Do edition`);
           this._submitLabel$.next('Update To-Do');
-          this.titleControl.reset(value.todoItem.title);
         } else {
           this._dialogTitle$.next(`To-Do creation`);
           this._submitLabel$.next('Create To-Do');
         }
       });
+
+    this.watch((s) => selectRemoteData(s, todoItemKey).data).subscribe((value: TodoItem) => {
+      if (value?.title) {
+        this.titleControl.setValue(value.title);
+      }
+    });
 
     this.titleControl.valueChanges.pipe(takeUntil(this.unsubscribeAll$)).subscribe((value) => {
       this.dispatchAction(new UpdateTodoItemPropertyAction('title', value));

@@ -2,8 +2,7 @@ import { Inject, Injectable, Optional } from '@angular/core';
 
 import { State, StateInitializer } from 'ngssm-store';
 
-import { DataStatus } from './model';
-import { RemoteDataProvider, NGSSM_REMOTE_DATA_PROVIDER } from './remote-data-provider';
+import { DataStatus, RemoteDataProvider, NGSSM_REMOTE_DATA_PROVIDER } from './model';
 import { updateRemoteDataState } from './state';
 
 @Injectable()

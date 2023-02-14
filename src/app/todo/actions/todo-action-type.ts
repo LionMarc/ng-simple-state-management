@@ -3,5 +3,6 @@ export enum TodoActionType {
   closeTodoItemEditor = '[TodoActionType] closeTodoItemEditor',
   editTodoItem = '[TodoActionType] editTodoItem',
   updateTodoItemProperty = '[TodoActionType] updateTodoItemProperty',
-  submitEditedTodoItem = '[TodoActionType] submitEditedTodoItem'
+  submitEditedTodoItem = '[TodoActionType] submitEditedTodoItem',
+  todoItemLoaded = '[TodoActionType] todoItemLoaded'
 }
