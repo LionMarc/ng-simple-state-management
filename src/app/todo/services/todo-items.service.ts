@@ -5,7 +5,7 @@ import { RemoteDataProvider } from 'ngssm-remote-data';
 
 import { TodoItem, todoItemsKey } from '../model';
 
-const items: TodoItem[] = [
+export const items: TodoItem[] = [
   {
     id: 1,
     title: 'Add a schematic for remote data provider'

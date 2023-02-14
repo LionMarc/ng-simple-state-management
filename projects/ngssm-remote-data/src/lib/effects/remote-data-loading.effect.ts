@@ -3,8 +3,7 @@ import { Inject, Injectable, Optional, Provider } from '@angular/core';
 import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
 
 import { LoadRemoteDataAction, RegisterLoadedRemoteDataAction, RemoteDataActionType } from '../actions';
-import { DataStatus } from '../model';
-import { RemoteDataProvider, NGSSM_REMOTE_DATA_PROVIDER } from '../remote-data-provider';
+import { DataStatus, RemoteDataProvider, NGSSM_REMOTE_DATA_PROVIDER } from '../model';
 import { selectRemoteDataState } from '../state';
 
 @Injectable()
@@ -26,9 +25,13 @@ export class RemoteDataLoadingEffect implements Effect {
       return;
     }
 
-    provider.get().subscribe({
-      next: (value) =>
-        store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.loaded, value)),
+    provider.get(loadRemoteDataAction.params).subscribe({
+      next: (value) => {
+        store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.loaded, value));
+        if (loadRemoteDataAction.params?.callbackAction) {
+          store.dispatchActionType(loadRemoteDataAction.params.callbackAction);
+        }
+      },
       error: (error) => {
         console.error(`Unable to load data for '${loadRemoteDataAction.remoteDataKey}'`, error);
         store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.error, undefined));
