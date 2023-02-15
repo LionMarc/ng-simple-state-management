@@ -27,7 +27,7 @@ export class RemoteDataLoadingGuard implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const parameters = route.data as RemoteDataLoadingGuardParameters;
     (parameters?.remoteDataItems ?? []).forEach((item) => {
-      this.store.dispatchAction(new LoadRemoteDataAction(item.remoteDataKey, item.forceReload === true));
+      this.store.dispatchAction(new LoadRemoteDataAction(item.remoteDataKey, { forceReload: item.forceReload === true }));
     });
 
     return true;

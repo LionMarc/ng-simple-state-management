@@ -60,7 +60,7 @@ export class NgssmRemoteDataReloadButtonComponent extends NgSsmComponent {
   }
 
   public reload(): void {
-    this.dispatchAction(new LoadRemoteDataAction(this._remoteDataKey$.getValue(), true));
+    this.dispatchAction(new LoadRemoteDataAction(this._remoteDataKey$.getValue(), { forceReload: true, keepStoredGetterParams: true }));
 
     (this.actionTypes ?? []).forEach((type) => this.dispatchActionType(type));
   }

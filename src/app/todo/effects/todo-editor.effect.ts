@@ -39,20 +39,26 @@ export class TodoEditorEffect implements Effect {
 
         // To test error notification
         store.dispatchAction(
-          new LoadRemoteDataAction(todoItemKey, true, {
-            serviceParams: 12345,
-            callbackAction: TodoActionType.todoItemLoaded,
-            errorNotificationMessage: (error?: RemoteCallError) =>
-              `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
+          new LoadRemoteDataAction(todoItemKey, {
+            forceReload: true,
+            params: {
+              serviceParams: 12345,
+              callbackAction: TodoActionType.todoItemLoaded,
+              errorNotificationMessage: (error?: RemoteCallError) =>
+                `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
+            }
           })
         );
 
         store.dispatchAction(
-          new LoadRemoteDataAction(todoItemKey, true, {
-            serviceParams: selectTodoState(state).todoItemEditor.todoItemId,
-            callbackAction: TodoActionType.todoItemLoaded,
-            errorNotificationMessage: (error?: RemoteCallError) =>
-              `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
+          new LoadRemoteDataAction(todoItemKey, {
+            forceReload: true,
+            params: {
+              serviceParams: selectTodoState(state).todoItemEditor.todoItemId,
+              callbackAction: TodoActionType.todoItemLoaded,
+              errorNotificationMessage: (error?: RemoteCallError) =>
+                `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
+            }
           })
         );
 
