@@ -61,7 +61,7 @@ import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
     },
     provideNgssmRemoteData(),
     provideNgssmTree(),
-    { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService }
+    { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -17,7 +17,7 @@ export class TreeInitGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.store.dispatchAction(
-      new InitNgssmTreeAction('demo', {
+      new InitNgssmTreeAction('demo', 'DemoType', {
         nodeId: '0',
         label: 'Linux',
         type: 'directory',

@@ -25,7 +25,8 @@ export class TreesReducer implements Reducer {
                     level: 0,
                     node: initNgssmTreeAction.root
                   }
-                ]
+                ],
+                type: initNgssmTreeAction.treeType
               }
             }
           }

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { NodeData } from './node-data';
 
 export interface NgssmTreeDataService {
+  readonly treeType: string;
   load(treeId: string, nodeId: string): Observable<NodeData[]>;
 }
 
