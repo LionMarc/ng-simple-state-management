@@ -93,7 +93,9 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
 
             await element.click();
 
-            expect(store.dispatchAction).toHaveBeenCalledWith(new LoadRemoteDataAction(remoteDataKey, true));
+            expect(store.dispatchAction).toHaveBeenCalledWith(
+              new LoadRemoteDataAction(remoteDataKey, { forceReload: true, keepStoredGetterParams: true })
+            );
           });
 
           it(`should dispatch 'action-01' and 'action-02' when those actions are registered and when clicking on button`, async () => {

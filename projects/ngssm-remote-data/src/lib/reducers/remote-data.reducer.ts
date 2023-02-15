@@ -21,20 +21,36 @@ export class RemoteDataReducer implements Reducer {
       case RemoteDataActionType.loadRemoteData:
         const loadRemoteDataAction = action as LoadRemoteDataAction;
         const item = selectRemoteDataState(state)[loadRemoteDataAction.remoteDataKey];
+        if (!item) {
+          return state;
+        }
+
         const provider = this.remoteDataProvidersPerKey.get(loadRemoteDataAction.remoteDataKey);
+        if (!provider) {
+          return state;
+        }
 
         if (
-          !provider ||
           !provider.cacheDurationInSeconds ||
-          loadRemoteDataAction.forceReload ||
+          loadRemoteDataAction.params?.forceReload === true ||
           item.status === DataStatus.none ||
           item.status === DataStatus.error ||
+          item.status === DataStatus.notFound ||
           !item.timestamp ||
           new Date().getTime() - item.timestamp.getTime() >= 1000 * provider.cacheDurationInSeconds
         ) {
           return updateRemoteDataState(state, {
             [loadRemoteDataAction.remoteDataKey]: {
-              status: { $set: DataStatus.loading }
+              status: { $set: DataStatus.loading },
+              getterParams: {
+                $apply: (value) => {
+                  if (!loadRemoteDataAction.params || loadRemoteDataAction.params.keepStoredGetterParams !== true) {
+                    return loadRemoteDataAction.params?.params;
+                  }
+
+                  return value;
+                }
+              }
             }
           });
         }

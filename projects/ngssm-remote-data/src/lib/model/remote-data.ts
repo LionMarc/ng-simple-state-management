@@ -1,15 +1,17 @@
 import { DataStatus } from './data-status';
 import { RemoteCallError } from './remote-call-error';
+import { RemoteDataGetterParams } from './remote-data-getter-params';
 
-export interface RemoteData<T> {
+export interface RemoteData<TData = any, TGetterParams = any> {
   status: DataStatus;
-  data?: T;
+  data?: TData;
   timestamp?: Date;
   message?: string;
   error?: RemoteCallError;
+  getterParams?: RemoteDataGetterParams<TGetterParams>;
 }
 
-export const getDefaultRemoteData = <T>(defaultValue?: T): RemoteData<T> => ({
-  status: DataStatus.none,
+export const getDefaultRemoteData = <T>(defaultValue?: T, defaultStatus: DataStatus = DataStatus.none): RemoteData<T> => ({
+  status: defaultStatus,
   data: defaultValue
 });

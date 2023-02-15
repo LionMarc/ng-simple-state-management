@@ -29,17 +29,17 @@ export class RemoteDataLoadingEffect implements Effect {
       return;
     }
 
-    provider.get(loadRemoteDataAction.params).subscribe({
+    provider.get(item.getterParams).subscribe({
       next: (value) => {
         store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.loaded, value));
-        if (loadRemoteDataAction.params?.callbackAction) {
-          store.dispatchActionType(loadRemoteDataAction.params.callbackAction);
+        if (item.getterParams?.callbackAction) {
+          store.dispatchActionType(item.getterParams.callbackAction);
         }
       },
       error: (error) => {
         console.error(`Unable to load data for '${loadRemoteDataAction.remoteDataKey}'`, error);
-        if (loadRemoteDataAction.params?.errorNotificationMessage) {
-          this.notifierService.notifyError(loadRemoteDataAction.params.errorNotificationMessage(error?.error));
+        if (item.getterParams?.errorNotificationMessage) {
+          this.notifierService.notifyError(item.getterParams.errorNotificationMessage(error?.error));
         }
 
         store.dispatchAction(

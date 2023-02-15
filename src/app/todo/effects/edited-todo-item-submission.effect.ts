@@ -21,7 +21,7 @@ export class EditedTodoItemSubmissionEffect implements Effect {
       this.todoItemsService.createTodoItem(todoItem).subscribe({
         next: () => {
           this.logger.information('To-Do created.');
-          store.dispatchAction(new LoadRemoteDataAction(todoItemsKey, true));
+          store.dispatchAction(new LoadRemoteDataAction(todoItemsKey, { forceReload: true }));
           store.dispatchActionType(TodoActionType.closeTodoItemEditor);
         },
         error: (error) => {
@@ -33,7 +33,7 @@ export class EditedTodoItemSubmissionEffect implements Effect {
       this.todoItemsService.updateTodoItem(id, todoItem).subscribe({
         next: () => {
           this.logger.information('To-Do updated.');
-          store.dispatchAction(new LoadRemoteDataAction(todoItemsKey, true));
+          store.dispatchAction(new LoadRemoteDataAction(todoItemsKey, { forceReload: true }));
           store.dispatchActionType(TodoActionType.closeTodoItemEditor);
         },
         error: (error) => {
