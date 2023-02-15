@@ -8,6 +8,7 @@ import { NGSSM_TREE_DATA_SERVICE, NodeData } from '../model';
 import { TreeNodeLoadingEffect } from './tree-node-loading.effect';
 
 const dataService = {
+  treeType: 'Testing',
   load: (treeId: string, nodeId: string): Observable<NodeData[]> => {
     return of([]);
   }
@@ -21,7 +22,7 @@ describe('TreeNodeLoadingEffect', () => {
     store = new StoreMock({});
     TestBed.configureTestingModule({
       imports: [],
-      providers: [TreeNodeLoadingEffect, { provide: NGSSM_TREE_DATA_SERVICE, useValue: dataService }]
+      providers: [TreeNodeLoadingEffect, { provide: NGSSM_TREE_DATA_SERVICE, useValue: dataService, multi: true }]
     });
     effect = TestBed.inject(TreeNodeLoadingEffect);
   });

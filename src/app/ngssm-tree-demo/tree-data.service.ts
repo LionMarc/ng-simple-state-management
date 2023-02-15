@@ -15,6 +15,8 @@ interface FileEntry {
   providedIn: 'root'
 })
 export class TreeDataService implements NgssmTreeDataService {
+  public readonly treeType = 'DemoType';
+
   public load(treeId: string, nodeId: string): Observable<NodeData[]> {
     console.log(fileEntries);
 

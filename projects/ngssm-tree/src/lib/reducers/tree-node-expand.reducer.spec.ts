@@ -16,7 +16,7 @@ describe('TreeNodeExpandReducer', () => {
 
     state = updateNgssmTreeState(state, {
       trees: {
-        testing: { $set: { nodes: [] } }
+        testing: { $set: { type: 'Testing', nodes: [] } }
       }
     });
   });

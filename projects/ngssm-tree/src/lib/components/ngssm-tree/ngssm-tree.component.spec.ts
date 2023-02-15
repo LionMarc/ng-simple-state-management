@@ -85,6 +85,7 @@ describe('NgssmTreeComponent', () => {
         trees: {
           testing: {
             $set: {
+              type: 'Testing',
               nodes: nodes.map((n) => ({
                 status: DataStatus.loaded,
                 isExpanded: true,
