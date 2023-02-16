@@ -5,13 +5,17 @@ import update from 'immutability-helper';
 import { DataStatus } from 'ngssm-remote-data';
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
-import { CollapseNodeAction, ExpandNodeAction, NgssmTreeActionType } from '../actions';
+import { CollapseNodeAction, ExpandNodeAction, NgssmTreeActionType, SelectNodeAction } from '../actions';
 import { NgssmTreeNode } from '../model';
-import { updateNgssmTreeState } from '../state';
+import { selectNgssmTreeState, updateNgssmTreeState } from '../state';
 
 @Injectable()
 export class TreeNodeExpandReducer implements Reducer {
-  public readonly processedActions: string[] = [NgssmTreeActionType.expandNode, NgssmTreeActionType.collapseNode];
+  public readonly processedActions: string[] = [
+    NgssmTreeActionType.expandNode,
+    NgssmTreeActionType.collapseNode,
+    NgssmTreeActionType.selectNode
+  ];
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
@@ -32,7 +36,7 @@ export class TreeNodeExpandReducer implements Reducer {
                       });
                     } else {
                       item = update(result[index], {
-                        isExpanded: { $set: undefined },
+                        isExpanded: { $set: true },
                         status: { $set: DataStatus.loading }
                       });
                     }
@@ -60,6 +64,38 @@ export class TreeNodeExpandReducer implements Reducer {
                   if (index !== -1) {
                     const item = update(result[index], {
                       isExpanded: { $set: false }
+                    });
+
+                    result.splice(index, 1, item);
+                  }
+
+                  return result;
+                }
+              }
+            }
+          }
+        });
+      }
+
+      case NgssmTreeActionType.selectNode: {
+        const selectNodeAction = action as SelectNodeAction;
+        if (
+          selectNgssmTreeState(state).trees[selectNodeAction.treeId].nodes.find((n) => n.node.nodeId === selectNodeAction.nodeId)
+            ?.status === DataStatus.loaded
+        ) {
+          break;
+        }
+
+        return updateNgssmTreeState(state, {
+          trees: {
+            [selectNodeAction.treeId]: {
+              nodes: {
+                $apply: (nodes: NgssmTreeNode[]) => {
+                  const result = [...nodes];
+                  const index = result.findIndex((n) => n.node.nodeId === selectNodeAction.nodeId);
+                  if (index !== -1) {
+                    const item = update(result[index], {
+                      status: { $set: DataStatus.loading }
                     });
 
                     result.splice(index, 1, item);
