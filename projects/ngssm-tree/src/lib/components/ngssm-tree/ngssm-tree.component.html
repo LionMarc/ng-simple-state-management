@@ -4,13 +4,13 @@
             <div *cdkVirtualFor="let item of displayedItems$ | async; trackBy: getItemId" class="ngssm-tree-node"
                 [style.padding-left.px]="item.level * 20" (click)="selectNode(item)"
                 [ngClass]="{'selected' : (selectedNodeId$ | async) === item.node.nodeId}">
-                <mat-icon class="fa-solid fa-chevron-right" *ngIf="item.node.isExpandable && item.isExpanded === false"
+                <mat-icon class="fa-solid fa-chevron-right" *ngIf="item.node.isExpandable && item.isExpanded === false && item.status !== dataStatus.loading"
                     (click)="$event.stopPropagation();expand(item);"></mat-icon>
-                <mat-icon class="fa-solid fa-chevron-down" *ngIf="item.node.isExpandable && item.isExpanded"
+                <mat-icon class="fa-solid fa-chevron-down" *ngIf="item.node.isExpandable && item.isExpanded && item.status !== dataStatus.loading"
                     (click)="$event.stopPropagation();collapse(item)"></mat-icon>
                 <mat-spinner diameter="20"
                     *ngIf="item.node.isExpandable && item.status === dataStatus.loading"></mat-spinner>
-                <span *ngIf="!item.node.isExpandable" class="not-exandable-padding"></span>
+                <span *ngIf="!item.node.isExpandable" class="not-expandable-padding"></span>
 
                 <mat-icon class="{{treeConfig.iconClasses[item.node.type]}}" color="primary"></mat-icon>
 

@@ -29,7 +29,7 @@ export class TreeNodesReducer implements Reducer {
 
                   return [
                     ...nodes.slice(0, index),
-                    update(nodes[index], { status: { $set: registerNodesAction.dataStatus }, isExpanded: { $set: true } }),
+                    update(nodes[index], { status: { $set: registerNodesAction.dataStatus } }),
                     ...registerNodesAction.nodes.map((i) => ({
                       status: DataStatus.none,
                       isExpanded: false,

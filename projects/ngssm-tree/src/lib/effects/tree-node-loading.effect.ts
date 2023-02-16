@@ -9,7 +9,7 @@ import { selectNgssmTreeState } from '../state';
 
 @Injectable()
 export class TreeNodeLoadingEffect implements Effect {
-  public readonly processedActions: string[] = [NgssmTreeActionType.expandNode];
+  public readonly processedActions: string[] = [NgssmTreeActionType.expandNode, NgssmTreeActionType.selectNode];
 
   constructor(@Inject(NGSSM_TREE_DATA_SERVICE) @Optional() private dataServices: NgssmTreeDataService[], private logger: Logger) {}
 

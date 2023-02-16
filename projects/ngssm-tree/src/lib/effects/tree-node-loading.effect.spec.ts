@@ -27,7 +27,7 @@ describe('TreeNodeLoadingEffect', () => {
     effect = TestBed.inject(TreeNodeLoadingEffect);
   });
 
-  [NgssmTreeActionType.expandNode].forEach((actionType: string) => {
+  [NgssmTreeActionType.expandNode, NgssmTreeActionType.selectNode].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(effect.processedActions).toContain(actionType);
     });
