@@ -2,15 +2,14 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { AgGridModule } from 'ag-grid-angular';
+import { GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmTreeComponent, NgssmTreeConfig, NodeData } from 'ngssm-tree';
+import { NgssmTreeComponent, NgssmTreeConfig, NodeData, selectNgssmTreeState } from 'ngssm-tree';
 import { NgssmAgGridConfig, NgssmAgGridModule } from 'ngssm-ag-grid';
-import { GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { selectNgssmTreeState } from 'projects/ngssm-tree/src/lib/state';
 
 @Component({
   selector: 'app-ngssm-tree-demo',
