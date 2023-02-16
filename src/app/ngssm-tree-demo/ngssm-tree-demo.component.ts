@@ -8,13 +8,13 @@ import { AgGridModule } from 'ag-grid-angular';
 import { GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmTreeComponent, NgssmTreeConfig, NodeData, selectNgssmTreeState } from 'ngssm-tree';
+import { NgssmBreadcrumbComponent, NgssmTreeComponent, NgssmTreeConfig, NodeData, selectNgssmTreeState } from 'ngssm-tree';
 import { NgssmAgGridConfig, NgssmAgGridModule } from 'ngssm-ag-grid';
 
 @Component({
   selector: 'app-ngssm-tree-demo',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, AgGridModule, NgssmTreeComponent, NgssmAgGridModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, AgGridModule, NgssmTreeComponent, NgssmBreadcrumbComponent, NgssmAgGridModule],
   templateUrl: './ngssm-tree-demo.component.html',
   styleUrls: ['./ngssm-tree-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
