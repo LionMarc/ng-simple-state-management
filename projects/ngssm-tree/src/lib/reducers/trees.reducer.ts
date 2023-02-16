@@ -3,12 +3,12 @@ import { DataStatus } from 'ngssm-remote-data';
 
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
-import { InitNgssmTreeAction, NgssmTreeActionType } from '../actions';
+import { DeleteNgssmTreeAction, InitNgssmTreeAction, NgssmTreeActionType } from '../actions';
 import { updateNgssmTreeState } from '../state';
 
 @Injectable()
 export class TreesReducer implements Reducer {
-  public readonly processedActions: string[] = [NgssmTreeActionType.initNgssmTree];
+  public readonly processedActions: string[] = [NgssmTreeActionType.initNgssmTree, NgssmTreeActionType.deleteNgssmTree];
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
@@ -30,6 +30,13 @@ export class TreesReducer implements Reducer {
               }
             }
           }
+        });
+      }
+
+      case NgssmTreeActionType.deleteNgssmTree: {
+        const deleteNgssmTreeAction = action as DeleteNgssmTreeAction;
+        return updateNgssmTreeState(state, {
+          trees: { $unset: [deleteNgssmTreeAction.treeId] }
         });
       }
     }

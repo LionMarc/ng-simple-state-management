@@ -1,3 +1,4 @@
+import { NgssmTreeActionType } from '../actions';
 import { TreeNodeSelectionReducer } from './tree-node-selection.reducer';
 
 describe('TreeNodeSelectionReducer', () => {
@@ -9,7 +10,7 @@ describe('TreeNodeSelectionReducer', () => {
     state = {};
   });
 
-  [].forEach((actionType: string) => {
+  [NgssmTreeActionType.selectNode].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(reducer.processedActions).toContain(actionType);
     });
