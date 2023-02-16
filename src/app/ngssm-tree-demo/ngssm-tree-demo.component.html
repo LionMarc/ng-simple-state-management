@@ -2,6 +2,9 @@
     <mat-card-header>
         <mat-icon class="fa-solid fa-folder-tree" mat-card-avatar color="primary"></mat-icon>
         <mat-card-title>ngssm-tree demo</mat-card-title>
+        <mat-card-subtitle>
+            <ngssm-breadcrumb [treeId]="'demo'"></ngssm-breadcrumb>
+        </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="flex-row-stretch fxFlex">
         <mat-card class="flex-column-stretch tree-container">
