@@ -16,12 +16,21 @@ import {
   selectNgssmTreeState,
   SelectNodeAction
 } from 'ngssm-tree';
-import { NgssmAgGridConfig, NgssmAgGridModule } from 'ngssm-ag-grid';
+import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
 
 @Component({
   selector: 'app-ngssm-tree-demo',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, AgGridModule, NgssmTreeComponent, NgssmBreadcrumbComponent, NgssmAgGridModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    AgGridModule,
+    NgssmTreeComponent,
+    NgssmBreadcrumbComponent,
+    NgssmAgGridDirective,
+    NgssmAgGridThemeDirective
+  ],
   templateUrl: './ngssm-tree-demo.component.html',
   styleUrls: ['./ngssm-tree-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

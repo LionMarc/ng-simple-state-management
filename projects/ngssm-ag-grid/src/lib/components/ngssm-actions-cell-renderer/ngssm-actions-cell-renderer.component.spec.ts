@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 import { ICellRendererParams } from 'ag-grid-community';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -22,8 +20,8 @@ describe('NgssmActionsCellRendererComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NgssmActionsCellRendererComponent],
-      imports: [MatButtonModule, MatIconModule]
+      imports: [NgssmActionsCellRendererComponent],
+      teardown: { destroyAfterEach: false }
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgssmActionsCellRendererComponent);

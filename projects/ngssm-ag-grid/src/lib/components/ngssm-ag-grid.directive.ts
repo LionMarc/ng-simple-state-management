@@ -12,7 +12,8 @@ import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
 import { NgssmAgGridOptions, NGSSM_AG_GRID_OPTIONS } from '../ngssm-ag-grid-options';
 
 @Directive({
-  selector: '[ngssmAgGrid]'
+  selector: '[ngssmAgGrid]',
+  standalone: true
 })
 export class NgssmAgGridDirective implements OnDestroy {
   private readonly unsubsribeAll$ = new Subject<void>();

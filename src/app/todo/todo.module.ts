@@ -6,12 +6,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { MaterialImportsModule, NgssmToolkitModule } from 'ngssm-toolkit';
 import { NgssmRemoteDataReloadButtonComponent, NGSSM_REMOTE_DATA_PROVIDER } from 'ngssm-remote-data';
 import { NGSSM_NAVIGATION_LOCKING_CONFIG } from 'ngssm-navigation';
-import { NgssmAgGridModule } from 'ngssm-ag-grid';
 
 import { TodoRoutingModule } from './todo-routing.module';
-import { TodoDashboardComponent } from './components/todo-dashboard/todo-dashboard.component';
 import { TodoItemProviderService, TodoItemsService } from './services';
-import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { TodoItemEditorComponent } from './components/todo-item-editor/todo-item-editor.component';
 import { todoEditorEffectProvider } from './effects/todo-editor.effect';
 import { todoItemEditorReducerProvider } from './reducers/todo-item-editor.reducer';
@@ -21,13 +18,12 @@ import { TodoCountComponent } from './components/todo-count/todo-count.component
 import { TodoFooterComponent } from './components/todo-footer/todo-footer.component';
 
 @NgModule({
-  declarations: [TodoDashboardComponent, TodoItemComponent, TodoItemEditorComponent, TodoCountComponent, TodoFooterComponent],
+  declarations: [TodoItemEditorComponent, TodoCountComponent, TodoFooterComponent],
   imports: [
     ReactiveFormsModule,
     MaterialImportsModule,
     AgGridModule,
     NgssmToolkitModule,
-    NgssmAgGridModule,
     TodoRoutingModule,
     NgssmRemoteDataReloadButtonComponent
   ],

@@ -1,4 +1,8 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 
 import { selectRemoteData } from 'ngssm-remote-data';
@@ -9,6 +13,8 @@ import { EditTodoItemAction } from '../../actions';
 
 @Component({
   selector: 'app-todo-item',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

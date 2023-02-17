@@ -1,18 +1,39 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Observable } from 'rxjs';
 
 import { GetRowIdParams, GridOptions, ICellRendererParams } from 'ag-grid-community';
+import { AgGridModule } from 'ag-grid-angular';
 
-import { DataStatus, selectRemoteData } from 'ngssm-remote-data';
+import { DataStatus, NgssmRemoteDataReloadButtonComponent, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { getNgssmActionsCellColDef, NgssmAgGridConfig } from 'ngssm-ag-grid';
+import { getNgssmActionsCellColDef, NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
+import { NgssmToolkitModule } from 'ngssm-toolkit';
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
-import { FormControl } from '@angular/forms';
+import { TodoItemComponent } from '../todo-item/todo-item.component';
 
 @Component({
   selector: 'app-todo-dashboard',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    AgGridModule,
+    NgssmToolkitModule,
+    NgssmAgGridDirective,
+    NgssmAgGridThemeDirective,
+    NgssmRemoteDataReloadButtonComponent,
+    TodoItemComponent
+  ],
   templateUrl: './todo-dashboard.component.html',
   styleUrls: ['./todo-dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,10 +1,10 @@
 import { Injectable, Provider } from '@angular/core';
-import { selectRemoteData } from 'ngssm-remote-data';
 
+import { getDefaultRemoteData, selectRemoteData, updateRemoteDataState } from 'ngssm-remote-data';
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
 import { EditTodoItemAction, TodoActionType, UpdateTodoItemPropertyAction } from '../actions';
-import { TodoItem, todoItemsKey } from '../model';
+import { TodoItem, todoItemKey, todoItemsKey } from '../model';
 import { getDefaultTodoItemEditor, updateTodoState } from '../state';
 
 @Injectable()
@@ -18,10 +18,14 @@ export class TodoItemEditorReducer implements Reducer {
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
-      case TodoActionType.addTodoItem:
-        return updateTodoState(state, {
+      case TodoActionType.addTodoItem: {
+        const updatedState = updateRemoteDataState(state, {
+          [todoItemKey]: { $set: getDefaultRemoteData<TodoItem>() }
+        });
+        return updateTodoState(updatedState, {
           todoItemEditor: { $set: getDefaultTodoItemEditor() }
         });
+      }
 
       case TodoActionType.editTodoItem:
         const editTodoItemAction = action as EditTodoItemAction;

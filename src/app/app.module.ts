@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
-import { NgssmAgGridModule, NGSSM_AG_GRID_OPTIONS } from 'ngssm-ag-grid';
+import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { NgssmNavigationModule } from 'ngssm-navigation';
 import { provideNgssmRemoteData } from 'ngssm-remote-data';
 import { NgssmShellModule } from 'ngssm-shell';
@@ -29,7 +29,6 @@ import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
     NgssmShellModule.forRoot(),
     NgssmToolkitModule,
     NgssmNavigationModule,
-    NgssmAgGridModule.forRoot(),
     TodoModule,
     AceEditorModule,
     ToolkitModule,
@@ -61,6 +60,7 @@ import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
     },
     provideNgssmRemoteData(),
     provideNgssmTree(),
+    provideNgssmAgGrid(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true }
   ],
   bootstrap: [AppComponent]

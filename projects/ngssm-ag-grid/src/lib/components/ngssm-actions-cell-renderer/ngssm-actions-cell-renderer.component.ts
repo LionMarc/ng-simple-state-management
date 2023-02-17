@@ -1,4 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, isObservable, Observable, takeUntil } from 'rxjs';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -19,6 +22,8 @@ interface ActionButton {
 
 @Component({
   selector: 'ngssm-actions-cell-renderer',
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './ngssm-actions-cell-renderer.component.html',
   styleUrls: ['./ngssm-actions-cell-renderer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

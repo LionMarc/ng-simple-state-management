@@ -174,8 +174,8 @@ describe('NgssmAgGridDirective', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [AgGridModule],
-        declarations: [NgssmAgGridDirective, TestingComponent],
+        imports: [AgGridModule, NgssmAgGridDirective],
+        declarations: [TestingComponent],
         providers: [{ provide: Store, useValue: store }]
       }).compileComponents();
 
@@ -329,8 +329,8 @@ describe('NgssmAgGridDirective', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [AgGridModule],
-        declarations: [NgssmAgGridDirective, TestingWithConfigComponent],
+        imports: [AgGridModule, NgssmAgGridDirective],
+        declarations: [TestingWithConfigComponent],
         providers: [{ provide: Store, useValue: store }]
       }).compileComponents();
 
