@@ -134,4 +134,18 @@ describe('NgssmRegexEditorToggleComponent', () => {
       });
     });
   });
+
+  it(`should dispatch a input event when updating the regex value in order to update the associated form control`, async () => {
+    component.regexControl.setValue(`^\\d{4}-\\d{2}`);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const element = await loader.getHarness(MatButtonHarness.with({ selector: '#toggleButton' }));
+    await element.click();
+    const editor = getEditor(fixture);
+    editor.closeEditor.emit('^\\d{4}');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.regexControl.value).toEqual('^\\d{4}');
+  });
 });
