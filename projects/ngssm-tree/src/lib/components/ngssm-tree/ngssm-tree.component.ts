@@ -4,12 +4,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BehaviorSubject, combineLatest, Observable, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { DataStatus } from 'ngssm-remote-data';
 
-import { NgssmTreeConfig, NgssmTreeNode, NodeData } from '../../model';
+import { NgssmTree, NgssmTreeConfig, NgssmTreeNode, NodeData } from '../../model';
 import { selectNgssmTreeState } from '../../state';
 import { CollapseNodeAction, ExpandNodeAction, SelectNodeAction } from '../../actions';
 
@@ -26,26 +26,33 @@ export class NgssmTreeComponent extends NgSsmComponent {
   private readonly _displayedItems$ = new BehaviorSubject<NgssmTreeNode[]>([]);
   private readonly _selectedNodeId$ = new BehaviorSubject<string | undefined>(undefined);
 
+  private treeSubscription: Subscription | undefined;
+
   public readonly dataStatus = DataStatus;
 
   constructor(store: Store) {
     super(store);
+  }
 
-    // TODO - start watching when treeConfig is set
-    combineLatest([this._treeConfig$, this.watch((s) => selectNgssmTreeState(s).trees)])
-      .pipe(takeUntil(this.unsubscribeAll$))
-      .subscribe((values) => {
-        if (!values[0]) {
+  @Input() set treeConfig(value: NgssmTreeConfig | undefined | null) {
+    if (value) {
+      this._treeConfig$.next({ ...value });
+
+      this.treeSubscription?.unsubscribe();
+      this.treeSubscription = this.watch((s) => selectNgssmTreeState(s).trees[value.treeId]).subscribe((tree: NgssmTree | undefined) => {
+        const config = this._treeConfig$.getValue();
+        if (!tree || !config) {
           this._displayedItems$.next([]);
           return;
         }
 
         const alwaysTrue = (_: NodeData) => true;
-        const filter: (node: NodeData) => boolean = values[0].filter ?? alwaysTrue;
+        const filter: (node: NodeData) => boolean = config.filter ?? alwaysTrue;
 
         const items: NgssmTreeNode[] = [];
         let hiddenLevel = -1;
-        (values[1][values[0].treeId]?.nodes ?? []).forEach((t) => {
+        const nodesToFindSelected = new Map<string, { isDisplayed: boolean; node: NgssmTreeNode }>();
+        (tree.nodes ?? []).forEach((t) => {
           if (t.node.isExpandable && t.isExpanded === false && hiddenLevel === -1) {
             hiddenLevel = t.level;
           }
@@ -53,23 +60,37 @@ export class NgssmTreeComponent extends NgSsmComponent {
           if (hiddenLevel === -1 || t.level <= hiddenLevel) {
             if (filter(t.node)) {
               items.push(t);
+              nodesToFindSelected.set(t.node.nodeId, { isDisplayed: true, node: t });
             }
           }
 
           if (t.node.isExpandable && t.level <= hiddenLevel) {
             hiddenLevel = t.isExpanded === true ? -1 : t.level;
           }
+
+          if (!nodesToFindSelected.has(t.node.nodeId)) {
+            nodesToFindSelected.set(t.node.nodeId, { isDisplayed: false, node: t });
+          }
         });
 
         this._displayedItems$.next(items);
 
-        this._selectedNodeId$.next(values[1][values[0].treeId]?.selectedNode);
-      });
-  }
+        let selectedNode = tree.selectedNode;
+        if (!selectedNode) {
+          this._selectedNodeId$.next(undefined);
+        } else {
+          while (selectedNode) {
+            const item = nodesToFindSelected.get(selectedNode);
+            if (item?.isDisplayed !== true) {
+              selectedNode = item?.node.node.parentNodeId;
+            } else {
+              break;
+            }
+          }
 
-  @Input() set treeConfig(value: NgssmTreeConfig | undefined | null) {
-    if (value) {
-      this._treeConfig$.next(value);
+          this._selectedNodeId$.next(selectedNode);
+        }
+      });
     }
   }
 

@@ -5,10 +5,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
+import { CellClickedEvent, GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmBreadcrumbComponent, NgssmTreeComponent, NgssmTreeConfig, NodeData, selectNgssmTreeState } from 'ngssm-tree';
+import {
+  NgssmBreadcrumbComponent,
+  NgssmTreeComponent,
+  NgssmTreeConfig,
+  NodeData,
+  selectNgssmTreeState,
+  SelectNodeAction
+} from 'ngssm-tree';
 import { NgssmAgGridConfig, NgssmAgGridModule } from 'ngssm-ag-grid';
 
 @Component({
@@ -49,7 +56,13 @@ export class NgssmTreeDemoComponent extends NgSsmComponent {
         valueGetter: (params: ValueGetterParams<NodeData>) => params.data?.nodeId,
         headerName: 'Id',
         filter: 'agTextColumnFilter',
-        width: 80
+        width: 80,
+        onCellClicked: (event: CellClickedEvent<NodeData>) => {
+          const nodeId = event.data?.nodeId;
+          if (nodeId) {
+            this.dispatchAction(new SelectNodeAction('demo', nodeId));
+          }
+        }
       },
       {
         valueGetter: (params: ValueGetterParams<NodeData>) => params.data?.type,
