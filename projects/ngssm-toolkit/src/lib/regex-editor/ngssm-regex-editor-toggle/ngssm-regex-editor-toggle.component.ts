@@ -48,6 +48,7 @@ export class NgssmRegexEditorToggleComponent {
     this._isOpen$.next(false);
     if (regex !== undefined && this.inputElement) {
       this.inputElement.value = regex;
+      this.inputElement.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }
 }
