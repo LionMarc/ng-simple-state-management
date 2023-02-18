@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input, Inject, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -9,21 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { useDefaultErrorStateMatcher } from '../../default-error-state-matcher';
-
-export const regexValidator = (control: AbstractControl): ValidationErrors | null => {
-  try {
-    const regex = new RegExp(control.value);
-    if (regex.test('')) {
-      // nothing here
-    }
-  } catch (error: any) {
-    return {
-      regex: error.message
-    };
-  }
-
-  return null;
-};
+import { defaultRegexEditorValidator, NGSSM_REGEX_EDITOR_VALIDATOR, RegexEditorValidator } from '../regex-editor-validator';
 
 @Component({
   selector: 'ngssm-regex-editor',
@@ -35,14 +21,17 @@ export const regexValidator = (control: AbstractControl): ValidationErrors | nul
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmRegexEditorComponent {
+  private readonly regexValidator: RegexEditorValidator;
   private readonly _isRegexValid$ = new BehaviorSubject<boolean | null>(null);
 
-  public readonly regexControl = new FormControl<string | null>(null, [Validators.required, regexValidator]);
+  public readonly regexControl: FormControl<string | null>;
   public readonly testStringControl = new FormControl<string>('');
 
   @Output() closeEditor = new EventEmitter<string | undefined>();
 
-  constructor() {
+  constructor(@Inject(NGSSM_REGEX_EDITOR_VALIDATOR) @Optional() validator?: RegexEditorValidator) {
+    this.regexValidator = validator ?? defaultRegexEditorValidator;
+    this.regexControl = new FormControl<string | null>(null, [Validators.required, (c) => this.validatedRegex(c)]);
     combineLatest([this.regexControl.valueChanges, this.testStringControl.valueChanges, this.regexControl.statusChanges]).subscribe(
       (values) => {
         if (this.regexControl.invalid || (values[1] ?? '').length === 0) {
@@ -50,7 +39,8 @@ export class NgssmRegexEditorComponent {
           return;
         }
 
-        this._isRegexValid$.next(new RegExp(values[0] ?? '').test(values[1] ?? ''));
+        const isMatch = this.regexValidator.isMatch(values[0] ?? '', values[1] ?? '');
+        this._isRegexValid$.next(isMatch);
       }
     );
   }
@@ -69,5 +59,16 @@ export class NgssmRegexEditorComponent {
 
   public submit(): void {
     this.closeEditor.emit(this.regexControl.value ?? '');
+  }
+
+  private validatedRegex(control: AbstractControl): ValidationErrors | null {
+    const result = this.regexValidator.validatePattern(control.value);
+    if (result.isValid) {
+      return null;
+    }
+
+    return {
+      regex: result.error
+    };
   }
 }
