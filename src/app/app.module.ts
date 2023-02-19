@@ -7,7 +7,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { NgssmNavigationModule } from 'ngssm-navigation';
-import { provideNgssmRemoteData } from 'ngssm-remote-data';
+import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import { NgssmShellModule } from 'ngssm-shell';
 import {
   defaultRegexEditorValidator,
@@ -26,6 +26,7 @@ import { AceEditorModule } from './ace-editor/public-api';
 import { ToolkitModule } from './toolkit/public-api';
 import { ShellDemoModule } from './shell-demo/public-api';
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
+import { provideRemoteDataDemo } from './remote-data-demo/public-api';
 
 const dotnetRegexValidator: RegexEditorValidator = {
   validatePattern: (pattern: string) => {
@@ -84,8 +85,10 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     provideNgssmRemoteData(),
     provideNgssmTree(),
     provideNgssmAgGrid(),
+    provideNgssmRemoteCall(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
-    { provide: NGSSM_REGEX_EDITOR_VALIDATOR, useFactory: dotnetRegexValidatorFactory }
+    { provide: NGSSM_REGEX_EDITOR_VALIDATOR, useFactory: dotnetRegexValidatorFactory },
+    provideRemoteDataDemo()
   ],
   bootstrap: [AppComponent]
 })
