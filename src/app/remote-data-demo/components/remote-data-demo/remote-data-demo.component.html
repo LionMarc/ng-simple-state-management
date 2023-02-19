@@ -1,0 +1,36 @@
+<mat-card class="flex-column-stretch fxFlex">
+    <mat-card-header>
+        <mat-card-title>Ngssm Remote Data Demo</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="flex-row-stretch fxFlex">
+        <mat-card class="flex-column-stretch fxFlex with-margin-left-12">
+            <mat-card-header>
+                <mat-card-title>
+                    Remote Call Demo
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="flex-column-stretch fxFlex">
+                <mat-card class="flex-column-stretch">
+                    <mat-card-content class="flex-row-center">
+                        <button mat-button (click)="startCall()">
+                            Start call
+                        </button>
+
+                        <button mat-button (click)="endCallWithSuccess()" class="width-margin-left-12">
+                            End call with success
+                        </button>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="flex-column-stretch fxflex with-margin-top-8 fxFlex">
+                    <mat-card-header>
+                        <mat-card-title>Component using remote call directive</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteCall]="'demo'">
+                        <p>Custom Content</p>
+                        {{ remoteCall$ | async | json}}
+                    </mat-card-content>
+                </mat-card>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+</mat-card>
