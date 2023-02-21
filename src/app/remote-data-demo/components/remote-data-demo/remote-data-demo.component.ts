@@ -1,28 +1,67 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmRemoteCallDirective, NgssmRemoteCallResultAction, RemoteCall, RemoteCallStatus, selectRemoteCall } from 'ngssm-remote-data';
-import { Observable } from 'rxjs';
-import { RemoteDataDemoActionType } from '../../actions';
+import {
+  DataStatus,
+  NgssmRemoteCallDirective,
+  NgssmRemoteCallResultAction,
+  NgssmRemoteDataOverlayDirective,
+  RemoteCall,
+  RemoteCallStatus,
+  selectRemoteCall,
+  selectRemoteData
+} from 'ngssm-remote-data';
+
+import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions';
 
 @Component({
   selector: 'app-remote-data-demo',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, NgssmRemoteCallDirective],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatCardModule,
+    MatButtonModule,
+    NgssmRemoteCallDirective,
+    NgssmRemoteDataOverlayDirective
+  ],
   templateUrl: './remote-data-demo.component.html',
   styleUrls: ['./remote-data-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemoteDataDemoComponent extends NgSsmComponent {
+  private readonly _statuses$ = new BehaviorSubject<string[]>([]);
+
+  public readonly dataStatus = DataStatus;
+  public readonly dataStatusList = [DataStatus.loading, DataStatus.loaded];
+  public readonly dataStatusKeys = ['key1', 'key2', 'key3'];
+
+  public readonly dataStatusControl = new FormControl(DataStatus.loaded);
+  public readonly keyControl = new FormControl(this.dataStatusKeys[0]);
+
   constructor(store: Store) {
     super(store);
+
+    combineLatest(this.dataStatusKeys.map((k) => this.watch((s) => selectRemoteData(s, k)?.status))).subscribe((values) => {
+      this._statuses$.next(values.map((v, i) => `${this.dataStatusKeys[i]} - ${v}`));
+    });
   }
 
   public get remoteCall$(): Observable<RemoteCall> {
     return this.watch((s) => selectRemoteCall(s, 'demo'));
+  }
+
+  public get statuses$(): Observable<string[]> {
+    return this._statuses$.asObservable();
   }
 
   public startCall(): void {
@@ -31,5 +70,9 @@ export class RemoteDataDemoComponent extends NgSsmComponent {
 
   public endCallWithSuccess(): void {
     this.dispatchAction(new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, { status: RemoteCallStatus.done }));
+  }
+
+  public updateStatus(): void {
+    this.dispatchAction(new UpdateDataStatusAction(this.keyControl.value ?? '', this.dataStatusControl.value ?? DataStatus.loaded));
   }
 }
