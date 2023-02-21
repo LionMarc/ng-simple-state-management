@@ -14,4 +14,6 @@ export interface ActionConfig<TData = any, TValue = any> {
   isDisabled?: ActionDisabledFunc<TData, TValue> | Observable<boolean>;
 
   click?: (params: ICellRendererParams<TData, TValue>) => void;
+
+  tooltip?: string;
 }

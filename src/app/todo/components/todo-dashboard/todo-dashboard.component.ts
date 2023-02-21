@@ -64,14 +64,23 @@ export class TodoDashboardComponent extends NgSsmComponent {
               cssClass: 'fa-solid fa-pen-to-square',
               color: 'primary',
               isDisabled: (params: ICellRendererParams<TodoItem, number>) => params.value < 2,
-              click: (params: ICellRendererParams<TodoItem, number>) => this.dispatchAction(new EditTodoItemAction(params.value))
+              click: (params: ICellRendererParams<TodoItem, number>) => this.dispatchAction(new EditTodoItemAction(params.value)),
+              tooltip: 'Edit to-do'
+            },
+            {
+              cssClass: 'fa-solid fa-question',
+              color: 'accent',
+              isDisabled: (params: ICellRendererParams<TodoItem, number>) => params.value === 2,
+              click: (params: ICellRendererParams<TodoItem, number>) => {
+                console.log('Column action called.', params);
+              }
             }
           ]
         }),
         field: 'id',
         headerName: 'actions',
         colId: 'actions',
-        width: 80,
+        width: 100,
         pinned: 'left',
         resizable: false
       },
