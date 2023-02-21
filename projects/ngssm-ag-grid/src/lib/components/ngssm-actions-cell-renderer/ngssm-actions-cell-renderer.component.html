@@ -1,7 +1,7 @@
 <div class="ngssm-actions-cell">
     <button *ngFor="let actionButton of actionButtons$ | async; let index=index" mat-icon-button
         class="ngssm-actions-cell-button" [color]="actionButton.color" id="action_{{index}}"
-        [disabled]="actionButton.disabled$ | async" (click)="executeAction(actionButton)">
+        [disabled]="actionButton.disabled$ | async" (click)="executeAction(actionButton)" [matTooltip]="actionButton.tooltip">
         <mat-icon [class]="actionButton.cssClass"></mat-icon>
     </button>
 </div>

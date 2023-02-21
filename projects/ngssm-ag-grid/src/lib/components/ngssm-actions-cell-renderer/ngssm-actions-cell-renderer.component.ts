@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BehaviorSubject, isObservable, Observable, takeUntil } from 'rxjs';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -18,12 +19,14 @@ interface ActionButton {
   disabled$: BehaviorSubject<boolean>;
 
   actionConfig: ActionConfig;
+
+  tooltip: string;
 }
 
 @Component({
   selector: 'ngssm-actions-cell-renderer',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './ngssm-actions-cell-renderer.component.html',
   styleUrls: ['./ngssm-actions-cell-renderer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -66,7 +69,8 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
         cssClass: a.cssClass,
         color: a.color ?? 'primary',
         disabled$: new BehaviorSubject<boolean>(false),
-        actionConfig: a
+        actionConfig: a,
+        tooltip: a.tooltip ?? ''
       };
 
       if (a.isDisabled instanceof Function) {
