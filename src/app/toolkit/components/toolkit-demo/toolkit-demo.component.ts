@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmNotifierService } from 'ngssm-toolkit';
+import { NgssmConfirmationDialogService, NgssmNotifierService } from 'ngssm-toolkit';
 
 @Component({
   selector: 'app-toolkit-demo',
@@ -16,7 +16,11 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   public readonly filePickerDisabledControl = new FormControl<boolean>(false);
   public readonly regexControl = new FormControl<string | null>(null);
 
-  constructor(store: Store, private ngssmNotifierService: NgssmNotifierService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    store: Store,
+    private ngssmNotifierService: NgssmNotifierService,
+    private ngssmConfirmationDialogService: NgssmConfirmationDialogService
+  ) {
     super(store);
 
     this.filePickerDisabledControl.valueChanges.subscribe((v) => {
@@ -42,5 +46,20 @@ export class ToolkitDemoComponent extends NgSsmComponent {
     } else {
       this.regexControl.disable();
     }
+  }
+
+  public displayConfirmationDialog(message: string, submitLabel: string, cancelLabel: string): void {
+    console.log('displayConfirmationDialog', message, submitLabel, cancelLabel);
+    this.ngssmConfirmationDialogService
+      .displayConfirmationDialog({
+        message,
+        submitLabel,
+        cancelLabel,
+        submitButtonColor: 'primary',
+        minWidth: 300
+      })
+      .subscribe((value) => {
+        console.log('CONFIRMATION', value);
+      });
   }
 }

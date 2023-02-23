@@ -10,3 +10,5 @@ export * from './lib/not-found.component';
 export * from './lib/file-picker';
 export * from './lib/notification';
 export * from './lib/regex-editor';
+export * from './lib/confirmation-dialog';
+export * from './lib/object-helpers';

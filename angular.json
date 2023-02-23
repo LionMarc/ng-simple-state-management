@@ -189,9 +189,14 @@
     },
     "ngssm-toolkit": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "projects/ngssm-toolkit",
       "sourceRoot": "projects/ngssm-toolkit/src",
-      "prefix": "lib",
+      "prefix": "ngssm",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

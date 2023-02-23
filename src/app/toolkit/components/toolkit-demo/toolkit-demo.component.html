@@ -41,6 +41,31 @@
             </mat-card-content>
         </mat-card>
 
+        <mat-card appearance="raised" class="sub-card confirmation-demo flex-column-stretch">
+            <mat-card-header>
+                <mat-card-title>Confirmation dialog</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content class="flex-column-stretch fxFlex">
+                <mat-form-field>
+                    <mat-label>Dialog Message</mat-label>
+                    <input matInput #dialogMessage>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Cancel button label</mat-label>
+                    <input matInput #cancel>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Submit button label</mat-label>
+                    <input matInput #submit>
+                </mat-form-field>
+                <button mat-stroked-button color="primary"
+                    (click)="displayConfirmationDialog(dialogMessage.value, submit.value, cancel.value)">
+                    Display confirmation dialog
+                </button>
+            </mat-card-content>
+        </mat-card>
+
         <mat-card appearance="raised" class="sub-card regex-editor-demo flex-column-stretch">
             <mat-card-header>
                 <mat-card-title>Regex Editor</mat-card-title>
