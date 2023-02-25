@@ -30,7 +30,8 @@ import { MessageOverlayComponent } from './message-overlay.component';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[displayOverlay]'
+  selector: '[displayOverlay]',
+  standalone: true
 })
 export class ComponentOverlayDirective implements OnDestroy, AfterViewInit {
   private readonly unSubscribeAll$ = new Subject<void>();

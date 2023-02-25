@@ -6,6 +6,7 @@ import { NotFoundComponent } from 'ngssm-toolkit';
 import { NgssmTreeDemoComponent } from './ngssm-tree-demo/ngssm-tree-demo/ngssm-tree-demo.component';
 import { TreeInitGuard } from './ngssm-tree-demo/tree-init.guard';
 import { remoteDataDemoRoutes } from './remote-data-demo/public-api';
+import { toolkitRoutes } from './toolkit/public-api';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'remote-data-demo',
     children: remoteDataDemoRoutes
+  },
+  {
+    path: 'ngssm-toolkit',
+    children: toolkitRoutes
   },
   { path: '**', component: NotFoundComponent }
 ];

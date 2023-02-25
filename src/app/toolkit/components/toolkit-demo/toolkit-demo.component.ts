@@ -1,11 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmConfirmationDialogService, NgssmNotifierService } from 'ngssm-toolkit';
+import { FilePickerComponent, NgssmConfirmationDialogService, NgssmNotifierService, NgssmRegexEditorToggleComponent } from 'ngssm-toolkit';
+import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 
 @Component({
   selector: 'app-toolkit-demo',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatCheckboxModule,
+    FilePickerComponent,
+    NgssmRegexEditorToggleComponent,
+    OverlayDemoComponent
+  ],
   templateUrl: './toolkit-demo.component.html',
   styleUrls: ['./toolkit-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
