@@ -26,14 +26,13 @@ import { Directionality } from '@angular/cdk/bidi';
 import { ComponentPortal, ComponentType, TemplatePortal } from '@angular/cdk/portal';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
-import { MessageOverlayComponent } from './message-overlay.component';
+import { NgssmMessageOverlayComponent } from './ngssm-message-overlay.component';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[displayOverlay]',
+  selector: '[ngssmDisplayOverlay]',
   standalone: true
 })
-export class ComponentOverlayDirective implements OnDestroy, AfterViewInit {
+export class NgssmComponentOverlayDirective implements OnDestroy, AfterViewInit {
   private readonly unSubscribeAll$ = new Subject<void>();
   private readonly _displayOverlay$ = new BehaviorSubject<boolean>(false);
   private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
@@ -91,7 +90,7 @@ export class ComponentOverlayDirective implements OnDestroy, AfterViewInit {
     this._overlayMessage$.next(value);
   }
 
-  @Input('displayOverlay') public set dispalyOverlay(value: boolean) {
+  @Input('ngssmDisplayOverlay') public set dispalyOverlay(value: boolean) {
     this._displayOverlay$.next(value);
   }
 
@@ -118,11 +117,11 @@ export class ComponentOverlayDirective implements OnDestroy, AfterViewInit {
       this.overlayRef.attach(new TemplatePortal(this.overLayTemplate, this.viewContainerRef));
     } else if (this.overlayComponent) {
       const ref = this.overlayRef.attach(new ComponentPortal(this.overlayComponent));
-      if (this.overlayComponent === MessageOverlayComponent) {
+      if (this.overlayComponent === NgssmMessageOverlayComponent) {
         ref.instance.message$ = this._overlayMessage$.asObservable();
       }
     } else {
-      const ref = this.overlayRef.attach(new ComponentPortal(MessageOverlayComponent));
+      const ref = this.overlayRef.attach(new ComponentPortal(NgssmMessageOverlayComponent));
       ref.instance.message$ = this._overlayMessage$.asObservable();
     }
   }

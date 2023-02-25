@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   template: ``,
   styles: []
 })
-export class EmptyOverlayComponent {}
+export class NgssmEmptyOverlayComponent {}
