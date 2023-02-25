@@ -1,1 +1,1 @@
-export * from './toolkit.module';
+export * from './toolkit-routes';

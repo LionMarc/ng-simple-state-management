@@ -11,7 +11,6 @@ import { NgssmShellModule } from 'ngssm-shell';
 import {
   defaultRegexEditorValidator,
   MaterialImportsModule,
-  NgssmToolkitModule,
   NGSSM_REGEX_EDITOR_VALIDATOR,
   RegexEditorValidator,
   useDefaultErrorStateMatcher
@@ -23,7 +22,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoModule } from './todo/public-api';
 import { AceEditorModule } from './ace-editor/public-api';
-import { ToolkitModule } from './toolkit/public-api';
 import { ShellDemoModule } from './shell-demo/public-api';
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
 import { provideRemoteDataDemo } from './remote-data-demo/public-api';
@@ -51,10 +49,8 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     BrowserModule,
     BrowserAnimationsModule,
     NgssmShellModule.forRoot(),
-    NgssmToolkitModule,
     TodoModule,
     AceEditorModule,
-    ToolkitModule,
     ShellDemoModule,
     AppRoutingModule
   ],

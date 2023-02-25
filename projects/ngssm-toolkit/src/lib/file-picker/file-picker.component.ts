@@ -1,13 +1,17 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostBinding, Input, OnDestroy, Optional, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { FileSizePipe } from './file-size.pipe';
 
 export const noop = () => {};
 
 @Component({
   selector: 'ngssm-file-picker',
+  standalone: true,
+  imports: [CommonModule, FileSizePipe],
   templateUrl: './file-picker.component.html',
   styleUrls: ['./file-picker.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: FilePickerComponent }]
