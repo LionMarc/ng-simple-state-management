@@ -1,13 +1,13 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { NavigationLockedGuard } from './guards';
+import { isNavigationUnLocked } from './guards';
 import { navigationReducerProvider } from './reducers/navigation.reducer';
 
 function initializeNavigation(router: Router): () => void {
   return () => {
     router.config.forEach((route) => {
-      route.canDeactivate = [NavigationLockedGuard, ...(route.canDeactivate ?? [])];
+      route.canDeactivate = [() => isNavigationUnLocked(), ...(route.canDeactivate ?? [])];
     });
   };
 }

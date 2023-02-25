@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NotFoundComponent } from 'ngssm-toolkit';
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'tree-demo',
     component: NgssmTreeDemoComponent,
-    canActivate: [TreeInitGuard]
+    canActivate: [() => inject(TreeInitGuard).canActivate()]
   },
   {
     path: 'remote-data-demo',
