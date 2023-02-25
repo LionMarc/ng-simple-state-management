@@ -8,7 +8,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { FilePickerComponent, NgssmConfirmationDialogService, NgssmNotifierService, NgssmRegexEditorToggleComponent } from 'ngssm-toolkit';
+import {
+  NgssmFilePickerComponent,
+  NgssmConfirmationDialogService,
+  NgssmNotifierService,
+  NgssmRegexEditorToggleComponent
+} from 'ngssm-toolkit';
 import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 
 @Component({
@@ -22,7 +27,7 @@ import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
     MatButtonModule,
     MatInputModule,
     MatCheckboxModule,
-    FilePickerComponent,
+    NgssmFilePickerComponent,
     NgssmRegexEditorToggleComponent,
     OverlayDemoComponent
   ],

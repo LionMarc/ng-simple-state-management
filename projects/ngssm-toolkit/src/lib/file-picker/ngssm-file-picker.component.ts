@@ -4,19 +4,20 @@ import { Component, ElementRef, HostBinding, Input, OnDestroy, Optional, Self, V
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { FileSizePipe } from './file-size.pipe';
+
+import { NgssmFileSizePipe } from './ngssm-file-size.pipe';
 
 export const noop = () => {};
 
 @Component({
   selector: 'ngssm-file-picker',
   standalone: true,
-  imports: [CommonModule, FileSizePipe],
-  templateUrl: './file-picker.component.html',
-  styleUrls: ['./file-picker.component.scss'],
-  providers: [{ provide: MatFormFieldControl, useExisting: FilePickerComponent }]
+  imports: [CommonModule, NgssmFileSizePipe],
+  templateUrl: './ngssm-file-picker.component.html',
+  styleUrls: ['./ngssm-file-picker.component.scss'],
+  providers: [{ provide: MatFormFieldControl, useExisting: NgssmFilePickerComponent }]
 })
-export class FilePickerComponent implements MatFormFieldControl<File>, ControlValueAccessor, OnDestroy {
+export class NgssmFilePickerComponent implements MatFormFieldControl<File>, ControlValueAccessor, OnDestroy {
   private static nextId = 0;
 
   private readonly _displayDetails$ = new BehaviorSubject<boolean>(true);
@@ -36,7 +37,7 @@ export class FilePickerComponent implements MatFormFieldControl<File>, ControlVa
     }
   }
 
-  @HostBinding('id') public id = `file-picker-${FilePickerComponent.nextId++}`;
+  @HostBinding('id') public id = `file-picker-${NgssmFilePickerComponent.nextId++}`;
   public controlType = 'file-picker';
   public placeholder: string = '';
   public focused: boolean = false;
