@@ -22,7 +22,8 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { MessageOverlayComponent } from './message-overlay.component';
+
+import { NgssmMessageOverlayComponent } from './ngssm-message-overlay.component';
 
 @Injectable()
 export class NgssmOverlayBuilder {
@@ -84,11 +85,11 @@ export class NgssmOverlayBuilder {
       this.overlayRef.attach(new TemplatePortal(this.overLayTemplate, this.viewContainerRef));
     } else if (this.overlayComponent) {
       const ref = this.overlayRef.attach(new ComponentPortal(this.overlayComponent));
-      if (this.overlayComponent === MessageOverlayComponent) {
+      if (this.overlayComponent === NgssmMessageOverlayComponent) {
         ref.instance.message$ = this._overlayMessage$.asObservable();
       }
     } else {
-      const ref = this.overlayRef.attach(new ComponentPortal(MessageOverlayComponent));
+      const ref = this.overlayRef.attach(new ComponentPortal(NgssmMessageOverlayComponent));
       ref.instance.message$ = this._overlayMessage$.asObservable();
     }
   }

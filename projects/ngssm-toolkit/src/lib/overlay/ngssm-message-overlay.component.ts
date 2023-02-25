@@ -26,6 +26,6 @@ import { Observable, Subject } from 'rxjs';
     `
   ]
 })
-export class MessageOverlayComponent {
+export class NgssmMessageOverlayComponent {
   public message$: Observable<string> = new Subject<string>();
 }

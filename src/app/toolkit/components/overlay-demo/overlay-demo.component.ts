@@ -5,12 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { ComponentOverlayDirective } from 'ngssm-toolkit';
+import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 @Component({
   selector: 'app-overlay-demo',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatSlideToggleModule, ComponentOverlayDirective],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatSlideToggleModule, NgssmComponentOverlayDirective],
   templateUrl: './overlay-demo.component.html',
   styleUrls: ['./overlay-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

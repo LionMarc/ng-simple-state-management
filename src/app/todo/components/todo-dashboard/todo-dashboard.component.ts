@@ -12,7 +12,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { DataStatus, NgssmRemoteDataReloadButtonComponent, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { getNgssmActionsCellColDef, NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
-import { ComponentOverlayDirective } from 'ngssm-toolkit';
+import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
@@ -31,7 +31,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
     NgssmAgGridDirective,
     NgssmAgGridThemeDirective,
     NgssmRemoteDataReloadButtonComponent,
-    ComponentOverlayDirective,
+    NgssmComponentOverlayDirective,
     TodoItemComponent
   ],
   templateUrl: './todo-dashboard.component.html',
