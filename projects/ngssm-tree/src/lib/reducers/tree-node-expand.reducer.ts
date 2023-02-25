@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 import { DataStatus } from 'ngssm-remote-data';
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
-import { CollapseNodeAction, ExpandNodeAction, NgssmTreeActionType, SelectNodeAction } from '../actions';
+import { CollapseNodeAction, ExpandNodeAction, LoadChildrenOfNodeAction, NgssmTreeActionType, SelectNodeAction } from '../actions';
 import { NgssmTreeNode } from '../model';
 import { selectNgssmTreeState, updateNgssmTreeState } from '../state';
 
@@ -14,7 +14,8 @@ export class TreeNodeExpandReducer implements Reducer {
   public readonly processedActions: string[] = [
     NgssmTreeActionType.expandNode,
     NgssmTreeActionType.collapseNode,
-    NgssmTreeActionType.selectNode
+    NgssmTreeActionType.selectNode,
+    NgssmTreeActionType.loadChildrenOfNode
   ];
 
   public updateState(state: State, action: Action): State {
@@ -97,6 +98,34 @@ export class TreeNodeExpandReducer implements Reducer {
                     const item = update(result[index], {
                       status: { $set: DataStatus.loading }
                     });
+
+                    result.splice(index, 1, item);
+                  }
+
+                  return result;
+                }
+              }
+            }
+          }
+        });
+      }
+
+      case NgssmTreeActionType.loadChildrenOfNode: {
+        const loadChildrenOfNodeAction = action as LoadChildrenOfNodeAction;
+        return updateNgssmTreeState(state, {
+          trees: {
+            [loadChildrenOfNodeAction.treeId]: {
+              nodes: {
+                $apply: (nodes: NgssmTreeNode[]) => {
+                  const result = [...nodes];
+                  const index = result.findIndex((n) => n.node.nodeId === loadChildrenOfNodeAction.nodeId);
+                  if (index !== -1) {
+                    let item = result[index];
+                    if (item.status !== DataStatus.loaded) {
+                      item = update(result[index], {
+                        status: { $set: DataStatus.loading }
+                      });
+                    }
 
                     result.splice(index, 1, item);
                   }

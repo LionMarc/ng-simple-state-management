@@ -4,6 +4,8 @@ import { NodeData } from './node-data';
 
 export interface NgssmTreeDataService {
   readonly treeType: string;
+  // Component used to display the result of a search
+  readonly searchResultViewer?: any;
   load(treeId: string, nodeId: string): Observable<NodeData[]>;
 }
 

@@ -1,8 +1,8 @@
 import { NgssmTreeActionType } from './ngssm-tree-action-type';
-import { TreeAction } from './tree-action';
+import { TreeNodeAction } from './tree-node-action';
 
-export class ExpandNodeAction extends TreeAction {
-  constructor(treeId: string, public readonly nodeId: string) {
-    super(NgssmTreeActionType.expandNode, treeId);
+export class ExpandNodeAction extends TreeNodeAction {
+  constructor(treeId: string, nodeId: string) {
+    super(NgssmTreeActionType.expandNode, treeId, nodeId);
   }
 }

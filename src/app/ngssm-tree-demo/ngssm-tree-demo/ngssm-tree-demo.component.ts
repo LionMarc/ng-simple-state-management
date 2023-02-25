@@ -12,6 +12,7 @@ import {
   NgssmBreadcrumbComponent,
   NgssmTreeComponent,
   NgssmTreeConfig,
+  NgssmTreeNode,
   NodeData,
   selectNgssmTreeState,
   SelectNodeAction
@@ -36,7 +37,7 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmTreeDemoComponent extends NgSsmComponent {
-  private readonly _selectedNodeChildren$ = new BehaviorSubject<NodeData[]>([]);
+  private readonly _selectedNodeChildren$ = new BehaviorSubject<NgssmTreeNode[]>([]);
 
   public readonly treeConfig: NgssmTreeConfig = {
     treeId: 'demo',
@@ -62,31 +63,37 @@ export class NgssmTreeDemoComponent extends NgSsmComponent {
     },
     columnDefs: [
       {
-        valueGetter: (params: ValueGetterParams<NodeData>) => params.data?.nodeId,
+        valueGetter: (params: ValueGetterParams<NgssmTreeNode>) => params.data?.node.nodeId,
         headerName: 'Id',
         filter: 'agTextColumnFilter',
         width: 80,
-        onCellClicked: (event: CellClickedEvent<NodeData>) => {
-          const nodeId = event.data?.nodeId;
+        onCellClicked: (event: CellClickedEvent<NgssmTreeNode>) => {
+          const nodeId = event.data?.node.nodeId;
           if (nodeId) {
             this.dispatchAction(new SelectNodeAction('demo', nodeId));
           }
         }
       },
       {
-        valueGetter: (params: ValueGetterParams<NodeData>) => params.data?.type,
+        valueGetter: (params: ValueGetterParams<NgssmTreeNode>) => params.data?.node.type,
         headerName: 'Type',
         filter: 'agTextColumnFilter',
         width: 200
       },
       {
-        valueGetter: (params: ValueGetterParams<NodeData>) => params.data?.label,
+        valueGetter: (params: ValueGetterParams<NgssmTreeNode>) => params.data?.node.label,
         headerName: 'Label',
         filter: 'agTextColumnFilter',
         width: 200
+      },
+      {
+        valueGetter: (params: ValueGetterParams<NgssmTreeNode>) => params.data?.parentFullPath,
+        headerName: 'Parent path',
+        filter: 'agTextColumnFilter',
+        width: 400
       }
     ],
-    getRowId: (params: GetRowIdParams<NodeData>) => params.data.nodeId
+    getRowId: (params: GetRowIdParams<NgssmTreeNode>) => params.data.node.nodeId
   };
 
   public agGridConfig: NgssmAgGridConfig = {
@@ -107,11 +114,11 @@ export class NgssmTreeDemoComponent extends NgSsmComponent {
         return;
       }
 
-      this._selectedNodeChildren$.next((values[0] ?? []).filter((v) => v.node.parentNodeId === values[1]).map((v) => v.node));
+      this._selectedNodeChildren$.next((values[0] ?? []).filter((v) => v.node.parentNodeId === values[1]).map((v) => v));
     });
   }
 
-  public get selectedNodeChildren$(): Observable<NodeData[]> {
+  public get selectedNodeChildren$(): Observable<NgssmTreeNode[]> {
     return this._selectedNodeChildren$.asObservable();
   }
 }

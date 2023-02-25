@@ -4,5 +4,11 @@ export enum NgssmTreeActionType {
   expandNode = '[NgssmTreeActionType] expandNode',
   collapseNode = '[NgssmTreeActionType] collapseNode',
   registerNodes = '[NgssmTreeActionType] registerNodes',
-  selectNode = '[NgssmTreeActionType] selectNode'
+  selectNode = '[NgssmTreeActionType] selectNode',
+  loadChildrenOfNode = '[NgssmTreeActionType] loadChildrenOfNode',
+  displaySearchDialog = '[NgssmTreeActionType] displaySearchDialog',
+  closeSearchDialog = '[NgssmTreeActionType] closeSearchDialog',
+  searchTreeNodes = '[NgssmTreeActionType] searchTreeNodes',
+  registerPartialSearchResults = '[NgssmTreeActionType] registerPartialSearchResults',
+  abortTreeNodesSearch = '[NgssmTreeActionType] abortTreeNodesSearch'
 }

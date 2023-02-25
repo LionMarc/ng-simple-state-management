@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Tree search dialog</h1>
+<mat-dialog-content class="flex-column-stretch fxFlex">
+    <mat-card class="flex-column-stretch">
+        <mat-card-content class="flex-row-center">
+            <mat-form-field class="with-margin-right-12 fxFlex">
+                <mat-label>Starts search in</mat-label>
+                <input matInput readonly [formControl]="searchRootPathControl">
+            </mat-form-field>
+
+            <mat-form-field class="fxFlex with-margin-right-12">
+                <mat-label>Search pattern</mat-label>
+                <input matInput [formControl]="searchPatternControl">
+                <mat-error *ngIf="searchPatternControl.errors?.['regex']">
+                    {{searchPatternControl.errors?.['regex']}}
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-stroked-button color="primary" [disabled]="searchPatternControl.invalid" (click)="search()"
+                *ngIf="(searchStatus$ | async) !== searchStatus.inProgress">
+                <mat-icon class="fa-solid fa-magnifying-glass"></mat-icon>
+                Search
+            </button>
+
+            <button mat-raised-button color="accent" (click)="abort()"
+                *ngIf="(searchStatus$ | async) === searchStatus.inProgress">
+                <mat-icon class="fa-solid fa-ban"></mat-icon>
+                Abort
+            </button>
+        </mat-card-content>
+        <mat-card-footer class="flex-row-center" *ngIf="(searchStatus$ | async) === searchStatus.inProgress">
+            <mat-spinner [diameter]="20"></mat-spinner>
+            {{ currentSearchedPath$ | async }}
+        </mat-card-footer>
+    </mat-card>
+    <mat-card class="flex-column-stretch fxFlex with-margin-top-8">
+        <ng-container #resultsViewerContainer></ng-container>
+    </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions class="flex-row-center">
+    <span class="fxFlex"></span>
+    <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

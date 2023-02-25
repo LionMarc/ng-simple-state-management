@@ -11,7 +11,12 @@ import { DataStatus } from 'ngssm-remote-data';
 
 import { NgssmTree, NgssmTreeConfig, NgssmTreeNode, NodeData } from '../../model';
 import { selectNgssmTreeState } from '../../state';
-import { CollapseNodeAction, ExpandNodeAction, SelectNodeAction } from '../../actions';
+import { CollapseNodeAction, DisplaySearchDialogAction, ExpandNodeAction, SelectNodeAction } from '../../actions';
+
+interface DisplayedNode {
+  node: NgssmTreeNode;
+  canSearch: boolean;
+}
 
 @Component({
   selector: 'ngssm-tree',
@@ -23,7 +28,7 @@ import { CollapseNodeAction, ExpandNodeAction, SelectNodeAction } from '../../ac
 })
 export class NgssmTreeComponent extends NgSsmComponent {
   private readonly _treeConfig$ = new BehaviorSubject<NgssmTreeConfig | undefined>(undefined);
-  private readonly _displayedItems$ = new BehaviorSubject<NgssmTreeNode[]>([]);
+  private readonly _displayedItems$ = new BehaviorSubject<DisplayedNode[]>([]);
   private readonly _selectedNodeId$ = new BehaviorSubject<string | undefined>(undefined);
 
   private treeSubscription: Subscription | undefined;
@@ -48,8 +53,9 @@ export class NgssmTreeComponent extends NgSsmComponent {
 
         const alwaysTrue = (_: NodeData) => true;
         const filter: (node: NodeData) => boolean = config.filter ?? alwaysTrue;
+        const canSearch: (node: NodeData) => boolean = config.canSearch ?? alwaysTrue;
 
-        const items: NgssmTreeNode[] = [];
+        const items: DisplayedNode[] = [];
         let hiddenLevel = -1;
         const nodesToFindSelected = new Map<string, { isDisplayed: boolean; node: NgssmTreeNode }>();
         (tree.nodes ?? []).forEach((t) => {
@@ -59,7 +65,10 @@ export class NgssmTreeComponent extends NgSsmComponent {
 
           if (hiddenLevel === -1 || t.level <= hiddenLevel) {
             if (filter(t.node)) {
-              items.push(t);
+              items.push({
+                node: t,
+                canSearch: canSearch(t.node)
+              });
               nodesToFindSelected.set(t.node.nodeId, { isDisplayed: true, node: t });
             }
           }
@@ -98,7 +107,7 @@ export class NgssmTreeComponent extends NgSsmComponent {
     return this._treeConfig$.asObservable();
   }
 
-  public get displayedItems$(): Observable<NgssmTreeNode[]> {
+  public get displayedItems$(): Observable<DisplayedNode[]> {
     return this._displayedItems$.asObservable();
   }
 
@@ -106,8 +115,8 @@ export class NgssmTreeComponent extends NgSsmComponent {
     return this._selectedNodeId$.asObservable();
   }
 
-  public getItemId(_: number, node: NgssmTreeNode): string {
-    return node.node.nodeId;
+  public getItemId(_: number, node: DisplayedNode): string {
+    return node.node.node.nodeId;
   }
 
   public expand(node: NgssmTreeNode): void {
@@ -128,6 +137,13 @@ export class NgssmTreeComponent extends NgSsmComponent {
     const treeId = this._treeConfig$.getValue()?.treeId;
     if (treeId) {
       this.dispatchAction(new SelectNodeAction(treeId, node.node.nodeId));
+    }
+  }
+
+  public displaySearchDialog(node: NgssmTreeNode): void {
+    const treeId = this._treeConfig$.getValue()?.treeId;
+    if (treeId) {
+      this.dispatchAction(new DisplaySearchDialogAction(treeId, node.node.nodeId));
     }
   }
 }
