@@ -6,7 +6,7 @@
             {{value?.name}}
         </div>
         <div class="file-picker-file-information" *ngIf="(displayDetails$ | async) === true">
-            {{value?.size | fileSize}}, last modified on {{lastModificationDate}}
+            {{value?.size | ngssmFileSize}}, last modified on {{lastModificationDate}}
         </div>
     </div>
 </div>

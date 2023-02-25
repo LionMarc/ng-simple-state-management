@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'fileSize',
+  name: 'ngssmFileSize',
   standalone: true
 })
-export class FileSizePipe implements PipeTransform {
+export class NgssmFileSizePipe implements PipeTransform {
   private readonly units = ['bytes', 'KB', 'MB', 'GB'];
 
   public transform(value: any, precision: number = 2): any {

@@ -1,6 +1,6 @@
-import { FileSizePipe } from './file-size.pipe';
+import { NgssmFileSizePipe } from './ngssm-file-size.pipe';
 
-describe('FileSizePipe', () => {
+describe('NgssmFileSizePipe', () => {
   describe('when using default precision', () => {
     [
       { value: 345, expected: '345 bytes' },
@@ -9,7 +9,7 @@ describe('FileSizePipe', () => {
       { value: 1424562331, expected: '1.33 GB' }
     ].forEach((item) => {
       it(`should return '${item.expected}' when size value is ${item.value}`, () => {
-        const pipe = new FileSizePipe();
+        const pipe = new NgssmFileSizePipe();
         const result = pipe.transform(item.value);
         expect(result).toEqual(item.expected);
       });
@@ -23,7 +23,7 @@ describe('FileSizePipe', () => {
       { value: 1657988, precision: 4, expected: '1.5812 MB' }
     ].forEach((item) => {
       it(`should return '${item.expected}' when size value is ${item.value}`, () => {
-        const pipe = new FileSizePipe();
+        const pipe = new NgssmFileSizePipe();
         const result = pipe.transform(item.value, item.precision);
         expect(result).toEqual(item.expected);
       });
