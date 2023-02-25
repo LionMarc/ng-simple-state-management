@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationActionType } from 'ngssm-navigation';
 
 import { LockNavigationBarAction, LockStatus, ShellActionType, ShellConfig } from 'ngssm-shell';
 import { NgSsmComponent, Store, ConsoleAppender } from 'ngssm-store';
@@ -110,5 +111,13 @@ export class AppComponent extends NgSsmComponent {
 
   public lockNavigationBar(status: LockStatus): void {
     this.dispatchAction(new LockNavigationBarAction(status));
+  }
+
+  public lockNavigation(isLocked: boolean): void {
+    if (isLocked) {
+      this.dispatchActionType(NavigationActionType.lockNavigation);
+    } else {
+      this.dispatchActionType(NavigationActionType.unLockNavigation);
+    }
   }
 }

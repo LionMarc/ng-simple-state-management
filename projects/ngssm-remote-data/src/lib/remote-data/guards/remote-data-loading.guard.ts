@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { inject, Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Store } from 'ngssm-store';
 
 import { LoadRemoteDataAction } from '../actions';
+import { ReloadParams } from '../model';
 
 export interface RemoteDataLoadingGuardItem {
   remoteDataKey: string;
@@ -18,13 +19,10 @@ export interface RemoteDataLoadingGuardParameters {
 @Injectable({
   providedIn: 'root'
 })
-export class RemoteDataLoadingGuard implements CanActivate {
+export class RemoteDataLoadingGuard {
   constructor(private store: Store) {}
 
-  public canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const parameters = route.data as RemoteDataLoadingGuardParameters;
     (parameters?.remoteDataItems ?? []).forEach((item) => {
       this.store.dispatchAction(new LoadRemoteDataAction(item.remoteDataKey, { forceReload: item.forceReload === true }));
@@ -33,3 +31,8 @@ export class RemoteDataLoadingGuard implements CanActivate {
     return true;
   }
 }
+
+export const ngssmReloadRemoteData = <TData = any>(remoteDataKey: string, params: ReloadParams<TData> = { forceReload: true }): boolean => {
+  inject(Store).dispatchAction(new LoadRemoteDataAction(remoteDataKey, params));
+  return true;
+};

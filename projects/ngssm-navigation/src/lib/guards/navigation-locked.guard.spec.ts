@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { State, Store } from 'ngssm-store';
@@ -29,9 +28,7 @@ describe('NavigationLockedGuard', () => {
       })
     );
 
-    (guard.canDeactivate(undefined, {} as ActivatedRouteSnapshot, {} as RouterStateSnapshot) as Observable<boolean>).subscribe((value) =>
-      expect(value).toBeFalsy()
-    );
+    (guard.canDeactivate() as Observable<boolean>).subscribe((value) => expect(value).toBeFalsy());
   });
 
   it('should return true when navigation is not locked', () => {
@@ -41,8 +38,6 @@ describe('NavigationLockedGuard', () => {
       })
     );
 
-    (guard.canDeactivate(undefined, {} as ActivatedRouteSnapshot, {} as RouterStateSnapshot) as Observable<boolean>).subscribe((value) =>
-      expect(value).toBeTruthy()
-    );
+    (guard.canDeactivate() as Observable<boolean>).subscribe((value) => expect(value).toBeTruthy());
   });
 });
