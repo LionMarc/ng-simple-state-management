@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
-import { NgssmNavigationModule } from 'ngssm-navigation';
 import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import { NgssmShellModule } from 'ngssm-shell';
 import {
@@ -18,6 +17,7 @@ import {
   useDefaultErrorStateMatcher
 } from 'ngssm-toolkit';
 import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree } from 'ngssm-tree';
+import { provideNgssmNavigation } from 'ngssm-navigation';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -52,7 +52,6 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     BrowserAnimationsModule,
     NgssmShellModule.forRoot(),
     NgssmToolkitModule,
-    NgssmNavigationModule,
     TodoModule,
     AceEditorModule,
     ToolkitModule,
@@ -84,6 +83,7 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     },
     provideNgssmRemoteData(),
     provideNgssmTree(),
+    provideNgssmNavigation(),
     provideNgssmAgGrid(),
     provideNgssmRemoteCall(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
