@@ -9,4 +9,7 @@ export interface NgssmTreeConfig<TData = any> {
 
   // Return true if node must be displayed
   filter?: (node: NodeData<TData>) => boolean;
+
+  // Return true if we can search from this node
+  canSearch?: (node: NodeData<TData>) => boolean;
 }

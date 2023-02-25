@@ -3,6 +3,7 @@ import { delay, map, Observable, of } from 'rxjs';
 
 import { NgssmTreeDataService, NodeData } from 'ngssm-tree';
 import fileEntries from './tree-data.json';
+import { TreeDemoResultsViewerComponent } from './tree-demo-results-viewer/tree-demo-results-viewer.component';
 
 interface FileEntry {
   type: string;
@@ -17,12 +18,13 @@ interface FileEntry {
 export class TreeDataService implements NgssmTreeDataService {
   public readonly treeType = 'DemoType';
 
-  public load(treeId: string, nodeId: string): Observable<NodeData[]> {
-    console.log(fileEntries);
+  public readonly searchResultViewer = TreeDemoResultsViewerComponent;
 
+  public load(treeId: string, nodeId: string): Observable<NodeData[]> {
+    console.log('Tree Demo Data Service - load', treeId, nodeId);
     const entry = this.findEntry(+nodeId, (fileEntries as any)[0]);
     return of(entry).pipe(
-      delay(500),
+      delay(100),
       map((e) => {
         return (e?.contents ?? []).map((c) => ({
           nodeId: c.inode.toString(),

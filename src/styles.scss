@@ -13,6 +13,7 @@
 // hue. Available color palettes: https://material.io/design/color/
 $ng-simple-state-management-primary: mat.define-palette(mat.$indigo-palette);
 $ng-simple-state-management-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$my-typography: mat.define-typography-config();
 
 // The warn palette is optional (defaults to red).
 $ng-simple-state-management-warn: mat.define-palette(mat.$red-palette);
@@ -22,7 +23,8 @@ $ng-simple-state-management-warn: mat.define-palette(mat.$red-palette);
 $ng-simple-state-management-theme: mat.define-light-theme((color: (primary: $ng-simple-state-management-primary,
             accent: $ng-simple-state-management-accent,
             warn: $ng-simple-state-management-warn,
-        )));
+        ),
+        typography: $my-typography));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

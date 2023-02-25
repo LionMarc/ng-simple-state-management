@@ -34,7 +34,11 @@ export class TreeNodesReducer implements Reducer {
                       status: DataStatus.none,
                       isExpanded: false,
                       level: nodes[index].level + 1,
-                      node: i
+                      node: i,
+                      parentFullPath:
+                        nodes[index].parentFullPath !== undefined
+                          ? `${nodes[index].parentFullPath}/${nodes[index].node.label}`
+                          : nodes[index].node.label
                     })),
                     ...nodes.slice(index + 1)
                   ];

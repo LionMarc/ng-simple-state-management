@@ -7,6 +7,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        padding-right: 12px;
 
         .fa-folder {
             margin-right: 4px;
@@ -23,6 +24,10 @@
 
     .ngssm-tree-node:hover {
         cursor: pointer;
+
+        .search-icon {
+            display: unset;
+        }
     }
 
     .ngssm-tree-node:hover:not(.selected) {
@@ -31,5 +36,10 @@
 
     .not-expandable-padding {
         width: 24px;
+    }
+
+    .search-icon {
+        font-size: 12px;
+        display: none;
     }
 }
