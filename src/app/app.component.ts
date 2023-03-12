@@ -83,6 +83,11 @@ export class AppComponent extends NgSsmComponent {
           route: '/tree-demo'
         },
         {
+          label: 'Ngssm Expression Tree',
+          icon: '<i class="fa-solid fa-sitemap"></i>',
+          route: '/expression-tree-demo'
+        },
+        {
           label: 'Ngssm Remote Data',
           icon: '<i class="fa-solid fa-cloud"></i>',
           route: '/remote-data-demo'

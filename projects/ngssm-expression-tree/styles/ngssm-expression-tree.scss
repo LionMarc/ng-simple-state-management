@@ -1,0 +1,22 @@
+.ngssm-tree-node {
+    --ngssm-expression-tree-node-divider-color: blue;
+
+    .ngssm-expression-tree-node {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-right: 12px;
+    }
+    
+    .ngssm-expression-tree-node-label {
+        font-weight: bold;
+    }
+    
+    .ngssm-expression-tree-node-description {
+        
+    }
+    
+    .ngssm-expression-tree-node-divider {
+    }
+}
+

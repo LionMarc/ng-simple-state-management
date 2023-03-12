@@ -1,0 +1,18 @@
+<mat-card class="flex-column-stretch fxFlex ngssm-tree-node">
+    <mat-card-content class="flex-column-stretch fxFlex" *ngIf="(treeConfig$ | async) as treeConfig">
+        <cdk-virtual-scroll-viewport [itemSize]="treeConfig.rowSize ?? 30" class="fxFlex">
+            <div *cdkVirtualFor="let item of displayedNodes$ | async; trackBy: getItemId"
+                [style.height.px]="treeConfig.rowSize ?? 30"
+                class="ngssm-expression-tree-node">
+                <mat-divider [vertical]="true" class="ngssm-expression-tree-node-divider"
+                    [style.height.px]="treeConfig.rowSize ?? 30" *ngFor="let part of item.path" [style.margin-right.px]="getDefaultPadding()">
+                </mat-divider>
+                <div class="ngssm-expression-tree-node-label">
+                    {{treeConfig.getNodeLabel?.(item)}}
+                </div>
+                <div class="ngssm-expression-tree-node-description" [innerHTML]="treeConfig.getNodeDescription?.(item)">
+                </div>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </mat-card-content>
+</mat-card>

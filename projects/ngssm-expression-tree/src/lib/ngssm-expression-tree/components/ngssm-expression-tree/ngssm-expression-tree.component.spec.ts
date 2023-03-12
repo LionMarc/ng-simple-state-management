@@ -1,0 +1,254 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { animationFrameScheduler, BehaviorSubject } from 'rxjs';
+
+import { DateTime } from 'luxon';
+
+import { Store, StoreMock } from 'ngssm-store';
+
+import { createNgssmExpressionTreeFromNodes, NgssmExpressionTreeConfig, NgssmNode } from '../../model';
+import { NgssmExpressionTreeStateSpecification, updateNgssmExpressionTreeState } from '../../state';
+import { NgssmExpressionTreeComponent } from './ngssm-expression-tree.component';
+
+@Component({
+  selector: 'ngssm-tree-demo',
+  standalone: true,
+  imports: [CommonModule, NgssmExpressionTreeComponent],
+  template: `<ngssm-expression-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-expression-tree>`,
+  styles: [
+    `
+      :host {
+        min-height: 600px;
+        display: flex;
+        flex-direction: column;
+      }
+    `
+  ]
+})
+export class DemoComponent {
+  public treeConfig$ = new BehaviorSubject<NgssmExpressionTreeConfig | undefined>(undefined);
+}
+
+// cf https://github.com/angular/components/blob/main/src/cdk/scrolling/virtual-scroll-viewport.spec.ts
+function finishInit(fixture: ComponentFixture<any>) {
+  // On the first cycle we render and measure the viewport.
+  fixture.detectChanges();
+  flush();
+
+  // On the second cycle we render the items.
+  fixture.detectChanges();
+  flush();
+
+  // Flush the initial fake scroll event.
+  animationFrameScheduler.flush();
+  flush();
+  fixture.detectChanges();
+}
+
+enum FilterType {
+  and = 'And',
+  or = 'Or',
+  fieldCondition = 'FieldCondition'
+}
+
+interface Filter {
+  type: FilterType;
+  field?: string;
+  operator?: string;
+  value?: any;
+  children?: Filter[];
+}
+
+const getFilterLabel = (filter: Filter): string => {
+  switch (filter.type) {
+    case FilterType.and:
+    case FilterType.or:
+      return filter.type;
+
+    default:
+      return '';
+  }
+};
+
+const getFilterDescription = (filter: Filter): string => {
+  switch (filter.type) {
+    case FilterType.fieldCondition:
+      return `<div class="flex-row-center">
+      ${filter.field} 
+      <span class="filter-field-condition-operator">${filter.operator}</span> 
+      ${filter.value}
+      </div>`;
+
+    default:
+      return 'No description';
+  }
+};
+
+const initialExpression: Filter[] = [
+  {
+    type: FilterType.and,
+    children: [
+      {
+        type: FilterType.fieldCondition,
+        field: 'price',
+        operator: 'lt',
+        value: 45.67
+      },
+      {
+        type: FilterType.fieldCondition,
+        field: 'price',
+        operator: 'gt',
+        value: 22.4
+      },
+      {
+        type: FilterType.or,
+        children: [
+          {
+            type: FilterType.fieldCondition,
+            field: 'status',
+            operator: 'eq',
+            value: 'valid'
+          },
+          {
+            type: FilterType.and,
+            children: [
+              {
+                type: FilterType.fieldCondition,
+                field: 'comment',
+                operator: 'contains',
+                value: 'forced'
+              },
+              {
+                type: FilterType.fieldCondition,
+                field: 'creationDate',
+                operator: 'lt',
+                value: DateTime.fromSQL('2023-03-01')
+              }
+            ]
+          },
+          {
+            type: FilterType.fieldCondition,
+            field: 'state',
+            operator: 'eq',
+            value: 'open'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const demoTreeId = 'demo-expression-tree';
+
+const setNodesFromFilter = (filter: Filter, path: string[], nextId: number, nodes: NgssmNode<Filter>[]): number => {
+  let currentId = nextId;
+  nodes.push({
+    id: nextId.toString(),
+    parentId: path[path.length - 1],
+    data: {
+      ...filter,
+      children: undefined
+    }
+  });
+
+  const currentPath: string[] = [...path, nextId.toString()];
+
+  (filter.children ?? []).forEach((child) => {
+    currentId = setNodesFromFilter(child, currentPath, currentId + 1, nodes);
+  });
+
+  return currentId;
+};
+
+const initExpressionTreeDemoData = (): NgssmNode<Filter>[] => {
+  const nodes: NgssmNode<Filter>[] = [];
+
+  let nextId = 1;
+  initialExpression.forEach((exp) => {
+    nextId = setNodesFromFilter(exp, [], nextId, nodes);
+  });
+
+  return nodes;
+};
+
+describe('NgssmExpressionTreeComponent', () => {
+  let component: DemoComponent;
+  let fixture: ComponentFixture<DemoComponent>;
+  let store: StoreMock;
+
+  beforeEach(async () => {
+    store = new StoreMock({
+      [NgssmExpressionTreeStateSpecification.featureStateKey]: NgssmExpressionTreeStateSpecification.initialState
+    });
+    await TestBed.configureTestingModule({
+      imports: [NgssmExpressionTreeComponent, DemoComponent],
+      providers: [{ provide: Store, useValue: store }],
+      teardown: { destroyAfterEach: false }
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DemoComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('Testing displayed nodes', () => {
+    const nodes = initExpressionTreeDemoData();
+    beforeEach(async () => {
+      const state = updateNgssmExpressionTreeState(store.state$.getValue(), {
+        trees: {
+          [demoTreeId]: {
+            $set: createNgssmExpressionTreeFromNodes(nodes)
+          }
+        }
+      });
+      store.state$.next(state);
+    });
+
+    it('should render all the nodes', fakeAsync(() => {
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-expression-tree-node'));
+      expect(renderedNodes.length).toEqual(nodes.length);
+    }));
+
+    it('should render the label of the nodes', fakeAsync(() => {
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-expression-tree-node-label'));
+      expect(renderedNodes.length).toEqual(nodes.length);
+      renderedNodes.forEach((r, i) => expect(r.nativeElement.innerHTML).toContain(getFilterLabel(nodes[i].data)));
+    }));
+
+    it('should render the description of the nodes', fakeAsync(() => {
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-expression-tree-node-description'));
+      expect(renderedNodes.length).toEqual(nodes.length);
+      renderedNodes.forEach((r, i) => expect(r.nativeElement.innerHTML).toContain(getFilterDescription(nodes[i].data)));
+    }));
+  });
+});
