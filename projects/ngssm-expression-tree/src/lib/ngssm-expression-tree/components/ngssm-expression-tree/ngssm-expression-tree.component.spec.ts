@@ -11,6 +11,8 @@ import { Store, StoreMock } from 'ngssm-store';
 import { createNgssmExpressionTreeFromNodes, NgssmExpressionTreeConfig, NgssmNode } from '../../model';
 import { NgssmExpressionTreeStateSpecification, updateNgssmExpressionTreeState } from '../../state';
 import { NgssmExpressionTreeComponent } from './ngssm-expression-tree.component';
+import { TreeNodeExpandReducer } from '../../reducers';
+import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction, NgssmExpressionTreeActionType } from '../../actions';
 
 @Component({
   selector: 'ngssm-tree-demo',
@@ -147,6 +149,7 @@ const setNodesFromFilter = (filter: Filter, path: string[], nextId: number, node
   nodes.push({
     id: nextId.toString(),
     parentId: path[path.length - 1],
+    isExpandable: filter.type === FilterType.and || filter.type === FilterType.or,
     data: {
       ...filter,
       children: undefined
@@ -173,7 +176,7 @@ const initExpressionTreeDemoData = (): NgssmNode<Filter>[] => {
   return nodes;
 };
 
-describe('NgssmExpressionTreeComponent', () => {
+fdescribe('NgssmExpressionTreeComponent', () => {
   let component: DemoComponent;
   let fixture: ComponentFixture<DemoComponent>;
   let store: StoreMock;
@@ -249,6 +252,120 @@ describe('NgssmExpressionTreeComponent', () => {
       const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-expression-tree-node-description'));
       expect(renderedNodes.length).toEqual(nodes.length);
       renderedNodes.forEach((r, i) => expect(r.nativeElement.innerHTML).toContain(getFilterDescription(nodes[i].data)));
+    }));
+  });
+
+  describe('Testing expand/collapse', () => {
+    const nodes = initExpressionTreeDemoData();
+    beforeEach(async () => {
+      const state = updateNgssmExpressionTreeState(store.state$.getValue(), {
+        trees: {
+          [demoTreeId]: {
+            $set: createNgssmExpressionTreeFromNodes(nodes)
+          }
+        }
+      });
+      store.state$.next(state);
+    });
+
+    it(`should render a fa-chevron-right icon when node is expandable and is collapsed`, fakeAsync(() => {
+      const reducer = new TreeNodeExpandReducer();
+      const state = reducer.updateState(store.state$.getValue(), new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
+      store.state$.next(state);
+
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-right'));
+
+      expect(icon).toBeTruthy();
+    }));
+
+    it(`should not render children of a collapsed node`, fakeAsync(() => {
+      const reducer = new TreeNodeExpandReducer();
+      const state = reducer.updateState(store.state$.getValue(), new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
+      store.state$.next(state);
+
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-expression-tree-node'));
+      expect(renderedNodes.length).toEqual(4);
+    }));
+
+    it(`should dispatch a '${NgssmExpressionTreeActionType.ngssmExpandExpressionTreeNode}' when clicking on a collapsed node`, fakeAsync(() => {
+      const reducer = new TreeNodeExpandReducer();
+      const state = reducer.updateState(store.state$.getValue(), new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
+      store.state$.next(state);
+
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      spyOn(store, 'dispatchAction');
+      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-right')).nativeElement;
+      icon.click();
+
+      expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmExpandExpressionTreeNodeAction(demoTreeId, '4'));
+    }));
+
+    it(`should render a fa-chevron-down icon when node is expandable and is expanded`, fakeAsync(() => {
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-down'));
+
+      expect(icon).toBeTruthy();
+    }));
+
+    it(`should dispatch a '${NgssmExpressionTreeActionType.ngssmCollapseExpressionTreeNode}' when clicking on an expanded node`, fakeAsync(() => {
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      spyOn(store, 'dispatchAction');
+      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-down')).nativeElement;
+      icon.click();
+
+      expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
+    }));
+
+    it(`should render no icon when node is not expandable`, fakeAsync(() => {
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      finishInit(fixture);
+
+      let icon = fixture.debugElement.query(By.css('#node_5 .fa-chevron-down'));
+      expect(icon).toBeFalsy();
+      icon = fixture.debugElement.query(By.css('#node_5 .fa-chevron-right'));
+      expect(icon).toBeFalsy();
     }));
   });
 });
