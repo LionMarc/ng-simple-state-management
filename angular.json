@@ -611,6 +611,62 @@
           }
         }
       }
+    },
+    "ngssm-expression-tree": {
+      "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngssm-expression-tree",
+      "sourceRoot": "projects/ngssm-expression-tree/src",
+      "prefix": "ngssm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngssm-expression-tree/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngssm-expression-tree/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngssm-expression-tree/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ngssm-expression-tree/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "karmaConfig": "projects/ngssm-expression-tree/karma.conf.js",
+            "styles": [
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects"
+              ]
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngssm-expression-tree/**/*.ts",
+              "projects/ngssm-expression-tree/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {
