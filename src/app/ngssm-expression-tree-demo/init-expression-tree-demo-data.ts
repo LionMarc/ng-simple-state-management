@@ -65,6 +65,7 @@ const setNodesFromFilter = (filter: Filter, path: string[], nextId: number, node
   nodes.push({
     id: nextId.toString(),
     parentId: path[path.length - 1],
+    isExpandable: filter.type === FilterType.and || filter.type === FilterType.or,
     data: {
       ...filter,
       children: undefined
