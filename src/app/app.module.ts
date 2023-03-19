@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
-import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
+import { NgssmCachesDisplayButtonComponent, provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import { NgssmShellModule } from 'ngssm-shell';
 import {
   defaultRegexEditorValidator,
@@ -53,7 +53,8 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     TodoModule,
     AceEditorModule,
     ShellDemoModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgssmCachesDisplayButtonComponent
   ],
   providers: [
     {
