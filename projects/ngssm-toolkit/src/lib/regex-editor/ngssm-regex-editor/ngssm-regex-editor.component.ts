@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { A11yModule } from '@angular/cdk/a11y';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { useDefaultErrorStateMatcher } from '../../default-error-state-matcher';
@@ -14,7 +15,16 @@ import { defaultRegexEditorValidator, NGSSM_REGEX_EDITOR_VALIDATOR, RegexEditorV
 @Component({
   selector: 'ngssm-regex-editor',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    A11yModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   providers: [useDefaultErrorStateMatcher],
   templateUrl: './ngssm-regex-editor.component.html',
   styleUrls: ['./ngssm-regex-editor.component.scss'],

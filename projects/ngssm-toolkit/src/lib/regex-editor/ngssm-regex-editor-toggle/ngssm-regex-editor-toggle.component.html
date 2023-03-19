@@ -4,6 +4,6 @@
 </button>
 
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="(isOpen$ | async) === true">
+    [cdkConnectedOverlayOpen]="(isOpen$ | async) === true" [cdkConnectedOverlayPositions]="positions">
     <ngssm-regex-editor (closeEditor)="closeEditor($event)" [regex]="regexValue"></ngssm-regex-editor>
 </ng-template>

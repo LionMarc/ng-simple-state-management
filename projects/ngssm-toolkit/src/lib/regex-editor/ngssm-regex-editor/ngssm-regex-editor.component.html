@@ -1,11 +1,11 @@
-<mat-card class="flex-column-stretch fxFlex">
+<mat-card class="flex-column-stretch fxFlex" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
     <mat-card-header>
         <mat-card-title>Regex Editor</mat-card-title>
     </mat-card-header>
     <mat-card-content class="flex-column-stretch fxFlex">
         <mat-form-field class="with-margin-top-8">
             <mat-label>Regular expression</mat-label>
-            <input matInput [formControl]="regexControl">
+            <input matInput [formControl]="regexControl" cdkFocusInitial>
             <mat-error *ngIf="regexControl.errors?.['regex']">
                 {{regexControl.errors?.['regex']}}
             </mat-error>
