@@ -7,8 +7,8 @@ describe('RemoteCallReducer', () => {
   const configs: RemoteCallConfig[] = [
     {
       id: 'test1',
-      triggeredActionType: 'trigger1',
-      resultActionType: 'result1'
+      triggeredActionTypes: ['trigger1'],
+      resultActionTypes: ['result1']
     }
   ];
 
