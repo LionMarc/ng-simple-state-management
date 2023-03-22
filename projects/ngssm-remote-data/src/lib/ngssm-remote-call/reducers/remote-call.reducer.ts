@@ -1,8 +1,8 @@
 import { Inject, Injectable, Optional, Provider } from '@angular/core';
 
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
-import { NgssmRemoteCallResultAction } from '../actions';
 
+import { NgssmRemoteCallResultAction } from '../actions';
 import { NGSSM_REMOTE_CALL_CONFIG, RemoteCallConfig, RemoteCallStatus } from '../model';
 import { updateNgssmRemoteCallState } from '../state';
 
@@ -11,31 +11,34 @@ export class RemoteCallReducer implements Reducer {
   public readonly processedActions: string[] = [];
 
   constructor(@Inject(NGSSM_REMOTE_CALL_CONFIG) @Optional() private remoteCallConfigs: RemoteCallConfig[]) {
-    (this.remoteCallConfigs ?? []).forEach((c) => this.processedActions.push(...[c.triggeredActionType, c.resultActionType]));
+    (this.remoteCallConfigs ?? []).forEach((c) => this.processedActions.push(...[...c.triggeredActionTypes, ...c.resultActionTypes]));
   }
 
   public updateState(state: State, action: Action): State {
-    const config = (this.remoteCallConfigs ?? []).find((c) => c.triggeredActionType === action.type || c.resultActionType === action.type);
-    if (config) {
-      if (action.type === config.triggeredActionType) {
-        return updateNgssmRemoteCallState(state, {
+    const configs = (this.remoteCallConfigs ?? []).filter(
+      (c) => c.triggeredActionTypes.includes(action.type) || c.resultActionTypes.includes(action.type)
+    );
+    let output = state;
+    configs.forEach((config) => {
+      if (config.triggeredActionTypes.includes(action.type)) {
+        output = updateNgssmRemoteCallState(output, {
           remoteCalls: {
             [config.id]: {
               status: { $set: RemoteCallStatus.inProgress }
             }
           }
         });
+      } else {
+        const ngssmRemoteCallResultAction = action as NgssmRemoteCallResultAction;
+        output = updateNgssmRemoteCallState(output, {
+          remoteCalls: {
+            [config.id]: { $set: ngssmRemoteCallResultAction.remoteCall }
+          }
+        });
       }
+    });
 
-      const ngssmRemoteCallResultAction = action as NgssmRemoteCallResultAction;
-      return updateNgssmRemoteCallState(state, {
-        remoteCalls: {
-          [config.id]: { $set: ngssmRemoteCallResultAction.remoteCall }
-        }
-      });
-    }
-
-    return state;
+    return output;
   }
 }
 

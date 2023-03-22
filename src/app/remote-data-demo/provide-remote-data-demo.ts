@@ -7,8 +7,8 @@ export const provideRemoteDataDemo = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
     provideNgssmRemoteCallConfig({
       id: 'demo',
-      triggeredActionType: RemoteDataDemoActionType.startRemoteCall,
-      resultActionType: RemoteDataDemoActionType.endRemoteCall
+      triggeredActionTypes: [RemoteDataDemoActionType.startRemoteCall],
+      resultActionTypes: [RemoteDataDemoActionType.endRemoteCall]
     }),
     remoteDataDemoReducerProvider
   ]);
