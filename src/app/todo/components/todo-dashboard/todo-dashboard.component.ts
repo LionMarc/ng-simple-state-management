@@ -4,14 +4,20 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { GetRowIdParams, GridOptions, ICellRendererParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { DataStatus, NgssmRemoteDataReloadButtonComponent, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { getNgssmActionsCellColDef, NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
+import {
+  getColDefWithNoPadding,
+  getNgssmActionsCellColDef,
+  NgssmAgGridConfig,
+  NgssmAgGridDirective,
+  NgssmAgGridThemeDirective
+} from 'ngssm-ag-grid';
 import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 import { TodoItem, todoItemsKey } from '../../model';
@@ -39,6 +45,8 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoDashboardComponent extends NgSsmComponent {
+  private readonly _deleteHidden$ = new BehaviorSubject<boolean>(false);
+
   public readonly dataStatus = DataStatus;
   public readonly allowRestoringGridControl = new FormControl(true);
   public readonly gridOptions: GridOptions = {
@@ -74,13 +82,22 @@ export class TodoDashboardComponent extends NgSsmComponent {
               click: (params: ICellRendererParams<TodoItem, number>) => {
                 console.log('Column action called.', params);
               }
+            },
+            {
+              cssClass: 'fa-solid fa-trash-can',
+              color: 'accent',
+              isHidden: this._deleteHidden$,
+              click: (params: ICellRendererParams<TodoItem, number>) => {
+                console.log('Column delete called.', params);
+              }
             }
           ]
         }),
+        ...getColDefWithNoPadding(),
         field: 'id',
         headerName: 'actions',
         colId: 'actions',
-        width: 100,
+        width: 160,
         pinned: 'left',
         resizable: false
       },
@@ -102,6 +119,8 @@ export class TodoDashboardComponent extends NgSsmComponent {
   };
   public readonly remoteDataKey = todoItemsKey;
 
+  public readonly deleteHiddenControl = new FormControl<boolean>(false);
+
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
     keepSelection: true,
@@ -114,6 +133,8 @@ export class TodoDashboardComponent extends NgSsmComponent {
     this.allowRestoringGridControl.valueChanges.subscribe((value) => {
       this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskColumnsState: value ?? true };
     });
+
+    this.deleteHiddenControl.valueChanges.subscribe((v) => this._deleteHidden$.next(v ?? false));
   }
 
   public get status$(): Observable<DataStatus> {

@@ -17,6 +17,7 @@ interface ActionButton {
   cssClass: string;
   color: string;
   disabled$: BehaviorSubject<boolean>;
+  hidden$: BehaviorSubject<boolean>;
 
   actionConfig: ActionConfig;
 
@@ -69,6 +70,7 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
         cssClass: a.cssClass,
         color: a.color ?? 'primary',
         disabled$: new BehaviorSubject<boolean>(false),
+        hidden$: new BehaviorSubject<boolean>(false),
         actionConfig: a,
         tooltip: a.tooltip ?? ''
       };
@@ -77,6 +79,12 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
         actionButton.disabled$.next(a.isDisabled(rendererParams as any));
       } else if (isObservable(a.isDisabled)) {
         a.isDisabled.pipe(takeUntil(this.unsubscribeAll$)).subscribe((v) => actionButton.disabled$.next(v));
+      }
+
+      if (a.isHidden instanceof Function) {
+        actionButton.hidden$.next(a.isHidden(rendererParams as any));
+      } else if (isObservable(a.isHidden)) {
+        a.isHidden.pipe(takeUntil(this.unsubscribeAll$)).subscribe((v) => actionButton.hidden$.next(v));
       }
 
       return actionButton;
