@@ -5,6 +5,10 @@ export interface ActionDisabledFunc<TData = any, TValue = any> {
   (params: ICellRendererParams<TData, TValue>): boolean;
 }
 
+export interface ActionHiddenFunc<TData = any, TValue = any> {
+  (params: ICellRendererParams<TData, TValue>): boolean;
+}
+
 export interface ActionConfig<TData = any, TValue = any> {
   cssClass: string;
 
@@ -12,6 +16,8 @@ export interface ActionConfig<TData = any, TValue = any> {
   color?: string;
 
   isDisabled?: ActionDisabledFunc<TData, TValue> | Observable<boolean>;
+
+  isHidden?: ActionHiddenFunc<TData, TValue> | Observable<boolean>;
 
   click?: (params: ICellRendererParams<TData, TValue>) => void;
 

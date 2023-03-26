@@ -154,4 +154,99 @@ describe('NgssmActionsCellRendererComponent', () => {
       expect(await element.isDisabled()).toBeFalse();
     });
   });
+
+  describe(`when using a hidden function`, () => {
+    let cellRendererParams: NgssmActionsCellRendererParams<TestingData> = {
+      actions: []
+    };
+
+    beforeEach(() => {
+      cellRendererParams = {
+        actions: [
+          {
+            cssClass: 'fa-solid fa-pen-to-square',
+            isHidden: (params: ICellRendererParams<TestingData, TestingData>) => (params.data?.value ?? -1) < 0
+          }
+        ]
+      };
+    });
+
+    it(`should not display button when value is negative`, async () => {
+      component.agInit({
+        ...cellRendererParams,
+        data: {
+          value: -6
+        }
+      } as any);
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const element = fixture.debugElement.query(By.css('#action_0'));
+
+      expect(element).toBeFalsy();
+    });
+
+    it(`should display button when value is positive`, async () => {
+      component.agInit({
+        ...cellRendererParams,
+        data: {
+          value: 6
+        }
+      } as any);
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const element = fixture.debugElement.query(By.css('#action_0'));
+
+      expect(element).toBeTruthy();
+    });
+  });
+
+  describe(`when using an observable for hidden status`, () => {
+    let cellRendererParams: NgssmActionsCellRendererParams<TestingData> = {
+      actions: []
+    };
+
+    const testingHidden$ = new BehaviorSubject<boolean>(false);
+
+    beforeEach(async () => {
+      cellRendererParams = {
+        actions: [
+          {
+            cssClass: 'fa-solid fa-pen-to-square',
+            isHidden: testingHidden$
+          }
+        ]
+      };
+
+      component.agInit({
+        ...cellRendererParams
+      } as any);
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    it(`should not display button when observable value is true`, async () => {
+      testingHidden$.next(true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const element = fixture.debugElement.query(By.css('#action_0'));
+
+      expect(element).toBeFalsy();
+    });
+
+    it(`should display button when observable value is false`, async () => {
+      testingHidden$.next(false);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const element = fixture.debugElement.query(By.css('#action_0'));
+
+      expect(element).toBeTruthy();
+    });
+  });
 });
