@@ -1,1 +1,3 @@
-export enum NgssmRemoteCallActionType {}
+export enum NgssmRemoteCallActionType {
+  setRemoteCall = '[NgssmRemoteCallActionType] setRemoteCall'
+}
