@@ -1,4 +1,5 @@
 import { RemoteCallConfig } from '../model';
+import { NgssmRemoteCallStateSpecification } from '../state';
 import { RemoteCallReducer } from './remote-call.reducer';
 
 describe('RemoteCallReducer', () => {
@@ -14,7 +15,9 @@ describe('RemoteCallReducer', () => {
 
   beforeEach(() => {
     reducer = new RemoteCallReducer(configs);
-    state = {};
+    state = {
+      [NgssmRemoteCallStateSpecification.featureStateKey]: NgssmRemoteCallStateSpecification.initialState
+    };
   });
 
   ['trigger1', 'result1'].forEach((actionType: string) => {
