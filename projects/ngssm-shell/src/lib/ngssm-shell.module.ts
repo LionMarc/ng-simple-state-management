@@ -2,7 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MaterialImportsModule } from 'ngssm-toolkit';
-import { NgssmAceEditorModule } from 'ngssm-ace-editor';
+import { NgssmAceEditorComponent } from 'ngssm-ace-editor';
 
 import { ShellComponent } from './components/shell/shell.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
@@ -23,7 +23,7 @@ import { ShellNotificationComponent } from './components/shell-notification/shel
     ShellNotificationPopupComponent,
     ShellNotificationComponent
   ],
-  imports: [RouterModule, MaterialImportsModule, NgssmAceEditorModule],
+  imports: [RouterModule, MaterialImportsModule, NgssmAceEditorComponent],
   exports: [ShellComponent, SideNavComponent],
   providers: []
 })

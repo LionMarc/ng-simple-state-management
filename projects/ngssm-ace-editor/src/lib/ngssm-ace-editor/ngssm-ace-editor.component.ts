@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { take } from 'rxjs';
 
 import { AceBuildsLoader } from '../ace-builds-loader';
@@ -7,10 +8,12 @@ import { NgssmAceEditorMode } from '../ngssm-ace-editor-mode';
 
 @Component({
   selector: 'ngssm-ace-editor',
-  templateUrl: './ace-editor.component.html',
-  styleUrls: ['./ace-editor.component.scss']
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './ngssm-ace-editor.component.html',
+  styleUrls: ['./ngssm-ace-editor.component.scss']
 })
-export class AceEditorComponent implements AfterViewInit, OnDestroy {
+export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
   private initialContent = '';
   private initialReadonly = true;
   private initialEditorMode: string = NgssmAceEditorMode.text;
