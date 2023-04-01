@@ -15,9 +15,8 @@ import {
   RegexEditorValidator,
   useDefaultErrorStateMatcher
 } from 'ngssm-toolkit';
-import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree } from 'ngssm-tree';
+import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree } from 'ngssm-tree';
 import { provideNgssmNavigation } from 'ngssm-navigation';
-import { provideNgssmExpressionTree } from 'ngssm-expression-tree';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
