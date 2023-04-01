@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig } from 'ngssm-expression-tree';
+import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig } from 'ngssm-tree';
 import { Filter, getFilterDescription, getFilterLabel } from '../filter';
 
 @Component({

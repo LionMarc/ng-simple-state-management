@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { DateTime } from 'luxon';
-import { NgssmInitExpressionTreeAction, NgssmNode } from 'ngssm-expression-tree';
+import { NgssmInitExpressionTreeAction, NgssmNode } from 'ngssm-tree';
 import { Store } from 'ngssm-store';
 import { Filter, FilterType } from './filter';
 

@@ -20,9 +20,6 @@
       "ngssm-ag-grid": [
         "dist/ngssm-ag-grid"
       ],
-      "ngssm-expression-tree": [
-        "dist/ngssm-expression-tree"
-      ],
       "ngssm-navigation": [
         "dist/ngssm-navigation"
       ],
