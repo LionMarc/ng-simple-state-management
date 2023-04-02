@@ -1,3 +1,4 @@
+import { NgssmExpressionTreeDescriptionComponent } from './ngssm-expression-tree-description-component';
 import { NgssmExpressionTreeNode } from './ngssm-expression-tree-node';
 
 /**
@@ -47,4 +48,11 @@ export interface NgssmExpressionTreeConfig<TData = any> {
    * @returns The html used to render the node description
    */
   getNodeDescription?: (node: NgssmExpressionTreeNode<TData>) => string;
+
+  /**
+   * To render description of a node by using a custom angular component instead of simple html.
+   * @param node
+   * @returns The type of the component to render. It must implement {@link NgssmExpressionTreeDescriptionComponent}.
+   */
+  getNodeDescriptionComponent?: (node: NgssmExpressionTreeNode<TData>) => any;
 }
