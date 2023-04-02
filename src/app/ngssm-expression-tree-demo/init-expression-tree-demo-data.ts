@@ -66,6 +66,7 @@ export const setNodesFromFilter = (filter: Filter, path: string[], nextId: numbe
     id: nextId.toString(),
     parentId: path[path.length - 1],
     isExpandable: filter.type === FilterType.and || filter.type === FilterType.or,
+    hasRowDetail: filter.type === FilterType.fieldCondition && DateTime.isDateTime(filter.value),
     data: {
       ...filter,
       children: undefined
@@ -79,16 +80,4 @@ export const setNodesFromFilter = (filter: Filter, path: string[], nextId: numbe
   });
 
   return currentId;
-};
-
-export const initExpressionTreeDemoData = (): boolean => {
-  const nodes: NgssmNode<Filter>[] = [];
-
-  let nextId = 1;
-  initialExpression.forEach((exp) => {
-    nextId = setNodesFromFilter(exp, [], nextId, nodes);
-  });
-
-  // inject(Store).dispatchAction(new NgssmInitExpressionTreeAction(demoTreeId, nodes));
-  return true;
 };

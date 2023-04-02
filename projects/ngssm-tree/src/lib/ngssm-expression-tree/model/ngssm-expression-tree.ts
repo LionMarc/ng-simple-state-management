@@ -26,7 +26,7 @@ export const createNgssmExpressionTreeFromNodes = <TData = any>(nodes: NgssmNode
     tree.nodes.push({
       path: [...path],
       data: node,
-      isExpanded: true
+      isExpanded: node.isExpandable === true
     });
   });
 
