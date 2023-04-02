@@ -6,15 +6,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import {
   NgssmFilePickerComponent,
   NgssmConfirmationDialogService,
   NgssmNotifierService,
-  NgssmRegexEditorToggleComponent
+  NgssmRegexEditorToggleComponent,
+  NgssmComponentDisplayDirective
 } from 'ngssm-toolkit';
 import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
+import { Demo1Component } from '../demo1/demo1.component';
+import { Demo2Component } from '../demo2/demo2.component';
 
 @Component({
   selector: 'app-toolkit-demo',
@@ -27,9 +31,13 @@ import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
     MatButtonModule,
     MatInputModule,
     MatCheckboxModule,
+    MatSelectModule,
     NgssmFilePickerComponent,
     NgssmRegexEditorToggleComponent,
-    OverlayDemoComponent
+    OverlayDemoComponent,
+    NgssmComponentDisplayDirective,
+    Demo1Component,
+    Demo2Component
   ],
   templateUrl: './toolkit-demo.component.html',
   styleUrls: ['./toolkit-demo.component.scss'],
@@ -40,6 +48,11 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
   public readonly filePickerDisabledControl = new FormControl<boolean>(false);
   public readonly regexControl = new FormControl<string | null>(null);
+  public readonly componentList: { label: string; component: any }[] = [
+    { label: 'Component 1', component: Demo1Component },
+    { label: 'Component 2', component: Demo2Component }
+  ];
+  public readonly componentDisplayControl = new FormControl<any>(Demo1Component);
 
   constructor(
     store: Store,

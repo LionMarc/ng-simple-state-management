@@ -87,5 +87,23 @@
                 {{regexControl.value}}
             </mat-card-content>
         </mat-card>
+
+        <mat-card appearance="raised" class="sub-card component-display-directive-demo flex-column-stretch">
+            <mat-card-header>
+                <mat-card-title>Component display directive</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content class="flex-column-stretch fxFlex">
+                <mat-form-field>
+                    <mat-label>Select a component to display</mat-label>
+                    <mat-select [formControl]="componentDisplayControl">
+                        <mat-option *ngFor="let component of componentList" [value]="component.component">
+                            {{component.label}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div [ngssmComponentDisplay]="componentDisplayControl.value"></div>
+            </mat-card-content>
+        </mat-card>
     </mat-card-content>
 </mat-card>
