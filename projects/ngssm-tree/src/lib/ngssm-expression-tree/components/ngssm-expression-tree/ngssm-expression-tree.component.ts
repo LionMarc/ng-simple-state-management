@@ -7,15 +7,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, Observable, Subscription, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
+import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
-import { NgssmExpressionTree, NgssmExpressionTreeConfig, NgssmExpressionTreeNode } from '../../model';
+import {
+  NgssmExpressionTree,
+  NgssmExpressionTreeConfig,
+  NgssmExpressionTreeDescriptionComponent,
+  NgssmExpressionTreeNode
+} from '../../model';
 import { selectNgssmExpressionTreeState } from '../../state';
 import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction } from '../../actions';
 
 @Component({
   selector: 'ngssm-expression-tree',
   standalone: true,
-  imports: [CommonModule, ScrollingModule, MatCardModule, MatDividerModule, MatIconModule],
+  imports: [CommonModule, ScrollingModule, MatCardModule, MatDividerModule, MatIconModule, NgssmComponentDisplayDirective],
   templateUrl: './ngssm-expression-tree.component.html',
   styleUrls: ['./ngssm-expression-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -103,5 +109,9 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
     if (treeId) {
       this.dispatchAction(new NgssmCollapseExpressionTreeNodeAction(treeId, node.data.id));
     }
+  }
+
+  public getComponentDescriptionAction(node: NgssmExpressionTreeNode): NgssmComponentAction {
+    return (c: NgssmExpressionTreeDescriptionComponent) => c.setNode(node);
   }
 }

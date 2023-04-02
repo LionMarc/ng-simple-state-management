@@ -5,8 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig, NgssmInitExpressionTreeAction, NgssmNode } from 'ngssm-tree';
-import { Filter, getFilterDescription, getFilterLabel } from '../filter';
+import { Filter, FilterType, getFilterDescription, getFilterLabel } from '../filter';
 import { demoTreeId, initialExpression, setNodesFromFilter } from '../init-expression-tree-demo-data';
+import { GroupFilterComponent } from '../group-filter/group-filter.component';
 
 @Component({
   selector: 'app-ngssm-expression-tree-demo',
@@ -22,7 +23,14 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
     expandIconClass: 'fa-solid fa-square-plus',
     collapseIconClass: 'fa-solid fa-square-minus',
     getNodeLabel: (node) => getFilterLabel(node.data.data),
-    getNodeDescription: (node) => getFilterDescription(node.data.data)
+    getNodeDescription: (node) => getFilterDescription(node.data.data),
+    getNodeDescriptionComponent: (node) => {
+      if (node.data.data.type === FilterType.and || node.data.data.type === FilterType.or) {
+        return GroupFilterComponent;
+      }
+
+      return null;
+    }
   };
   constructor(store: Store) {
     super(store);
