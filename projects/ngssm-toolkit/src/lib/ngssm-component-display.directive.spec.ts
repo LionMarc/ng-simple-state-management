@@ -4,31 +4,36 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 
-import { NgssmComponentDisplayDirective } from './ngssm-component-display.directive';
+import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-component-display.directive';
 
 @Component({
   standalone: true,
   selector: 'ngssm-first',
-  template: `First`,
+  template: `{{ title }}`,
   imports: [CommonModule]
 })
-class FirstComponent {}
+class FirstComponent {
+  public title = 'First';
+}
 
 @Component({
   standalone: true,
   selector: 'ngssm-second',
-  template: `Second`,
+  template: `{{ title }}`,
   imports: [CommonModule]
 })
-class SecondComponent {}
+class SecondComponent {
+  public title = 'Second';
+}
 
 @Component({
   standalone: true,
-  template: ` <div [ngssmComponentDisplay]="componentToDisplay$ | async"></div> `,
+  template: ` <div [ngssmComponentDisplay]="componentToDisplay$ | async" [ngssmComponentAction]="componentAction$ | async"></div> `,
   imports: [CommonModule, NgssmComponentDisplayDirective]
 })
 class TestingComponent {
   public readonly componentToDisplay$ = new BehaviorSubject<any>(FirstComponent);
+  public readonly componentAction$ = new BehaviorSubject<NgssmComponentAction | null>(null);
 }
 
 describe('NgssmComponentDisplayDirective', () => {
@@ -62,5 +67,16 @@ describe('NgssmComponentDisplayDirective', () => {
     const element = fixture.debugElement.query(By.css('ngssm-second'));
 
     expect(element).toBeTruthy();
+  });
+
+  it('should render the new title when component action is updated', async () => {
+    component.componentAction$.next((component) => (component.title = 'New Title'));
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const element = fixture.debugElement.query(By.css('ngssm-first'));
+
+    expect(element.nativeElement.innerHTML).toContain('New Title');
   });
 });

@@ -102,7 +102,11 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <div [ngssmComponentDisplay]="componentDisplayControl.value"></div>
+                <mat-form-field>
+                    <mat-label>Comment</mat-label>
+                    <input matInput [formControl]="commentControl">
+                </mat-form-field>
+                <div [ngssmComponentDisplay]="componentDisplayControl.value" [ngssmComponentAction]="componentAction$ | async"></div>
             </mat-card-content>
         </mat-card>
     </mat-card-content>

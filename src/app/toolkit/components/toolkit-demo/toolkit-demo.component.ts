@@ -14,11 +14,13 @@ import {
   NgssmConfirmationDialogService,
   NgssmNotifierService,
   NgssmRegexEditorToggleComponent,
-  NgssmComponentDisplayDirective
+  NgssmComponentDisplayDirective,
+  NgssmComponentAction
 } from 'ngssm-toolkit';
 import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 import { Demo1Component } from '../demo1/demo1.component';
 import { Demo2Component } from '../demo2/demo2.component';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-toolkit-demo',
@@ -44,6 +46,8 @@ import { Demo2Component } from '../demo2/demo2.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolkitDemoComponent extends NgSsmComponent {
+  private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | null>(null);
+
   public readonly fileControl = new FormControl<File | undefined>(undefined, Validators.required);
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
   public readonly filePickerDisabledControl = new FormControl<boolean>(false);
@@ -53,6 +57,7 @@ export class ToolkitDemoComponent extends NgSsmComponent {
     { label: 'Component 2', component: Demo2Component }
   ];
   public readonly componentDisplayControl = new FormControl<any>(Demo1Component);
+  public readonly commentControl = new FormControl<string | null>(null);
 
   constructor(
     store: Store,
@@ -68,6 +73,18 @@ export class ToolkitDemoComponent extends NgSsmComponent {
         this.fileControl.enable();
       }
     });
+
+    this.commentControl.valueChanges.subscribe((value) => {
+      if (!value) {
+        this._componentAction$.next(null);
+      } else {
+        this._componentAction$.next((component) => component.setComment(value));
+      }
+    });
+  }
+
+  public get componentAction$(): Observable<NgssmComponentAction | null> {
+    return this._componentAction$.asObservable();
   }
 
   public notifyError(message: string): void {
