@@ -3,8 +3,8 @@
 
     .ngssm-expression-tree-node {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: stretch;
         padding-right: 12px;
     }
 
@@ -38,5 +38,12 @@
 
     .ngssm-expression-tree-content {
         overflow: hidden;
+    }
+
+    .ngssm-expression-tree-node-detail-component {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        align-items: stretch;
     }
 }

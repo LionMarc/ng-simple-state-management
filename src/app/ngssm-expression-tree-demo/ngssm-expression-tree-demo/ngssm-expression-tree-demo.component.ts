@@ -8,6 +8,7 @@ import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig, NgssmInitExpre
 import { Filter, FilterType, getFilterDescription, getFilterLabel } from '../filter';
 import { demoTreeId, initialExpression, setNodesFromFilter } from '../init-expression-tree-demo-data';
 import { GroupFilterComponent } from '../group-filter/group-filter.component';
+import { NodeDetailComponent } from '../node-detail/node-detail.component';
 
 @Component({
   selector: 'app-ngssm-expression-tree-demo',
@@ -31,7 +32,8 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
       }
 
       return null;
-    }
+    },
+    getNodeDetailComponent: () => NodeDetailComponent
   };
   constructor(store: Store) {
     super(store);

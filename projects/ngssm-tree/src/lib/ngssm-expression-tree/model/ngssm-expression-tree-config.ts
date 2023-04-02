@@ -60,4 +60,11 @@ export interface NgssmExpressionTreeConfig<TData = any> {
    * @returns The type of the component to render. It must implement {@link NgssmExpressionTreeDescriptionComponent}.
    */
   getNodeDescriptionComponent?: (node: NgssmExpressionTreeNode<TData>) => any;
+
+  /**
+   * To render node detail with a custom angular component.
+   * @param node
+   * @returns The type of the component to render. It must implement {@link NgssmExpressionTreeDescriptionComponent}
+   */
+  getNodeDetailComponent?: (node: NgssmExpressionTreeNode<TData>) => any;
 }
