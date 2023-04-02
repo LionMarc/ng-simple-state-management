@@ -11,6 +11,11 @@ export interface NgssmExpressionTreeConfig<TData = any> {
   treeId: string;
 
   /**
+   * If true, no virtualization is applied.
+   */
+  disableVirtualization?: boolean;
+
+  /**
    * Base left padding for a  row in pixels.
    * The real padding is the depth of the node multiplied by this value.
    * By default 20px.

@@ -20,6 +20,7 @@ import { GroupFilterComponent } from '../group-filter/group-filter.component';
 export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
   public readonly treeConfig: NgssmExpressionTreeConfig<Filter> = {
     treeId: 'demo-expression-tree',
+    disableVirtualization: true,
     expandIconClass: 'fa-solid fa-square-plus',
     collapseIconClass: 'fa-solid fa-square-minus',
     getNodeLabel: (node) => getFilterLabel(node.data.data),
