@@ -60,7 +60,7 @@ export const initialExpression: Filter[] = [
 
 export const demoTreeId = 'demo-expression-tree';
 
-const setNodesFromFilter = (filter: Filter, path: string[], nextId: number, nodes: NgssmNode<Filter>[]): number => {
+export const setNodesFromFilter = (filter: Filter, path: string[], nextId: number, nodes: NgssmNode<Filter>[]): number => {
   let currentId = nextId;
   nodes.push({
     id: nextId.toString(),
@@ -89,6 +89,6 @@ export const initExpressionTreeDemoData = (): boolean => {
     nextId = setNodesFromFilter(exp, [], nextId, nodes);
   });
 
-  inject(Store).dispatchAction(new NgssmInitExpressionTreeAction(demoTreeId, nodes));
+  // inject(Store).dispatchAction(new NgssmInitExpressionTreeAction(demoTreeId, nodes));
   return true;
 };

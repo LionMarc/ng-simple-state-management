@@ -1,5 +1,5 @@
 import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction, NgssmExpressionTreeActionType } from '../actions';
-import { selectNgssmExpressionTreeState, updateNgssmExpressionTreeState } from '../state';
+import { NgssmExpressionTreeStateSpecification, selectNgssmExpressionTreeState, updateNgssmExpressionTreeState } from '../state';
 import { TreeNodeExpandReducer } from './tree-node-expand.reducer';
 
 describe('TreeNodeExpandReducer', () => {
@@ -8,7 +8,9 @@ describe('TreeNodeExpandReducer', () => {
 
   beforeEach(() => {
     reducer = new TreeNodeExpandReducer();
-    state = {};
+    state = {
+      [NgssmExpressionTreeStateSpecification.featureStateKey]: NgssmExpressionTreeStateSpecification.initialState
+    };
   });
 
   [NgssmExpressionTreeActionType.ngssmExpandExpressionTreeNode, NgssmExpressionTreeActionType.ngssmCollapseExpressionTreeNode].forEach(

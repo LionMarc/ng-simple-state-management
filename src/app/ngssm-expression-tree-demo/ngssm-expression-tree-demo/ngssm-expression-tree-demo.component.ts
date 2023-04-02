@@ -4,8 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig } from 'ngssm-tree';
+import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig, NgssmInitExpressionTreeAction, NgssmNode } from 'ngssm-tree';
 import { Filter, getFilterDescription, getFilterLabel } from '../filter';
+import { demoTreeId, initialExpression, setNodesFromFilter } from '../init-expression-tree-demo-data';
 
 @Component({
   selector: 'app-ngssm-expression-tree-demo',
@@ -18,10 +19,23 @@ import { Filter, getFilterDescription, getFilterLabel } from '../filter';
 export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
   public readonly treeConfig: NgssmExpressionTreeConfig<Filter> = {
     treeId: 'demo-expression-tree',
+    expandIconClass: 'fa-solid fa-square-plus',
+    collapseIconClass: 'fa-solid fa-square-minus',
     getNodeLabel: (node) => getFilterLabel(node.data.data),
     getNodeDescription: (node) => getFilterDescription(node.data.data)
   };
   constructor(store: Store) {
     super(store);
+
+    const nodes: NgssmNode<Filter>[] = [];
+
+    let nextId = 1;
+    initialExpression.forEach((exp) => {
+      nextId = setNodesFromFilter(exp, [], nextId, nodes);
+    });
+
+    setTimeout(() => {
+      this.dispatchAction(new NgssmInitExpressionTreeAction(demoTreeId, nodes));
+    });
   }
 }

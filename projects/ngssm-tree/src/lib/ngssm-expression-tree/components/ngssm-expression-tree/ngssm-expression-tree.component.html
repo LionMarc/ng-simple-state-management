@@ -1,4 +1,4 @@
-<mat-card class="flex-column-stretch fxFlex ngssm-tree-node">
+<mat-card class="flex-column-stretch fxFlex ngssm-expression-tree">
     <mat-card-content class="flex-column-stretch fxFlex" *ngIf="(treeConfig$ | async) as treeConfig">
         <cdk-virtual-scroll-viewport [itemSize]="treeConfig.rowSize ?? 30" class="fxFlex">
             <div *cdkVirtualFor="let item of displayedNodes$ | async; trackBy: getItemId"
@@ -7,11 +7,11 @@
                     [style.height.px]="treeConfig.rowSize ?? 30" *ngFor="let part of item.path"
                     [style.margin-right.px]="getDefaultPadding()">
                 </mat-divider>
-                <mat-icon class="fa-solid fa-chevron-right" *ngIf="item.data.isExpandable && item.isExpanded === false"
-                    (click)="$event.stopPropagation();expand(item);">
+                <mat-icon class="{{treeConfig.expandIconClass}}" *ngIf="item.data.isExpandable && item.isExpanded === false"
+                    (click)="$event.stopPropagation();expand(item);" id="expandIcon">
                 </mat-icon>
-                <mat-icon class="fa-solid fa-chevron-down" *ngIf="item.data.isExpandable && item.isExpanded === true"
-                    (click)="$event.stopPropagation();collapse(item);">
+                <mat-icon class="{{treeConfig.collapseIconClass}}" *ngIf="item.data.isExpandable && item.isExpanded === true"
+                    (click)="$event.stopPropagation();collapse(item);" id="collapseIcon">
                 </mat-icon>
                 <div class="ngssm-expression-tree-node-label">
                     {{treeConfig.getNodeLabel?.(item)}}
