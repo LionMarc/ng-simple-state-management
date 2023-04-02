@@ -57,9 +57,18 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
     const config: NgssmExpressionTreeConfig = {
       ...value
     };
-    if (!value.getNodeLabel) {
-      value.getNodeLabel = (node) => node.data.id;
+    if (!config.getNodeLabel) {
+      config.getNodeLabel = (node) => node.data.id;
     }
+
+    if (!config.expandIconClass) {
+      config.expandIconClass = 'fa-solid fa-chevron-right';
+    }
+
+    if (!config.collapseIconClass) {
+      config.collapseIconClass = 'fa-solid fa-chevron-down';
+    }
+
     this._treeConfig$.next(config);
     this._treeSubscription = this.watch((s) => selectNgssmExpressionTreeState(s).trees[value.treeId]).subscribe((tree) =>
       this._tree$.next(tree)

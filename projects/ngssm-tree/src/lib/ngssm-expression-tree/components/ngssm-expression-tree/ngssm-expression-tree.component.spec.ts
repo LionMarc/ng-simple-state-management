@@ -176,7 +176,7 @@ const initExpressionTreeDemoData = (): NgssmNode<Filter>[] => {
   return nodes;
 };
 
-fdescribe('NgssmExpressionTreeComponent', () => {
+describe('NgssmExpressionTreeComponent', () => {
   let component: DemoComponent;
   let fixture: ComponentFixture<DemoComponent>;
   let store: StoreMock;
@@ -268,7 +268,7 @@ fdescribe('NgssmExpressionTreeComponent', () => {
       store.state$.next(state);
     });
 
-    it(`should render a fa-chevron-right icon when node is expandable and is collapsed`, fakeAsync(() => {
+    it(`should render an expand icon when node is expandable and is collapsed`, fakeAsync(() => {
       const reducer = new TreeNodeExpandReducer();
       const state = reducer.updateState(store.state$.getValue(), new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
       store.state$.next(state);
@@ -281,7 +281,7 @@ fdescribe('NgssmExpressionTreeComponent', () => {
 
       finishInit(fixture);
 
-      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-right'));
+      const icon = fixture.debugElement.query(By.css('#node_4 #expandIcon'));
 
       expect(icon).toBeTruthy();
     }));
@@ -317,13 +317,13 @@ fdescribe('NgssmExpressionTreeComponent', () => {
       finishInit(fixture);
 
       spyOn(store, 'dispatchAction');
-      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-right')).nativeElement;
+      const icon = fixture.debugElement.query(By.css('#node_4 #expandIcon')).nativeElement;
       icon.click();
 
       expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmExpandExpressionTreeNodeAction(demoTreeId, '4'));
     }));
 
-    it(`should render a fa-chevron-down icon when node is expandable and is expanded`, fakeAsync(() => {
+    it(`should render a collapsed icon when node is expandable and is expanded`, fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
         getNodeLabel: (node) => getFilterLabel(node.data.data),
@@ -332,7 +332,7 @@ fdescribe('NgssmExpressionTreeComponent', () => {
 
       finishInit(fixture);
 
-      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-down'));
+      const icon = fixture.debugElement.query(By.css('#node_4 #collapseIcon'));
 
       expect(icon).toBeTruthy();
     }));
@@ -347,7 +347,7 @@ fdescribe('NgssmExpressionTreeComponent', () => {
       finishInit(fixture);
 
       spyOn(store, 'dispatchAction');
-      const icon = fixture.debugElement.query(By.css('#node_4 .fa-chevron-down')).nativeElement;
+      const icon = fixture.debugElement.query(By.css('#node_4 #collapseIcon')).nativeElement;
       icon.click();
 
       expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
@@ -362,9 +362,9 @@ fdescribe('NgssmExpressionTreeComponent', () => {
 
       finishInit(fixture);
 
-      let icon = fixture.debugElement.query(By.css('#node_5 .fa-chevron-down'));
+      let icon = fixture.debugElement.query(By.css('#node_5 #collapseIcon'));
       expect(icon).toBeFalsy();
-      icon = fixture.debugElement.query(By.css('#node_5 .fa-chevron-right'));
+      icon = fixture.debugElement.query(By.css('#node_5 #expandIcon'));
       expect(icon).toBeFalsy();
     }));
   });

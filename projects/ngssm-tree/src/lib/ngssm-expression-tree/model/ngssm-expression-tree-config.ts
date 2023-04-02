@@ -1,9 +1,50 @@
 import { NgssmExpressionTreeNode } from './ngssm-expression-tree-node';
 
+/**
+ * Configuration parameers of an expression tree instance.
+ */
 export interface NgssmExpressionTreeConfig<TData = any> {
+  /**
+   * Identifier of the tree used to associate data stored in the state with the component instance.
+   */
   treeId: string;
-  nodePadding?: number; // by default 20px
-  rowSize?: number; // by default 30px
+
+  /**
+   * Base left padding for a  row in pixels.
+   * The real padding is the depth of the node multiplied by this value.
+   * By default 20px.
+   */
+  nodePadding?: number;
+
+  /**
+   * Height of a row in pixels.
+   * By default 30px.
+   */
+  rowSize?: number;
+
+  /**
+   * The css class used to render the expand icon.
+   * By default 'fa-solid fa-chevron-right'
+   */
+  expandIconClass?: string;
+
+  /**
+   * The css class used to render the collpase icon.
+   * By default 'fa-solid fa-chevron-down'
+   */
+  collapseIconClass?: string;
+
+  /**
+   * Get the label of the node.
+   * @param node
+   * @returns The string value of the label
+   */
   getNodeLabel?: (node: NgssmExpressionTreeNode<TData>) => string;
+
+  /**
+   * Html rendered at the right of the label to display a description of the node
+   * @param node
+   * @returns The html used to render the node description
+   */
   getNodeDescription?: (node: NgssmExpressionTreeNode<TData>) => string;
 }
