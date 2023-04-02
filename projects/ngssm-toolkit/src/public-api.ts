@@ -11,3 +11,4 @@ export * from './lib/notification';
 export * from './lib/regex-editor';
 export * from './lib/confirmation-dialog';
 export * from './lib/object-helpers';
+export * from './lib/ngssm-component-display.directive';
