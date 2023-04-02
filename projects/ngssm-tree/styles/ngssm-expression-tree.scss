@@ -12,7 +12,8 @@
         border-color: var(--ngssm-expression-tree-node-divider-color);
     }
 
-    #expandIcon:hover, #collapseIcon:hover {
+    #expandIcon:hover,
+    #collapseIcon:hover {
         cursor: pointer;
     }
 
@@ -22,10 +23,20 @@
         height: 16px;
         font-size: 16px;
     }
-    
+
     .ngssm-expression-tree-node-label {
         font-weight: bold;
         margin-left: 8px;
     }
-}
 
+    .ngssm-expression-tree-nodes-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: auto;
+    }
+
+    .ngssm-expression-tree-content {
+        overflow: hidden;
+    }
+}

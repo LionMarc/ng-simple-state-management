@@ -226,6 +226,21 @@ describe('NgssmExpressionTreeComponent', () => {
       expect(renderedNodes.length).toEqual(nodes.length);
     }));
 
+    it('should render all the nodes when virtualization is disabled', async () => {
+      component.treeConfig$.next({
+        treeId: demoTreeId,
+        disableVirtualization: true,
+        getNodeLabel: (node) => getFilterLabel(node.data.data),
+        getNodeDescription: (node) => getFilterDescription(node.data.data)
+      });
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-expression-tree-node'));
+      expect(renderedNodes.length).toEqual(nodes.length);
+    });
+
     it('should render the label of the nodes', fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
