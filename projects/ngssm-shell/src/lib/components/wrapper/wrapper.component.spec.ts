@@ -1,18 +1,23 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
 
 import { WrapperComponent } from './wrapper.component';
 
 @Component({
-  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`
+  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  standalone: true,
+  imports: [CommonModule, WrapperComponent]
 })
 class UndefinedComponent {
   public item = undefined;
 }
 
 @Component({
-  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`
+  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  standalone: true,
+  imports: [CommonModule, WrapperComponent]
 })
 class StringComponent {
   public item = 'MESSAGE';
@@ -20,12 +25,16 @@ class StringComponent {
 
 @Component({
   selector: 'ngssm-wrapped',
-  template: `TESTING`
+  template: `TESTING`,
+  standalone: true,
+  imports: [CommonModule]
 })
 class WrappedComponent {}
 
 @Component({
-  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`
+  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  standalone: true,
+  imports: [CommonModule, WrapperComponent]
 })
 class WithComponent {
   public item = WrappedComponent;
@@ -37,7 +46,7 @@ describe('WrapperComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [WrapperComponent, UndefinedComponent]
+        imports: [UndefinedComponent]
       }).compileComponents();
 
       fixture = TestBed.createComponent(UndefinedComponent);
@@ -57,7 +66,7 @@ describe('WrapperComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [WrapperComponent, StringComponent]
+        imports: [StringComponent]
       }).compileComponents();
 
       fixture = TestBed.createComponent(StringComponent);
@@ -77,7 +86,7 @@ describe('WrapperComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [WrapperComponent, WithComponent, WrappedComponent]
+        imports: [WithComponent, WrappedComponent]
       }).compileComponents();
 
       fixture = TestBed.createComponent(WithComponent);

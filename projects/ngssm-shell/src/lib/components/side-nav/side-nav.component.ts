@@ -1,12 +1,18 @@
 import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { SidenavConfig } from '../../model';
+import { WrapperComponent } from '../wrapper/wrapper.component';
 
 @Component({
   selector: 'ngssm-side-nav',
+  standalone: true,
+  imports: [CommonModule, MatDividerModule, RouterModule, WrapperComponent],
   templateUrl: './side-nav.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

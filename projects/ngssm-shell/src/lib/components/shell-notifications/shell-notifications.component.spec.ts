@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaterialImportsModule } from 'ngssm-toolkit';
-
 import { ShellNotificationsComponent } from './shell-notifications.component';
 
 describe('ShellNotificationsComponent', () => {
@@ -10,8 +8,7 @@ describe('ShellNotificationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ShellNotificationsComponent],
-      imports: [MaterialImportsModule]
+      imports: [ShellNotificationsComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShellNotificationsComponent);

@@ -1,12 +1,16 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { selectShellState } from '../../state';
+import { ShellNotificationComponent } from '../shell-notification/shell-notification.component';
 
 @Component({
   selector: 'ngssm-shell-notification-popup',
+  standalone: true,
+  imports: [CommonModule, ShellNotificationComponent],
   templateUrl: './shell-notification-popup.component.html',
   styleUrls: ['./shell-notification-popup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

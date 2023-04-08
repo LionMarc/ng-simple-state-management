@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { MaterialImportsModule } from 'ngssm-toolkit';
-
 import { SideNavComponent } from './side-nav.component';
 
 describe('SideNavComponent', () => {
@@ -11,8 +9,7 @@ describe('SideNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialImportsModule],
-      declarations: [SideNavComponent]
+      imports: [SideNavComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SideNavComponent);

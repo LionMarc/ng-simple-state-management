@@ -1,4 +1,8 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject, combineLatest, Observable, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
@@ -9,6 +13,8 @@ import { DisplayNotificationDetailsAction } from '../../actions';
 
 @Component({
   selector: 'ngssm-shell-notification',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './shell-notification.component.html',
   styleUrls: ['./shell-notification.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
