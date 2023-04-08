@@ -8,7 +8,7 @@ describe('ShellNotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ShellNotificationComponent]
+      imports: [ShellNotificationComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShellNotificationComponent);

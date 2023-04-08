@@ -1,8 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MockComponent } from 'ng-mocks';
-
-import { ShellNotificationComponent } from '../shell-notification/shell-notification.component';
 import { ShellNotificationPopupComponent } from './shell-notification-popup.component';
 
 describe('ShellNotificationPopupComponent', () => {
@@ -11,7 +8,7 @@ describe('ShellNotificationPopupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ShellNotificationPopupComponent, MockComponent(ShellNotificationComponent)]
+      imports: [ShellNotificationPopupComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShellNotificationPopupComponent);

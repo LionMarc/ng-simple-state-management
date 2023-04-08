@@ -1,10 +1,13 @@
 import { Component, ChangeDetectionStrategy, Input, ViewContainerRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
   selector: 'ngssm-wrapper',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

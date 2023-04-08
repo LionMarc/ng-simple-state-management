@@ -2,8 +2,6 @@
  * Public API Surface of ngssm-store
  */
 
-export * from './lib/ngssm-store.module';
-
 export * from './lib/store';
 export * from './lib/state';
 export * from './lib/action';

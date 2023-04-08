@@ -1,15 +1,22 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmAceEditorMode } from 'ngssm-ace-editor';
+import { NgssmAceEditorComponent, NgssmAceEditorMode } from 'ngssm-ace-editor';
 
 import { selectShellState } from '../../state';
 import { ShellNotification, ShellNotificationType } from '../../model';
 import { DisplayNotificationDetailsAction, ShellActionType } from '../../actions';
+import { ShellNotificationComponent } from '../shell-notification/shell-notification.component';
 
 @Component({
   selector: 'ngssm-shell-notifications',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, NgssmAceEditorComponent, ShellNotificationComponent],
   templateUrl: './shell-notifications.component.html',
   styleUrls: ['./shell-notifications.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

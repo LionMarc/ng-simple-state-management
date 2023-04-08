@@ -7,7 +7,6 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { NgssmCachesDisplayButtonComponent, provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
-import { NgssmShellModule } from 'ngssm-shell';
 import {
   defaultRegexEditorValidator,
   MaterialImportsModule,
@@ -17,6 +16,7 @@ import {
 } from 'ngssm-toolkit';
 import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree } from 'ngssm-tree';
 import { provideNgssmNavigation } from 'ngssm-navigation';
+import { ShellComponent, provideNgssmShell } from 'ngssm-shell';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,12 +48,12 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     MaterialImportsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    NgssmShellModule.forRoot(),
     TodoModule,
     AceEditorModule,
     ShellDemoModule,
     AppRoutingModule,
-    NgssmCachesDisplayButtonComponent
+    NgssmCachesDisplayButtonComponent,
+    ShellComponent
   ],
   providers: [
     {
@@ -78,6 +78,7 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
         }
       }
     },
+    provideNgssmShell(),
     provideNgssmRemoteData(),
     provideNgssmTree(),
     provideNgssmNavigation(),
