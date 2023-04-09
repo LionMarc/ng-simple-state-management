@@ -85,7 +85,7 @@ describe('TreesReducer', () => {
       const treeId = 'demoTree';
       state = updateNgssmExpressionTreeState(state, {
         trees: {
-          [treeId]: { $set: { nodes: [] } }
+          [treeId]: { $set: { nodes: [], data: {} } }
         }
       });
 

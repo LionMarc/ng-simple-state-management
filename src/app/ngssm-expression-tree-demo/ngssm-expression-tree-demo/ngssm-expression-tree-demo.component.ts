@@ -24,10 +24,10 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
     disableVirtualization: true,
     expandIconClass: 'fa-solid fa-square-plus',
     collapseIconClass: 'fa-solid fa-square-minus',
-    getNodeLabel: (node) => getFilterLabel(node.data.data),
-    getNodeDescription: (node) => getFilterDescription(node.data.data),
-    getNodeDescriptionComponent: (node) => {
-      if (node.data.data.type === FilterType.and || node.data.data.type === FilterType.or) {
+    getNodeLabel: (_, data) => getFilterLabel(data),
+    getNodeDescription: (_, data) => getFilterDescription(data),
+    getNodeDescriptionComponent: (_, data) => {
+      if (data.type === FilterType.and || data.type === FilterType.or) {
         return GroupFilterComponent;
       }
 

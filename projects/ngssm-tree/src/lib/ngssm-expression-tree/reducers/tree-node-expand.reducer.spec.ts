@@ -44,7 +44,8 @@ describe('TreeNodeExpandReducer', () => {
                     data: {}
                   }
                 }
-              ]
+              ],
+              data: {}
             }
           }
         }
@@ -75,7 +76,8 @@ describe('TreeNodeExpandReducer', () => {
                     data: {}
                   }
                 }
-              ]
+              ],
+              data: {}
             }
           }
         }

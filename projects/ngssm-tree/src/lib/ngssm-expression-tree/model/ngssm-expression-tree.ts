@@ -1,13 +1,16 @@
+import { NgssmExpressionTreeData } from './ngssm-expression-tree-data';
 import { NgssmExpressionTreeNode } from './ngssm-expression-tree-node';
 import { NgssmNode } from './ngssm-node';
 
 export interface NgssmExpressionTree<TData = any> {
   nodes: NgssmExpressionTreeNode<TData>[];
+  data: NgssmExpressionTreeData<TData>;
 }
 
 export const createNgssmExpressionTreeFromNodes = <TData = any>(nodes: NgssmNode<TData>[]): NgssmExpressionTree<TData> => {
   const tree: NgssmExpressionTree<TData> = {
-    nodes: []
+    nodes: [],
+    data: {}
   };
 
   let path: string[] = [];
@@ -28,6 +31,8 @@ export const createNgssmExpressionTreeFromNodes = <TData = any>(nodes: NgssmNode
       data: node,
       isExpanded: node.isExpandable === true
     });
+
+    tree.data[node.id] = node.data;
   });
 
   return tree;

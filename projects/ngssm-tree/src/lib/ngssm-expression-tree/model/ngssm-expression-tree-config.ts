@@ -43,28 +43,32 @@ export interface NgssmExpressionTreeConfig<TData = any> {
   /**
    * Get the label of the node.
    * @param node
+   * @param data The current data to be rendered by the node
    * @returns The string value of the label
    */
-  getNodeLabel?: (node: NgssmExpressionTreeNode<TData>) => string;
+  getNodeLabel?: (node: NgssmExpressionTreeNode<TData>, data: TData) => string;
 
   /**
    * Html rendered at the right of the label to display a description of the node
    * @param node
+   * @param data The current data to be rendered by the node
    * @returns The html used to render the node description
    */
-  getNodeDescription?: (node: NgssmExpressionTreeNode<TData>) => string;
+  getNodeDescription?: (node: NgssmExpressionTreeNode<TData>, data: TData) => string;
 
   /**
    * To render description of a node by using a custom angular component instead of simple html.
    * @param node
+   * @param data The current data to be rendered by the node
    * @returns The type of the component to render. It must implement {@link NgssmExpressionTreeDescriptionComponent}.
    */
-  getNodeDescriptionComponent?: (node: NgssmExpressionTreeNode<TData>) => any;
+  getNodeDescriptionComponent?: (node: NgssmExpressionTreeNode<TData>, data: TData) => any;
 
   /**
    * To render node detail with a custom angular component.
    * @param node
+   * @param data The current data to be rendered by the node
    * @returns The type of the component to render. It must implement {@link NgssmExpressionTreeDescriptionComponent}
    */
-  getNodeDetailComponent?: (node: NgssmExpressionTreeNode<TData>) => any;
+  getNodeDetailComponent?: (node: NgssmExpressionTreeNode<TData>, data: TData) => any;
 }
