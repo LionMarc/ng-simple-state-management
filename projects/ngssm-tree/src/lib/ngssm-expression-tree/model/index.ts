@@ -3,3 +3,4 @@ export * from './ngssm-expression-tree-node';
 export * from './ngssm-node';
 export * from './ngssm-expression-tree-config';
 export * from './ngssm-expression-tree-description-component';
+export * from './ngssm-expression-tree-data';

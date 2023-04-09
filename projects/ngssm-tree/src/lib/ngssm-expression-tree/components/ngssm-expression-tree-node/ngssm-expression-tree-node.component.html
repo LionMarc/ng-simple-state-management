@@ -1,0 +1,8 @@
+<div class="ngssm-expression-tree-node-label">
+    {{nodeLabel$ | async}}
+</div>
+<div class="ngssm-expression-tree-node-description" [innerHTML]="nodeDescription$ | async">
+</div>
+<div class="ngssm-expression-tree-node-description-component" [ngssmComponentDisplay]="componentToDisplay$ | async"
+    [ngssmComponentAction]="componentAction$ | async">
+</div>

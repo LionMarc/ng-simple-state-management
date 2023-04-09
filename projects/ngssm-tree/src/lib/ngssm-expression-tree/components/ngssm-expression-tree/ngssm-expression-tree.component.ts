@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
@@ -7,21 +7,25 @@ import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, Observable, Subscription, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
-import {
-  NgssmExpressionTree,
-  NgssmExpressionTreeConfig,
-  NgssmExpressionTreeDescriptionComponent,
-  NgssmExpressionTreeNode
-} from '../../model';
+import { NgssmExpressionTree, NgssmExpressionTreeConfig, NgssmExpressionTreeNode } from '../../model';
 import { selectNgssmExpressionTreeState } from '../../state';
 import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction } from '../../actions';
+import { NgssmExpressionTreeNodeComponent } from '../ngssm-expression-tree-node/ngssm-expression-tree-node.component';
+import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tree-node-details/ngssm-expression-tree-node-details.component';
 
 @Component({
   selector: 'ngssm-expression-tree',
   standalone: true,
-  imports: [CommonModule, ScrollingModule, MatCardModule, MatDividerModule, MatIconModule, NgssmComponentDisplayDirective],
+  imports: [
+    CommonModule,
+    ScrollingModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    NgssmExpressionTreeNodeComponent,
+    NgssmExpressionTreeNodeDetailsComponent
+  ],
   templateUrl: './ngssm-expression-tree.component.html',
   styleUrls: ['./ngssm-expression-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -33,7 +37,7 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
 
   private _treeSubscription?: Subscription;
 
-  constructor(store: Store) {
+  constructor(store: Store, private changeDetectorRef: ChangeDetectorRef) {
     super(store);
 
     this._tree$.pipe(takeUntil(this.unsubscribeAll$)).subscribe((tree) => {
@@ -111,7 +115,7 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
     }
   }
 
-  public getComponentDescriptionAction(node: NgssmExpressionTreeNode): NgssmComponentAction {
-    return (c: NgssmExpressionTreeDescriptionComponent) => c.setNode(node);
+  public forceRefresh(): void {
+    this.changeDetectorRef.markForCheck();
   }
 }

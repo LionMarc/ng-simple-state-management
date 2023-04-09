@@ -30,8 +30,8 @@ export class GroupFilterComponent extends NgSsmComponent implements NgssmExpress
     return this._nodeId$.asObservable();
   }
 
-  public setNode(value: NgssmExpressionTreeNode<Filter>): void {
-    console.log('GroupFilterComponent', value, value.data.id, this._nodeId$.getValue());
-    this._nodeId$.next(value.data.id);
+  public setNode(node: NgssmExpressionTreeNode<Filter>, data: Filter): void {
+    console.log('GroupFilterComponent', node, node.data.id, this._nodeId$.getValue());
+    this._nodeId$.next(node.data.id);
   }
 }

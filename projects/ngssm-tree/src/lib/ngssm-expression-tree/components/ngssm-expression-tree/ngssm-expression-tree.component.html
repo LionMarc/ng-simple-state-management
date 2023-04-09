@@ -31,25 +31,18 @@
             *ngIf="(item.data.isExpandable || item.data.hasRowDetail) && item.isExpanded === true"
             (click)="$event.stopPropagation();collapse(item);" id="collapseIcon">
         </mat-icon>
-        <div class="ngssm-expression-tree-node-label">
-            {{treeConfig.getNodeLabel?.(item)}}
-        </div>
-        <div class="ngssm-expression-tree-node-description" [innerHTML]="treeConfig.getNodeDescription?.(item)">
-        </div>
-        <div class="ngssm-expression-tree-node-description-component"
-            [ngssmComponentDisplay]="treeConfig.getNodeDescriptionComponent?.(item)"
-            [ngssmComponentAction]="getComponentDescriptionAction(item)">
-
-        </div>
+        <ngssm-expression-tree-node [nodeId]="item.data.id" [treeConfig]="treeConfig">
+        </ngssm-expression-tree-node>
     </div>
     <div *ngIf="item.data.hasRowDetail === true && item.isExpanded === true" class="flex-row-center fxFlex">
         <mat-divider [vertical]="true" class="ngssm-expression-tree-node-divider"
             [style.height.px]="detailContainer.getBoundingClientRect().height" *ngFor=" let part of item.path"
             [style.margin-right.px]="getDefaultPadding()">
         </mat-divider>
+
         <div #detailContainer class="ngssm-expression-tree-node-detail-component">
-            <div [ngssmComponentDisplay]="treeConfig.getNodeDetailComponent?.(item)"
-                [ngssmComponentAction]="getComponentDescriptionAction(item)"></div>
+            <ngssm-expression-tree-node-details [nodeId]="item.data.id" [treeConfig]="treeConfig" (heightChanged)="forceRefresh()">
+            </ngssm-expression-tree-node-details>
         </div>
     </div>
 </ng-template>
