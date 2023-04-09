@@ -1,0 +1,25 @@
+<div *ngIf="(node$ | async) as node" class="flex-row-center fxFlex">
+    <div [ngSwitch]="node.type" class="flex-row-center fxFlex">
+        <div *ngSwitchCase="jsonNodeType.object" class="flex-row-center fxFlex">
+            <span class="fxFlex"></span>
+            <button mat-stroked-button color="primary" (click)="newProperty()">
+                <mat-icon class="fa-solid fa-plus"></mat-icon>
+                New property
+            </button>
+            <button mat-icon-button color="warn" matTooltip="Delete node" (click)="deleteNode()"
+                [disabled]="(canDelete$ | async) === false">
+                <mat-icon class="fa-solid fa-trash-can"></mat-icon>
+            </button>
+        </div>
+
+        <div *ngSwitchCase="jsonNodeType.value" class="flex-row-center fxFlex">
+            {{node.name}}
+            <span class="fxFlex"></span>
+            <button mat-icon-button color="warn" matTooltip="Delete node" (click)="deleteNode()"
+                [disabled]="(canDelete$ | async) === false">
+                <mat-icon class="fa-solid fa-trash-can"></mat-icon>
+            </button>
+        </div>
+
+    </div>
+</div>

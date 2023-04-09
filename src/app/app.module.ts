@@ -25,6 +25,7 @@ import { AceEditorModule } from './ace-editor/public-api';
 import { ShellDemoModule } from './shell-demo/public-api';
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
 import { provideRemoteDataDemo } from './remote-data-demo/public-api';
+import { provideJsonBuilder } from './ngssm-expression-tree-demo/json-builder/provide-json-builder';
 
 const dotnetRegexValidator: RegexEditorValidator = {
   validatePattern: (pattern: string) => {
@@ -87,7 +88,8 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     provideNgssmExpressionTree(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
     { provide: NGSSM_REGEX_EDITOR_VALIDATOR, useFactory: dotnetRegexValidatorFactory },
-    provideRemoteDataDemo()
+    provideRemoteDataDemo(),
+    provideJsonBuilder()
   ],
   bootstrap: [AppComponent]
 })
