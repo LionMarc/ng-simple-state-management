@@ -1,11 +1,11 @@
-import { Component, ChangeDetectionStrategy, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ElementRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable, Subject, combineLatest, take, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
-import { NgssmExpressionTreeConfig, NgssmExpressionTreeDescriptionComponent } from '../../model';
+import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '../../model';
 import { selectNgssmExpressionTreeState } from '../../state';
 
 @Component({
@@ -21,7 +21,6 @@ export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
   private readonly _treeConfig$ = new Subject<NgssmExpressionTreeConfig>();
   private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | undefined>(undefined);
   private readonly _componentToDisplay$ = new BehaviorSubject<any>(undefined);
-  private readonly _nodeData$ = new BehaviorSubject<any>(undefined);
 
   private initialized = false;
 
@@ -34,8 +33,12 @@ export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
       .pipe(take(1))
       .subscribe((values) => {
         this.initialized = true;
-        this.listenToData(values[1].treeId, values[0]);
-        this.listenToNodeData(values[1], values[0]);
+
+        this._componentAction$.next((c: NgssmExpressionTreeCustomComponent) => c.setup(values[1].treeId, values[0]));
+        this._componentToDisplay$.next(values[1].nodeDetailComponent);
+        setTimeout(() => {
+          this.heightChanged.emit(this.elementRef?.nativeElement.getBoundingClientRect().height ?? 0);
+        });
       });
   }
 
@@ -69,26 +72,5 @@ export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
 
   public get componentToDisplay$(): Observable<any> {
     return this._componentToDisplay$.asObservable();
-  }
-
-  private listenToData(treeId: string, nodeId: string): void {
-    this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId].data[nodeId]).subscribe((data) => {
-      this._nodeData$.next(data);
-    });
-  }
-
-  private listenToNodeData(treeConfig: NgssmExpressionTreeConfig, nodeId: string): void {
-    combineLatest([this._nodeData$, this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeConfig.treeId].nodes)])
-      .pipe(takeUntil(this.unsubscribeAll$))
-      .subscribe((values) => {
-        const node = values[1].find((v) => v.data.id === nodeId);
-        if (node) {
-          this._componentAction$.next((c: NgssmExpressionTreeDescriptionComponent) => c.setNode(node, values[0]));
-          this._componentToDisplay$.next(treeConfig.getNodeDetailComponent?.(node, values[0]));
-          setTimeout(() => {
-            this.heightChanged.emit(this.elementRef?.nativeElement.getBoundingClientRect().height ?? 0);
-          });
-        }
-      });
   }
 }

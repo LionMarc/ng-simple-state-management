@@ -5,15 +5,17 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig, NgssmInitExpressionTreeAction, NgssmNode } from 'ngssm-tree';
-import { Filter, FilterType, getFilterDescription, getFilterLabel } from '../filter';
+
+import { Filter, getFilterDescription, getFilterLabel } from '../filter';
 import { demoTreeId, initialExpression, setNodesFromFilter } from '../init-expression-tree-demo-data';
 import { GroupFilterComponent } from '../group-filter/group-filter.component';
 import { NodeDetailComponent } from '../node-detail/node-detail.component';
+import { JsonBuilderComponent } from '../json-builder/public-api';
 
 @Component({
   selector: 'app-ngssm-expression-tree-demo',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, NgssmExpressionTreeComponent],
+  imports: [CommonModule, MatCardModule, MatIconModule, NgssmExpressionTreeComponent, JsonBuilderComponent],
   templateUrl: './ngssm-expression-tree-demo.component.html',
   styleUrls: ['./ngssm-expression-tree-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -26,14 +28,8 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
     collapseIconClass: 'fa-solid fa-square-minus',
     getNodeLabel: (_, data) => getFilterLabel(data),
     getNodeDescription: (_, data) => getFilterDescription(data),
-    getNodeDescriptionComponent: (_, data) => {
-      if (data.type === FilterType.and || data.type === FilterType.or) {
-        return GroupFilterComponent;
-      }
-
-      return null;
-    },
-    getNodeDetailComponent: () => NodeDetailComponent
+    nodeDescriptionComponent: GroupFilterComponent,
+    nodeDetailComponent: NodeDetailComponent
   };
   constructor(store: Store) {
     super(store);

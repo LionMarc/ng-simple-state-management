@@ -1,7 +1,5 @@
-import { inject } from '@angular/core';
 import { DateTime } from 'luxon';
-import { NgssmInitExpressionTreeAction, NgssmNode } from 'ngssm-tree';
-import { Store } from 'ngssm-store';
+import { NgssmNode } from 'ngssm-tree';
 import { Filter, FilterType } from './filter';
 
 export const initialExpression: Filter[] = [

@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject, combineLatest, take, takeUntil } 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
-import { NgssmExpressionTreeConfig, NgssmExpressionTreeDescriptionComponent } from '../../model';
+import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '../../model';
 import { selectNgssmExpressionTreeState } from '../../state';
 
 @Component({
@@ -36,6 +36,9 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
         this.initialized = true;
         this.listenToData(values[1].treeId, values[0]);
         this.listenToNodeData(values[1], values[0]);
+
+        this._componentAction$.next((c: NgssmExpressionTreeCustomComponent) => c.setup(values[1].treeId, values[0]));
+        this._componentToDisplay$.next(values[1].nodeDescriptionComponent);
       });
   }
 
@@ -93,8 +96,6 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
         if (node) {
           this._nodeLabel$.next(treeConfig.getNodeLabel?.(node, values[0]) ?? '');
           this._nodeDescription$.next(treeConfig.getNodeDescription?.(node, values[0]));
-          this._componentAction$.next((c: NgssmExpressionTreeDescriptionComponent) => c.setNode(node, values[0]));
-          this._componentToDisplay$.next(treeConfig.getNodeDescriptionComponent?.(node, values[0]));
         }
       });
   }

@@ -1,4 +1,6 @@
-<span class="fxFlex"></span>
-<button mat-icon-button color="warn" matTooltip="Delete node {{ nodeId$ | async }}">
-    <mat-icon class="fa-solid fa-trash-can"></mat-icon>
-</button>
+<div *ngIf="(mustBeDisplayed$ | async) === true" class="flex-row-center fxFlex">
+    <span class="fxFlex"></span>
+    <button mat-icon-button color="warn" matTooltip="Delete node {{ nodeId$ | async }}">
+        <mat-icon class="fa-solid fa-trash-can"></mat-icon>
+    </button>
+</div>
