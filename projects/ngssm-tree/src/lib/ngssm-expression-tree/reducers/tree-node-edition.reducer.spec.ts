@@ -4,7 +4,8 @@ import {
   NgssmAddExpressionTreeNodeAction,
   NgssmDeleteExpressionTreeNodeAction,
   NgssmExpressionTreeActionType,
-  NgssmInitExpressionTreeAction
+  NgssmInitExpressionTreeAction,
+  NgssmUpdateExpressionTreeNodeAction
 } from '../actions';
 import { TreeNodeEditionReducer } from './tree-node-edition.reducer';
 import { NgssmExpressionTreeStateSpecification, selectNgssmExpressionTreeState } from '../state';
@@ -32,6 +33,7 @@ describe('TreeNodeEditionReducer', () => {
           id: '1',
           isExpandable: true,
           data: {
+            id: 1,
             name: 'node1'
           }
         },
@@ -40,7 +42,8 @@ describe('TreeNodeEditionReducer', () => {
           parentId: '1',
           isExpandable: true,
           data: {
-            name: 'node1'
+            id: 2,
+            name: 'node2'
           }
         },
         {
@@ -48,7 +51,8 @@ describe('TreeNodeEditionReducer', () => {
           parentId: '1',
           isExpandable: true,
           data: {
-            name: 'node1'
+            id: 3,
+            name: 'node3'
           }
         },
         {
@@ -56,27 +60,31 @@ describe('TreeNodeEditionReducer', () => {
           parentId: '3',
           isExpandable: true,
           data: {
-            name: 'node1'
+            id: 4,
+            name: 'node4'
           }
         },
         {
           id: '5',
           isExpandable: true,
           data: {
-            name: 'node1'
+            id: 5,
+            name: 'node5'
           }
         }
       ])
     );
   });
 
-  [NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode, NgssmExpressionTreeActionType.ngssmDeleteExpressionTreeNode].forEach(
-    (actionType: string) => {
-      it(`should process action of type '${actionType}'`, () => {
-        expect(reducer.processedActions).toContain(actionType);
-      });
-    }
-  );
+  [
+    NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode,
+    NgssmExpressionTreeActionType.ngssmDeleteExpressionTreeNode,
+    NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode
+  ].forEach((actionType: string) => {
+    it(`should process action of type '${actionType}'`, () => {
+      expect(reducer.processedActions).toContain(actionType);
+    });
+  });
 
   it('should return input state when processing not valid action type', () => {
     const updatedState = reducer.updateState(state, { type: 'not-processed' });
@@ -110,6 +118,7 @@ describe('TreeNodeEditionReducer', () => {
             id: '1',
             isExpandable: true,
             data: {
+              id: 1,
               name: 'node1'
             }
           },
@@ -118,7 +127,8 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '1',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 2,
+              name: 'node2'
             }
           },
           {
@@ -126,7 +136,8 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '1',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 3,
+              name: 'node3'
             }
           },
           {
@@ -134,14 +145,16 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '3',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 4,
+              name: 'node4'
             }
           },
           {
             id: '5',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 5,
+              name: 'node5'
             }
           },
           {
@@ -181,6 +194,7 @@ describe('TreeNodeEditionReducer', () => {
             id: '1',
             isExpandable: true,
             data: {
+              id: 1,
               name: 'node1'
             }
           },
@@ -189,7 +203,8 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '1',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 2,
+              name: 'node2'
             }
           },
           {
@@ -197,7 +212,8 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '1',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 3,
+              name: 'node3'
             }
           },
           {
@@ -205,7 +221,8 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '3',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 4,
+              name: 'node4'
             }
           },
           {
@@ -220,7 +237,8 @@ describe('TreeNodeEditionReducer', () => {
             id: '5',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 5,
+              name: 'node5'
             }
           }
         ]);
@@ -246,6 +264,7 @@ describe('TreeNodeEditionReducer', () => {
             id: '1',
             isExpandable: true,
             data: {
+              id: 1,
               name: 'node1'
             }
           },
@@ -254,7 +273,8 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '1',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 2,
+              name: 'node2'
             }
           },
           {
@@ -262,14 +282,16 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '1',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 3,
+              name: 'node3'
             }
           },
           {
             id: '5',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 5,
+              name: 'node5'
             }
           }
         ]);
@@ -294,6 +316,7 @@ describe('TreeNodeEditionReducer', () => {
             id: '1',
             isExpandable: true,
             data: {
+              id: 1,
               name: 'node1'
             }
           },
@@ -302,17 +325,53 @@ describe('TreeNodeEditionReducer', () => {
             parentId: '1',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 2,
+              name: 'node2'
             }
           },
           {
             id: '5',
             isExpandable: true,
             data: {
-              name: 'node1'
+              id: 5,
+              name: 'node5'
             }
           }
         ]);
+      });
+    });
+  });
+
+  describe(`when processing action of type '${NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode}'`, () => {
+    it(`should update the store data with the data set in action`, () => {
+      const action = new NgssmUpdateExpressionTreeNodeAction(treeId, '3', {
+        name: 'updated',
+        newProperty: true
+      });
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmExpressionTreeState(updatedState).trees[treeId].data).toEqual({
+        '3': {
+          name: 'updated',
+          newProperty: true
+        },
+        '1': {
+          id: 1,
+          name: 'node1'
+        },
+        '2': {
+          id: 2,
+          name: 'node2'
+        },
+        '4': {
+          id: 4,
+          name: 'node4'
+        },
+        '5': {
+          id: 5,
+          name: 'node5'
+        }
       });
     });
   });

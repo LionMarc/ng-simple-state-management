@@ -2,7 +2,12 @@ import { Injectable, Provider } from '@angular/core';
 
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
-import { NgssmAddExpressionTreeNodeAction, NgssmDeleteExpressionTreeNodeAction, NgssmExpressionTreeActionType } from '../actions';
+import {
+  NgssmAddExpressionTreeNodeAction,
+  NgssmDeleteExpressionTreeNodeAction,
+  NgssmExpressionTreeActionType,
+  NgssmUpdateExpressionTreeNodeAction
+} from '../actions';
 import { selectNgssmExpressionTreeState, updateNgssmExpressionTreeState } from '../state';
 import { NgssmExpressionTreeNode } from '../model';
 
@@ -10,7 +15,8 @@ import { NgssmExpressionTreeNode } from '../model';
 export class TreeNodeEditionReducer implements Reducer {
   public readonly processedActions: string[] = [
     NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode,
-    NgssmExpressionTreeActionType.ngssmDeleteExpressionTreeNode
+    NgssmExpressionTreeActionType.ngssmDeleteExpressionTreeNode,
+    NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode
   ];
 
   public updateState(state: State, action: Action): State {
@@ -86,6 +92,19 @@ export class TreeNodeEditionReducer implements Reducer {
             [ngssmDeleteExpressionTreeNodeAction.treeId]: {
               nodes: { $apply: (values: NgssmExpressionTreeNode[]) => values.filter((v) => !nodeIdsToDelete.includes(v.data.id)) },
               data: { $unset: nodeIdsToDelete }
+            }
+          }
+        });
+      }
+
+      case NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode: {
+        const ngssmUpdateExpressionTreeNodeAction = action as NgssmUpdateExpressionTreeNodeAction;
+        return updateNgssmExpressionTreeState(state, {
+          trees: {
+            [ngssmUpdateExpressionTreeNodeAction.treeId]: {
+              data: {
+                [ngssmUpdateExpressionTreeNodeAction.nodeId]: { $set: ngssmUpdateExpressionTreeNodeAction.data }
+              }
             }
           }
         });

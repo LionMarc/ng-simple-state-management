@@ -7,3 +7,4 @@ export * from './ngssm-expand-expression-tree-node.action';
 export * from './ngssm-collapse-expression-tree-node.action';
 export * from './ngssm-add-expression-tree-node.action';
 export * from './ngssm-delete-expression-tree-node.action';
+export * from './ngssm-update-expression-tree-node.action';
