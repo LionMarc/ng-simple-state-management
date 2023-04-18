@@ -6,6 +6,8 @@ export enum NgssmExpressionTreeActionType {
   // Manage expand/collapse
   ngssmCollapseExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmCollapseExpressionTreeNode',
   ngssmExpandExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmExpandExpressionTreeNode',
+  ngssmCollapseAllExpressionTreeNodes = '[NgssmExpressionTreeActionType] ngssmCollapseAllExpressionTreeNodes',
+  ngssmExpandAllExpressionTreeNodes = '[NgssmExpressionTreeActionType] ngssmExpandAllExpressionTreeNodes',
 
   // Node edition
   ngssmAddExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmAddExpressionTreeNode',

@@ -4,7 +4,13 @@ import update from 'immutability-helper';
 
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
-import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction, NgssmExpressionTreeActionType } from '../actions';
+import {
+  NgssmCollapseAllExpressionTreeNodesAction,
+  NgssmCollapseExpressionTreeNodeAction,
+  NgssmExpandAllExpressionTreeNodesAction,
+  NgssmExpandExpressionTreeNodeAction,
+  NgssmExpressionTreeActionType
+} from '../actions';
 import { NgssmExpressionTreeNode } from '../model';
 import { updateNgssmExpressionTreeState } from '../state';
 
@@ -12,7 +18,9 @@ import { updateNgssmExpressionTreeState } from '../state';
 export class TreeNodeExpandReducer implements Reducer {
   public readonly processedActions: string[] = [
     NgssmExpressionTreeActionType.ngssmExpandExpressionTreeNode,
-    NgssmExpressionTreeActionType.ngssmCollapseExpressionTreeNode
+    NgssmExpressionTreeActionType.ngssmCollapseExpressionTreeNode,
+    NgssmExpressionTreeActionType.ngssmCollapseAllExpressionTreeNodes,
+    NgssmExpressionTreeActionType.ngssmExpandAllExpressionTreeNodes
   ];
 
   public updateState(state: State, action: Action): State {
@@ -25,6 +33,52 @@ export class TreeNodeExpandReducer implements Reducer {
       case NgssmExpressionTreeActionType.ngssmCollapseExpressionTreeNode: {
         const ngssmCollapseExpressionTreeNodeAction = action as NgssmCollapseExpressionTreeNodeAction;
         return this.setIsExpanded(state, ngssmCollapseExpressionTreeNodeAction.treeId, ngssmCollapseExpressionTreeNodeAction.nodeId, false);
+      }
+
+      case NgssmExpressionTreeActionType.ngssmCollapseAllExpressionTreeNodes: {
+        const ngssmExpressionTreeAction = action as NgssmCollapseAllExpressionTreeNodesAction;
+        return updateNgssmExpressionTreeState(state, {
+          trees: {
+            [ngssmExpressionTreeAction.treeId]: {
+              nodes: {
+                $apply: (values: NgssmExpressionTreeNode[]) => {
+                  const output: NgssmExpressionTreeNode[] = [];
+                  values.forEach((value) =>
+                    output.push({
+                      ...value,
+                      isExpanded: false
+                    })
+                  );
+
+                  return output;
+                }
+              }
+            }
+          }
+        });
+      }
+
+      case NgssmExpressionTreeActionType.ngssmExpandAllExpressionTreeNodes: {
+        const ngssmExpressionTreeAction = action as NgssmExpandAllExpressionTreeNodesAction;
+        return updateNgssmExpressionTreeState(state, {
+          trees: {
+            [ngssmExpressionTreeAction.treeId]: {
+              nodes: {
+                $apply: (values: NgssmExpressionTreeNode[]) => {
+                  const output: NgssmExpressionTreeNode[] = [];
+                  values.forEach((value) =>
+                    output.push({
+                      ...value,
+                      isExpanded: true
+                    })
+                  );
+
+                  return output;
+                }
+              }
+            }
+          }
+        });
       }
     }
 
