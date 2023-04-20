@@ -1,10 +1,12 @@
-import { RemoteCallConfig } from '../model';
-import { NgssmRemoteCallStateSpecification } from '../state';
+import { State } from 'ngssm-store';
+
+import { RemoteCallConfig, RemoteCallStatus } from '../model';
+import { NgssmRemoteCallStateSpecification, selectNgssmRemoteCallState, updateNgssmRemoteCallState } from '../state';
 import { RemoteCallReducer } from './remote-call.reducer';
 
 describe('RemoteCallReducer', () => {
   let reducer: RemoteCallReducer;
-  let state: { [key: string]: any };
+  let state: State;
   const configs: RemoteCallConfig[] = [
     {
       id: 'test1',
@@ -30,5 +32,41 @@ describe('RemoteCallReducer', () => {
     const updatedState = reducer.updateState(state, { type: 'not-processed' });
 
     expect(updatedState).toBe(state);
+  });
+
+  describe(`when processing a triggered action`, () => {
+    beforeEach(() => {
+      state = updateNgssmRemoteCallState(state, {
+        remoteCalls: {
+          ['test1']: {
+            $set: {
+              status: RemoteCallStatus.ko,
+              error: {
+                title: 'Bad data'
+              },
+              message: 'unexpected'
+            }
+          }
+        }
+      });
+    });
+
+    it(`should set status to '${RemoteCallStatus.inProgress}'`, () => {
+      const updatedState = reducer.updateState(state, { type: 'trigger1' });
+
+      expect(selectNgssmRemoteCallState(updatedState).remoteCalls['test1'].status).toEqual(RemoteCallStatus.inProgress);
+    });
+
+    it(`should reset the error to undefined`, () => {
+      const updatedState = reducer.updateState(state, { type: 'trigger1' });
+
+      expect(selectNgssmRemoteCallState(updatedState).remoteCalls['test1'].error).toEqual(undefined);
+    });
+
+    it(`should reset the message to undefined`, () => {
+      const updatedState = reducer.updateState(state, { type: 'trigger1' });
+
+      expect(selectNgssmRemoteCallState(updatedState).remoteCalls['test1'].message).toEqual(undefined);
+    });
   });
 });

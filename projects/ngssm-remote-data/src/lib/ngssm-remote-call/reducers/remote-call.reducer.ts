@@ -3,7 +3,7 @@ import { Inject, Injectable, Optional, Provider } from '@angular/core';
 import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
 import { NgssmRemoteCallResultAction } from '../actions';
-import { NGSSM_REMOTE_CALL_CONFIG, RemoteCallConfig, RemoteCallStatus } from '../model';
+import { NGSSM_REMOTE_CALL_CONFIG, RemoteCallConfig, RemoteCallStatus, getDefaultRemoteCall } from '../model';
 import { updateNgssmRemoteCallState } from '../state';
 
 @Injectable()
@@ -23,9 +23,7 @@ export class RemoteCallReducer implements Reducer {
       if (config.triggeredActionTypes.includes(action.type)) {
         output = updateNgssmRemoteCallState(output, {
           remoteCalls: {
-            [config.id]: {
-              status: { $set: RemoteCallStatus.inProgress }
-            }
+            [config.id]: { $set: getDefaultRemoteCall(RemoteCallStatus.inProgress) }
           }
         });
       } else {
