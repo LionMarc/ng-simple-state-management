@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import {
@@ -15,12 +16,13 @@ import {
   NgssmNotifierService,
   NgssmRegexEditorToggleComponent,
   NgssmComponentDisplayDirective,
-  NgssmComponentAction
+  NgssmComponentAction,
+  NgssmHelpComponent
 } from 'ngssm-toolkit';
+
 import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 import { Demo1Component } from '../demo1/demo1.component';
 import { Demo2Component } from '../demo2/demo2.component';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-toolkit-demo',
@@ -38,6 +40,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
     NgssmRegexEditorToggleComponent,
     OverlayDemoComponent,
     NgssmComponentDisplayDirective,
+    NgssmHelpComponent,
     Demo1Component,
     Demo2Component
   ],
@@ -58,6 +61,10 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   ];
   public readonly componentDisplayControl = new FormControl<any>(Demo1Component);
   public readonly commentControl = new FormControl<string | null>(null);
+
+  public readonly helpTesting = `
+  <p>Using Input as help setter</p>
+  `;
 
   constructor(
     store: Store,
