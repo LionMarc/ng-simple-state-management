@@ -62,6 +62,10 @@
                         <button mat-button (click)="endCallWithSuccess()" class="width-margin-left-12">
                             End call with success
                         </button>
+
+                        <button mat-button (click)="endCallWithError()" class="width-margin-left-12">
+                            End call with error
+                        </button>
                     </mat-card-content>
                 </mat-card>
                 <mat-card class="flex-column-stretch fxflex with-margin-top-8 fxFlex">
@@ -69,6 +73,7 @@
                         <mat-card-title>Component using remote call directive</mat-card-title>
                     </mat-card-header>
                     <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteCall]="'demo'">
+                        <ngssm-remote-call-error [remoteCallId]="'demo'"></ngssm-remote-call-error>
                         <p>Custom Content</p>
                         {{ remoteCall$ | async | json}}
                     </mat-card-content>

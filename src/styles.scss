@@ -40,6 +40,7 @@ $ng-simple-state-management-theme: mat.define-light-theme((color: (primary: $ng-
 @import "ngssm-shell/styles/ngssm-sidenav.scss";
 @import "ngssm-ag-grid/styles/ngssm-actions-cell-renderer.scss";
 @import "ngssm-tree/styles/ngssm-expression-tree.scss";
+@import "ngssm-remote-data/styles/styles.scss";
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-material.css';
 @import 'ag-grid-community/styles/ag-theme-alpine.css';

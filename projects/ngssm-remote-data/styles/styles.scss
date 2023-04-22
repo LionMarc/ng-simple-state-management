@@ -1,0 +1,22 @@
+.ngssm-remote-call-error {
+    --ngssm-remote-call-error-color: #842029;
+    --ngssm-remote-call-error-background: #f8d7da;
+    --ngssm-remote-call-error-border: #f5c2c7;
+    --ngssm-remote-call-error-max-height: 150px;
+
+    background-color: var(--ngssm-remote-call-error-background);
+    color: var(--ngssm-remote-call-error-color);
+    border-color: var(--ngssm-remote-call-error-border);
+
+    .ngssm-remote-call-error-container {
+        max-height: var(--ngssm-remote-call-error-max-height);
+        overflow: auto;
+        white-space: pre;
+    }
+
+    .ngssm-remote-call-error-close-button {
+        position: absolute;
+        top: 0;
+        right: 15px;
+    }
+}
