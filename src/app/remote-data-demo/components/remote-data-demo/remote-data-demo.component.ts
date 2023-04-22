@@ -11,6 +11,7 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import {
   DataStatus,
   NgssmRemoteCallDirective,
+  NgssmRemoteCallErrorComponent,
   NgssmRemoteCallResultAction,
   NgssmRemoteDataOverlayDirective,
   RemoteCall,
@@ -32,7 +33,8 @@ import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions'
     MatCardModule,
     MatButtonModule,
     NgssmRemoteCallDirective,
-    NgssmRemoteDataOverlayDirective
+    NgssmRemoteDataOverlayDirective,
+    NgssmRemoteCallErrorComponent
   ],
   templateUrl: './remote-data-demo.component.html',
   styleUrls: ['./remote-data-demo.component.scss'],
@@ -70,6 +72,20 @@ export class RemoteDataDemoComponent extends NgSsmComponent {
 
   public endCallWithSuccess(): void {
     this.dispatchAction(new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, { status: RemoteCallStatus.done }));
+  }
+
+  public endCallWithError(): void {
+    this.dispatchAction(
+      new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, {
+        status: RemoteCallStatus.ko,
+        error: {
+          title: 'testing error',
+          errors: {
+            propA: ['Invalid value']
+          }
+        }
+      })
+    );
   }
 
   public updateStatus(): void {
