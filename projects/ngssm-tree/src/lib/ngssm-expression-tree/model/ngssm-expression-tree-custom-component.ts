@@ -1,3 +1,3 @@
-export interface NgssmExpressionTreeCustomComponent<TData = any> {
+export interface NgssmExpressionTreeCustomComponent {
   setup(treeId: string, nodeId: string): void;
 }
