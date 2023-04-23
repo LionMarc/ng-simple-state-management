@@ -18,7 +18,7 @@ import { Filter, FilterType } from '../filter';
   styleUrls: ['./group-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroupFilterComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent<Filter> {
+export class GroupFilterComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent {
   private readonly _nodeId$ = new BehaviorSubject<string>('');
   private readonly _mustBeDisplayed$ = new BehaviorSubject<boolean>(false);
 

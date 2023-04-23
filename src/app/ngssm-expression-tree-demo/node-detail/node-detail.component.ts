@@ -15,7 +15,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./node-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NodeDetailComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent<Filter> {
+export class NodeDetailComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent {
   private readonly _node$ = new BehaviorSubject<Filter | null>(null);
 
   constructor(store: Store) {

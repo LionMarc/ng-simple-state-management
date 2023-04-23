@@ -11,6 +11,7 @@ import { demoTreeId, initialExpression, setNodesFromFilter } from '../init-expre
 import { GroupFilterComponent } from '../group-filter/group-filter.component';
 import { NodeDetailComponent } from '../node-detail/node-detail.component';
 import { JsonBuilderComponent } from '../json-builder/public-api';
+import { Entry, databases } from '../database';
 
 @Component({
   selector: 'app-ngssm-expression-tree-demo',
@@ -31,6 +32,27 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
     nodeDescriptionComponent: GroupFilterComponent,
     nodeDetailComponent: NodeDetailComponent
   };
+
+  public readonly databaseTreeConfig: NgssmExpressionTreeConfig<Entry> = {
+    treeId: 'database-tree',
+    disableVirtualization: true,
+    expandIconClass: 'fa-solid fa-square-plus',
+    collapseIconClass: 'fa-solid fa-square-minus',
+    getNodeLabel: (_, data) => data.name,
+    getNodeCssIcon: (_, data) => {
+      switch (data.type) {
+        case 'Database':
+          return 'fa-solid fa-database';
+
+        case 'Table':
+          return 'fa-solid fa-table';
+
+        default:
+          return undefined;
+      }
+    }
+  };
+
   constructor(store: Store) {
     super(store);
 
@@ -44,5 +66,42 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
     setTimeout(() => {
       this.dispatchAction(new NgssmInitExpressionTreeAction(demoTreeId, nodes));
     });
+
+    nextId = 0;
+    const databaseNodes: NgssmNode<Entry>[] = [];
+    databases.forEach((database) => {
+      nextId++;
+      const databaseId = nextId.toString();
+      databaseNodes.push({
+        id: databaseId,
+        parentId: undefined,
+        isExpandable: true,
+        hasRowDetail: false,
+        data: database
+      });
+      database.tables.forEach((table) => {
+        nextId++;
+        const tableId = nextId.toString();
+        databaseNodes.push({
+          id: tableId,
+          parentId: databaseId,
+          isExpandable: true,
+          hasRowDetail: false,
+          data: table
+        });
+        table.columns.forEach((column) => {
+          nextId++;
+          databaseNodes.push({
+            id: nextId.toString(),
+            parentId: tableId,
+            isExpandable: false,
+            hasRowDetail: false,
+            data: column
+          });
+        });
+      });
+    });
+
+    this.dispatchAction(new NgssmInitExpressionTreeAction(this.databaseTreeConfig.treeId, databaseNodes));
   }
 }

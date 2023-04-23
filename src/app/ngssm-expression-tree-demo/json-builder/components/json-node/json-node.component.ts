@@ -19,7 +19,7 @@ import { NewPropertyAction } from '../../actions';
   styleUrls: ['./json-node.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JsonNodeComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent<JsonNode> {
+export class JsonNodeComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent {
   private readonly _node$ = new BehaviorSubject<JsonNode | undefined>(undefined);
   private readonly _canDelete$ = new BehaviorSubject<boolean>(false);
 

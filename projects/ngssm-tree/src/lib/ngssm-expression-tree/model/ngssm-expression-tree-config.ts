@@ -49,6 +49,14 @@ export interface NgssmExpressionTreeConfig<TData = any> {
   getNodeLabel?: (node: NgssmExpressionTreeNode<TData>, data: TData) => string;
 
   /**
+   * Get a css icon to display at the left of the label
+   * @param node
+   * @param data The current data to be rendered by the node
+   * @returns The string value of the label
+   */
+  getNodeCssIcon?: (node: NgssmExpressionTreeNode<TData>, data: TData) => string | undefined;
+
+  /**
    * Html rendered at the right of the label to display a description of the node
    * @param node
    * @param data The current data to be rendered by the node

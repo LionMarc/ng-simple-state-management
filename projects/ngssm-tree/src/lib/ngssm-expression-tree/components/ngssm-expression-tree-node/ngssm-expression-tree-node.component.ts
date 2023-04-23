@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, Observable, Subject, combineLatest, take, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
@@ -11,7 +12,7 @@ import { selectNgssmExpressionTreeState } from '../../state';
 @Component({
   selector: 'ngssm-expression-tree-node',
   standalone: true,
-  imports: [CommonModule, NgssmComponentDisplayDirective],
+  imports: [CommonModule, MatIconModule, NgssmComponentDisplayDirective],
   templateUrl: './ngssm-expression-tree-node.component.html',
   styleUrls: ['./ngssm-expression-tree-node.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,6 +21,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
   private readonly _nodeId$ = new Subject<string>();
   private readonly _treeConfig$ = new Subject<NgssmExpressionTreeConfig>();
   private readonly _nodeLabel$ = new BehaviorSubject<string>('');
+  private readonly _nodeCssIcon$ = new BehaviorSubject<string | undefined>(undefined);
   private readonly _nodeDescription$ = new BehaviorSubject<string | undefined>(undefined);
   private readonly _nodeData$ = new BehaviorSubject<any>(undefined);
   private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | undefined>(undefined);
@@ -70,6 +72,10 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
     return this._nodeLabel$.asObservable();
   }
 
+  public get nodeCssIcon$(): Observable<string | undefined> {
+    return this._nodeCssIcon$.asObservable();
+  }
+
   public get nodeDescription$(): Observable<string | undefined> {
     return this._nodeDescription$.asObservable();
   }
@@ -95,6 +101,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
         const node = values[1].find((v) => v.data.id === nodeId);
         if (node) {
           this._nodeLabel$.next(treeConfig.getNodeLabel?.(node, values[0]) ?? '');
+          this._nodeCssIcon$.next(treeConfig.getNodeCssIcon?.(node, values[0]) ?? undefined);
           this._nodeDescription$.next(treeConfig.getNodeDescription?.(node, values[0]));
         }
       });
