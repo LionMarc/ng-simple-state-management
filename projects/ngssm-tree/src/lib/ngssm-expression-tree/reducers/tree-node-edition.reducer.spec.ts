@@ -2,6 +2,7 @@ import { State } from 'ngssm-store';
 
 import {
   NgssmAddExpressionTreeNodeAction,
+  NgssmAddExpressionTreeNodesAction,
   NgssmDeleteExpressionTreeNodeAction,
   NgssmExpressionTreeActionType,
   NgssmInitExpressionTreeAction,
@@ -79,7 +80,8 @@ describe('TreeNodeEditionReducer', () => {
   [
     NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode,
     NgssmExpressionTreeActionType.ngssmDeleteExpressionTreeNode,
-    NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode
+    NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode,
+    NgssmExpressionTreeActionType.ngssmAddExpressionTreeNodes
   ].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(reducer.processedActions).toContain(actionType);
@@ -92,7 +94,7 @@ describe('TreeNodeEditionReducer', () => {
     expect(updatedState).toBe(state);
   });
 
-  describe(`when processing action of tyep '${NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode}'`, () => {
+  describe(`when processing action of type '${NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode}'`, () => {
     describe(`when no parent node is set`, () => {
       const action = new NgssmAddExpressionTreeNodeAction<TestingData>(treeId, {
         id: 'new-node-id',
@@ -239,6 +241,125 @@ describe('TreeNodeEditionReducer', () => {
             data: {
               id: 5,
               name: 'node5'
+            }
+          }
+        ]);
+      });
+    });
+  });
+
+  describe(`when processing action of type '${NgssmExpressionTreeActionType.ngssmAddExpressionTreeNodes}'`, () => {
+    describe(`when no parent node is set`, () => {
+      const action = new NgssmAddExpressionTreeNodesAction<TestingData>(treeId, [
+        {
+          id: 'add001',
+          parentId: undefined,
+          isExpandable: true,
+          data: {
+            name: 'list-001'
+          }
+        },
+        {
+          id: 'add002',
+          parentId: '3',
+          isExpandable: true,
+          data: {
+            name: 'list-002'
+          }
+        },
+        {
+          id: 'add003',
+          parentId: 'add001',
+          isExpandable: true,
+          data: {
+            name: 'list-003'
+          }
+        }
+      ]);
+
+      it(`should add the nodes to the data object`, () => {
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmExpressionTreeState(updatedState).trees[treeId].data['add001']).toEqual({
+          name: 'list-001'
+        });
+        expect(selectNgssmExpressionTreeState(updatedState).trees[treeId].data['add002']).toEqual({
+          name: 'list-002'
+        });
+        expect(selectNgssmExpressionTreeState(updatedState).trees[treeId].data['add003']).toEqual({
+          name: 'list-003'
+        });
+      });
+
+      it(`should add the nodes to the list of nodes at the right positions`, () => {
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmExpressionTreeState(updatedState).trees[treeId].nodes.map((n) => n.data)).toEqual([
+          {
+            id: '1',
+            isExpandable: true,
+            data: {
+              id: 1,
+              name: 'node1'
+            }
+          },
+          {
+            id: '2',
+            parentId: '1',
+            isExpandable: true,
+            data: {
+              id: 2,
+              name: 'node2'
+            }
+          },
+          {
+            id: '3',
+            parentId: '1',
+            isExpandable: true,
+            data: {
+              id: 3,
+              name: 'node3'
+            }
+          },
+          {
+            id: '4',
+            parentId: '3',
+            isExpandable: true,
+            data: {
+              id: 4,
+              name: 'node4'
+            }
+          },
+          {
+            id: 'add002',
+            parentId: '3',
+            isExpandable: true,
+            data: {
+              name: 'list-002'
+            }
+          },
+          {
+            id: '5',
+            isExpandable: true,
+            data: {
+              id: 5,
+              name: 'node5'
+            }
+          },
+          {
+            id: 'add001',
+            parentId: undefined,
+            isExpandable: true,
+            data: {
+              name: 'list-001'
+            }
+          },
+          {
+            id: 'add003',
+            parentId: 'add001',
+            isExpandable: true,
+            data: {
+              name: 'list-003'
             }
           }
         ]);

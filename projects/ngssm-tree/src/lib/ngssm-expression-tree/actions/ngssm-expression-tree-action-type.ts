@@ -11,6 +11,7 @@ export enum NgssmExpressionTreeActionType {
 
   // Node edition
   ngssmAddExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmAddExpressionTreeNode',
+  ngssmAddExpressionTreeNodes = '[NgssmExpressionTreeActionType] ngssmAddExpressionTreeNodes',
   ngssmDeleteExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmDeleteExpressionTreeNode',
   ngssmUpdateExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmUpdateExpressionTreeNode'
 }

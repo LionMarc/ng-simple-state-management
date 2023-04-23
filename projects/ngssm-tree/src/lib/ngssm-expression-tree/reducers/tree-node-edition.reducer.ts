@@ -4,19 +4,21 @@ import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
 
 import {
   NgssmAddExpressionTreeNodeAction,
+  NgssmAddExpressionTreeNodesAction,
   NgssmDeleteExpressionTreeNodeAction,
   NgssmExpressionTreeActionType,
   NgssmUpdateExpressionTreeNodeAction
 } from '../actions';
 import { selectNgssmExpressionTreeState, updateNgssmExpressionTreeState } from '../state';
-import { NgssmExpressionTreeNode } from '../model';
+import { NgssmExpressionTreeData, NgssmExpressionTreeNode, NgssmNode } from '../model';
 
 @Injectable()
 export class TreeNodeEditionReducer implements Reducer {
   public readonly processedActions: string[] = [
     NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode,
     NgssmExpressionTreeActionType.ngssmDeleteExpressionTreeNode,
-    NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode
+    NgssmExpressionTreeActionType.ngssmUpdateExpressionTreeNode,
+    NgssmExpressionTreeActionType.ngssmAddExpressionTreeNodes
   ];
 
   public updateState(state: State, action: Action): State {
@@ -32,45 +34,27 @@ export class TreeNodeEditionReducer implements Reducer {
               nodes: {
                 $apply: (values: NgssmExpressionTreeNode[]) => {
                   const output: NgssmExpressionTreeNode[] = [...values];
-                  if (ngssmAddExpressionTreeNodeAction.node.parentId === undefined) {
-                    output.push({
-                      path: [],
-                      data: ngssmAddExpressionTreeNodeAction.node,
-                      isExpanded: true
-                    });
-                    return output;
-                  }
+                  this.addNodeToList(ngssmAddExpressionTreeNodeAction.node, output);
+                  return output;
+                }
+              }
+            }
+          }
+        });
+      }
 
-                  let parentNode: NgssmExpressionTreeNode | undefined;
-                  let insertionIndex = -1;
-                  for (let i = 0; i < output.length; i++) {
-                    if (parentNode) {
-                      if (output[i].path.includes(ngssmAddExpressionTreeNodeAction.node.parentId)) {
-                        insertionIndex = i + 1;
-                      } else {
-                        break;
-                      }
-
-                      continue;
-                    }
-
-                    if (output[i].data.id === ngssmAddExpressionTreeNodeAction.node.parentId) {
-                      parentNode = output[i];
-                      insertionIndex = i + 1;
-                      continue;
-                    }
-                  }
-
-                  if (!parentNode || insertionIndex === -1) {
-                    throw new Error('Invalid parent id');
-                  }
-
-                  output.splice(insertionIndex, 0, {
-                    path: [...parentNode.path, parentNode.data.id],
-                    data: ngssmAddExpressionTreeNodeAction.node,
-                    isExpanded: true
-                  });
-
+      case NgssmExpressionTreeActionType.ngssmAddExpressionTreeNodes: {
+        const ngssmAddExpressionTreeNodesAction = action as NgssmAddExpressionTreeNodesAction;
+        const newProps: NgssmExpressionTreeData = {};
+        ngssmAddExpressionTreeNodesAction.nodes.forEach((node) => (newProps[node.id] = node.data));
+        return updateNgssmExpressionTreeState(state, {
+          trees: {
+            [ngssmAddExpressionTreeNodesAction.treeId]: {
+              data: { $merge: newProps },
+              nodes: {
+                $apply: (values: NgssmExpressionTreeNode[]) => {
+                  const output: NgssmExpressionTreeNode[] = [...values];
+                  ngssmAddExpressionTreeNodesAction.nodes.forEach((node) => this.addNodeToList(node, output));
                   return output;
                 }
               }
@@ -112,6 +96,47 @@ export class TreeNodeEditionReducer implements Reducer {
     }
 
     return state;
+  }
+
+  private addNodeToList(node: NgssmNode, nodeList: NgssmExpressionTreeNode[]): void {
+    if (node.parentId === undefined) {
+      nodeList.push({
+        path: [],
+        data: node,
+        isExpanded: true
+      });
+      return;
+    }
+
+    let parentNode: NgssmExpressionTreeNode | undefined;
+    let insertionIndex = -1;
+    for (let i = 0; i < nodeList.length; i++) {
+      if (parentNode) {
+        if (nodeList[i].path.includes(node.parentId)) {
+          insertionIndex = i + 1;
+        } else {
+          break;
+        }
+
+        continue;
+      }
+
+      if (nodeList[i].data.id === node.parentId) {
+        parentNode = nodeList[i];
+        insertionIndex = i + 1;
+        continue;
+      }
+    }
+
+    if (!parentNode || insertionIndex === -1) {
+      throw new Error('Invalid parent id');
+    }
+
+    nodeList.splice(insertionIndex, 0, {
+      path: [...parentNode.path, parentNode.data.id],
+      data: node,
+      isExpanded: true
+    });
   }
 }
 
