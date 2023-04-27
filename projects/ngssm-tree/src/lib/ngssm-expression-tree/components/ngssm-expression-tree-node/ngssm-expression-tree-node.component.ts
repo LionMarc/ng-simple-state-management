@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, Observable, Subject, combineLatest, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, switchMap, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
@@ -18,29 +18,49 @@ import { selectNgssmExpressionTreeState } from '../../state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
-  private readonly _nodeId$ = new Subject<string>();
-  private readonly _treeConfig$ = new Subject<NgssmExpressionTreeConfig>();
+  private readonly _nodeId$ = new BehaviorSubject<string | undefined>(undefined);
+  private readonly _treeConfig$ = new BehaviorSubject<NgssmExpressionTreeConfig | undefined>(undefined);
   private readonly _nodeLabel$ = new BehaviorSubject<string>('');
   private readonly _nodeCssIcon$ = new BehaviorSubject<string | undefined>(undefined);
   private readonly _nodeDescription$ = new BehaviorSubject<string | undefined>(undefined);
-  private readonly _nodeData$ = new BehaviorSubject<any>(undefined);
   private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | undefined>(undefined);
   private readonly _componentToDisplay$ = new BehaviorSubject<any>(undefined);
-
-  private initialized = false;
 
   constructor(store: Store) {
     super(store);
 
     combineLatest([this._nodeId$, this._treeConfig$])
-      .pipe(take(1))
+      .pipe(
+        filter((v) => v[0] !== undefined && v[1] !== undefined),
+        takeUntil(this.unsubscribeAll$),
+        switchMap((v) =>
+          combineLatest([
+            this.watch((s) => selectNgssmExpressionTreeState(s).trees[v[1]?.treeId ?? 'unknown'].data[v[0] ?? 'unknown']),
+            this.watch((s) => selectNgssmExpressionTreeState(s).trees[v[1]?.treeId ?? 'unknown'].nodes)
+          ])
+        ),
+        takeUntil(this.unsubscribeAll$)
+      )
       .subscribe((values) => {
-        this.initialized = true;
-        this.listenToData(values[1].treeId, values[0]);
-        this.listenToNodeData(values[1], values[0]);
+        const node = values[1].find((v) => v.data.id === this._nodeId$.getValue());
+        const treeConfig = this._treeConfig$.getValue();
+        const nodeValue = values[0];
+        if (node && treeConfig && nodeValue) {
+          this._nodeLabel$.next(treeConfig.getNodeLabel?.(node, nodeValue) ?? '');
+          this._nodeCssIcon$.next(treeConfig.getNodeCssIcon?.(node, nodeValue) ?? undefined);
+          this._nodeDescription$.next(treeConfig.getNodeDescription?.(node, nodeValue));
+        }
+      });
 
-        this._componentAction$.next((c: NgssmExpressionTreeCustomComponent) => c.setup(values[1].treeId, values[0]));
-        this._componentToDisplay$.next(values[1].nodeDescriptionComponent);
+    combineLatest([this._nodeId$, this._treeConfig$])
+      .pipe(takeUntil(this.unsubscribeAll$))
+      .subscribe((values) => {
+        const treeConfig = values[1];
+        const nodeId = values[0];
+        if (treeConfig && nodeId) {
+          this._componentAction$.next((c: NgssmExpressionTreeCustomComponent) => c.setup(treeConfig.treeId, nodeId));
+          this._componentToDisplay$.next(treeConfig.nodeDescriptionComponent);
+        }
       });
   }
 
@@ -49,20 +69,12 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
       return;
     }
 
-    if (this.initialized) {
-      throw new Error('Component NgssmExpressionTreeNodeComponent is already initialized.');
-    }
-
     this._nodeId$.next(value);
   }
 
   @Input() public set treeConfig(value: NgssmExpressionTreeConfig | null | undefined) {
     if (!value) {
       return;
-    }
-
-    if (this.initialized) {
-      throw new Error('Component NgssmExpressionTreeNodeComponent is already initialized.');
     }
 
     this._treeConfig$.next(value);
@@ -86,24 +98,5 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
 
   public get componentToDisplay$(): Observable<any> {
     return this._componentToDisplay$.asObservable();
-  }
-
-  private listenToData(treeId: string, nodeId: string): void {
-    this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId].data[nodeId]).subscribe((data) => {
-      this._nodeData$.next(data);
-    });
-  }
-
-  private listenToNodeData(treeConfig: NgssmExpressionTreeConfig, nodeId: string): void {
-    combineLatest([this._nodeData$, this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeConfig.treeId].nodes)])
-      .pipe(takeUntil(this.unsubscribeAll$))
-      .subscribe((values) => {
-        const node = values[1].find((v) => v.data.id === nodeId);
-        if (node) {
-          this._nodeLabel$.next(treeConfig.getNodeLabel?.(node, values[0]) ?? '');
-          this._nodeCssIcon$.next(treeConfig.getNodeCssIcon?.(node, values[0]) ?? undefined);
-          this._nodeDescription$.next(treeConfig.getNodeDescription?.(node, values[0]));
-        }
-      });
   }
 }
