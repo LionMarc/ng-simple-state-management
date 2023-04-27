@@ -35,7 +35,7 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
 
   public readonly databaseTreeConfig: NgssmExpressionTreeConfig<Entry> = {
     treeId: 'database-tree',
-    disableVirtualization: true,
+    disableVirtualization: false,
     expandIconClass: 'fa-solid fa-square-plus',
     collapseIconClass: 'fa-solid fa-square-minus',
     getNodeLabel: (_, data) => data.name,
