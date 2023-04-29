@@ -56,6 +56,10 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
       if (a.actionConfig.isDisabled instanceof Function) {
         a.disabled$.next(a.actionConfig.isDisabled(params as any));
       }
+
+      if (a.actionConfig.isHidden instanceof Function) {
+        a.hidden$.next(a.actionConfig.isHidden(params as any));
+      }
     });
     return true;
   }
