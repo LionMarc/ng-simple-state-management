@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { GetRowIdParams, GridOptions, ICellRendererParams } from 'ag-grid-community';
+import { GetRowIdParams, GridOptions, ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { DataStatus, NgssmRemoteDataReloadButtonComponent, selectRemoteData } from 'ngssm-remote-data';
@@ -71,15 +71,20 @@ export class TodoDashboardComponent extends NgSsmComponent {
             {
               cssClass: 'fa-solid fa-pen-to-square',
               color: 'primary',
-              isDisabled: (params: ICellRendererParams<TodoItem, number>) => params.value < 2,
-              click: (params: ICellRendererParams<TodoItem, number>) => this.dispatchAction(new EditTodoItemAction(params.value)),
+              isDisabled: (params: ICellRendererParams<TodoItem, TodoItem>) => (params.data?.id ?? -1) < 2,
+              click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
+                if (params.data?.id) {
+                  this.dispatchAction(new EditTodoItemAction(params.data.id));
+                }
+              },
               tooltip: 'Edit to-do'
             },
             {
               cssClass: 'fa-solid fa-question',
               color: 'accent',
-              isDisabled: (params: ICellRendererParams<TodoItem, number>) => params.value === 2,
-              click: (params: ICellRendererParams<TodoItem, number>) => {
+              isDisabled: (params: ICellRendererParams<TodoItem, TodoItem>) => (params.data?.id ?? -1) === 2,
+              isHidden: (params: ICellRendererParams<TodoItem, TodoItem>) => params.data?.title?.includes('READ') ?? false,
+              click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
                 console.log('Column action called.', params);
               }
             },
@@ -87,14 +92,14 @@ export class TodoDashboardComponent extends NgSsmComponent {
               cssClass: 'fa-solid fa-trash-can',
               color: 'accent',
               isHidden: this._deleteHidden$,
-              click: (params: ICellRendererParams<TodoItem, number>) => {
+              click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
                 console.log('Column delete called.', params);
               }
             }
           ]
         }),
         ...getColDefWithNoPadding(),
-        field: 'id',
+        valueGetter: (params: ValueGetterParams<TodoItem>) => params.data,
         headerName: 'actions',
         colId: 'actions',
         width: 160,
