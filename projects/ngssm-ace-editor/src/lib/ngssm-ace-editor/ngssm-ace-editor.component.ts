@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { take } from 'rxjs';
+import { Observable, filter, take } from 'rxjs';
+
+import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 import { AceBuildsLoader } from '../ace-builds-loader';
 import { NgssmAceEditorApi } from '../ngssm-ace-editor-api';
@@ -9,7 +11,7 @@ import { NgssmAceEditorMode } from '../ngssm-ace-editor-mode';
 @Component({
   selector: 'ngssm-ace-editor',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgssmComponentOverlayDirective],
   templateUrl: './ngssm-ace-editor.component.html',
   styleUrls: ['./ngssm-ace-editor.component.scss']
 })
@@ -27,6 +29,10 @@ export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
   public api: NgssmAceEditorApi | undefined;
 
   constructor(private aceBuildsLoader: AceBuildsLoader, private zone: NgZone) {}
+
+  public get loading$(): Observable<boolean> {
+    return this.aceBuildsLoader.loading$;
+  }
 
   @Input() public set content(value: string) {
     if (this.api?.aceEditor) {
@@ -57,7 +63,10 @@ export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
   public ngAfterViewInit(): void {
     this.aceBuildsLoader
       .loadScripts()
-      .pipe(take(1))
+      .pipe(
+        filter((v) => !v),
+        take(1)
+      )
       .subscribe(() => {
         this.zone.runOutsideAngular(() => {
           const ace: any = (window as any).ace;

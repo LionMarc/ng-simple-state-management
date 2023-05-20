@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Logger } from 'ngssm-store';
 
@@ -8,10 +8,14 @@ import { Logger } from 'ngssm-store';
   providedIn: 'root'
 })
 export class AceBuildsLoader {
-  private _loading$ = new ReplaySubject<boolean>();
+  private _loading$ = new BehaviorSubject<boolean>(true);
   private _initialized = false;
 
   constructor(@Inject(DOCUMENT) private document: any, private logger: Logger) {}
+
+  public get loading$(): Observable<boolean> {
+    return this._loading$.asObservable();
+  }
 
   public loadScripts(): Observable<boolean> {
     this.logger.debug(`[ace-editor] trying to get ace, isInitialized=${this._initialized}`);
@@ -26,7 +30,7 @@ export class AceBuildsLoader {
       (window as any).ace.config.set('basePath', 'ace-builds');
       (window as any).ace.config.set('workerPath', 'ace-builds');
       this.logger.information(`[ace-editor] ace loaded.`);
-      this._loading$.next(true);
+      this._loading$.next(false);
     };
 
     this.logger.information(`[ace-editor] loading ace.`);
