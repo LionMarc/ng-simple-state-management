@@ -1,12 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StoreMock } from 'ngssm-store';
-
 import { <%= classify(name) %>Effect } from './<%= dasherize(name) %>.effect';
 
 describe('<%= classify(name) %>Effect', () => {
   let effect: <%= classify(name) %>Effect;
-  let store: StoreMock;
 
   beforeEach(() => {
     store = new StoreMock({});
