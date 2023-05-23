@@ -6,7 +6,6 @@ describe('<%= classify(name) %>Effect', () => {
   let effect: <%= classify(name) %>Effect;
 
   beforeEach(() => {
-    store = new StoreMock({});
     TestBed.configureTestingModule({
       imports: [],
       providers: [<%= classify(name) %>Effect]
@@ -19,4 +18,4 @@ describe('<%= classify(name) %>Effect', () => {
       expect(effect.processedActions).toContain(actionType);
     });
   });
-})
+});
