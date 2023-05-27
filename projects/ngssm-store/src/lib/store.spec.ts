@@ -37,7 +37,7 @@ describe('Store', () => {
 
     store = new Store(logger, [], [], [first, second]);
 
-    expect((store as any)._state$.value).toEqual({
+    expect(store.state()).toEqual({
       first: 'initialized',
       second: 'initialized'
     });
@@ -70,7 +70,7 @@ describe('Store', () => {
     expect(second.updateState).not.toHaveBeenCalled();
     expect(third.updateState).toHaveBeenCalled();
 
-    expect((store as any)._state$.value).toEqual({
+    expect(store.state()).toEqual({
       first: 'called',
       third: 'called'
     });

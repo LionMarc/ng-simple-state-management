@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, Optional, Signal, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import update from 'immutability-helper';
@@ -26,6 +26,7 @@ export class Store {
   private readonly actionQueue: Action[] = [];
   private readonly reducersPerActionType = new Map<string, Reducer[]>();
   private readonly effectsPerActionType = new Map<string, Effect[]>();
+  private readonly _stateSignal = signal<State>({});
 
   constructor(
     private logger: Logger,
@@ -33,6 +34,7 @@ export class Store {
     @Inject(NGSSM_EFFECT) @Optional() effects: Effect[],
     @Inject(NGSSM_STATE_INITIALIZER) @Optional() initializers: StateInitializer[]
   ) {
+    this._state$.subscribe((value) => this._stateSignal.set(value));
     this.logger.information('[Store] ---> state initialization...');
     let state = this._state$.getValue();
     state = featureStateSpecifications.reduce((p, c) => update(p, { [c.featureStateKey]: { $set: c.initialState } }), state);
@@ -73,6 +75,10 @@ export class Store {
 
   public get state$(): Observable<State> {
     return this._state$.asObservable();
+  }
+
+  public get state(): Signal<State> {
+    return this._stateSignal.asReadonly();
   }
 
   public dispatchAction(action: Action): void {
