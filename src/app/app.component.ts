@@ -103,7 +103,7 @@ export class AppComponent extends NgSsmComponent {
 
   constructor(store: Store, consoleAppender: ConsoleAppender) {
     super(store);
-    consoleAppender.start();
+    consoleAppender.start('Main');
   }
 
   public closeNavigationBar(): void {

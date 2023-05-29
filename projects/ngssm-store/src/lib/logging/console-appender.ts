@@ -11,7 +11,7 @@ export class ConsoleAppender {
 
   constructor(private logger: Logger) {}
 
-  public start(): void {
+  public start(contextName?: string): void {
     this.logger.logEvents$.pipe(takeUntil(this.stopEvent$)).subscribe((logEvent) => {
       let logFunction: any;
       switch (logEvent.level) {
@@ -24,10 +24,13 @@ export class ConsoleAppender {
           break;
       }
 
+      const now = new Date().toLocaleString();
+      const prefix = contextName ? `[${contextName}] ` : '';
+
       if (logEvent.payload) {
-        logFunction(`[${logEvent.level}] ${logEvent.message}`, logEvent.payload);
+        logFunction(`${prefix}[${now}] [${logEvent.level}] ${logEvent.message}`, logEvent.payload);
       } else {
-        logFunction(`[${logEvent.level}] ${logEvent.message}`);
+        logFunction(`${prefix}[${now}] [${logEvent.level}] ${logEvent.message}`);
       }
     });
   }
