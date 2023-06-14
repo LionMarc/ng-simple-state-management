@@ -13,5 +13,10 @@ export enum NgssmExpressionTreeActionType {
   ngssmAddExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmAddExpressionTreeNode',
   ngssmAddExpressionTreeNodes = '[NgssmExpressionTreeActionType] ngssmAddExpressionTreeNodes',
   ngssmDeleteExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmDeleteExpressionTreeNode',
-  ngssmUpdateExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmUpdateExpressionTreeNode'
+  ngssmUpdateExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmUpdateExpressionTreeNode',
+
+  // Cut/Paste
+  ngssmCutExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmCutExpressionTreeNode',
+  ngssmPasteExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmPasteExpressionTreeNode',
+  ngssmCancelCutExpressionTreeNode = '[NgssmExpressionTreeActionType] ngssmCancelCutExpressionTreeNode'
 }

@@ -1,6 +1,16 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
-import { treeNodeEditionReducerProvider, treeNodeExpandReducerProvider, treesReducerProvider } from './reducers';
+import {
+  cutAndPasteReducerProvider,
+  treeNodeEditionReducerProvider,
+  treeNodeExpandReducerProvider,
+  treesReducerProvider
+} from './reducers';
 
 export const provideNgssmExpressionTree = (): EnvironmentProviders => {
-  return makeEnvironmentProviders([treesReducerProvider, treeNodeExpandReducerProvider, treeNodeEditionReducerProvider]);
+  return makeEnvironmentProviders([
+    treesReducerProvider,
+    treeNodeExpandReducerProvider,
+    treeNodeEditionReducerProvider,
+    cutAndPasteReducerProvider
+  ]);
 };

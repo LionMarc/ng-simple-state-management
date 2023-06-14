@@ -2,7 +2,8 @@
     <mat-icon class="{{nodeCssIcon$ | async}}"></mat-icon>
 </div>
 
-<div class="ngssm-expression-tree-node-label">
+<div class="ngssm-expression-tree-node-label" [matMenuTriggerFor]="contextMenu"
+    [class.ngssm-expression-tree-node-to-cut]="(cutAndPaste$ | async)?.isPartOfCut === true">
     {{nodeLabel$ | async}}
 </div>
 
@@ -12,3 +13,34 @@
 <div class="ngssm-expression-tree-node-description-component" [ngssmComponentDisplay]="componentToDisplay$ | async"
     [ngssmComponentAction]="componentAction$ | async">
 </div>
+
+<mat-menu #contextMenu="matMenu" [class]="'ngssm-expression-tree-popup-menu'">
+    <div class="flex-column-stretch" *ngIf="treeConfig?.displayCutAndPasteMenus === true">
+        <button mat-menu-item (click)="cut()" *ngIf="(cutAndPaste$ | async)?.isCutAndPasteInProgress === false">
+            <mat-icon class="fa-solid fa-scissors"></mat-icon>
+            <span>Cut</span>
+        </button>
+        <button mat-menu-item *ngIf="(cutAndPaste$ | async)?.isCutAndPasteInProgress === true" (click)="cancelCut()">
+            <mat-icon class="fa-solid fa-slash"></mat-icon>
+            <span>Cancel cut</span>
+        </button>
+        <button mat-menu-item [disabled]="(cutAndPaste$ | async)?.canPasteInside !== true" (click)="paste('Inside')">
+            <mat-icon class="fa-solid fa-paste"></mat-icon>
+            <span>Paste inside</span>
+        </button>
+        <button mat-menu-item [disabled]="(cutAndPaste$ | async)?.canPasteAfter !== true" (click)="paste('After')">
+            <mat-icon class="fa-solid fa-paste"></mat-icon>
+            <span>Paste after</span>
+        </button>
+        <mat-divider></mat-divider>
+    </div>
+
+    <button mat-menu-item (click)="expandAll()">
+        <mat-icon class="fa-solid fa-up-right-and-down-left-from-center"></mat-icon>
+        <span>Expand all</span>
+    </button>
+    <button mat-menu-item (click)="collapseAll()">
+        <mat-icon class="fa-solid fa-down-left-and-up-right-to-center"></mat-icon>
+        <span>Collapse all</span>
+    </button>
+</mat-menu>

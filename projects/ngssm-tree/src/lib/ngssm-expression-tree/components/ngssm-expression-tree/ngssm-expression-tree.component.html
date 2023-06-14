@@ -1,4 +1,4 @@
-<mat-card class="flex-column-stretch fxFlex ngssm-expression-tree" [cdkContextMenuTriggerFor]="contextMenu">
+<mat-card class="flex-column-stretch fxFlex ngssm-expression-tree">
     <mat-card-content class="flex-column-stretch fxFlex ngssm-expression-tree-content"
         *ngIf="(treeConfig$ | async) as treeConfig">
         <cdk-virtual-scroll-viewport [itemSize]="treeConfig.rowSize ?? 30" class="fxFlex"
@@ -45,14 +45,5 @@
                 (heightChanged)="forceRefresh()">
             </ngssm-expression-tree-node-details>
         </div>
-    </div>
-</ng-template>
-
-<ng-template #contextMenu>
-    <div class="ngssm-expression-tree-context-menu" cdkMenu>
-        <button class="ngssm-expression-tree-context-menu-item" cdkMenuItem (click)="expandAll()">Expand all</button>
-        <button class="ngssm-expression-tree-context-menu-item" cdkMenuItem (click)="collapseAll()">
-            Collapse all
-        </button>
     </div>
 </ng-template>

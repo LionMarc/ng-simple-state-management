@@ -4,7 +4,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmExpressionTreeComponent, NgssmExpressionTreeConfig, NgssmInitExpressionTreeAction, NgssmNode } from 'ngssm-tree';
+import {
+  CutAndPasteTarget,
+  NgssmExpressionTreeComponent,
+  NgssmExpressionTreeConfig,
+  NgssmExpressionTreeNode,
+  NgssmInitExpressionTreeAction,
+  NgssmNode
+} from 'ngssm-tree';
 
 import { Filter, getFilterDescription, getFilterLabel } from '../filter';
 import { demoTreeId, initialExpression, setNodesFromFilter } from '../init-expression-tree-demo-data';
@@ -50,6 +57,33 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
         default:
           return undefined;
       }
+    },
+    displayCutAndPasteMenus: true,
+    canPaste: (node: NgssmExpressionTreeNode<Entry>, targetNode: NgssmExpressionTreeNode<Entry>, target: CutAndPasteTarget) => {
+      switch (node.data.data.type) {
+        case 'Database': {
+          if (target === 'Inside' || targetNode.data.data.type !== 'Database') {
+            return false;
+          }
+
+          return true;
+        }
+
+        case 'Table': {
+          return (
+            (target === 'Inside' && targetNode.data.data.type === 'Database') ||
+            (target === 'After' && targetNode.data.data.type === 'Table')
+          );
+        }
+
+        case 'Column': {
+          return (
+            (target === 'Inside' && targetNode.data.data.type === 'Table') || (target === 'After' && targetNode.data.data.type === 'Column')
+          );
+        }
+      }
+
+      return false;
     }
   };
 

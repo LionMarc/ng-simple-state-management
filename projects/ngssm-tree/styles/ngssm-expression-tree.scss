@@ -29,6 +29,10 @@
         margin-left: 8px;
     }
 
+    .ngssm-expression-tree-node-label:hover {
+        cursor: pointer;
+    }
+
     .ngssm-expression-tree-nodes-container {
         display: flex;
         flex-direction: column;
@@ -76,4 +80,12 @@
 
 .ngssm-expression-tree-context-menu-item:hover {
     background-color: rgb(208, 208, 208);
+}
+
+.ngssm-expression-tree-popup-menu {
+    font-size: 10px;
+}
+
+.ngssm-expression-tree-node-to-cut {
+    color: lightgray !important;
 }
