@@ -4,19 +4,13 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { CdkMenuModule } from '@angular/cdk/menu';
 import { BehaviorSubject, Observable, Subscription, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { NgssmExpressionTree, NgssmExpressionTreeConfig, NgssmExpressionTreeNode } from '../../model';
 import { selectNgssmExpressionTreeState } from '../../state';
-import {
-  NgssmCollapseAllExpressionTreeNodesAction,
-  NgssmCollapseExpressionTreeNodeAction,
-  NgssmExpandAllExpressionTreeNodesAction,
-  NgssmExpandExpressionTreeNodeAction
-} from '../../actions';
+import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction } from '../../actions';
 import { NgssmExpressionTreeNodeComponent } from '../ngssm-expression-tree-node/ngssm-expression-tree-node.component';
 import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tree-node-details/ngssm-expression-tree-node-details.component';
 
@@ -29,7 +23,6 @@ import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tre
     MatCardModule,
     MatDividerModule,
     MatIconModule,
-    CdkMenuModule,
     NgssmExpressionTreeNodeComponent,
     NgssmExpressionTreeNodeDetailsComponent
   ],
@@ -124,19 +117,5 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
 
   public forceRefresh(): void {
     this.changeDetectorRef.markForCheck();
-  }
-
-  public expandAll(): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
-    if (treeId) {
-      this.dispatchAction(new NgssmExpandAllExpressionTreeNodesAction(treeId));
-    }
-  }
-
-  public collapseAll(): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
-    if (treeId) {
-      this.dispatchAction(new NgssmCollapseAllExpressionTreeNodesAction(treeId));
-    }
   }
 }

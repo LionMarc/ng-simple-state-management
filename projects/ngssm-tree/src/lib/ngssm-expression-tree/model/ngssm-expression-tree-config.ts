@@ -1,6 +1,8 @@
 import { NgssmExpressionTreeCustomComponent } from './ngssm-expression-tree-custom-component';
 import { NgssmExpressionTreeNode } from './ngssm-expression-tree-node';
 
+export type CutAndPasteTarget = 'After' | 'Inside';
+
 /**
  * Configuration parameers of an expression tree instance.
  */
@@ -75,4 +77,11 @@ export interface NgssmExpressionTreeConfig<TData = any> {
    * It must implement {@link NgssmExpressionTreeCustomComponent}
    */
   nodeDetailComponent?: any;
+
+  /**
+   * To render in the popup menus the items to cut and paste nodes.
+   */
+  displayCutAndPasteMenus?: boolean;
+
+  canPaste?: (node: NgssmExpressionTreeNode<TData>, targetNode: NgssmExpressionTreeNode<TData>, target: CutAndPasteTarget) => boolean;
 }

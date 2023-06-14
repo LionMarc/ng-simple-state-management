@@ -11,3 +11,6 @@ export * from './ngssm-update-expression-tree-node.action';
 export * from './ngssm-collapse-all-expression-tree-nodes.action';
 export * from './ngssm-expand-all-expression-tree-nodes.action';
 export * from './ngssm-add-expression-tree-nodes.action';
+export * from './ngssm-cut-expression-tree-node.action';
+export * from './ngssm-paste-expression-tree-node.action';
+export * from './ngssm-cancel-cut-expression-tree-node.action';

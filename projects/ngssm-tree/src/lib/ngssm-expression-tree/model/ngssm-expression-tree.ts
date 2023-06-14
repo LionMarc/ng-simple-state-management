@@ -5,6 +5,7 @@ import { NgssmNode } from './ngssm-node';
 export interface NgssmExpressionTree<TData = any> {
   nodes: NgssmExpressionTreeNode<TData>[];
   data: NgssmExpressionTreeData<TData>;
+  nodeCut?: NgssmExpressionTreeNode<TData>;
 }
 
 export const createNgssmExpressionTreeFromNodes = <TData = any>(nodes: NgssmNode<TData>[]): NgssmExpressionTree<TData> => {
