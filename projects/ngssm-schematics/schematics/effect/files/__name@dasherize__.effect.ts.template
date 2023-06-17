@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
+import { Effect, Store, State, Action } from 'ngssm-store';
 
 @Injectable()
 export class <%= classify(name) %>Effect implements Effect {
@@ -8,9 +8,3 @@ export class <%= classify(name) %>Effect implements Effect {
 
   public processAction(store: Store, state: State, action: Action): void {}
 }
-
-export const <%= providerName %>: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: <%= classify(name) %>Effect,
-  multi: true
-};

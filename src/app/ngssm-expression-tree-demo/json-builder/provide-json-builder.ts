@@ -1,8 +1,10 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+
+import { provideEffect, provideReducers } from 'ngssm-store';
+
 import { JsonNodeEditorReducer, NextNodeIdReducer } from './reducers';
-import { jsonNodeEditorEffectProvider } from './effects';
-import { provideReducers } from 'ngssm-store';
+import { JsonNodeEditorEffect } from './effects';
 
 export const provideJsonBuilder = (): EnvironmentProviders => {
-  return makeEnvironmentProviders([jsonNodeEditorEffectProvider, provideReducers(JsonNodeEditorReducer, NextNodeIdReducer)]);
+  return makeEnvironmentProviders([provideReducers(JsonNodeEditorReducer, NextNodeIdReducer), provideEffect(JsonNodeEditorEffect)]);
 };

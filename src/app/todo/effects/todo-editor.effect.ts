@@ -1,8 +1,8 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoadRemoteDataAction, RemoteCallError } from 'ngssm-remote-data';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
+import { Effect, Store, State, Action } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
 
 import { TodoActionType } from '../actions';
@@ -77,9 +77,3 @@ export class TodoEditorEffect implements Effect {
     }
   }
 }
-
-export const todoEditorEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: TodoEditorEffect,
-  multi: true
-};

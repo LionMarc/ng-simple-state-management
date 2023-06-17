@@ -1,8 +1,8 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DataStatus } from 'ngssm-remote-data';
-import { Effect, Store, State, Action, NGSSM_EFFECT, Logger } from 'ngssm-store';
+import { Effect, Store, State, Action, Logger } from 'ngssm-store';
 import { defaultRegexEditorValidator } from 'ngssm-toolkit';
 
 import { LoadChildrenOfNodeAction, NgssmTreeActionType, RegisterPartialSearchResultsAction } from '../actions';
@@ -91,9 +91,3 @@ export class TreeNodesSearchingEffect implements Effect {
     this.dialog = undefined;
   }
 }
-
-export const treeNodesSearchingEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: TreeNodesSearchingEffect,
-  multi: true
-};

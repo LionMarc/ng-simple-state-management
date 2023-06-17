@@ -1,6 +1,6 @@
-import { Inject, Injectable, Optional, Provider } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
+import { Effect, Store, State, Action } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
 
 import { LoadRemoteDataAction, RegisterLoadedRemoteDataAction, RemoteDataActionType } from '../actions';
@@ -49,9 +49,3 @@ export class RemoteDataLoadingEffect implements Effect {
     });
   }
 }
-
-export const remoteDataLoadingEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: RemoteDataLoadingEffect,
-  multi: true
-};

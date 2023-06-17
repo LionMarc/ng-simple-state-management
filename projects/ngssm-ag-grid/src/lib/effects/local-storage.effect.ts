@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT, Logger } from 'ngssm-store';
+import { Effect, Store, State, Action, Logger } from 'ngssm-store';
 
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction } from '../actions';
 import { ChangeOrigin, selectAgGridState } from '../state';
@@ -47,9 +47,3 @@ export class LocalStorageEffect implements Effect {
     return `ngssm-ag-grid_${gridId}`;
   }
 }
-
-export const localStorageEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: LocalStorageEffect,
-  multi: true
-};

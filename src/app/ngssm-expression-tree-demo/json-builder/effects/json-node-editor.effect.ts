@@ -1,7 +1,7 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
+import { Effect, Store, State, Action } from 'ngssm-store';
 import { NgssmAddExpressionTreeNodeAction } from 'ngssm-tree';
 
 import { JsonBuilderActionType, SubmitJsonNodeAction } from '../actions';
@@ -69,9 +69,3 @@ export class JsonNodeEditorEffect implements Effect {
     this.dialog = undefined;
   }
 }
-
-export const jsonNodeEditorEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: JsonNodeEditorEffect,
-  multi: true
-};
