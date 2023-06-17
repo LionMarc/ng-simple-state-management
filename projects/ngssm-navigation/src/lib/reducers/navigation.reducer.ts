@@ -1,6 +1,6 @@
-import { Inject, Injectable, Optional, Provider } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { NavigationActionType } from '../actions';
 import { NavigationLockingConfig, NGSSM_NAVIGATION_LOCKING_CONFIG } from '../model';
@@ -45,9 +45,3 @@ export class NavigationReducer implements Reducer {
     return state;
   }
 }
-
-export const navigationReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: NavigationReducer,
-  multi: true
-};

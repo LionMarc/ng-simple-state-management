@@ -1,8 +1,8 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import update from 'immutability-helper';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import {
   NgssmCancelCutExpressionTreeNodeAction,
@@ -130,9 +130,3 @@ export class CutAndPasteReducer implements Reducer {
     });
   }
 }
-
-export const cutAndPasteReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: CutAndPasteReducer,
-  multi: true
-};

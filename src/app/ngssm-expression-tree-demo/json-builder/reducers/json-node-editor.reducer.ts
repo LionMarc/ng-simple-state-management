@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { JsonBuilderActionType, NewPropertyAction } from '../actions';
 import { getDefaultJsonNodeEditor, updateJsonBuilderState } from '../state';
@@ -31,9 +31,3 @@ export class JsonNodeEditorReducer implements Reducer {
     return state;
   }
 }
-
-export const jsonNodeEditorReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: JsonNodeEditorReducer,
-  multi: true
-};

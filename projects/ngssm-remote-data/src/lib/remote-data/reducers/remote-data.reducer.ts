@@ -1,6 +1,6 @@
-import { Inject, Injectable, Optional, Provider } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 
-import { Reducer, State, NGSSM_REDUCER, Action } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { LoadRemoteDataAction, RegisterLoadedRemoteDataAction, RemoteDataActionType } from '../actions';
 import { DataStatus, RemoteDataProvider, NGSSM_REMOTE_DATA_PROVIDER } from '../model';
@@ -77,9 +77,3 @@ export class RemoteDataReducer implements Reducer {
     return state;
   }
 }
-
-export const remoteDataReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: RemoteDataReducer,
-  multi: true
-};

@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { EnvironmentProviders, InjectionToken, Type, makeEnvironmentProviders } from '@angular/core';
 
 import { Action } from './action';
 import { State } from './state';
@@ -9,3 +9,11 @@ export interface Reducer {
 }
 
 export const NGSSM_REDUCER = new InjectionToken<Reducer>('NGSSM_REDUCER');
+
+export const provideReducer = (reducer: Type<any>): EnvironmentProviders => {
+  return makeEnvironmentProviders([{ provide: NGSSM_REDUCER, useClass: reducer, multi: true }]);
+};
+
+export const provideReducers = (...reducers: Type<any>[]): EnvironmentProviders => {
+  return makeEnvironmentProviders(reducers.map((reducer) => ({ provide: NGSSM_REDUCER, useClass: reducer, multi: true })));
+};

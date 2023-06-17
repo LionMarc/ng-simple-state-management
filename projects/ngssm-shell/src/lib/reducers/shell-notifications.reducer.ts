@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { DisplayNotificationAction, DisplayNotificationDetailsAction, ShellActionType } from '../actions';
 import { ShellNotification } from '../model';
@@ -49,9 +49,3 @@ export class ShellNotificationsReducer implements Reducer {
     return state;
   }
 }
-
-export const shellNotificationsReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: ShellNotificationsReducer,
-  multi: true
-};
