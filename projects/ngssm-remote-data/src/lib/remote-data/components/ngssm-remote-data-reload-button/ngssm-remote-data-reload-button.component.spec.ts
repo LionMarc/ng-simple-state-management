@@ -3,7 +3,8 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 
-import { Store, StoreMock } from 'ngssm-store';
+import { Store } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { LoadRemoteDataAction, RemoteDataActionType } from '../../actions';
 import { DataStatus, getDefaultRemoteData } from '../../model';
@@ -60,10 +61,10 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
 
     describe(`when state is initialized for given remote data`, () => {
       beforeEach(async () => {
-        const state = updateRemoteDataState(store.state$.getValue(), {
+        const state = updateRemoteDataState(store.stateValue, {
           [remoteDataKey]: { $set: getDefaultRemoteData<string>('') }
         });
-        store.state$.next(state);
+        store.stateValue = state;
         fixture.detectChanges();
         await fixture.whenStable();
       });
@@ -71,12 +72,12 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
       [DataStatus.error, DataStatus.loaded, DataStatus.none, DataStatus.notFound].forEach((status) => {
         describe(`when remote data status is ${status}`, () => {
           beforeEach(async () => {
-            const state = updateRemoteDataState(store.state$.getValue(), {
+            const state = updateRemoteDataState(store.stateValue, {
               [remoteDataKey]: {
                 status: { $set: status }
               }
             });
-            store.state$.next(state);
+            store.stateValue = state;
             fixture.detectChanges();
             await fixture.whenStable();
           });
@@ -114,12 +115,12 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
       [DataStatus.loading].forEach((status) => {
         describe(`when remote data status is ${status}`, () => {
           beforeEach(async () => {
-            const state = updateRemoteDataState(store.state$.getValue(), {
+            const state = updateRemoteDataState(store.stateValue, {
               [remoteDataKey]: {
                 status: { $set: status }
               }
             });
-            store.state$.next(state);
+            store.stateValue = state;
             fixture.detectChanges();
             await fixture.whenStable();
           });

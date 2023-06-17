@@ -4,7 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatTableHarness } from '@angular/material/table/testing';
 
-import { Store, StoreMock } from 'ngssm-store';
+import { Store } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { LoadRemoteDataAction, RemoteDataActionType } from '../../actions';
 import { DataStatus } from '../../model';
@@ -50,7 +51,7 @@ describe('NgssmCachesComponent', () => {
   });
 
   it(`should render the list of caches`, async () => {
-    const state = updateRemoteDataState(store.state$.getValue(), {
+    const state = updateRemoteDataState(store.stateValue, {
       ['key1']: {
         $set: {
           status: DataStatus.loading
@@ -68,7 +69,7 @@ describe('NgssmCachesComponent', () => {
       }
     });
 
-    store.state$.next(state);
+    store.stateValue = state;
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -85,7 +86,7 @@ describe('NgssmCachesComponent', () => {
   });
 
   it(`should not be able to reload data when cache is in '${DataStatus.loading}' state`, async () => {
-    const state = updateRemoteDataState(store.state$.getValue(), {
+    const state = updateRemoteDataState(store.stateValue, {
       ['key1']: {
         $set: {
           status: DataStatus.loading
@@ -93,7 +94,7 @@ describe('NgssmCachesComponent', () => {
       }
     });
 
-    store.state$.next(state);
+    store.stateValue = state;
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -107,7 +108,7 @@ describe('NgssmCachesComponent', () => {
 
   [DataStatus.error, DataStatus.loaded, DataStatus.none, DataStatus.notFound].forEach((status) => {
     it(`should be able to reload data when cache is in '${status}' state`, async () => {
-      const state = updateRemoteDataState(store.state$.getValue(), {
+      const state = updateRemoteDataState(store.stateValue, {
         ['key1']: {
           $set: {
             status: status
@@ -115,7 +116,7 @@ describe('NgssmCachesComponent', () => {
         }
       });
 
-      store.state$.next(state);
+      store.stateValue = state;
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -128,7 +129,7 @@ describe('NgssmCachesComponent', () => {
     });
 
     it(`should dispatch a '${RemoteDataActionType.loadRemoteData} when clicking on reload button and cache is in '${status}' state`, async () => {
-      const state = updateRemoteDataState(store.state$.getValue(), {
+      const state = updateRemoteDataState(store.stateValue, {
         ['key1']: {
           $set: {
             status: status
@@ -136,7 +137,7 @@ describe('NgssmCachesComponent', () => {
         }
       });
 
-      store.state$.next(state);
+      store.stateValue = state;
 
       fixture.detectChanges();
       await fixture.whenStable();

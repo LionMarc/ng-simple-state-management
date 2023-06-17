@@ -6,7 +6,8 @@ import { animationFrameScheduler, BehaviorSubject } from 'rxjs';
 
 import { DateTime } from 'luxon';
 
-import { Store, StoreMock } from 'ngssm-store';
+import { Store } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { createNgssmExpressionTreeFromNodes, NgssmExpressionTreeConfig, NgssmNode } from '../../model';
 import { NgssmExpressionTreeStateSpecification, updateNgssmExpressionTreeState } from '../../state';
@@ -186,7 +187,7 @@ describe('NgssmExpressionTreeComponent', () => {
       [NgssmExpressionTreeStateSpecification.featureStateKey]: NgssmExpressionTreeStateSpecification.initialState
     });
     await TestBed.configureTestingModule({
-      imports: [NgssmExpressionTreeComponent, DemoComponent],
+      imports: [DemoComponent],
       providers: [{ provide: Store, useValue: store }],
       teardown: { destroyAfterEach: false }
     }).compileComponents();
@@ -203,14 +204,14 @@ describe('NgssmExpressionTreeComponent', () => {
   describe('Testing displayed nodes', () => {
     const nodes = initExpressionTreeDemoData();
     beforeEach(async () => {
-      const state = updateNgssmExpressionTreeState(store.state$.getValue(), {
+      const state = updateNgssmExpressionTreeState(store.stateValue, {
         trees: {
           [demoTreeId]: {
             $set: createNgssmExpressionTreeFromNodes(nodes)
           }
         }
       });
-      store.state$.next(state);
+      store.stateValue = state;
     });
 
     it('should render all the nodes', fakeAsync(() => {
@@ -273,20 +274,20 @@ describe('NgssmExpressionTreeComponent', () => {
   describe('Testing expand/collapse', () => {
     const nodes = initExpressionTreeDemoData();
     beforeEach(async () => {
-      const state = updateNgssmExpressionTreeState(store.state$.getValue(), {
+      const state = updateNgssmExpressionTreeState(store.stateValue, {
         trees: {
           [demoTreeId]: {
             $set: createNgssmExpressionTreeFromNodes(nodes)
           }
         }
       });
-      store.state$.next(state);
+      store.stateValue = state;
     });
 
     it(`should render an expand icon when node is expandable and is collapsed`, fakeAsync(() => {
       const reducer = new TreeNodeExpandReducer();
-      const state = reducer.updateState(store.state$.getValue(), new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
-      store.state$.next(state);
+      const state = reducer.updateState(store.stateValue, new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
+      store.stateValue = state;
 
       component.treeConfig$.next({
         treeId: demoTreeId,
@@ -303,8 +304,8 @@ describe('NgssmExpressionTreeComponent', () => {
 
     it(`should not render children of a collapsed node`, fakeAsync(() => {
       const reducer = new TreeNodeExpandReducer();
-      const state = reducer.updateState(store.state$.getValue(), new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
-      store.state$.next(state);
+      const state = reducer.updateState(store.stateValue, new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
+      store.stateValue = state;
 
       component.treeConfig$.next({
         treeId: demoTreeId,
@@ -320,8 +321,8 @@ describe('NgssmExpressionTreeComponent', () => {
 
     it(`should dispatch a '${NgssmExpressionTreeActionType.ngssmExpandExpressionTreeNode}' when clicking on a collapsed node`, fakeAsync(() => {
       const reducer = new TreeNodeExpandReducer();
-      const state = reducer.updateState(store.state$.getValue(), new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
-      store.state$.next(state);
+      const state = reducer.updateState(store.stateValue, new NgssmCollapseExpressionTreeNodeAction(demoTreeId, '4'));
+      store.stateValue = state;
 
       component.treeConfig$.next({
         treeId: demoTreeId,

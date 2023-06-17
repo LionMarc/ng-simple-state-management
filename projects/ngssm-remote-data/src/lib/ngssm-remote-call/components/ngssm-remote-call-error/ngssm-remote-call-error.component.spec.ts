@@ -4,7 +4,8 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { By } from '@angular/platform-browser';
 
-import { Store, StoreMock } from 'ngssm-store';
+import { Store } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { NgssmRemoteCallErrorComponent } from './ngssm-remote-call-error.component';
 import { NgssmRemoteCallStateSpecification, updateNgssmRemoteCallState } from '../../state';
@@ -50,7 +51,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
     describe(`when no error is set in remote call`, () => {
       [RemoteCallStatus.done, RemoteCallStatus.inProgress, RemoteCallStatus.ko, RemoteCallStatus.none].forEach((status) => {
         it(`should not render the error container when remote call status is '${status}'`, async () => {
-          const state = updateNgssmRemoteCallState(store.state$.getValue(), {
+          const state = updateNgssmRemoteCallState(store.stateValue, {
             remoteCalls: {
               [remoteCallId]: {
                 $set: {
@@ -59,7 +60,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
               }
             }
           });
-          store.state$.next(state);
+          store.stateValue = state;
           fixture.detectChanges();
           await fixture.whenStable();
 
@@ -74,7 +75,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
       [RemoteCallStatus.done, RemoteCallStatus.inProgress, RemoteCallStatus.ko, RemoteCallStatus.none].forEach((status) => {
         describe(`when status is '${status}'`, () => {
           beforeEach(async () => {
-            const state = updateNgssmRemoteCallState(store.state$.getValue(), {
+            const state = updateNgssmRemoteCallState(store.stateValue, {
               remoteCalls: {
                 [remoteCallId]: {
                   $set: {
@@ -86,7 +87,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
                 }
               }
             });
-            store.state$.next(state);
+            store.stateValue = state;
             fixture.detectChanges();
             await fixture.whenStable();
           });

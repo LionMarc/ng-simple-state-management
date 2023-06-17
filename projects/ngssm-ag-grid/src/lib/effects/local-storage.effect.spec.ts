@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { updateAgGridState } from 'ngssm-ag-grid';
 
-import { StoreMock } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction } from '../actions';
 import { AgGridStateSpecification, ChangeOrigin } from '../state';
@@ -31,7 +31,7 @@ describe('LocalStorageEffect', () => {
   describe(`when processing action of type '${AgGridActionType.saveColumnsStateOnDisk}'`, () => {
     it('should not call the localStorage when there is no columns state set in store', () => {
       spyOn(window.localStorage, 'setItem');
-      const state = updateAgGridState(store.state$.getValue(), {
+      const state = updateAgGridState(store.stateValue, {
         gridStates: {}
       });
 
@@ -42,7 +42,7 @@ describe('LocalStorageEffect', () => {
 
     it('should call the localStorage when columns state is set in store', () => {
       spyOn(window.localStorage, 'setItem');
-      const state = updateAgGridState(store.state$.getValue(), {
+      const state = updateAgGridState(store.stateValue, {
         gridStates: {
           items: {
             $set: {
@@ -64,7 +64,7 @@ describe('LocalStorageEffect', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue(null);
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.state$.getValue(), new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
+      effect.processAction(store as any, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
 
       expect(store.dispatchAction).not.toHaveBeenCalled();
     });
@@ -73,7 +73,7 @@ describe('LocalStorageEffect', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue('bad data');
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.state$.getValue(), new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
+      effect.processAction(store as any, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
 
       expect(store.dispatchAction).not.toHaveBeenCalled();
     });
@@ -82,7 +82,7 @@ describe('LocalStorageEffect', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue(`[{ "colId": "id" }]`);
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.state$.getValue(), new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
+      effect.processAction(store as any, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
 
       expect(store.dispatchAction).toHaveBeenCalledWith(new RegisterAgGridStateAction('items', ChangeOrigin.other, [{ colId: 'id' }]));
     });

@@ -5,7 +5,8 @@ import { By } from '@angular/platform-browser';
 import { animationFrameScheduler, BehaviorSubject } from 'rxjs';
 
 import { DataStatus } from 'ngssm-remote-data';
-import { Store, StoreMock } from 'ngssm-store';
+import { Store } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { NgssmTreeConfig, NodeData } from '../../model';
 import { NgssmTreeStateSpecification, updateNgssmTreeState } from '../../state';
@@ -81,7 +82,7 @@ describe('NgssmTreeComponent', () => {
     ];
 
     beforeEach(async () => {
-      const state = updateNgssmTreeState(store.state$.getValue(), {
+      const state = updateNgssmTreeState(store.stateValue, {
         trees: {
           testing: {
             $set: {
@@ -105,7 +106,7 @@ describe('NgssmTreeComponent', () => {
           }
         }
       });
-      store.state$.next(state);
+      store.stateValue = state;
     });
 
     it('should render all the nodes when no filter is applied', fakeAsync(() => {

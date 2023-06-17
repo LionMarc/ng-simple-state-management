@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { StoreMock } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { NgssmTreeActionType } from '../actions';
 import { TreeNodesSearchingEffect } from './tree-nodes-searching.effect';
