@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AgGridModule } from 'ag-grid-angular';
 
 import { MaterialImportsModule } from 'ngssm-toolkit';
-import { NgssmRemoteDataReloadButtonComponent, NGSSM_REMOTE_DATA_PROVIDER } from 'ngssm-remote-data';
+import { NgssmRemoteDataReloadButtonComponent, NGSSM_REMOTE_DATA_PROVIDER, provideRemoteData } from 'ngssm-remote-data';
 import { NGSSM_NAVIGATION_LOCKING_CONFIG } from 'ngssm-navigation';
 import { provideEffects, provideReducer } from 'ngssm-store';
 
@@ -17,12 +17,20 @@ import { TodoActionType } from './actions';
 import { EditedTodoItemSubmissionEffect } from './effects/edited-todo-item-submission.effect';
 import { TodoCountComponent } from './components/todo-count/todo-count.component';
 import { TodoFooterComponent } from './components/todo-footer/todo-footer.component';
+import { todoItemsKey } from './model';
 
 @NgModule({
   declarations: [TodoItemEditorComponent, TodoCountComponent, TodoFooterComponent],
   imports: [ReactiveFormsModule, MaterialImportsModule, AgGridModule, TodoRoutingModule, NgssmRemoteDataReloadButtonComponent],
   providers: [
-    { provide: NGSSM_REMOTE_DATA_PROVIDER, useClass: TodoItemsService, multi: true },
+    provideRemoteData(
+      todoItemsKey,
+      () => {
+        const service = inject(TodoItemsService);
+        return service.get();
+      },
+      600
+    ),
     { provide: NGSSM_REMOTE_DATA_PROVIDER, useClass: TodoItemProviderService, multi: true },
     provideReducer(TodoItemEditorReducer),
     provideEffects(EditedTodoItemSubmissionEffect, TodoEditorEffect),
