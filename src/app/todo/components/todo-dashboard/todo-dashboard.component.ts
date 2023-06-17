@@ -46,6 +46,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 })
 export class TodoDashboardComponent extends NgSsmComponent {
   private readonly _deleteHidden$ = new BehaviorSubject<boolean>(false);
+  private readonly _todoItems$ = new BehaviorSubject<TodoItem[]>([]);
 
   public readonly dataStatus = DataStatus;
   public readonly allowRestoringGridControl = new FormControl(true);
@@ -151,7 +152,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
   }
 
   public get todoItems$(): Observable<TodoItem[]> {
-    return this.watch((s) => selectRemoteData(s, todoItemsKey).data ?? []);
+    return this._todoItems$.asObservable();
   }
 
   public addTodo(): void {

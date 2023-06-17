@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { EnvironmentInjector, Inject, Injectable, Optional, runInInjectionContext } from '@angular/core';
 
 import { Effect, Store, State, Action } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
@@ -15,7 +15,8 @@ export class RemoteDataLoadingEffect implements Effect {
 
   constructor(
     @Inject(NGSSM_REMOTE_DATA_PROVIDER) @Optional() remoteDataProviders: RemoteDataProvider[],
-    private notifierService: NgssmNotifierService
+    private notifierService: NgssmNotifierService,
+    private injector: EnvironmentInjector
   ) {
     this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));
   }
@@ -29,23 +30,25 @@ export class RemoteDataLoadingEffect implements Effect {
       return;
     }
 
-    provider.get(item.getterParams).subscribe({
-      next: (value) => {
-        store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.loaded, value));
-        if (item.getterParams?.callbackAction) {
-          store.dispatchActionType(item.getterParams.callbackAction);
-        }
-      },
-      error: (error) => {
-        console.error(`Unable to load data for '${loadRemoteDataAction.remoteDataKey}'`, error);
-        if (item.getterParams?.errorNotificationMessage) {
-          this.notifierService.notifyError(item.getterParams.errorNotificationMessage(error?.error));
-        }
+    runInInjectionContext(this.injector, () => {
+      provider.get(item.getterParams).subscribe({
+        next: (value) => {
+          store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.loaded, value));
+          if (item.getterParams?.callbackAction) {
+            store.dispatchActionType(item.getterParams.callbackAction);
+          }
+        },
+        error: (error) => {
+          console.error(`Unable to load data for '${loadRemoteDataAction.remoteDataKey}'`, error);
+          if (item.getterParams?.errorNotificationMessage) {
+            this.notifierService.notifyError(item.getterParams.errorNotificationMessage(error?.error));
+          }
 
-        store.dispatchAction(
-          new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.error, undefined, error?.error)
-        );
-      }
+          store.dispatchAction(
+            new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.error, undefined, error?.error)
+          );
+        }
+      });
     });
   }
 }
