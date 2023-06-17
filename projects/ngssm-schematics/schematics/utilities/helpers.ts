@@ -1,12 +1,6 @@
-import { Rule, SchematicsException, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { strings } from '@angular-devkit/core';
-import { buildRelativePath } from '@schematics/angular/utility/find-module';
-import { addProviderToModule } from '@schematics/angular/utility/ast-utils';
-import { InsertChange } from '@schematics/angular/utility/change';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 
 import * as ts from 'typescript';
-
-import { WithProviderOptions } from './with-provider-options';
 
 export function readIntoSourceFile(host: Tree, modulePath: string) {
   const text = host.read(modulePath);
@@ -15,40 +9,4 @@ export function readIntoSourceFile(host: Tree, modulePath: string) {
   }
 
   return ts.createSourceFile(modulePath, text.toString('utf-8'), ts.ScriptTarget.Latest, true);
-}
-
-export function addDeclarationToNgModule(options: WithProviderOptions, objectType: string): Rule {
-  return (host: Tree, context: SchematicContext) => {
-    if (options.standalone !== false) {
-      context.logger.info(`Standalone ${objectType} => no registration into a module.`);
-      return host;
-    }
-
-    const modulePath = options.module;
-    if (modulePath === undefined) {
-      return host;
-    }
-
-    const source = readIntoSourceFile(host, modulePath);
-
-    const providerPath = `/${options.path}/${strings.dasherize(options.name)}.${objectType}`;
-    const relativePath = buildRelativePath(modulePath, providerPath);
-
-    const providerChanges = addProviderToModule(
-      source,
-      modulePath as string,
-      options.providerName as string,
-      relativePath
-    ) as InsertChange[];
-
-    const declarationRecorder = host.beginUpdate(modulePath);
-    for (const change of providerChanges) {
-      if (change instanceof InsertChange) {
-        declarationRecorder.insertLeft(change.pos, change.toAdd);
-      }
-    }
-    host.commitUpdate(declarationRecorder);
-
-    return host;
-  };
 }
