@@ -5,7 +5,8 @@ import { By } from '@angular/platform-browser';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { GetRowIdParams, GridOptions } from 'ag-grid-community';
 
-import { Store, StoreMock } from 'ngssm-store';
+import { Store } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { AgGridStateSpecification, ChangeOrigin, updateAgGridState } from '../state';
 import { NgssmAgGridDirective } from './ngssm-ag-grid.directive';
@@ -191,7 +192,7 @@ describe('NgssmAgGridDirective', () => {
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
       it(`should initialize the grid column state when the state has been updated by '${origin}' `, async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -212,7 +213,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -226,7 +227,7 @@ describe('NgssmAgGridDirective', () => {
 
     describe('when state has been already initialized', () => {
       beforeEach(async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -247,7 +248,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -255,7 +256,7 @@ describe('NgssmAgGridDirective', () => {
       });
 
       it('should update the grid when the state update has other as origin', async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -276,7 +277,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -289,7 +290,7 @@ describe('NgssmAgGridDirective', () => {
       });
 
       it('should not update the grid when the state update has agGrid as origin', async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -310,7 +311,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -346,7 +347,7 @@ describe('NgssmAgGridDirective', () => {
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
       it(`should initialize the grid column state when the state has been updated by '${origin}' `, async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -367,7 +368,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -384,7 +385,7 @@ describe('NgssmAgGridDirective', () => {
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
       it(`should initialize the selected rows when the state has been updated by '${origin}' `, async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           selectedRows: {
             items: {
@@ -395,7 +396,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -412,7 +413,7 @@ describe('NgssmAgGridDirective', () => {
 
     describe('when state has been already initialized', () => {
       beforeEach(async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -441,7 +442,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -449,7 +450,7 @@ describe('NgssmAgGridDirective', () => {
       });
 
       it('should update the grid when the state update has other as origin', async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -470,7 +471,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -486,7 +487,7 @@ describe('NgssmAgGridDirective', () => {
       });
 
       it('should not update the grid when the state update has agGrid as origin', async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
             items: {
@@ -507,7 +508,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -523,7 +524,7 @@ describe('NgssmAgGridDirective', () => {
       });
 
       it('should update the selected rows when the state update has other as origin', async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           selectedRows: {
             items: {
@@ -534,7 +535,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -550,7 +551,7 @@ describe('NgssmAgGridDirective', () => {
       });
 
       it('should not update the grid when the state update has agGrid as origin', async () => {
-        let state = store.state$.getValue();
+        let state = store.stateValue;
         state = updateAgGridState(state, {
           selectedRows: {
             items: {
@@ -561,7 +562,7 @@ describe('NgssmAgGridDirective', () => {
             }
           }
         });
-        store.state$.next(state);
+        store.stateValue = state;
 
         fixture.detectChanges();
         await fixture.whenStable();

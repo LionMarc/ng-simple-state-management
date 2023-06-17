@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { Store, StoreMock } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
+import { Store } from 'ngssm-store';
 
 import { NgssmRemoteCallStateSpecification } from '../state';
 import { NgssmRemoteCallDirective } from './ngssm-remote-call.directive';

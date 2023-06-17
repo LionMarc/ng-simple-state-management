@@ -1,12 +1,11 @@
 import { Component, ChangeDetectionStrategy, Input, ElementRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable, Subject, combineLatest, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, take } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
 import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '../../model';
-import { selectNgssmExpressionTreeState } from '../../state';
 
 @Component({
   selector: 'ngssm-expression-tree-node-details',

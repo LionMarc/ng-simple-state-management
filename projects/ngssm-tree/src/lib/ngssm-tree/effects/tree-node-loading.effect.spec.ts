@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 
-import { StoreMock } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { NgssmTreeActionType } from '../actions';
 import { NGSSM_TREE_DATA_SERVICE, NodeData } from '../model';

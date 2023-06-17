@@ -35,6 +35,9 @@
       "ngssm-store": [
         "dist/ngssm-store"
       ],
+      "ngssm-store/*": [
+        "dist/ngssm-store/*"
+      ],
       "ngssm-toolkit": [
         "dist/ngssm-toolkit"
       ],
