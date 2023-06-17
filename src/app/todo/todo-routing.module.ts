@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'todo-list',
     component: TodoDashboardComponent,
-    canActivate: [() => ngssmReloadRemoteData(todoItemsKey, { forceReload: false })]
+    canActivate: [ngssmReloadRemoteData(todoItemsKey, { forceReload: false })]
   }
 ];
 
