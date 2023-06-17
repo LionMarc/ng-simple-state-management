@@ -1,7 +1,7 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
+import { Effect, Store, State, Action } from 'ngssm-store';
 
 import { ShellActionType } from '../actions';
 import { ShellNotificationPopupComponent } from '../components';
@@ -21,9 +21,3 @@ export class NotificationShowingEffect implements Effect {
     });
   }
 }
-
-export const notificationShowingEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: NotificationShowingEffect,
-  multi: true
-};

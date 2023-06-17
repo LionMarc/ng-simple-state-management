@@ -1,7 +1,7 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { LoadRemoteDataAction } from 'ngssm-remote-data';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT, Logger } from 'ngssm-store';
+import { Effect, Store, State, Action, Logger } from 'ngssm-store';
 
 import { TodoActionType } from '../actions';
 import { todoItemsKey } from '../model';
@@ -44,9 +44,3 @@ export class EditedTodoItemSubmissionEffect implements Effect {
     }
   }
 }
-
-export const editedTodoItemSubmissionEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: EditedTodoItemSubmissionEffect,
-  multi: true
-};

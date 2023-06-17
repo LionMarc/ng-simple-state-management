@@ -1,7 +1,7 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Effect, Store, State, Action, NGSSM_EFFECT } from 'ngssm-store';
+import { Effect, Store, State, Action } from 'ngssm-store';
 import { RemoteDataActionType } from '../actions';
 import { NgssmCachesComponent } from '../components';
 
@@ -32,9 +32,3 @@ export class CachesDisplayEffect implements Effect {
     }
   }
 }
-
-export const cachesDisplayEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: CachesDisplayEffect,
-  multi: true
-};

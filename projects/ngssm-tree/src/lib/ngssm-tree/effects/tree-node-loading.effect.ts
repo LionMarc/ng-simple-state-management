@@ -1,7 +1,7 @@
-import { Inject, Injectable, Optional, Provider } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 
 import { DataStatus } from 'ngssm-remote-data';
-import { Effect, Store, State, Action, NGSSM_EFFECT, Logger } from 'ngssm-store';
+import { Effect, Store, State, Action, Logger } from 'ngssm-store';
 
 import { NgssmTreeActionType, RegisterNodesAction, TreeNodeAction } from '../actions';
 import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE } from '../model';
@@ -46,9 +46,3 @@ export class TreeNodeLoadingEffect implements Effect {
     });
   }
 }
-
-export const treeNodeLoadingEffectProvider: Provider = {
-  provide: NGSSM_EFFECT,
-  useClass: TreeNodeLoadingEffect,
-  multi: true
-};
