@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { MaterialImportsModule } from 'ngssm-toolkit';
-import { NgssmRemoteDataReloadButtonComponent, NGSSM_REMOTE_DATA_PROVIDER, provideRemoteData } from 'ngssm-remote-data';
+import { NgssmRemoteDataReloadButtonComponent, NGSSM_REMOTE_DATA_PROVIDER, provideRemoteDataFunc } from 'ngssm-remote-data';
 import { NGSSM_NAVIGATION_LOCKING_CONFIG } from 'ngssm-navigation';
 import { provideEffects, provideReducer } from 'ngssm-store';
 
@@ -23,7 +23,7 @@ import { todoItemsKey } from './model';
   declarations: [TodoItemEditorComponent, TodoCountComponent, TodoFooterComponent],
   imports: [ReactiveFormsModule, MaterialImportsModule, AgGridModule, TodoRoutingModule, NgssmRemoteDataReloadButtonComponent],
   providers: [
-    provideRemoteData(
+    provideRemoteDataFunc(
       todoItemsKey,
       () => {
         const service = inject(TodoItemsService);

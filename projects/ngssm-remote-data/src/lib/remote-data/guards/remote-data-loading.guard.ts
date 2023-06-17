@@ -32,7 +32,12 @@ export class RemoteDataLoadingGuard {
   }
 }
 
-export const ngssmReloadRemoteData = <TData = any>(remoteDataKey: string, params: ReloadParams<TData> = { forceReload: true }): boolean => {
-  inject(Store).dispatchAction(new LoadRemoteDataAction(remoteDataKey, params));
-  return true;
+export const ngssmReloadRemoteData = <TData = any>(
+  remoteDataKey: string,
+  params: ReloadParams<TData> = { forceReload: true }
+): (() => boolean) => {
+  return () => {
+    inject(Store).dispatchAction(new LoadRemoteDataAction(remoteDataKey, params));
+    return true;
+  };
 };
