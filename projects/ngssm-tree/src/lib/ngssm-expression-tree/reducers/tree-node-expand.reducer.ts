@@ -1,8 +1,8 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import update from 'immutability-helper';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import {
   NgssmCollapseAllExpressionTreeNodesAction,
@@ -105,9 +105,3 @@ export class TreeNodeExpandReducer implements Reducer {
     });
   }
 }
-
-export const treeNodeExpandReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: TreeNodeExpandReducer,
-  multi: true
-};

@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { LockNavigationBarAction, ShellActionType } from '../actions';
 import { selectShellState, updateShellState } from '../state';
@@ -49,9 +49,3 @@ export class NavigationBarReducer implements Reducer {
     return state;
   }
 }
-
-export const navigationBarReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: NavigationBarReducer,
-  multi: true
-};

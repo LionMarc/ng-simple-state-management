@@ -1,7 +1,7 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { getDefaultRemoteData, selectRemoteData, updateRemoteDataState } from 'ngssm-remote-data';
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { EditTodoItemAction, TodoActionType, UpdateTodoItemPropertyAction } from '../actions';
 import { TodoItem, todoItemKey, todoItemsKey } from '../model';
@@ -60,9 +60,3 @@ export class TodoItemEditorReducer implements Reducer {
     return state;
   }
 }
-
-export const todoItemEditorReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: TodoItemEditorReducer,
-  multi: true
-};

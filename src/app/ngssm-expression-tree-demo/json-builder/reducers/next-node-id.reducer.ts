@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { JsonBuilderActionType } from '../actions';
 import { updateJsonBuilderState } from '../state';
@@ -20,9 +20,3 @@ export class NextNodeIdReducer implements Reducer {
     return state;
   }
 }
-
-export const nextNodeIdReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: NextNodeIdReducer,
-  multi: true
-};

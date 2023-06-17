@@ -1,7 +1,10 @@
 import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { provideReducer } from 'ngssm-store';
+
 import { isNavigationUnLocked } from './guards';
-import { navigationReducerProvider } from './reducers/navigation.reducer';
+import { NavigationReducer } from './reducers/navigation.reducer';
 
 function initializeNavigation(router: Router): () => void {
   return () => {
@@ -13,7 +16,7 @@ function initializeNavigation(router: Router): () => void {
 
 export const provideNgssmNavigation = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
-    navigationReducerProvider,
+    provideReducer(NavigationReducer),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeNavigation,

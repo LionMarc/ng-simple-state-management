@@ -1,5 +1,4 @@
 export * from './provide-ngssm-remote-call';
-export * from './ngssm-remote-call-routes';
 export * from './model';
 export * from './state';
 export * from './components';

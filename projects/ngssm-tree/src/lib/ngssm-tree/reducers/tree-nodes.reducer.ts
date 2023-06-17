@@ -1,9 +1,9 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import update from 'immutability-helper';
 import { DataStatus } from 'ngssm-remote-data';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { NgssmTreeActionType, RegisterNodesAction } from '../actions';
 import { NgssmTreeNode } from '../model';
@@ -53,9 +53,3 @@ export class TreeNodesReducer implements Reducer {
     return state;
   }
 }
-
-export const treeNodesReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: TreeNodesReducer,
-  multi: true
-};

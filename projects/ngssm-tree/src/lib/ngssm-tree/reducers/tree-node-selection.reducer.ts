@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { NgssmTreeActionType, SelectNodeAction } from '../actions';
 import { updateNgssmTreeState } from '../state';
@@ -26,9 +26,3 @@ export class TreeNodeSelectionReducer implements Reducer {
     return state;
   }
 }
-
-export const treeNodeSelectionReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: TreeNodeSelectionReducer,
-  multi: true
-};

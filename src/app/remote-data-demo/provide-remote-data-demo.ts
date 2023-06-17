@@ -1,7 +1,10 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+
 import { provideNgssmRemoteCallConfig } from 'ngssm-remote-data';
+import { provideReducer } from 'ngssm-store';
+
 import { RemoteDataDemoActionType } from './actions';
-import { remoteDataDemoReducerProvider } from './reducers/remote-data-demo.reducer';
+import { RemoteDataDemoReducer } from './reducers/remote-data-demo.reducer';
 
 export const provideRemoteDataDemo = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
@@ -10,6 +13,6 @@ export const provideRemoteDataDemo = (): EnvironmentProviders => {
       triggeredActionTypes: [RemoteDataDemoActionType.startRemoteCall],
       resultActionTypes: [RemoteDataDemoActionType.endRemoteCall]
     }),
-    remoteDataDemoReducerProvider
+    provideReducer(RemoteDataDemoReducer)
   ]);
 };

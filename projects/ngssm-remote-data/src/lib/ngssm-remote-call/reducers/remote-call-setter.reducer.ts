@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { NgssmRemoteCallActionType, SetRemoteCallAction } from '../actions';
 import { updateNgssmRemoteCallState } from '../state';
@@ -24,9 +24,3 @@ export class RemoteCallSetterReducer implements Reducer {
     return state;
   }
 }
-
-export const remoteCallSetterReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: RemoteCallSetterReducer,
-  multi: true
-};

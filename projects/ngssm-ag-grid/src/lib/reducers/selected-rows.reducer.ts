@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { AgGridActionType, RegisterSelectedRowsAction } from '../actions';
 import { updateAgGridState } from '../state';
@@ -28,9 +28,3 @@ export class SelectedRowsReducer implements Reducer {
     return state;
   }
 }
-
-export const selectedRowsReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: SelectedRowsReducer,
-  multi: true
-};

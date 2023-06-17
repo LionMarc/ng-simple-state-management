@@ -1,6 +1,6 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Reducer, State, Action, NGSSM_REDUCER } from 'ngssm-store';
+import { Reducer, State, Action } from 'ngssm-store';
 
 import { DisplaySearchDialogAction, NgssmTreeActionType, RegisterPartialSearchResultsAction, SearchTreeNodesAction } from '../actions';
 import { getNgssmTreeNodeFullPath, getNgssmTreePath, SearchStatus } from '../model';
@@ -100,9 +100,3 @@ export class TreeNodesSearchReducer implements Reducer {
     return state;
   }
 }
-
-export const treeNodesSearchReducerProvider: Provider = {
-  provide: NGSSM_REDUCER,
-  useClass: TreeNodesSearchReducer,
-  multi: true
-};
