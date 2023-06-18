@@ -23,6 +23,7 @@ import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { selectTodoState } from '../../state';
 
 @Component({
   selector: 'app-todo-dashboard',
@@ -141,6 +142,8 @@ export class TodoDashboardComponent extends NgSsmComponent {
     });
 
     this.deleteHiddenControl.valueChanges.subscribe((v) => this._deleteHidden$.next(v ?? false));
+
+    this.watch((s) => selectRemoteData(s, todoItemsKey)?.data).subscribe((v) => this._todoItems$.next(v ?? []));
   }
 
   public get status$(): Observable<DataStatus> {
