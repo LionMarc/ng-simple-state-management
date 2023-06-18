@@ -1,16 +1,19 @@
-import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, InjectionToken, Type, makeEnvironmentProviders } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RemoteDataGetterParams } from './remote-data-getter-params';
 
 export interface RemoteDataProvider<TData = any, TValue = any> {
   readonly remoteDataKey: string;
   readonly cacheDurationInSeconds?: number;
-  readonly isFunc?: boolean;
 
   get(params?: RemoteDataGetterParams<TValue>): Observable<TData>;
 }
 
 export const NGSSM_REMOTE_DATA_PROVIDER = new InjectionToken<RemoteDataProvider>('NGSSM_REMOTE_DATA_PROVIDER');
+
+export const provideRemoteDataProviders = (...providers: Type<RemoteDataProvider>[]): EnvironmentProviders => {
+  return makeEnvironmentProviders(providers.map((provider) => ({ provide: NGSSM_REMOTE_DATA_PROVIDER, useClass: provider, multi: true })));
+};
 
 export interface RemoteDataLoadingFunc<TData = any, TValue = any> {
   (params?: RemoteDataGetterParams<TValue>): Observable<TData>;
@@ -28,8 +31,7 @@ export const provideRemoteDataFunc = <TData = any, TValue = any>(
         const provider: RemoteDataProvider<TData, TValue> = {
           remoteDataKey,
           cacheDurationInSeconds,
-          get: remoteDataLoadingFunc,
-          isFunc: true
+          get: remoteDataLoadingFunc
         };
         return provider;
       },
