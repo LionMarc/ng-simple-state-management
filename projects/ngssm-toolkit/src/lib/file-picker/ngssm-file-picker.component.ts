@@ -108,10 +108,8 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
     }
   }
 
-  public writeValue(obj: any): void {
-    if (obj !== undefined && obj !== null) {
-      this.updateValue(obj);
-    }
+  public writeValue(obj: File | null | undefined): void {
+    this.value = obj ?? null;
   }
 
   public registerOnChange(fn: any): void {

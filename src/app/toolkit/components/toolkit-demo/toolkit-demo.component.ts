@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Injectable } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
@@ -24,6 +25,13 @@ import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 import { Demo1Component } from '../demo1/demo1.component';
 import { Demo2Component } from '../demo2/demo2.component';
 
+@Injectable({
+  providedIn: 'root'
+})
+export class TestingFilePickerInitialization {
+  public file?: File;
+}
+
 @Component({
   selector: 'app-toolkit-demo',
   standalone: true,
@@ -33,6 +41,7 @@ import { Demo2Component } from '../demo2/demo2.component';
     MatCardModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatIconModule,
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
@@ -69,7 +78,8 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   constructor(
     store: Store,
     private ngssmNotifierService: NgssmNotifierService,
-    private ngssmConfirmationDialogService: NgssmConfirmationDialogService
+    private ngssmConfirmationDialogService: NgssmConfirmationDialogService,
+    testingFilePickerInitialization: TestingFilePickerInitialization
   ) {
     super(store);
 
@@ -87,6 +97,11 @@ export class ToolkitDemoComponent extends NgSsmComponent {
       } else {
         this._componentAction$.next((component) => component.setComment(value));
       }
+    });
+
+    this.fileControl.setValue(testingFilePickerInitialization.file);
+    this.fileControl.valueChanges.subscribe((f) => {
+      testingFilePickerInitialization.file = f ?? undefined;
     });
   }
 
