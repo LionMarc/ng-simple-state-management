@@ -113,6 +113,8 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
     if (!this.value && this.fileInput) {
       this.fileInput.nativeElement.value = null;
     }
+
+    this.stateChanges.next();
   }
 
   public registerOnChange(fn: any): void {
