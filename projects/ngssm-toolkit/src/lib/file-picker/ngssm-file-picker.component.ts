@@ -110,6 +110,9 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
 
   public writeValue(obj: File | null | undefined): void {
     this.value = obj ?? null;
+    if (!this.value && this.fileInput) {
+      this.fileInput.nativeElement.value = null;
+    }
   }
 
   public registerOnChange(fn: any): void {
@@ -137,7 +140,7 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
     this.preventAndStop(event);
   }
 
-  public onFileSelected(event: any): void {
+  public onFileSelected(): void {
     this.updateValue(this.fileInput?.nativeElement.files);
   }
 
