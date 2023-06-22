@@ -101,6 +101,7 @@ export class ToolkitDemoComponent extends NgSsmComponent {
 
     this.fileControl.setValue(testingFilePickerInitialization.file);
     this.fileControl.valueChanges.subscribe((f) => {
+      console.log('FileControl has changed');
       testingFilePickerInitialization.file = f ?? undefined;
     });
   }
@@ -138,5 +139,12 @@ export class ToolkitDemoComponent extends NgSsmComponent {
       .subscribe((value) => {
         console.log('CONFIRMATION', value);
       });
+  }
+
+  public resetSelectedFileLater(): void {
+    setTimeout(() => {
+      console.log('CLEAR FILE SELECTION');
+      this.fileControl.setValue(undefined, { emitEvent: false });
+    }, 1000);
   }
 }

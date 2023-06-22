@@ -16,14 +16,17 @@
                         [displayDetails]="displayFilePickerDetailsControl.value ?? true"></ngssm-file-picker>
                     <mat-icon matPrefix class="fa-solid fa-folder-open file-picker-icon" color="primary"></mat-icon>
                     <button mat-icon-button color="primary" matSuffix
-                        (click)="$event.stopPropagation();fileControl.setValue(undefined)">
+                        (click)="$event.stopPropagation();this.fileControl.setValue(undefined, { emitEvent: false });">
                         <mat-icon class="fa-solid fa-circle-xmark"></mat-icon>
                     </button>
                 </mat-form-field>
                 <mat-checkbox [formControl]="displayFilePickerDetailsControl">Display details</mat-checkbox>
                 <mat-checkbox [formControl]="filePickerDisabledControl">File picker disabled</mat-checkbox>
+                <button mat-raised-button color="primary" (click)=resetSelectedFileLater()>
+                    Reset in background
+                </button>
 
-                {{fileControl.value?.name}}
+                FILENAME = {{fileControl.value?.name}} / INVALID = {{fileControl.invalid}}
             </mat-card-content>
         </mat-card>
         <app-overlay-demo></app-overlay-demo>
