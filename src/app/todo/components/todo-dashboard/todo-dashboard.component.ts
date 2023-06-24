@@ -23,7 +23,6 @@ import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { selectTodoState } from '../../state';
 
 @Component({
   selector: 'app-todo-dashboard',
