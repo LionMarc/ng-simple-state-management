@@ -1,4 +1,5 @@
 <button mat-icon-button color="primary" (click)="reload()" [matTooltip]="(tooltipMessage$ | async) ?? 'Reload'"
-    [disabled]="disabled$ | async">
-    <mat-icon class="fa-solid fa-rotate-right"></mat-icon>
+    [disabled]="disabled$ | async" id="reloadButton" >
+    <mat-icon class="fa-solid fa-rotate-right" *ngIf="inLoadingStatus() === false"></mat-icon>
+    <mat-spinner [diameter]="24" *ngIf="inLoadingStatus() === true" id="loadingSpinner"></mat-spinner>
 </button>

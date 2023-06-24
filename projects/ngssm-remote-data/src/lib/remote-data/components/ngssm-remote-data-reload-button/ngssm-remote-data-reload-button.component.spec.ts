@@ -2,6 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
+import { By } from '@angular/platform-browser';
 
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
@@ -24,7 +25,7 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
     await TestBed.configureTestingModule({
       imports: [NgssmRemoteDataReloadButtonComponent],
       providers: [{ provide: Store, useValue: store }],
-      teardown: { destroyAfterEach: false }
+      teardown: { destroyAfterEach: true }
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgssmRemoteDataReloadButtonComponent);
@@ -129,6 +130,11 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
             const element = await loader.getHarness(MatButtonHarness);
 
             expect(await element.isDisabled()).toBeTrue();
+          });
+
+          it(`should render a mat-spinner`, () => {
+            const element = fixture.debugElement.query(By.css('mat-spinner'));
+            expect(element).toBeTruthy();
           });
         });
       });
