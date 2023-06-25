@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +18,7 @@ import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree }
 import { provideNgssmNavigation } from 'ngssm-navigation';
 import { ShellComponent, provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
+import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -58,6 +59,7 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     ShellComponent
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { position: { top: '40px' }, closeOnNavigation: false }
@@ -88,6 +90,7 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     provideNgssmRemoteCall(),
     provideNgssmExpressionTree(),
     provideNgssmVisibility(),
+    provideNgssmServiceInfo(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
     { provide: NGSSM_REGEX_EDITOR_VALIDATOR, useFactory: dotnetRegexValidatorFactory },
     provideRemoteDataDemo(),
