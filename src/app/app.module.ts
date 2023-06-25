@@ -18,7 +18,7 @@ import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree }
 import { provideNgssmNavigation } from 'ngssm-navigation';
 import { ShellComponent, provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
-import { provideNgssmServiceInfo } from 'ngssm-store/service-info';
+import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
