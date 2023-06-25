@@ -1,0 +1,53 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 8px;
+
+    .visibility-selector {
+        mat-button-toggle {
+            border: 1px solid blue !important;
+        }
+    }
+
+    .left-container,
+    .center-container,
+    .right-container,
+    .sidebar-item-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar-menu {
+        mat-icon {
+            cursor: pointer;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            padding-left: 4px;
+        }
+
+        mat-icon.selected {
+            color: blue;
+            border-left: 2px solid blue;
+        }
+    }
+
+    .sidebar-item-container {
+        min-width: 400px;
+        max-width: 400px;
+    }
+
+    .left-container {
+        background-color: lightpink;
+    }
+
+    .center-container {
+        background-color: yellow;
+    }
+
+    .right-container {
+        background-color: lightblue;
+    }
+}

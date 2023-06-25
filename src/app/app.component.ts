@@ -91,6 +91,11 @@ export class AppComponent extends NgSsmComponent {
           label: 'Ngssm Remote Data',
           icon: '<i class="fa-solid fa-cloud"></i>',
           route: '/remote-data-demo'
+        },
+        {
+          label: 'Ngssm Visibility',
+          icon: '<i class="fa-solid fa-eye-slash"></i>',
+          route: '/visibility-demo'
         }
       ]
     },
