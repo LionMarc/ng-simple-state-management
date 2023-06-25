@@ -243,7 +243,7 @@
     "ngssm-store": {
       "projectType": "library",
       "root": "projects/ngssm-store",
-      "sourceRoot": "projects/ngssm-store/src",
+      "sourceRoot": "projects/ngssm-store",
       "prefix": "lib",
       "architect": {
         "build": {
@@ -264,7 +264,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngssm-store/src/test.ts",
+            "main": "projects/ngssm-store/test.ts",
             "tsConfig": "projects/ngssm-store/tsconfig.spec.json",
             "karmaConfig": "projects/ngssm-store/karma.conf.js"
           }

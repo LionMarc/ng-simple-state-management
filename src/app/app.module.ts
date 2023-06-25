@@ -17,6 +17,7 @@ import {
 import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree } from 'ngssm-tree';
 import { provideNgssmNavigation } from 'ngssm-navigation';
 import { ShellComponent, provideNgssmShell } from 'ngssm-shell';
+import { provideNgssmVisibility } from 'ngssm-store/visibility';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -86,6 +87,7 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     provideNgssmAgGrid(),
     provideNgssmRemoteCall(),
     provideNgssmExpressionTree(),
+    provideNgssmVisibility(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
     { provide: NGSSM_REGEX_EDITOR_VALIDATOR, useFactory: dotnetRegexValidatorFactory },
     provideRemoteDataDemo(),
