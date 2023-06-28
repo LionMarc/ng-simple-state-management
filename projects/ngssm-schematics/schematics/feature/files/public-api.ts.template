@@ -1,2 +1,4 @@
 export * from './provide-<%= dasherize(name) %>';
 export * from './<%= dasherize(name) %>-routes';
+export * from './actions';
+export * from './state';
