@@ -1,2 +1,2 @@
-export * from './caching.state';
+export * from './ngssm-caching.state';
 export * from './selectors';

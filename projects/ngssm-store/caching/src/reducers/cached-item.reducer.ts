@@ -2,44 +2,44 @@ import { Injectable } from '@angular/core';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
-import { CachingActionType, SetCachedItemAction, UnsetCachedItemAction } from '../actions';
-import { selectCachedItem, updateCachingState } from '../state';
+import { NgssmCachingActionType, SetCachedItemAction, UnsetCachedItemAction } from '../actions';
+import { selectNgssmCachedItem, updateNgssmCachingState } from '../state';
 import { CachedItem, CachedItemStatus } from '../model';
 
 @Injectable()
 export class CachedItemReducer implements Reducer {
-  public readonly processedActions: string[] = [CachingActionType.setCachedItem, CachingActionType.unsetCachedItem];
+  public readonly processedActions: string[] = [NgssmCachingActionType.setCachedItem, NgssmCachingActionType.unsetCachedItem];
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
-      case CachingActionType.setCachedItem: {
+      case NgssmCachingActionType.setCachedItem: {
         const setCachedItemAction = action as SetCachedItemAction;
-        if (selectCachedItem(state, setCachedItemAction.cachedItemKey) === undefined) {
+        if (selectNgssmCachedItem(state, setCachedItemAction.cachedItemKey) === undefined) {
           const cachedItem: CachedItem = {
             status: CachedItemStatus.notSet,
             ...setCachedItemAction.cachedItem
           };
-          return updateCachingState(state, {
+          return updateNgssmCachingState(state, {
             caches: {
               [setCachedItemAction.cachedItemKey]: { $set: cachedItem }
             }
           });
         }
 
-        return updateCachingState(state, {
+        return updateNgssmCachingState(state, {
           caches: {
             [setCachedItemAction.cachedItemKey]: { $merge: setCachedItemAction.cachedItem }
           }
         });
       }
 
-      case CachingActionType.unsetCachedItem: {
+      case NgssmCachingActionType.unsetCachedItem: {
         const unsetCachedItemAction = action as UnsetCachedItemAction;
-        if (selectCachedItem(state, unsetCachedItemAction.cachedItemKey) === undefined) {
+        if (selectNgssmCachedItem(state, unsetCachedItemAction.cachedItemKey) === undefined) {
           return state;
         }
 
-        return updateCachingState(state, {
+        return updateNgssmCachingState(state, {
           caches: { $unset: [unsetCachedItemAction.cachedItemKey] }
         });
       }
