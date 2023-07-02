@@ -1,8 +1,8 @@
 import { State } from 'ngssm-store';
 
 import { CachedItemReducer } from './cached-item.reducer';
-import { CachingActionType, SetCachedItemAction, UnsetCachedItemAction } from '../actions';
-import { CachingStateSpecification, selectCachedItem, selectCachingState, updateCachingState } from '../state';
+import { NgssmCachingActionType, SetCachedItemAction, UnsetCachedItemAction } from '../actions';
+import { NgssmCachingStateSpecification, selectNgssmCachedItem, selectNgssmCachingState, updateNgssmCachingState } from '../state';
 import { CachedItemStatus } from '../model';
 
 describe('CachedItemReducer', () => {
@@ -12,11 +12,11 @@ describe('CachedItemReducer', () => {
   beforeEach(() => {
     reducer = new CachedItemReducer();
     state = {
-      [CachingStateSpecification.featureStateKey]: CachingStateSpecification.initialState
+      [NgssmCachingStateSpecification.featureStateKey]: NgssmCachingStateSpecification.initialState
     };
   });
 
-  [CachingActionType.setCachedItem, CachingActionType.unsetCachedItem].forEach((actionType: string) => {
+  [NgssmCachingActionType.setCachedItem, NgssmCachingActionType.unsetCachedItem].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(reducer.processedActions).toContain(actionType);
     });
@@ -28,13 +28,13 @@ describe('CachedItemReducer', () => {
     expect(updatedState).toBe(state);
   });
 
-  describe(`when processing action of type '${CachingActionType.setCachedItem}'`, () => {
+  describe(`when processing action of type '${NgssmCachingActionType.setCachedItem}'`, () => {
     it(`should add key if key does not exist`, () => {
       const action = new SetCachedItemAction('testing', { status: CachedItemStatus.set, item: 'stringContent' });
 
       const updatedState = reducer.updateState(state, action);
 
-      expect(selectCachedItem(updatedState, 'testing')).toEqual({
+      expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
         status: CachedItemStatus.set,
         item: 'stringContent'
       });
@@ -42,7 +42,7 @@ describe('CachedItemReducer', () => {
 
     describe(`when key exists`, () => {
       beforeEach(() => {
-        state = updateCachingState(state, {
+        state = updateNgssmCachingState(state, {
           caches: {
             ['testing']: {
               $set: {
@@ -59,7 +59,7 @@ describe('CachedItemReducer', () => {
 
         const updatedState = reducer.updateState(state, action);
 
-        expect(selectCachedItem(updatedState, 'testing')).toEqual({
+        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
           status: CachedItemStatus.set,
           item: 'waiting'
         });
@@ -70,7 +70,7 @@ describe('CachedItemReducer', () => {
 
         const updatedState = reducer.updateState(state, action);
 
-        expect(selectCachedItem(updatedState, 'testing')).toEqual({
+        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
           status: CachedItemStatus.loading,
           item: 'nothing for now'
         });
@@ -81,7 +81,7 @@ describe('CachedItemReducer', () => {
 
         const updatedState = reducer.updateState(state, action);
 
-        expect(selectCachedItem(updatedState, 'testing')).toEqual({
+        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
           status: CachedItemStatus.error,
           item: 'done with error'
         });
@@ -89,7 +89,7 @@ describe('CachedItemReducer', () => {
     });
   });
 
-  describe(`when processing action of type '${CachingActionType.unsetCachedItem}'`, () => {
+  describe(`when processing action of type '${NgssmCachingActionType.unsetCachedItem}'`, () => {
     const action = new UnsetCachedItemAction('testing');
 
     it(`should do nothing when key does not exist`, () => {
@@ -99,7 +99,7 @@ describe('CachedItemReducer', () => {
     });
 
     it(`should remove key when key exists`, () => {
-      state = updateCachingState(state, {
+      state = updateNgssmCachingState(state, {
         caches: {
           ['first']: {
             $set: {
@@ -116,7 +116,7 @@ describe('CachedItemReducer', () => {
       });
       const updatedState = reducer.updateState(state, action);
 
-      expect(selectCachingState(updatedState).caches).toEqual({
+      expect(selectNgssmCachingState(updatedState).caches).toEqual({
         first: {
           status: CachedItemStatus.loading
         }

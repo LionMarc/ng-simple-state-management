@@ -1,5 +1,6 @@
 import { State } from 'ngssm-store';
 import { CachedItem } from '../model';
-import { selectCachingState } from './caching.state';
+import { selectNgssmCachingState } from './ngssm-caching.state';
 
-export const selectCachedItem = <T>(state: State, key: string): CachedItem<T> | undefined => selectCachingState(state).caches[key];
+export const selectNgssmCachedItem = <T>(state: State, key: string): CachedItem<T> | undefined =>
+  selectNgssmCachingState(state).caches[key];
