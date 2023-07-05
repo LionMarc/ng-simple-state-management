@@ -13,3 +13,4 @@ export * from './lib/confirmation-dialog';
 export * from './lib/object-helpers';
 export * from './lib/ngssm-component-display.directive';
 export * from './lib/ngssm-help/ngssm-help.component';
+export * from './lib/blob-helpers';

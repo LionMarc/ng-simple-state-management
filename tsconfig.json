@@ -44,6 +44,9 @@
       "ngssm-toolkit": [
         "dist/ngssm-toolkit"
       ],
+      "ngssm-toolkit/*": [
+        "dist/ngssm-toolkit/*"
+      ],
       "ngssm-tree": [
         "dist/ngssm-tree"
       ]
