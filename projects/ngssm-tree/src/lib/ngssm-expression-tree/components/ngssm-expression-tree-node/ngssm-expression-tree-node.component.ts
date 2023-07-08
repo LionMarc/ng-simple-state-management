@@ -21,6 +21,7 @@ import {
 interface CutAndPaste {
   isCutAndPasteInProgress: boolean;
   isPartOfCut: boolean;
+  canCut: boolean;
   canPasteInside: boolean;
   canPasteAfter: boolean;
 }
@@ -28,6 +29,7 @@ interface CutAndPaste {
 const getDefaultCutAndPaste = (): CutAndPaste => ({
   isCutAndPasteInProgress: false,
   isPartOfCut: false,
+  canCut: false,
   canPasteInside: false,
   canPasteAfter: false
 });
@@ -67,7 +69,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
         takeUntil(this.unsubscribeAll$)
       )
       .subscribe((values) => {
-        const node = values[1].find((v) => v.data.id === this._nodeId$.getValue());
+        const node = (values[1] ?? []).find((v) => v.data.id === this._nodeId$.getValue());
         const treeConfig = this._treeConfig$.getValue();
         const nodeValue = values[0];
         const cutAndPaste: CutAndPaste = getDefaultCutAndPaste();
@@ -75,6 +77,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
           this._nodeLabel$.next(treeConfig.getNodeLabel?.(node, nodeValue) ?? '');
           this._nodeCssIcon$.next(treeConfig.getNodeCssIcon?.(node, nodeValue) ?? undefined);
           this._nodeDescription$.next(treeConfig.getNodeDescription?.(node, nodeValue));
+          cutAndPaste.canCut = treeConfig.canCut?.(node) ?? true;
 
           if (values[2]) {
             cutAndPaste.isPartOfCut = values[2].data.id === node.data.id || node.path.includes(values[2].data.id);

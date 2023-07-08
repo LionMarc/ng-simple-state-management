@@ -83,5 +83,6 @@ export interface NgssmExpressionTreeConfig<TData = any> {
    */
   displayCutAndPasteMenus?: boolean;
 
+  canCut?: (node: NgssmExpressionTreeNode<TData>) => boolean;
   canPaste?: (node: NgssmExpressionTreeNode<TData>, targetNode: NgssmExpressionTreeNode<TData>, target: CutAndPasteTarget) => boolean;
 }
