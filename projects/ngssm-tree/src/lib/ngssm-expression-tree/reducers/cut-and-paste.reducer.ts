@@ -76,6 +76,10 @@ export class CutAndPasteReducer implements Reducer {
         const newBasePath =
           ngssmPasteExpressionTreeNodeAction.target === 'After' ? targetNode.path : [...targetNode.path, targetNode.data.id];
         const pathPartsToRemove = cutNode.path.length;
+        if (newBasePath === cutNode.path && currentIndex === targetIndex) {
+          return this.resetCutAndPaste(state, ngssmPasteExpressionTreeNodeAction.treeId);
+        }
+
         const movedNode = update(cutNode, {
           path: { $set: newBasePath },
           data: {
@@ -89,10 +93,6 @@ export class CutAndPasteReducer implements Reducer {
             ...node,
             path: [...newBasePath, ...node.path.slice(pathPartsToRemove)]
           }));
-
-        if (currentIndex === targetIndex) {
-          return this.resetCutAndPaste(state, ngssmPasteExpressionTreeNodeAction.treeId);
-        }
 
         return updateNgssmExpressionTreeState(state, {
           trees: {

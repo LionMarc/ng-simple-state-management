@@ -13,7 +13,6 @@
         </div>
 
         <div *ngSwitchCase="jsonNodeType.value" class="flex-row-center fxFlex">
-            {{node.name}}
             <span class="fxFlex"></span>
             <button mat-icon-button color="warn" matTooltip="Delete node" (click)="deleteNode()"
                 [disabled]="(canDelete$ | async) === false">
