@@ -26,10 +26,7 @@
     "test:tree": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-tree --code-coverage",
     "build:ace-editor": "ng build --project=ngssm-ace-editor --configuration=production",
     "build:ci": "npm run build:store && npm run build:toolkit && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:ace-editor && npm run build:shell && npm run build:tree",
-    "test:ci": "npm run test:store && npm run test:toolkit && npm run test:remote-data && npm run test:navigation && npm run test:ag-grid && npm run test:shell && npm run test:tree",
-    "cypress:open": "DEBUG=cypress-cucumber-preprocessor cypress open",
-    "cypress:run": "cypress run",
-    "cypress:generate-report": "node cucumber-html-report.js"
+    "test:ci": "npm run test:store && npm run test:toolkit && npm run test:remote-data && npm run test:navigation && npm run test:ag-grid && npm run test:shell && npm run test:tree"
   },
   "private": true,
   "dependencies": {
@@ -63,14 +60,10 @@
     "@angular-eslint/template-parser": "16.0.3",
     "@angular/cli": "16.1.4",
     "@angular/compiler-cli": "16.1.4",
-    "@badeball/cypress-cucumber-preprocessor": "18.0.1",
-    "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
-    "@cypress/schematic": "2.5.0",
     "@types/jasmine": "4.3.5",
     "@types/luxon": "^3.3.0",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
-    "cypress": "12.17.0",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-deprecation": "^1.4.1",

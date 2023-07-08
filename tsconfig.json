@@ -72,10 +72,8 @@
   },
   "include": [
     "src",
-    "projects",
-    "./cypress.config.ts"
+    "projects"
   ],
   "exclude": [
-    "./cypress.config.ts"
   ]
 }
