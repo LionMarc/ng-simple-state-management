@@ -139,12 +139,6 @@
               "src/**/*.html"
             ]
           }
-        },
-          "configurations": {
-            "development": {
-              "devServerTarget": "ng-simple-state-management:serve:development"
-            }
-          }
         }
       }
     },
