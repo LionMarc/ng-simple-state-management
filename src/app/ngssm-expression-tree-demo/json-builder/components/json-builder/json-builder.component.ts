@@ -1,12 +1,15 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { take } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 import {
+  CutAndPasteTarget,
   NgssmClearExpressionTreeAction,
   NgssmExpressionTree,
   NgssmExpressionTreeComponent,
   NgssmExpressionTreeConfig,
+  NgssmExpressionTreeNode,
   NgssmInitExpressionTreeAction,
   selectNgssmExpressionTreeState
 } from 'ngssm-tree';
@@ -14,7 +17,6 @@ import {
 import { JsonNode, JsonNodeType } from '../../model';
 import { JsonNodeComponent } from '../json-node/json-node.component';
 import { selectJsonBuilderState } from '../../state';
-import { take } from 'rxjs';
 import { JsonBuilderActionType } from '../../actions';
 
 @Component({
@@ -32,16 +34,10 @@ export class JsonBuilderComponent extends NgSsmComponent {
     disableVirtualization: true,
     expandIconClass: 'fa-solid fa-square-plus',
     collapseIconClass: 'fa-solid fa-square-minus',
-    getNodeLabel: (_, data) => {
-      switch (data.type) {
-        case JsonNodeType.object:
-          return data.name ?? 'Root';
-
-        default:
-          return '';
-      }
-    },
-    nodeDescriptionComponent: JsonNodeComponent
+    getNodeLabel: (_, data) => data.name ?? 'Root',
+    nodeDescriptionComponent: JsonNodeComponent,
+    displayCutAndPasteMenus: true,
+    canPaste: (node: NgssmExpressionTreeNode<JsonNode>, targetNode: NgssmExpressionTreeNode<JsonNode>, target: CutAndPasteTarget) => true
   };
 
   constructor(store: Store) {
