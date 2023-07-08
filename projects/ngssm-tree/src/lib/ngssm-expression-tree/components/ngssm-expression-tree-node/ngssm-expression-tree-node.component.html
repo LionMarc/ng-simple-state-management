@@ -1,9 +1,9 @@
-<div class="ngssm-expression-tree-node-icon" *ngIf="(nodeCssIcon$ | async) !== undefined">
+<div class="ngssm-expression-tree-node-icon" *ngIf="(nodeCssIcon$ | async) !== undefined" id="treeNodeIcon">
     <mat-icon class="{{nodeCssIcon$ | async}}"></mat-icon>
 </div>
 
 <div class="ngssm-expression-tree-node-label" [matMenuTriggerFor]="contextMenu"
-    [class.ngssm-expression-tree-node-to-cut]="(cutAndPaste$ | async)?.isPartOfCut === true">
+    [class.ngssm-expression-tree-node-to-cut]="(cutAndPaste$ | async)?.isPartOfCut === true" id="treeNodeLabel">
     {{nodeLabel$ | async}}
 </div>
 
@@ -15,20 +15,22 @@
 </div>
 
 <mat-menu #contextMenu="matMenu" [class]="'ngssm-expression-tree-popup-menu'">
-    <div class="flex-column-stretch" *ngIf="treeConfig?.displayCutAndPasteMenus === true">
-        <button mat-menu-item (click)="cut()" *ngIf="(cutAndPaste$ | async)?.isCutAndPasteInProgress === false">
+    <div class="flex-column-stretch"
+        *ngIf="treeConfig?.displayCutAndPasteMenus === true && (cutAndPaste$ | async) as cutAndPasteSetup">
+        <button mat-menu-item (click)="cut()" *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === false"
+            [disabled]="cutAndPasteSetup.canCut !== true">
             <mat-icon class="fa-solid fa-scissors"></mat-icon>
             <span>Cut</span>
         </button>
-        <button mat-menu-item *ngIf="(cutAndPaste$ | async)?.isCutAndPasteInProgress === true" (click)="cancelCut()">
+        <button mat-menu-item *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === true" (click)="cancelCut()">
             <mat-icon class="fa-solid fa-slash"></mat-icon>
             <span>Cancel cut</span>
         </button>
-        <button mat-menu-item [disabled]="(cutAndPaste$ | async)?.canPasteInside !== true" (click)="paste('Inside')">
+        <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteInside !== true" (click)="paste('Inside')">
             <mat-icon class="fa-solid fa-paste"></mat-icon>
             <span>Paste inside</span>
         </button>
-        <button mat-menu-item [disabled]="(cutAndPaste$ | async)?.canPasteAfter !== true" (click)="paste('After')">
+        <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteAfter !== true" (click)="paste('After')">
             <mat-icon class="fa-solid fa-paste"></mat-icon>
             <span>Paste after</span>
         </button>
