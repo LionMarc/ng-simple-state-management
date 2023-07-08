@@ -43,8 +43,6 @@ Thumbs.db
 
 /artifacts
 
-/cypress/screenshots
-/cypress/videos/
 /reports
 
 #Ignore files built by Visual Studio
