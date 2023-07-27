@@ -15,7 +15,10 @@ import { selectRemoteCall } from '../state';
 export class NgssmRemoteCallDirective extends NgSsmComponent {
   private subscription: Subscription | undefined;
 
-  constructor(store: Store, private overlyBuilder: NgssmOverlayBuilder) {
+  constructor(
+    store: Store,
+    private overlyBuilder: NgssmOverlayBuilder
+  ) {
     super(store);
     this.unsubscribeAll$.subscribe(() => this.overlyBuilder.hideOverlay());
   }

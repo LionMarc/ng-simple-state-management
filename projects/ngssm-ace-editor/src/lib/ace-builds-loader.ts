@@ -11,7 +11,10 @@ export class AceBuildsLoader {
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _initialized = false;
 
-  constructor(@Inject(DOCUMENT) private document: any, private logger: Logger) {}
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    private logger: Logger
+  ) {}
 
   public get loading$(): Observable<boolean> {
     return this._loading$.asObservable();

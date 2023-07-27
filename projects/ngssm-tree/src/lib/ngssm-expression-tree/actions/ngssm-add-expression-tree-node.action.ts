@@ -3,7 +3,10 @@ import { NgssmExpressionTreeActionType } from './ngssm-expression-tree-action-ty
 import { NgssmNode } from '../model';
 
 export class NgssmAddExpressionTreeNodeAction<TData = any> extends NgssmExpressionTreeAction {
-  constructor(treeId: string, public readonly node: NgssmNode<TData>) {
+  constructor(
+    treeId: string,
+    public readonly node: NgssmNode<TData>
+  ) {
     super(NgssmExpressionTreeActionType.ngssmAddExpressionTreeNode, treeId);
   }
 }

@@ -5,5 +5,8 @@ import { JsonNodeType } from '../model';
 export class SubmitJsonNodeAction implements Action {
   public readonly type: string = JsonBuilderActionType.submitJsonNode;
 
-  constructor(public readonly jsonNodeType: JsonNodeType, public readonly name: string) {}
+  constructor(
+    public readonly jsonNodeType: JsonNodeType,
+    public readonly name: string
+  ) {}
 }

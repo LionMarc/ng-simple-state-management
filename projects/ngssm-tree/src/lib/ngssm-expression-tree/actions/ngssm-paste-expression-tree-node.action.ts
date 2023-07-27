@@ -3,7 +3,11 @@ import { NgssmExpressionTreeActionType } from './ngssm-expression-tree-action-ty
 import { CutAndPasteTarget } from '../model';
 
 export class NgssmPasteExpressionTreeNodeAction extends NgssmExpressionTreeNodeAction {
-  constructor(treeId: string, nodeId: string, public readonly target: CutAndPasteTarget) {
+  constructor(
+    treeId: string,
+    nodeId: string,
+    public readonly target: CutAndPasteTarget
+  ) {
     super(NgssmExpressionTreeActionType.ngssmPasteExpressionTreeNode, treeId, nodeId);
   }
 }

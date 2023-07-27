@@ -16,7 +16,10 @@ import { NgssmConfirmationDialogConfig } from '../ngssm-confirmation-dialog-conf
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmConfirmationDialogComponent extends NgSsmComponent {
-  constructor(store: Store, @Inject(MAT_DIALOG_DATA) public data: NgssmConfirmationDialogConfig) {
+  constructor(
+    store: Store,
+    @Inject(MAT_DIALOG_DATA) public data: NgssmConfirmationDialogConfig
+  ) {
     super(store);
   }
 }

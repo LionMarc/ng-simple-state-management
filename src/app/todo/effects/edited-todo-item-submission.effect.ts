@@ -12,7 +12,10 @@ import { selectTodoState } from '../state';
 export class EditedTodoItemSubmissionEffect implements Effect {
   public readonly processedActions: string[] = [TodoActionType.submitEditedTodoItem];
 
-  constructor(private todoItemsService: TodoItemsService, private logger: Logger) {}
+  constructor(
+    private todoItemsService: TodoItemsService,
+    private logger: Logger
+  ) {}
 
   public processAction(store: Store, state: State, action: Action): void {
     const todoItem = selectTodoState(state).todoItemEditor.todoItem;

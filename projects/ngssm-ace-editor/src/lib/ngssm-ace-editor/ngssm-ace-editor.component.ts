@@ -28,7 +28,10 @@ export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
 
   public api: NgssmAceEditorApi | undefined;
 
-  constructor(private aceBuildsLoader: AceBuildsLoader, private zone: NgZone) {}
+  constructor(
+    private aceBuildsLoader: AceBuildsLoader,
+    private zone: NgZone
+  ) {}
 
   public get loading$(): Observable<boolean> {
     return this.aceBuildsLoader.loading$;
