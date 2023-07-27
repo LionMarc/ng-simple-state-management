@@ -37,7 +37,10 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
 
   private _treeSubscription?: Subscription;
 
-  constructor(store: Store, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    store: Store,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     super(store);
 
     this._tree$.pipe(takeUntil(this.unsubscribeAll$)).subscribe((tree) => {

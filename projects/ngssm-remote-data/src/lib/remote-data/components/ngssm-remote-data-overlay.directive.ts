@@ -16,7 +16,10 @@ export class NgssmRemoteDataOverlayDirective extends NgSsmComponent {
   private subscription: Subscription | undefined;
   private isDisplayed = false;
 
-  constructor(store: Store, private overlyBuilder: NgssmOverlayBuilder) {
+  constructor(
+    store: Store,
+    private overlyBuilder: NgssmOverlayBuilder
+  ) {
     super(store);
     this.unsubscribeAll$.subscribe(() => this.overlyBuilder.hideOverlay());
   }

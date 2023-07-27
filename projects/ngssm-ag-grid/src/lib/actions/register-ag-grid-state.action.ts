@@ -8,5 +8,9 @@ import { AgGridActionType } from './ag-grid-action-type';
 export class RegisterAgGridStateAction implements Action {
   public readonly type: string = AgGridActionType.registerAgGridState;
 
-  constructor(public readonly gridId: string, public readonly origin: ChangeOrigin, public readonly columnStates: ColumnState[]) {}
+  constructor(
+    public readonly gridId: string,
+    public readonly origin: ChangeOrigin,
+    public readonly columnStates: ColumnState[]
+  ) {}
 }

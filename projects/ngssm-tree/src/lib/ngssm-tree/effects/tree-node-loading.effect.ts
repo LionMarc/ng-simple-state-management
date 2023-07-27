@@ -15,7 +15,10 @@ export class TreeNodeLoadingEffect implements Effect {
     NgssmTreeActionType.loadChildrenOfNode
   ];
 
-  constructor(@Inject(NGSSM_TREE_DATA_SERVICE) @Optional() private dataServices: NgssmTreeDataService[], private logger: Logger) {}
+  constructor(
+    @Inject(NGSSM_TREE_DATA_SERVICE) @Optional() private dataServices: NgssmTreeDataService[],
+    private logger: Logger
+  ) {}
 
   public processAction(store: Store, state: State, action: Action): void {
     const treeNodeAction = action as TreeNodeAction;

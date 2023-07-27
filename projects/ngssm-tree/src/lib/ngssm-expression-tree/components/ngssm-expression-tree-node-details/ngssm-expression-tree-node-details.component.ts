@@ -25,7 +25,10 @@ export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
 
   @Output() public heightChanged: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(store: Store, private elementRef: ElementRef) {
+  constructor(
+    store: Store,
+    private elementRef: ElementRef
+  ) {
     super(store);
 
     combineLatest([this._nodeId$, this._treeConfig$])

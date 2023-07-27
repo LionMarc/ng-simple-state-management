@@ -14,7 +14,10 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 export class WrapperComponent extends NgSsmComponent {
   private readonly _innerHtml$ = new BehaviorSubject<string | undefined>(undefined);
 
-  constructor(store: Store, private viewContainerRef: ViewContainerRef) {
+  constructor(
+    store: Store,
+    private viewContainerRef: ViewContainerRef
+  ) {
     super(store);
   }
 

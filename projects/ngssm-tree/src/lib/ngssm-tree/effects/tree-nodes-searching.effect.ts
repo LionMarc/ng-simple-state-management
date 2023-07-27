@@ -22,7 +22,10 @@ export class TreeNodesSearchingEffect implements Effect {
     NgssmTreeActionType.registerPartialSearchResults
   ];
 
-  constructor(private matDialog: MatDialog, private logger: Logger) {}
+  constructor(
+    private matDialog: MatDialog,
+    private logger: Logger
+  ) {}
 
   public processAction(store: Store, state: State, action: Action): void {
     switch (action.type) {

@@ -6,5 +6,8 @@ import { CachedItem } from '../model';
 export class SetCachedItemAction<TData = any> implements Action {
   public readonly type: string = NgssmCachingActionType.setCachedItem;
 
-  constructor(public readonly cachedItemKey: string, public readonly cachedItem: Partial<CachedItem<TData>>) {}
+  constructor(
+    public readonly cachedItemKey: string,
+    public readonly cachedItem: Partial<CachedItem<TData>>
+  ) {}
 }

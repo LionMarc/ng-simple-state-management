@@ -21,7 +21,10 @@ export class TodoEditorEffect implements Effect {
     TodoActionType.todoItemLoaded
   ];
 
-  constructor(private matDialog: MatDialog, private notifier: NgssmNotifierService) {}
+  constructor(
+    private matDialog: MatDialog,
+    private notifier: NgssmNotifierService
+  ) {}
 
   public processAction(store: Store, state: State, action: Action): void {
     switch (action.type) {
