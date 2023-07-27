@@ -7,7 +7,7 @@ describe('BlobHelpers', () => {
       TestBed.configureTestingModule({ providers: [provideBlobHelpers()] });
     });
 
-    it(`should return the content of the input blob`, () => {
+    it(`should return the content of the input blob`, (done) => {
       const item = {
         name: 'testing',
         id: 13
@@ -20,6 +20,7 @@ describe('BlobHelpers', () => {
 
       reader(blob).subscribe((value) => {
         expect(value).toEqual(JSON.stringify(item));
+        done();
       });
     });
   });
