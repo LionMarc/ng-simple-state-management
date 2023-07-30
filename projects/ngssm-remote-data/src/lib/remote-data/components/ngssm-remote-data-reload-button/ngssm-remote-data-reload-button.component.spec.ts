@@ -49,12 +49,12 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
     const remoteDataKey = 'remote';
 
     beforeEach(async () => {
-      component.remoteDataKey = remoteDataKey;
+      component.remoteDataKeys = [remoteDataKey];
       fixture.detectChanges();
       await fixture.whenStable();
     });
 
-    it(`should be disabled when state is not set for given key`, async () => {
+    it(`should be disabled when state is not set for given keys`, async () => {
       const element = await loader.getHarness(MatButtonHarness);
 
       expect(await element.isDisabled()).toBeTrue();
