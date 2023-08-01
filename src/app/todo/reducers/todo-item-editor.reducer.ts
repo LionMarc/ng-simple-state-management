@@ -33,7 +33,7 @@ export class TodoItemEditorReducer implements Reducer {
           todoItemEditor: {
             todoItemId: { $set: editTodoItemAction.todoItemId },
             todoItem: {
-              $set: (selectRemoteData(state, todoItemsKey).data ?? []).find((t: TodoItem) => t.id === editTodoItemAction.todoItemId)
+              $set: (selectRemoteData(state, todoItemsKey)?.data ?? []).find((t: TodoItem) => t.id === editTodoItemAction.todoItemId)
             },
             submissionInProgress: { $set: false }
           }

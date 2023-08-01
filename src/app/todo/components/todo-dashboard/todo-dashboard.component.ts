@@ -146,11 +146,11 @@ export class TodoDashboardComponent extends NgSsmComponent {
   }
 
   public get status$(): Observable<DataStatus> {
-    return this.watch((s) => selectRemoteData(s, todoItemsKey).status);
+    return this.watch((s) => selectRemoteData(s, todoItemsKey)?.status ?? DataStatus.none);
   }
 
   public get todoItemIds$(): Observable<number[]> {
-    return this.watch((s) => (selectRemoteData(s, todoItemsKey).data ?? []).map((t: TodoItem) => t.id));
+    return this.watch((s) => (selectRemoteData(s, todoItemsKey)?.data ?? []).map((t: TodoItem) => t.id));
   }
 
   public get todoItems$(): Observable<TodoItem[]> {

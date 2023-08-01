@@ -26,7 +26,7 @@ export class TodoItemComponent extends NgSsmComponent {
   constructor(store: Store) {
     super(store);
 
-    combineLatest([this._todoItemId$, this.watch((s) => selectRemoteData(s, todoItemsKey).data)]).subscribe((values) => {
+    combineLatest([this._todoItemId$, this.watch((s) => selectRemoteData(s, todoItemsKey)?.data)]).subscribe((values) => {
       this._todoItem$.next((values[1] ?? []).find((t: TodoItem) => t.id === values[0]));
     });
   }

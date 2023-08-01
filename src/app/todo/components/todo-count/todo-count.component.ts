@@ -17,6 +17,6 @@ export class TodoCountComponent extends NgSsmComponent {
   }
 
   public get count$(): Observable<number> {
-    return this.watch((s) => ((selectRemoteData(s, todoItemsKey).data ?? []) as any[]).length);
+    return this.watch((s) => ((selectRemoteData(s, todoItemsKey)?.data ?? []) as any[]).length);
   }
 }
