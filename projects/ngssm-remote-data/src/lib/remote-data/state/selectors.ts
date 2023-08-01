@@ -1,5 +1,7 @@
 import { State } from 'ngssm-store';
 
 import { selectRemoteDataState } from './remote-data.state';
+import { RemoteData } from '../model';
 
-export const selectRemoteData = (state: State, remoteDataKey: string) => selectRemoteDataState(state)[remoteDataKey];
+export const selectRemoteData = <TData = any>(state: State, remoteDataKey: string): RemoteData<TData> | undefined =>
+  selectRemoteDataState(state)[remoteDataKey] as RemoteData<TData>;

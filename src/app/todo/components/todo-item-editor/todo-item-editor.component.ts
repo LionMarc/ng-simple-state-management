@@ -36,7 +36,7 @@ export class TodoItemEditorComponent extends NgSsmComponent {
         }
       });
 
-    this.watch((s) => selectRemoteData(s, todoItemKey).data).subscribe((value: TodoItem) => {
+    this.watch((s) => selectRemoteData(s, todoItemKey)?.data).subscribe((value: TodoItem) => {
       if (value?.title) {
         this.titleControl.setValue(value.title);
       }
