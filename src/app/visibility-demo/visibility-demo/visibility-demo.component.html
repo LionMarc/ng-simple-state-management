@@ -36,14 +36,9 @@
                         Hide center
                     </button>
                     <span class="fxFlex"></span>
-                    <mat-button-toggle-group [multiple]="true" class="visibility-selector">
-                        <mat-button-toggle [toggleElementVisibility]="'leftPart'"
-                            [checked]="store.state() | isElementVisible:'leftPart'">Left</mat-button-toggle>
-                        <mat-button-toggle [toggleElementVisibility]="'centerPart'"
-                            [checked]="store.state() | isElementVisible:'centerPart'">Center</mat-button-toggle>
-                        <mat-button-toggle [toggleElementVisibility]="'rightPart'"
-                            [checked]="store.state() | isElementVisible:'rightPart'">Right</mat-button-toggle>
-                    </mat-button-toggle-group>
+                    <ngssm-visibility-toggle-group [items]="visibilityItems"
+                        class="visibility-selector">
+                    </ngssm-visibility-toggle-group>
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content class="flex-row-stretch fxFlex">

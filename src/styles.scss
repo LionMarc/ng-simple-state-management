@@ -103,3 +103,9 @@ body {
     margin-right: 10px;
     margin-left: 10px;
 }
+
+.visibility-selector {
+    mat-button-toggle {
+        border: 1px solid blue !important;
+    }
+}

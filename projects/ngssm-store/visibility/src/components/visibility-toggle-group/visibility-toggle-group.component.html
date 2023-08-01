@@ -1,0 +1,6 @@
+<mat-button-toggle-group [multiple]="true">
+    <mat-button-toggle *ngFor="let item of items" [toggleElementVisibility]="item.key"
+        [checked]="store.state() | isElementVisible:item.key">
+        {{item.label}}
+    </mat-button-toggle>
+</mat-button-toggle-group>
