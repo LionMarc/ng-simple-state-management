@@ -83,14 +83,16 @@ export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
             this.api.aceEditor.setValue(this.initialContent, -1);
 
             this.api.aceEditor.on('change', () => {
-              if (!this.silentContentUpdate) {
+              if (this.api && !this.silentContentUpdate) {
                 this.zone.run(() => this.contentChanged.emit(this.api?.aceEditor.getValue()));
               }
             });
             this.api.aceEditor.getSession().on('changeAnnotation', () => {
-              const annotations: any[] = this.api?.aceEditor.getSession().getAnnotations();
-              const isValid = annotations.findIndex((annotation) => annotation.type === 'error') === -1;
-              this.zone.run(() => this.isValidChanged.emit(isValid));
+              if (this.api) {
+                const annotations: any[] = this.api.aceEditor.getSession().getAnnotations();
+                const isValid = annotations.findIndex((annotation) => annotation.type === 'error') === -1;
+                this.zone.run(() => this.isValidChanged.emit(isValid));
+              }
             });
 
             this.editorReady.emit(this.api);
@@ -101,5 +103,6 @@ export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.api?.aceEditor?.destroy();
+    this.api = undefined;
   }
 }
