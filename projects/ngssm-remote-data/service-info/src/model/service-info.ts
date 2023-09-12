@@ -3,17 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { LoadRemoteDataAction, RemoteDataLoadingFunc } from 'ngssm-remote-data';
 import { Store } from 'ngssm-store';
-
-import { OauthInfo } from './oauth-info';
+import { ServiceInfo } from 'ngssm-store/smusdi';
 
 export const serviceInfoKey = 'service-info';
-
-export interface ServiceInfo {
-  serviceName: string;
-  serviceVersion: string;
-  environment: string;
-  oauth?: OauthInfo;
-}
 
 export const NGSSM_SERVICE_INFO_URL = new InjectionToken<string>('NGSSM_SERVICE_INFO_URL');
 
