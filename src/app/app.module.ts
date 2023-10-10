@@ -19,6 +19,7 @@ import { provideNgssmNavigation } from 'ngssm-navigation';
 import { ShellComponent, provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
 import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
+import { provideConsoleAppender } from 'ngssm-store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -68,6 +69,7 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { horizontalPosition: 'right', verticalPosition: 'top', duration: 1000 }
     },
+    provideConsoleAppender('Main'),
     useDefaultErrorStateMatcher,
     {
       provide: NGSSM_AG_GRID_OPTIONS,
