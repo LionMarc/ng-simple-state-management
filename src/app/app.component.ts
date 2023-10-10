@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavigationActionType } from 'ngssm-navigation';
 
 import { LockNavigationBarAction, LockStatus, ShellActionType, ShellConfig } from 'ngssm-shell';
-import { NgSsmComponent, Store, ConsoleAppender } from 'ngssm-store';
+import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 
@@ -106,9 +106,8 @@ export class AppComponent extends NgSsmComponent {
 
   public readonly lockStatus = LockStatus;
 
-  constructor(store: Store, consoleAppender: ConsoleAppender) {
+  constructor(store: Store) {
     super(store);
-    consoleAppender.start('Main');
   }
 
   public closeNavigationBar(): void {
