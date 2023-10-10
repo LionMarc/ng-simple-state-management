@@ -1,5 +1,5 @@
-<div *ngIf="(remoteCallError$ | async) !== undefined" class="ngssm-remote-call-error-container">
-    {{remoteCallError$ | async | json}}
+<div *ngIf="errorContainerRendered() === true" class="ngssm-remote-call-error-container">
+    {{errorDescription()}}
 
     <button mat-icon-button color="warn" class="ngssm-remote-call-error-close-button" (click)="hideComponent()">
         <mat-icon class="fa-solid fa-square-xmark"></mat-icon>

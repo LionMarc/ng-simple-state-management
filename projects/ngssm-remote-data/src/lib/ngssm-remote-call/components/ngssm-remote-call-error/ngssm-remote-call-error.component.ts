@@ -1,13 +1,13 @@
-import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, HostBinding, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, Observable, Subject, switchMap } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { selectNgssmRemoteCallState } from '../../state';
-import { RemoteCallError } from '../../model';
+import { RemoteCallStatus } from '../../model';
 
 @Component({
   selector: 'ngssm-remote-call-error',
@@ -19,27 +19,34 @@ import { RemoteCallError } from '../../model';
 })
 export class NgssmRemoteCallErrorComponent extends NgSsmComponent {
   private readonly _remoteCallId$ = new Subject<string>();
-  private readonly _remoteCallError$ = new BehaviorSubject<RemoteCallError | undefined>(undefined);
+
+  public readonly errorContainerRendered = signal<boolean>(false);
+  public readonly errorDescription = signal<string>('');
 
   @HostBinding('class') public hostCssClasses = 'ngssm-remote-call-error';
 
   constructor(store: Store) {
     super(store);
 
-    this._remoteCallId$
-      .pipe(switchMap((v) => this.watch((s) => selectNgssmRemoteCallState(s).remoteCalls[v])))
-      .subscribe((remoteCall) => this._remoteCallError$.next(remoteCall?.error));
+    this._remoteCallId$.pipe(switchMap((v) => this.watch((s) => selectNgssmRemoteCallState(s).remoteCalls[v]))).subscribe((remoteCall) => {
+      this.errorContainerRendered.set(remoteCall?.status === RemoteCallStatus.ko);
+      const description: string =
+        remoteCall?.status !== RemoteCallStatus.ko
+          ? ''
+          : !!remoteCall.message
+          ? remoteCall.message
+          : !!remoteCall.error
+          ? JSON.stringify(remoteCall.error, null, 2)
+          : 'No error description provided!';
+      this.errorDescription.set(description);
+    });
   }
 
   @Input() public set remoteCallId(value: string) {
     this._remoteCallId$.next(value);
   }
 
-  public get remoteCallError$(): Observable<RemoteCallError | undefined> {
-    return this._remoteCallError$.asObservable();
-  }
-
   public hideComponent(): void {
-    this._remoteCallError$.next(undefined);
+    this.errorContainerRendered.set(false);
   }
 }
