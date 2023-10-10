@@ -88,6 +88,15 @@ export class RemoteDataDemoComponent extends NgSsmComponent {
     );
   }
 
+  public endCallWithErrorMessage(): void {
+    this.dispatchAction(
+      new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, {
+        status: RemoteCallStatus.ko,
+        message: 'Testing error message'
+      })
+    );
+  }
+
   public updateStatus(): void {
     this.dispatchAction(new UpdateDataStatusAction(this.keyControl.value ?? '', this.dataStatusControl.value ?? DataStatus.loaded));
   }

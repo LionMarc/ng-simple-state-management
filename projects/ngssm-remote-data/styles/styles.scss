@@ -12,6 +12,8 @@
         max-height: var(--ngssm-remote-call-error-max-height);
         overflow: auto;
         white-space: pre;
+        min-height: 40px;
+        padding: 8px;
     }
 
     .ngssm-remote-call-error-close-button {
