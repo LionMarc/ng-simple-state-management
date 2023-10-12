@@ -23,7 +23,7 @@
                 <mat-checkbox [formControl]="allowRestoringGridControl">Allow restoring grid?</mat-checkbox>
                 <mat-checkbox [formControl]="deleteHiddenControl">Delete hidden?</mat-checkbox>
             </div>
-            
+
             <ag-grid-angular ngssmAgGridTheme class="fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems$ | async"
                 [ngssmAgGrid]="agGridConfig">
 

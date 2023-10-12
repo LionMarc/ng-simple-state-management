@@ -1,4 +1,4 @@
-import { Directive, Inject, Input, OnDestroy, Optional } from '@angular/core';
+import { Directive, Input, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Subject, take, takeUntil } from 'rxjs';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -9,7 +9,6 @@ import { Store } from 'ngssm-store';
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction, RegisterSelectedRowsAction } from '../actions';
 import { ChangeOrigin, selectAgGridState } from '../state';
 import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
-import { NgssmAgGridOptions, NGSSM_AG_GRID_OPTIONS } from '../ngssm-ag-grid-options';
 
 @Directive({
   selector: '[ngssmAgGrid]',
@@ -23,13 +22,8 @@ export class NgssmAgGridDirective implements OnDestroy {
 
   constructor(
     private store: Store,
-    private agGridAngular: AgGridAngular,
-    @Inject(NGSSM_AG_GRID_OPTIONS) @Optional() options: NgssmAgGridOptions
+    private agGridAngular: AgGridAngular
   ) {
-    if (this.agGridAngular.statusBar === undefined) {
-      this.agGridAngular.statusBar = options?.statusBar;
-    }
-
     this.agGridAngular.gridReady.pipe(take(1)).subscribe((v) => {
       combineLatest([
         this.store.state$.pipe(
