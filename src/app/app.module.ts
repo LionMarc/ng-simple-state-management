@@ -81,6 +81,10 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
               statusPanel: 'agTotalAndFilteredRowCountComponent'
             }
           ]
+        },
+        defaultColDef: {
+          resizable: true,
+          sortable: true
         }
       }
     },

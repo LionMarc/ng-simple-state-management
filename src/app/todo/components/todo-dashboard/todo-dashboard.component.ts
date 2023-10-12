@@ -12,6 +12,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { DataStatus, NgssmRemoteDataReloadButtonComponent, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
 import {
+  getColDefForEditableColumn,
   getColDefWithNoPadding,
   getNgssmActionsCellColDef,
   NgssmAgGridConfig,
@@ -51,10 +52,6 @@ export class TodoDashboardComponent extends NgSsmComponent {
   public readonly dataStatus = DataStatus;
   public readonly allowRestoringGridControl = new FormControl(true);
   public readonly gridOptions: GridOptions = {
-    defaultColDef: {
-      resizable: true,
-      sortable: true
-    },
     columnDefs: [
       {
         field: 'id',
@@ -114,6 +111,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
         width: 80
       },
       {
+        ...getColDefForEditableColumn(),
         field: 'title',
         headerName: 'Title',
         filter: 'agTextColumnFilter',
