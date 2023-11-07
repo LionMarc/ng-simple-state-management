@@ -1,3 +1,5 @@
+import { GetContextMenuItems } from 'ag-grid-community';
+
 /**
  * Configuration parameters of the {@link NgssmAgGridDirective} directive to apply on a
  * {@link https://www.ag-grid.com/ ag-grid instance}
@@ -22,4 +24,9 @@ export interface NgssmAgGridConfig {
    * this functionnality is only available for enterprise version of {@link https://www.ag-grid.com/}.
    */
   canSaveOnDiskColumnsState?: boolean;
+
+  /**
+   * Used to override default context menu items.
+   */
+  getContextMenuItems?: GetContextMenuItems;
 }

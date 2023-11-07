@@ -127,7 +127,14 @@ export class NgssmAgGridDirective implements OnDestroy {
   }
 
   private getContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
-    const menuItems: (string | MenuItemDef)[] = [...(params.defaultItems ?? [])];
+    const menuItems: (string | MenuItemDef)[] = [];
+    const getContextMenuItems = this._config$.getValue().getContextMenuItems;
+    if (getContextMenuItems) {
+      menuItems.push(...getContextMenuItems(params));
+    } else {
+      menuItems.push(...(params.defaultItems ?? []));
+    }
+
     if (this._config$.getValue().canSaveOnDiskColumnsState === true) {
       menuItems.push(
         ...[

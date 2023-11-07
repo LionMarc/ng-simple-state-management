@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { GetRowIdParams, GridOptions, ICellRendererParams, ValueGetterParams } from 'ag-grid-community';
+import { GetContextMenuItems, GetRowIdParams, GridOptions, ICellRendererParams, MenuItemDef, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { DataStatus, NgssmRemoteDataReloadButtonComponent, selectRemoteData } from 'ngssm-remote-data';
@@ -121,14 +121,40 @@ export class TodoDashboardComponent extends NgSsmComponent {
     getRowId: (params: GetRowIdParams<TodoItem>) => params.data.id?.toString() ?? '',
     rowSelection: 'multiple'
   };
-  public readonly remoteDataKey = todoItemsKey;
 
+  public readonly remoteDataKey = todoItemsKey;
   public readonly deleteHiddenControl = new FormControl<boolean>(false);
 
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
     keepSelection: true,
-    canSaveOnDiskColumnsState: true
+    canSaveOnDiskColumnsState: true,
+    getContextMenuItems: (params) => {
+      console.log('CALLED', params);
+      const menuItems: (string | MenuItemDef)[] = [...(params.defaultItems ?? [])];
+      const exportMenuItem: MenuItemDef = {
+        name: 'Export',
+        icon: '<span class="ag-icon ag-icon-save"></span>',
+        subMenu: [
+          'csvExport',
+          'excelExport',
+          {
+            name: 'Custom',
+            action: () => {
+              console.log('Custom export called');
+            }
+          }
+        ]
+      };
+      const index = menuItems.findIndex((m) => m === 'export');
+      if (index) {
+        menuItems.splice(index, 1, exportMenuItem);
+      } else {
+        menuItems.push(exportMenuItem);
+      }
+
+      return menuItems;
+    }
   };
 
   constructor(store: Store) {
