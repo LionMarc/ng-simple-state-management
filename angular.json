@@ -94,10 +94,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ng-simple-state-management:build:production"
+              "buildTarget": "ng-simple-state-management:build:production"
             },
             "development": {
-              "browserTarget": "ng-simple-state-management:build:development"
+              "buildTarget": "ng-simple-state-management:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -105,7 +105,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-simple-state-management:build"
+            "buildTarget": "ng-simple-state-management:build"
           }
         },
         "test": {
