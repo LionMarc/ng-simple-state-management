@@ -24,6 +24,7 @@ import {
 import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 import { Demo1Component } from '../demo1/demo1.component';
 import { Demo2Component } from '../demo2/demo2.component';
+import { ToolkitDemoActionType } from '../../actions';
 
 @Injectable({
   providedIn: 'root'
@@ -146,5 +147,9 @@ export class ToolkitDemoComponent extends NgSsmComponent {
       console.log('CLEAR FILE SELECTION');
       this.fileControl.setValue(undefined, { emitEvent: false });
     }, 1000);
+  }
+
+  public openDialogDemo(): void {
+    this.dispatchActionType(ToolkitDemoActionType.openDialogDemo);
   }
 }
