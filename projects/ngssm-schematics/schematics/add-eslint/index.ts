@@ -4,12 +4,12 @@ import { addPackageJsonDependency, NodeDependencyType, NodeDependency } from '@s
 function addPrettierDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
-      { type: NodeDependencyType.Dev, version: '^2.8.1', name: 'prettier' },
-      { type: NodeDependencyType.Dev, version: '^15.0.0', name: 'prettier-eslint' },
-      { type: NodeDependencyType.Dev, version: '^8.5.0', name: 'eslint-config-prettier' },
-      { type: NodeDependencyType.Dev, version: '^4.2.1', name: 'eslint-plugin-prettier' },
-      { type: NodeDependencyType.Dev, version: '^1.3.2', name: 'eslint-plugin-deprecation' },
-      { type: NodeDependencyType.Dev, version: '^2.0.0', name: 'eslint-plugin-unused-imports' }
+      { type: NodeDependencyType.Dev, version: '^3.0.0', name: 'prettier' },
+      { type: NodeDependencyType.Dev, version: '^16.0.0', name: 'prettier-eslint' },
+      { type: NodeDependencyType.Dev, version: '^9.0.0', name: 'eslint-config-prettier' },
+      { type: NodeDependencyType.Dev, version: '^5.0.0', name: 'eslint-plugin-prettier' },
+      { type: NodeDependencyType.Dev, version: '^2.0.0', name: 'eslint-plugin-deprecation' },
+      { type: NodeDependencyType.Dev, version: '^3.0.0', name: 'eslint-plugin-unused-imports' }
     ];
 
     dependencies.forEach((dependency) => {

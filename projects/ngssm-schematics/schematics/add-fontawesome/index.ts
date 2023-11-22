@@ -4,7 +4,7 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 function addDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const dependencies: NodeDependency[] = [{ type: NodeDependencyType.Default, version: '^6.1.2', name: '@fortawesome/fontawesome-free' }];
+    const dependencies: NodeDependency[] = [{ type: NodeDependencyType.Default, version: '^6.4.2', name: '@fortawesome/fontawesome-free' }];
 
     dependencies.forEach((dependency) => {
       addPackageJsonDependency(host, dependency);
