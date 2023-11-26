@@ -1,0 +1,21 @@
+{
+  "name": "ngssm-data",
+  "version": "0.0.1",
+  "description": "NgSsm - Library used to facilitate the management of data get from remote service or computed locally.",
+  "author": "Lion Marc",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "ngssm-store": ">=17.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LionMarc/ng-simple-state-management",
+    "directory": "projects/ngssm-data"
+  }
+}
