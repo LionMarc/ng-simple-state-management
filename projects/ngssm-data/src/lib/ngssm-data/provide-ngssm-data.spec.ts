@@ -7,7 +7,7 @@ import { StoreMock } from 'ngssm-store/testing';
 
 import { NgssmDataStateSpecification } from './state';
 import { provideNgssmData } from './provide-ngssm-data';
-import { NgssmDataActionType, NgssmInitDataSourceValuesAction } from './actions';
+import { NgssmDataActionType } from './actions';
 import { NgssmDataLoading, provideNgssmDataSource } from './model';
 
 describe('provideNgssmData', () => {
@@ -40,14 +40,32 @@ describe('provideNgssmData', () => {
       await TestBed.configureTestingModule({
         providers: [
           { provide: Store, useValue: store },
-          provideNgssmDataSource('first', firstSourceLoading),
+          provideNgssmDataSource('first', firstSourceLoading, 560),
           provideNgssmDataSource('second', secondSourceLoading),
           provideNgssmData()
         ]
       }).compileComponents();
       await TestBed.inject(ApplicationInitStatus).donePromise;
 
-      expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmInitDataSourceValuesAction(['first', 'second']));
+      expect(store.dispatchAction).toHaveBeenCalled();
+
+      expect(store.dispatchAction).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          type: NgssmDataActionType.initDataSourceValues,
+          dataSources: [
+            {
+              key: 'first',
+              dataLifetimeInSeconds: 560,
+              dataLoadingFunc: jasmine.any(Function)
+            },
+            {
+              key: 'second',
+              dataLifetimeInSeconds: undefined,
+              dataLoadingFunc: jasmine.any(Function)
+            }
+          ]
+        })
+      );
     });
   });
 });

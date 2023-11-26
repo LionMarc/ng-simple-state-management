@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { State } from 'ngssm-store';
 
 import { DataSourcesInitializationReducer } from './data-sources-initialization.reducer';
@@ -30,7 +32,16 @@ describe('DataSourcesInitializationReducer', () => {
 
   describe(`when processing action of type '${NgssmDataActionType.initDataSourceValues}'`, () => {
     it(`should add in dataSources state property a property for each key set in action`, () => {
-      const action = new NgssmInitDataSourceValuesAction(['data-providers', 'team-managers']);
+      const action = new NgssmInitDataSourceValuesAction([
+        {
+          key: 'data-providers',
+          dataLoadingFunc: () => of([])
+        },
+        {
+          key: 'team-managers',
+          dataLoadingFunc: () => of([])
+        }
+      ]);
 
       const updatedState = reducer.updateState(state, action);
 
@@ -40,6 +51,25 @@ describe('DataSourcesInitializationReducer', () => {
         },
         'team-managers': {
           status: NgssmDataSourceValueStatus.none
+        }
+      });
+    });
+
+    it(`should store in state the lifetime if set in action`, () => {
+      const action = new NgssmInitDataSourceValuesAction([
+        {
+          key: 'data-providers',
+          dataLifetimeInSeconds: 60,
+          dataLoadingFunc: () => of([])
+        }
+      ]);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues).toEqual({
+        'data-providers': {
+          status: NgssmDataSourceValueStatus.none,
+          dataLifetimeInSeconds: 60
         }
       });
     });

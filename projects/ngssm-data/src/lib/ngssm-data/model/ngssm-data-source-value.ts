@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export enum NgssmDataSourceValueStatus {
   none = 'none',
   notRegistered = 'notRegistered',
@@ -10,5 +12,6 @@ export interface NgssmDataSourceValue<TData = any, TParameter = any> {
   status: NgssmDataSourceValueStatus;
   value?: TData;
   parameter?: TParameter;
-  lastLoadingDate?: Date;
+  lastLoadingDate?: DateTime;
+  dataLifetimeInSeconds?: number;
 }
