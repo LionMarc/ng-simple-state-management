@@ -4,7 +4,7 @@ import { Store, provideEffects, provideReducers } from 'ngssm-store';
 
 import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
 import { NgssmInitDataSourceValuesAction } from './actions';
-import { DataSourcesInitializationReducer } from './reducers';
+import { DataSourceValueReducer, DataSourcesInitializationReducer } from './reducers';
 import { DataLoadingEffect } from './effects';
 
 @Injectable({
@@ -31,7 +31,7 @@ export const provideNgssmData = (): EnvironmentProviders => {
       deps: [Store, NgssmDataSourceCollection],
       multi: true
     },
-    provideReducers(DataSourcesInitializationReducer),
+    provideReducers(DataSourcesInitializationReducer, DataSourceValueReducer),
     provideEffects(DataLoadingEffect)
   ]);
 };

@@ -1,7 +1,8 @@
-import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, InjectionToken, inject, makeEnvironmentProviders } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { State } from 'ngssm-store';
+import { State, Store } from 'ngssm-store';
+import { NgssmLoadDataSourceValueAction } from '../actions';
 
 export interface NgssmDataLoading<TData = any, TParameter = any> {
   (state: State, parameter?: TParameter): Observable<TData>;
@@ -34,4 +35,11 @@ export const provideNgssmDataSource = <TData = any, TParameter = any>(
       multi: true
     }
   ]);
+};
+
+export const ngssmLoadDataSourceValue = (key: string, forceReload: boolean = false): (() => boolean) => {
+  return () => {
+    inject(Store).dispatchAction(new NgssmLoadDataSourceValueAction(key, forceReload));
+    return true;
+  };
 };

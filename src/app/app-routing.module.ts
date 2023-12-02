@@ -9,6 +9,7 @@ import { TreeInitGuard } from './ngssm-tree-demo/tree-init.guard';
 import { remoteDataDemoRoutes } from './remote-data-demo/public-api';
 import { toolkitRoutes } from './toolkit/public-api';
 import { VisibilityDemoComponent } from './visibility-demo';
+import { ngssmDataDemoRoutes } from './ngssm-data-demo/public-api';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
     path: 'visibility-demo',
     component: VisibilityDemoComponent
   },
+  ...ngssmDataDemoRoutes,
   { path: '**', component: NotFoundComponent }
 ];
 

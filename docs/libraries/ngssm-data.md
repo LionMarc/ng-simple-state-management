@@ -49,7 +49,7 @@ classDiagram
 The data source must be registered with the function *provideNgssmDataSource*.
 
 ```javascript
-const dataLoader:NgssmDataLoading<string, number> = (state:State, parameter?:number) : Observable<string[]> => {
+const dataLoader:NgssmDataLoading<string[], number> = (state:State, parameter?:number) : Observable<string[]> => {
     const query = selectMyQuery(state);
     return inject(HttpClient).post<string[]>(`${baseUrl}/${parameter}`, query);
 }
@@ -186,17 +186,9 @@ The function will simply inject the store and dispatch the action **NgssmLoadDat
 The pipe *isNgssmDataSourceValueStatus* is provided to allow updating the ui according to the status of a given data source value.
 
 ```html
-@if ( store | isNgssmDataSourceValueStatus:'doc:example:data':'loading') {
+@if ( store.state() | isNgssmDataSourceValueStatus:'doc:example:data':'loading') {
     <p>The data is being loaded</p>
 } @else {
     <div>Display the data</div>
 }
 ```
-
-## Directives
-
-## Components
-
-- [ngssm-data-selector](./ngssm-data/ngssm-data-selector.md) :
-
-Based on [mat-select](https://material.angular.io/components/select/overview) and [mat-form-field](https://material.angular.io/components/form-field/overview), this component allows selecting one or multplipe values from a remote data source

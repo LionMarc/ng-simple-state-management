@@ -595,7 +595,8 @@
             "polyfills": [
               "zone.js",
               "zone.js/testing"
-            ]
+            ],
+            "karmaConfig": "projects/ngssm-data/karma.conf.js"
           }
         },
         "lint": {

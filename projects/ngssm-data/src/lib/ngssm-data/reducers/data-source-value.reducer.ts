@@ -4,13 +4,13 @@ import { DateTime } from 'luxon';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
-import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
+import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from '../actions';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
 import { NgssmDataSourceValueStatus } from '../model';
 
 @Injectable()
 export class DataSourceValueReducer implements Reducer {
-  public readonly processedActions: string[] = [NgssmDataActionType.loadDataSourceValue];
+  public readonly processedActions: string[] = [NgssmDataActionType.loadDataSourceValue, NgssmDataActionType.setDataSourceValue];
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
@@ -47,6 +47,24 @@ export class DataSourceValueReducer implements Reducer {
         }
 
         break;
+      }
+
+      case NgssmDataActionType.setDataSourceValue: {
+        const ngssmSetDataSourceValueAction = action as NgssmSetDataSourceValueAction;
+        const dataSourceValue = selectNgssmDataState(state).dataSourceValues[ngssmSetDataSourceValueAction.key];
+        if (!dataSourceValue) {
+          break;
+        }
+
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmSetDataSourceValueAction.key]: {
+              status: { $set: ngssmSetDataSourceValueAction.status },
+              value: { $set: ngssmSetDataSourceValueAction.value },
+              lastLoadingDate: { $set: DateTime.now() }
+            }
+          }
+        });
       }
     }
 

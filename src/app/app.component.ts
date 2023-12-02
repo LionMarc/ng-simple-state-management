@@ -96,6 +96,11 @@ export class AppComponent extends NgSsmComponent {
           label: 'Ngssm Visibility',
           icon: '<i class="fa-solid fa-eye-slash"></i>',
           route: '/visibility-demo'
+        },
+        {
+          label: 'Ngssm Data',
+          icon: '<i class="fa-solid fa-cloud"></i>',
+          route: '/ngssm-data'
         }
       ]
     },

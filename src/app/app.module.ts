@@ -21,6 +21,7 @@ import { ShellComponent, provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
 import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
 import { provideConsoleAppender } from 'ngssm-store';
+import { provideNgssmData } from 'ngssm-data';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +32,7 @@ import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
 import { provideRemoteDataDemo } from './remote-data-demo/public-api';
 import { provideJsonBuilder } from './ngssm-expression-tree-demo/json-builder/provide-json-builder';
 import { provideToolkitDemo } from './toolkit/public-api';
+import { provideNgssmDataDemo } from './ngssm-data-demo/public-api';
 
 const dotnetRegexValidator: RegexEditorValidator = {
   validatePattern: (pattern: string) => {
@@ -100,11 +102,13 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     provideNgssmVisibility(),
     provideNgssmServiceInfo(),
     provideNgssmMatDialog(),
+    provideNgssmData(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
     { provide: NGSSM_REGEX_EDITOR_VALIDATOR, useFactory: dotnetRegexValidatorFactory },
     provideRemoteDataDemo(),
     provideJsonBuilder(),
-    provideToolkitDemo()
+    provideToolkitDemo(),
+    provideNgssmDataDemo()
   ],
   bootstrap: [AppComponent]
 })

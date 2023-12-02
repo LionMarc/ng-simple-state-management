@@ -6,6 +6,7 @@ import { DataSourceValueReducer } from './data-source-value.reducer';
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
+import { NgssmSetDataSourceValueAction } from 'ngssm-data';
 
 describe('DataSourceValueReducer', () => {
   let reducer: DataSourceValueReducer;
@@ -18,7 +19,7 @@ describe('DataSourceValueReducer', () => {
     };
   });
 
-  [NgssmDataActionType.loadDataSourceValue].forEach((actionType: string) => {
+  [NgssmDataActionType.loadDataSourceValue, NgssmDataActionType.setDataSourceValue].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(reducer.processedActions).toContain(actionType);
     });
@@ -136,6 +137,37 @@ describe('DataSourceValueReducer', () => {
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loading);
       });
+    });
+  });
+
+  describe(`when processing action of type '${NgssmDataActionType.setDataSourceValue}'`, () => {
+    beforeEach(() => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test']
+            }
+          }
+        }
+      });
+    });
+
+    it(`should update source value status with the status set in action`, () => {
+      const action = new NgssmSetDataSourceValueAction('data-providers', NgssmDataSourceValueStatus.loaded);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.status).toEqual(NgssmDataSourceValueStatus.loaded);
+    });
+
+    it(`should update source value value with the value set in action`, () => {
+      const action = new NgssmSetDataSourceValueAction('data-providers', NgssmDataSourceValueStatus.loaded, ['prv1', 'prv3']);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.value).toEqual(['prv1', 'prv3']);
     });
   });
 });
