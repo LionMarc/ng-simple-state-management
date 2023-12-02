@@ -25,8 +25,10 @@
     "build:tree": "ng build --project=ngssm-tree --configuration=production",
     "test:tree": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-tree --code-coverage",
     "build:ace-editor": "ng build --project=ngssm-ace-editor --configuration=production",
-    "build:ci": "npm run build:store && npm run build:toolkit && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:ace-editor && npm run build:shell && npm run build:tree",
-    "test:ci": "npm run test:store && npm run test:toolkit && npm run test:remote-data && npm run test:navigation && npm run test:ag-grid && npm run test:shell && npm run test:tree"
+    "build:data": "ng build --project=ngssm-data --configuration=production",
+    "test:data": "ng test --no-watch --browsers=ChromeHeadless --project=ngssm-data --code-coverage",
+    "build:ci": "npm run build:store && npm run build:toolkit && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:ace-editor && npm run build:shell && npm run build:tree && npm run build:data",
+    "test:ci": "npm run test:store && npm run test:toolkit && npm run test:remote-data && npm run test:navigation && npm run test:ag-grid && npm run test:shell && npm run test:tree && npm run test:data"
   },
   "private": true,
   "dependencies": {

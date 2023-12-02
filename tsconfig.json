@@ -20,6 +20,9 @@
       "ngssm-ag-grid": [
         "dist/ngssm-ag-grid"
       ],
+      "ngssm-data": [
+        "./dist/ngssm-data"
+      ],
       "ngssm-navigation": [
         "dist/ngssm-navigation"
       ],
