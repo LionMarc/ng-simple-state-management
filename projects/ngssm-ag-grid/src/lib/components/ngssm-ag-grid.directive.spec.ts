@@ -220,7 +220,7 @@ describe('NgssmAgGridDirective', () => {
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
-        const orderedColumns = agGrid.columnApi.getColumnState().map((c) => c.colId);
+        const orderedColumns = agGrid.api.getColumnState().map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'title', 'id']);
       });
     });
@@ -285,7 +285,7 @@ describe('NgssmAgGridDirective', () => {
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
-        const orderedColumns = agGrid.columnApi.getColumnState().map((c) => c.colId);
+        const orderedColumns = agGrid.api.getColumnState().map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'id', 'title']);
       });
 
@@ -319,7 +319,7 @@ describe('NgssmAgGridDirective', () => {
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
-        const orderedColumns = agGrid.columnApi.getColumnState().map((c) => c.colId);
+        const orderedColumns = agGrid.api.getColumnState().map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'title', 'id']);
       });
     });
@@ -375,7 +375,7 @@ describe('NgssmAgGridDirective', () => {
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
-        const orderedColumns = agGrid.columnApi
+        const orderedColumns = agGrid.api
           .getColumnState()
           .filter((c) => c.pinned !== 'left')
           .map((c) => c.colId);
@@ -479,7 +479,7 @@ describe('NgssmAgGridDirective', () => {
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
-        const orderedColumns = agGrid.columnApi
+        const orderedColumns = agGrid.api
           .getColumnState()
           .filter((c) => c.pinned !== 'left')
           .map((c) => c.colId);
@@ -516,7 +516,7 @@ describe('NgssmAgGridDirective', () => {
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
-        const orderedColumns = agGrid.columnApi
+        const orderedColumns = agGrid.api
           .getColumnState()
           .filter((c) => c.pinned !== 'left')
           .map((c) => c.colId);
@@ -547,7 +547,7 @@ describe('NgssmAgGridDirective', () => {
           .getSelectedNodes()
           .map((n) => n.id ?? '')
           .filter((n) => n !== '');
-        expect(selectedRows).toEqual(['2', '3']);
+        expect(selectedRows.sort((l, r) => l.localeCompare(r))).toEqual(['2', '3']);
       });
 
       it('should not update the grid when the state update has agGrid as origin', async () => {

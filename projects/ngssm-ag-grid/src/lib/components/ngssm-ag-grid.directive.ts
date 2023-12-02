@@ -35,7 +35,7 @@ export class NgssmAgGridDirective implements OnDestroy {
         .pipe(take(1))
         .subscribe((values) => {
           if (values[0].gridStates[values[1].gridId]) {
-            this.agGridAngular.columnApi.applyColumnState({
+            this.agGridAngular.api.applyColumnState({
               state: values[0].gridStates[values[1].gridId].columnsState,
               applyOrder: true
             });
@@ -60,7 +60,7 @@ export class NgssmAgGridDirective implements OnDestroy {
       .pipe(takeUntil(this.unsubsribeAll$))
       .subscribe((values) => {
         if (values[0][values[1].gridId]?.origin === ChangeOrigin.other) {
-          this.agGridAngular.columnApi.applyColumnState({
+          this.agGridAngular.api.applyColumnState({
             state: values[0][values[1].gridId].columnsState,
             applyOrder: true
           });
@@ -108,7 +108,7 @@ export class NgssmAgGridDirective implements OnDestroy {
   }
 
   private saveGridState(): void {
-    const state = this.agGridAngular.columnApi.getColumnState();
+    const state = this.agGridAngular.api.getColumnState();
     this._config$
       .pipe(take(1))
       .subscribe((gridId) => this.store.dispatchAction(new RegisterAgGridStateAction(gridId.gridId, ChangeOrigin.agGrid, state)));
@@ -159,7 +159,7 @@ export class NgssmAgGridDirective implements OnDestroy {
           },
           {
             name: 'Reset columns state to default',
-            action: () => this.agGridAngular.columnApi.resetColumnState(),
+            action: () => this.agGridAngular.api.resetColumnState(),
             icon: '<i class="fa-solid fa-clock-rotate-left"></i>'
           }
         ]
