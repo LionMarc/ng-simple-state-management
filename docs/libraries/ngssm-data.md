@@ -106,7 +106,7 @@ classDiagram
     direction LR
     class NgssmDataSourceActionType{
         <<enum>>
-        initDataSourceValues
+        registerDataSources
         loadDataSourceValue
         setDataSourceParameter
         clearDataSourceValue
@@ -124,8 +124,8 @@ classDiagram
         forceReload: boolean = false
     }
 
-    class NgssmInitDataSourceValues{
-        keys: string[]
+    class NgssmRegisterDataSourcesAction{
+        dataSources: NgssmDataSource[]
     }
 
     class NgssmSetDataSourceParameter~TParameter~{
@@ -144,7 +144,7 @@ classDiagram
         value?: TData
     }
 
-    NgssmInitDataSourceValues --|> Action: NgssmDataSourceActionType.initDataSourceValues
+    NgssmRegisterDataSourcesAction --|> Action: NgssmDataSourceActionType.registerDataSources
     NgssmLoadDataSourceValue --|> Action: NgssmDataSourceActionType.loadDataSourceValue
     NgssmSetDataSourceParameter --|> Action: NgssmDataSourceActionType.setDataSourceParameter
     NgssmClearDataSourceValue --|> Action: NgssmDataSourceActionType.clearDataSourceValue
@@ -160,8 +160,19 @@ store.dispatchAction(new NgssmSetDataSourceValue('doc:example:data', NgssmDataSo
 
 !!! Note
 
-    *NgssmInitDataSourceValues* and *NgssmSetDataSourceValue* should not be called by the application. These actions are used by the library at startup
-    and after the execution of the data source loading function.
+    *NgssmSetDataSourceValue* should not be called by the application. This action is used by the library after the execution of the data source loading function.
+
+
+!!! Note
+
+    *NgssmRegisterDataSourcesAction* is used to register a list of data sources.
+
+    At startup, the library registers itself the sources provided with the method *provideNgssmDataSource*.
+
+    The action could be dispatch by the application when source is not known at startup or needs not to be defined at startup.
+
+    If *NgssmRegisterDataSourcesAction* is dispatched for a data source already registered, nothing is done by the library.
+
 
 ## Guard
 

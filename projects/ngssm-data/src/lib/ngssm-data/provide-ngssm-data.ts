@@ -3,9 +3,9 @@ import { APP_INITIALIZER, EnvironmentProviders, Inject, Injectable, Optional, ma
 import { Store, provideEffects, provideReducers } from 'ngssm-store';
 
 import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
-import { NgssmInitDataSourceValuesAction } from './actions';
-import { DataSourceValueReducer, DataSourcesInitializationReducer } from './reducers';
+import { DataSourceValueReducer, DataSourcesRegistrationReducer } from './reducers';
 import { DataLoadingEffect } from './effects';
+import { NgssmRegisterDataSourcesAction } from './actions';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ const initDataSourceValues = (store: Store, dataSourceCollection: NgssmDataSourc
   return () => {
     const dataSources = dataSourceCollection.dataSources ?? [];
     if (dataSources.length > 0) {
-      store.dispatchAction(new NgssmInitDataSourceValuesAction(dataSources));
+      store.dispatchAction(new NgssmRegisterDataSourcesAction(dataSources));
     }
   };
 };
@@ -31,7 +31,7 @@ export const provideNgssmData = (): EnvironmentProviders => {
       deps: [Store, NgssmDataSourceCollection],
       multi: true
     },
-    provideReducers(DataSourcesInitializationReducer, DataSourceValueReducer),
+    provideReducers(DataSourcesRegistrationReducer, DataSourceValueReducer),
     provideEffects(DataLoadingEffect)
   ]);
 };
