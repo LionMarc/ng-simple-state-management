@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgSsmComponent, Store } from 'ngssm-store';
 import {
   IsNgssmDataSourceValueStatusPipe,
-  NgssmInitDataSourceValuesAction,
+  NgssmRegisterDataSourcesAction,
   NgssmLoadDataSourceValueAction,
   selectNgssmDataSourceValue
 } from 'ngssm-data';
@@ -46,7 +46,7 @@ export class NgssmDataDemoComponent extends NgSsmComponent {
 
   public registerPlayers(): void {
     this.dispatchAction(
-      new NgssmInitDataSourceValuesAction([
+      new NgssmRegisterDataSourcesAction([
         {
           key: playersKey,
           dataLoadingFunc: playersLoader,

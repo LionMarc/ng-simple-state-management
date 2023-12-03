@@ -21,7 +21,7 @@ describe('provideNgssmData', () => {
       spyOn(store, 'dispatchAction');
     });
 
-    it(`should not dispatch an action of type ${NgssmDataActionType.initDataSourceValues} when no data source is defined`, async () => {
+    it(`should not dispatch an action of type ${NgssmDataActionType.registerDataSources} when no data source is defined`, async () => {
       await TestBed.configureTestingModule({
         providers: [{ provide: Store, useValue: store }, provideNgssmData()]
       }).compileComponents();
@@ -30,7 +30,7 @@ describe('provideNgssmData', () => {
       expect(store.dispatchAction).not.toHaveBeenCalled();
     });
 
-    it(`should dispatch an action of type ${NgssmDataActionType.initDataSourceValues} when some data sources are defined`, async () => {
+    it(`should dispatch an action of type ${NgssmDataActionType.registerDataSources} when some data sources are defined`, async () => {
       const firstSourceLoading: NgssmDataLoading = (state: State): Observable<string[]> => {
         return of([]);
       };
@@ -51,7 +51,7 @@ describe('provideNgssmData', () => {
 
       expect(store.dispatchAction).toHaveBeenCalledWith(
         jasmine.objectContaining({
-          type: NgssmDataActionType.initDataSourceValues,
+          type: NgssmDataActionType.registerDataSources,
           dataSources: [
             {
               key: 'first',

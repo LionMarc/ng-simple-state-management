@@ -1,5 +1,5 @@
 export enum NgssmDataActionType {
-  initDataSourceValues = '[NgssmDataActionType] initDataSourceValues',
+  registerDataSources = '[NgssmDataActionType] registerDataSources',
   loadDataSourceValue = '[NgssmDataActionType] loadDataSourceValue',
   setDataSourceParameter = '[NgssmDataActionType] setDataSourceParameter',
   clearDataSourceValue = '[NgssmDataActionType] clearDataSourceValue',

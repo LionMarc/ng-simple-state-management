@@ -2,20 +2,24 @@ import { Injectable } from '@angular/core';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
-import { NgssmDataActionType, NgssmInitDataSourceValuesAction } from '../actions';
+import { NgssmDataActionType, NgssmRegisterDataSourcesAction } from '../actions';
 import { NgssmDataSource, NgssmDataSourceValue, NgssmDataSourceValueStatus } from '../model';
-import { updateNgssmDataState } from '../state';
+import { selectNgssmDataState, updateNgssmDataState } from '../state';
 
 @Injectable()
-export class DataSourcesInitializationReducer implements Reducer {
-  public readonly processedActions: string[] = [NgssmDataActionType.initDataSourceValues];
+export class DataSourcesRegistrationReducer implements Reducer {
+  public readonly processedActions: string[] = [NgssmDataActionType.registerDataSources];
 
   public updateState(state: State, action: Action): State {
-    if (action.type === NgssmDataActionType.initDataSourceValues) {
-      const initDataSourceValues = action as NgssmInitDataSourceValuesAction;
+    if (action.type === NgssmDataActionType.registerDataSources) {
+      const registerDataSourcesAction = action as NgssmRegisterDataSourcesAction;
       const dataSourceValues: { [key: string]: NgssmDataSourceValue } = {};
       const dataSources: { [key: string]: NgssmDataSource } = {};
-      initDataSourceValues.dataSources.forEach((dataSource) => {
+      registerDataSourcesAction.dataSources.forEach((dataSource) => {
+        if (selectNgssmDataState(state).dataSources[dataSource.key]) {
+          return;
+        }
+
         dataSourceValues[dataSource.key] = {
           status: NgssmDataSourceValueStatus.none
         };

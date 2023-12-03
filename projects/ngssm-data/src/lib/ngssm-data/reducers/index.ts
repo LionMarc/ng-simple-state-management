@@ -1,2 +1,2 @@
-export * from './data-sources-initialization.reducer';
+export * from './data-sources-registration.reducer';
 export * from './data-source-value.reducer';
