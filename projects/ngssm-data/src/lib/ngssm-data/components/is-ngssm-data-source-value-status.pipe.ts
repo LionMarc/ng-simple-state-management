@@ -12,7 +12,8 @@ import { selectNgssmDataSourceValue } from '../state';
 export class IsNgssmDataSourceValueStatusPipe implements PipeTransform {
   public transform(value: State, ...args: string[]): unknown {
     const key = args[0];
-    const status = args[1] as NgssmDataSourceValueStatus;
-    return selectNgssmDataSourceValue(value, key).status === status;
+    const expectedStatuses = args.slice(1).map((a) => a as NgssmDataSourceValueStatus);
+    const itemStatus = selectNgssmDataSourceValue(value, key).status;
+    return expectedStatuses.includes(itemStatus);
   }
 }
