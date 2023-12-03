@@ -63,5 +63,10 @@ describe('IsNgssmDataSourceValueStatusPipe', () => {
       const result = pipe.transform(state, 'my-source', NgssmDataSourceValueStatus.loading);
       expect(result).toBeTrue();
     });
+
+    it(`should return true when checking if source value status is one of '${NgssmDataSourceValueStatus.loading}, ${NgssmDataSourceValueStatus.loaded}'`, () => {
+      const result = pipe.transform(state, 'my-source', NgssmDataSourceValueStatus.loaded, NgssmDataSourceValueStatus.loading);
+      expect(result).toBeTrue();
+    });
   });
 });

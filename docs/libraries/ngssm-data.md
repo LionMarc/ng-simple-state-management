@@ -199,7 +199,7 @@ The pipe *isNgssmDataSourceValueStatus* is provided to allow updating the ui acc
 ```html
 @if ( store.state() | isNgssmDataSourceValueStatus:'doc:example:data':'loading') {
     <p>The data is being loaded</p>
-} @else {
+} @else if ( store.state() | isNgssmDataSourceValueStatus:'doc:example:data':'loaded':'error'){
     <div>Display the data</div>
 }
 ```

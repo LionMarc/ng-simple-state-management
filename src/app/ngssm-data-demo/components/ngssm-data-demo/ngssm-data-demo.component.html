@@ -27,6 +27,10 @@
 
             @if(store.state() | isNgssmDataSourceValueStatus:playersKey:'loading') {
             <mat-spinner [diameter]="24"></mat-spinner>
+            } @else if(store.state() | isNgssmDataSourceValueStatus:playersKey:'error':'none') {
+            [No data]
+            } @else if(store.state() | isNgssmDataSourceValueStatus:playersKey:'notRegistered') {
+            [Not registered]
             }
 
         </mat-card-title>
