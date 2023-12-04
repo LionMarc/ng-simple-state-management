@@ -11,9 +11,10 @@
     </mat-card-header>
     <mat-card-content class="flex-column-stretch fxFlex">
         <div class="flex-row-center">
-            <button mat-stroked-button color="primary" (click)="reloadTeams()">
-                Reload data
-            </button>
+            <ngssm-data-reload-button [dataSourceKeys]="[teamsKey]"></ngssm-data-reload-button>
+        </div>
+        <div class="flex-row-center">
+            Relaod all: <ngssm-data-reload-button [dataSourceKeys]="[teamsKey, playersKey]"></ngssm-data-reload-button>
         </div>
 
         {{teamsSourceValue() | json}}
@@ -37,9 +38,7 @@
     </mat-card-header>
     <mat-card-content class="flex-column-stretch fxFlex">
         <div class="flex-row-center">
-            <button mat-stroked-button color="primary" (click)="reloadPlayers()" class="with-margin-right-12">
-                Reload data
-            </button>
+            <ngssm-data-reload-button [dataSourceKeys]="[playersKey]"></ngssm-data-reload-button>
             <button mat-stroked-button color="primary" (click)="registerPlayers()" class="with-margin-right-12">
                 Register players source
             </button>
