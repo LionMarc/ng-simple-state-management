@@ -3,6 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonHarness } from '@angular/material/button/testing';
+import { MatTooltipHarness } from '@angular/material/tooltip/testing';
+
+import { DateTime } from 'luxon';
 
 import { StoreMock } from 'ngssm-store/testing';
 import { Store } from 'ngssm-store';
@@ -223,6 +226,35 @@ describe('NgssmDataReloadButtonComponent', () => {
 
       expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction(firstSource, true));
       expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction(secondSource, true));
+    });
+
+    it(`should dispatch a tooltip message with the data of the oldest loaded source`, async () => {
+      const state = updateNgssmDataState(store.stateValue, {
+        dataSourceValues: {
+          [firstSource]: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: undefined,
+              lastLoadingDate: DateTime.fromISO('2023-12-04T12:34:00Z')
+            }
+          },
+          [secondSource]: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              value: undefined,
+              lastLoadingDate: DateTime.fromISO('2023-12-04T12:46:00Z')
+            }
+          }
+        }
+      });
+      store.stateValue = state;
+      fixture.detectChanges();
+
+      const tooltip = await loader.getHarness(MatTooltipHarness);
+      await tooltip.show();
+      const text = await tooltip.getTooltipText();
+
+      expect(text).toEqual(['Reload data.', `Loaded at ${DateTime.fromISO('2023-12-04T12:34:00Z').toHTTP()}`].join('\n'));
     });
   });
 });
