@@ -8,7 +8,7 @@
     flex-direction: row;
 }
 
-.ngssm-ag-editable-cell::before {
+.ngssm-ag-editable-cell .ag-header-cell-text::before {
     font-family: 'FontAwesome', sans-serif;
     display: inline-block;
     padding-right: 6px;
