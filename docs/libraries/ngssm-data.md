@@ -203,3 +203,12 @@ The pipe *isNgssmDataSourceValueStatus* is provided to allow updating the ui acc
     <div>Display the data</div>
 }
 ```
+
+## Components
+
+- **ngssm-data-reload-button**
+
+    - used to reload a list of data sources;
+    - inputs:
+
+        - dataSourceKeys: string[] => the keys of the data sources managed by the button.

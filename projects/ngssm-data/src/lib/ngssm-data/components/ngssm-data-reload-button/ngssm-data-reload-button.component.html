@@ -1,0 +1,10 @@
+<button mat-icon-button color="primary" (click)="reload()" [matTooltip]="tooltipMessage()"
+    [disabled]="buttonDisabled() === true" id="reloadButton">
+
+    @if (loadInProgress()) {
+    <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
+    } @else {
+    <mat-icon class="fa-solid fa-rotate-right"></mat-icon>
+    }
+
+</button>

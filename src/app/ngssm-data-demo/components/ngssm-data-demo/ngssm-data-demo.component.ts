@@ -9,7 +9,8 @@ import {
   IsNgssmDataSourceValueStatusPipe,
   NgssmRegisterDataSourcesAction,
   NgssmLoadDataSourceValueAction,
-  selectNgssmDataSourceValue
+  selectNgssmDataSourceValue,
+  NgssmDataReloadButtonComponent
 } from 'ngssm-data';
 
 import { playersKey, playersLoader, teamsKey } from '../../model';
@@ -17,7 +18,14 @@ import { playersKey, playersLoader, teamsKey } from '../../model';
 @Component({
   selector: 'app-ngssm-data-demo',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatButtonModule, IsNgssmDataSourceValueStatusPipe],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    IsNgssmDataSourceValueStatusPipe,
+    NgssmDataReloadButtonComponent
+  ],
   templateUrl: './ngssm-data-demo.component.html',
   styleUrls: ['./ngssm-data-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

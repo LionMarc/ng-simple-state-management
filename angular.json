@@ -596,7 +596,15 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "karmaConfig": "projects/ngssm-data/karma.conf.js"
+            "karmaConfig": "projects/ngssm-data/karma.conf.js",
+            "styles": [
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./projects"
+              ]
+            }
           }
         },
         "lint": {

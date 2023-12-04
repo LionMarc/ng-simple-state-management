@@ -3,10 +3,9 @@ import { State } from 'ngssm-store';
 import { DateTime } from 'luxon';
 
 import { DataSourceValueReducer } from './data-source-value.reducer';
-import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
+import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
-import { NgssmSetDataSourceValueAction } from 'ngssm-data';
 
 describe('DataSourceValueReducer', () => {
   let reducer: DataSourceValueReducer;

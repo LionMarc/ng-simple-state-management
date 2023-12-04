@@ -7,7 +7,8 @@
   "peerDependencies": {
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",
-    "ngssm-store": ">=17.0.0"
+    "ngssm-store": ">=17.0.0",
+    "luxon": "^3.4.4"
   },
   "dependencies": {
     "tslib": "^2.3.0"
