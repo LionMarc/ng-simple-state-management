@@ -12,6 +12,7 @@ import {
   selectNgssmDataSourceValue,
   NgssmDataReloadButtonComponent
 } from 'ngssm-data';
+import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 import { playersKey, playersLoader, teamsKey } from '../../model';
 
@@ -24,7 +25,8 @@ import { playersKey, playersLoader, teamsKey } from '../../model';
     MatProgressSpinnerModule,
     MatButtonModule,
     IsNgssmDataSourceValueStatusPipe,
-    NgssmDataReloadButtonComponent
+    NgssmDataReloadButtonComponent,
+    NgssmComponentOverlayDirective
   ],
   templateUrl: './ngssm-data-demo.component.html',
   styleUrls: ['./ngssm-data-demo.component.scss'],
