@@ -9,12 +9,13 @@
 
         </mat-card-title>
     </mat-card-header>
-    <mat-card-content class="flex-column-stretch fxFlex">
+    <mat-card-content class="flex-column-stretch fxFlex"
+        [ngssmDisplayOverlay]="store.state() | isNgssmDataSourceValueStatus:teamsKey:'loading'">
         <div class="flex-row-center">
             <ngssm-data-reload-button [dataSourceKeys]="[teamsKey]"></ngssm-data-reload-button>
         </div>
         <div class="flex-row-center">
-            Relaod all: <ngssm-data-reload-button [dataSourceKeys]="[teamsKey, playersKey]"></ngssm-data-reload-button>
+            Relodd all: <ngssm-data-reload-button [dataSourceKeys]="[teamsKey, playersKey]"></ngssm-data-reload-button>
         </div>
 
         {{teamsSourceValue() | json}}
