@@ -4,13 +4,22 @@ import { DateTime } from 'luxon';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
-import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from '../actions';
+import {
+  NgssmClearDataSourceValueAction,
+  NgssmDataActionType,
+  NgssmLoadDataSourceValueAction,
+  NgssmSetDataSourceValueAction
+} from '../actions';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
 import { NgssmDataSourceValueStatus } from '../model';
 
 @Injectable()
 export class DataSourceValueReducer implements Reducer {
-  public readonly processedActions: string[] = [NgssmDataActionType.loadDataSourceValue, NgssmDataActionType.setDataSourceValue];
+  public readonly processedActions: string[] = [
+    NgssmDataActionType.loadDataSourceValue,
+    NgssmDataActionType.setDataSourceValue,
+    NgssmDataActionType.clearDataSourceValue
+  ];
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
@@ -62,6 +71,19 @@ export class DataSourceValueReducer implements Reducer {
               status: { $set: ngssmSetDataSourceValueAction.status },
               value: { $set: ngssmSetDataSourceValueAction.value },
               lastLoadingDate: { $set: DateTime.now() }
+            }
+          }
+        });
+      }
+
+      case NgssmDataActionType.clearDataSourceValue: {
+        const ngssmClearDataSourceValueAction = action as NgssmClearDataSourceValueAction;
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmClearDataSourceValueAction.key]: {
+              status: { $set: NgssmDataSourceValueStatus.none },
+              value: { $set: undefined },
+              lastLoadingDate: { $set: undefined }
             }
           }
         });
