@@ -119,7 +119,7 @@ classDiagram
         type: string
     }
 
-    class NgssmLoadDataSourceValue{
+    class NgssmLoadDataSourceValueAction{
         key
         forceReload: boolean = false
     }
@@ -128,39 +128,39 @@ classDiagram
         dataSources: NgssmDataSource[]
     }
 
-    class NgssmSetDataSourceParameter~TParameter~{
+    class NgssmSetDataSourceParameterAction~TParameter~{
         key
         parameter?: TParameter
         forceReload: boolean = false
     }
 
-    class NgssmClearDataSourceValue{
+    class NgssmClearDataSourceValueAction{
         key
     }
 
-    class NgssmSetDataSourceValue~TData~{
+    class NgssmSetDataSourceValueAction~TData~{
         key
         status: NgssmDataSourceValueStatus
         value?: TData
     }
 
     NgssmRegisterDataSourcesAction --|> Action: NgssmDataSourceActionType.registerDataSources
-    NgssmLoadDataSourceValue --|> Action: NgssmDataSourceActionType.loadDataSourceValue
-    NgssmSetDataSourceParameter --|> Action: NgssmDataSourceActionType.setDataSourceParameter
-    NgssmClearDataSourceValue --|> Action: NgssmDataSourceActionType.clearDataSourceValue
-    NgssmSetDataSourceValue --|> Action: NgssmDataSourceActionType.setDataSourceValue
+    NgssmLoadDataSourceValueAction --|> Action: NgssmDataSourceActionType.loadDataSourceValue
+    NgssmSetDataSourceParameterAction --|> Action: NgssmDataSourceActionType.setDataSourceParameter
+    NgssmClearDataSourceValueAction --|> Action: NgssmDataSourceActionType.clearDataSourceValue
+    NgssmSetDataSourceValueAction --|> Action: NgssmDataSourceActionType.setDataSourceValue
 ```
 
 ```javascript
-store.dispatchAction(new NgssmLoadDataSourceValue('doc:example:data', true));
-store.dispatchAction(new NgssmSetDataSourceParameter('doc:example:data', 567));
-store.dispatchAction(new NgssmClearDataSourceValue('doc:example:data'));
-store.dispatchAction(new NgssmSetDataSourceValue('doc:example:data', NgssmDataSourceValueStatus.loaded, ['val1', 'val2']));
+store.dispatchAction(new NgssmLoadDataSourceValueAction('doc:example:data', true));
+store.dispatchAction(new NgssmSetDataSourceParameterAction('doc:example:data', 567));
+store.dispatchAction(new NgssmClearDataSourceValueAction('doc:example:data'));
+store.dispatchAction(new NgssmSetDataSourceValueAction('doc:example:data', NgssmDataSourceValueStatus.loaded, ['val1', 'val2']));
 ```
 
 !!! Note
 
-    *NgssmSetDataSourceValue* should not be called by the application. This action is used by the library after the execution of the data source loading function.
+    *NgssmSetDataSourceValueAction* should not be called by the application. This action is used by the library after the execution of the data source loading function.
 
 
 !!! Note
@@ -190,7 +190,7 @@ export const myRoutes:Routes = [
 ]
 ```
 
-The function will simply inject the store and dispatch the action **NgssmLoadDataSourceValue**.
+The function will simply inject the store and dispatch the action **NgssmLoadDataSourceValueAction**.
 
 ## Pipe
 
