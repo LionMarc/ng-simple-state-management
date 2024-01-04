@@ -8,6 +8,7 @@ import {
   NgssmClearDataSourceValueAction,
   NgssmDataActionType,
   NgssmLoadDataSourceValueAction,
+  NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceValueAction
 } from '../actions';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
@@ -18,7 +19,8 @@ export class DataSourceValueReducer implements Reducer {
   public readonly processedActions: string[] = [
     NgssmDataActionType.loadDataSourceValue,
     NgssmDataActionType.setDataSourceValue,
-    NgssmDataActionType.clearDataSourceValue
+    NgssmDataActionType.clearDataSourceValue,
+    NgssmDataActionType.setDataSourceParameter
   ];
 
   public updateState(state: State, action: Action): State {
@@ -84,6 +86,17 @@ export class DataSourceValueReducer implements Reducer {
               status: { $set: NgssmDataSourceValueStatus.none },
               value: { $set: undefined },
               lastLoadingDate: { $set: undefined }
+            }
+          }
+        });
+      }
+
+      case NgssmDataActionType.setDataSourceParameter: {
+        const ngssmSetDataSourceParameterAction = action as NgssmSetDataSourceParameterAction;
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmSetDataSourceParameterAction.key]: {
+              parameter: { $set: ngssmSetDataSourceParameterAction.parameter }
             }
           }
         });

@@ -7,6 +7,7 @@ import {
   NgssmClearDataSourceValueAction,
   NgssmDataActionType,
   NgssmLoadDataSourceValueAction,
+  NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceValueAction
 } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
@@ -23,13 +24,16 @@ describe('DataSourceValueReducer', () => {
     };
   });
 
-  [NgssmDataActionType.loadDataSourceValue, NgssmDataActionType.setDataSourceValue, NgssmDataActionType.clearDataSourceValue].forEach(
-    (actionType: string) => {
-      it(`should process action of type '${actionType}'`, () => {
-        expect(reducer.processedActions).toContain(actionType);
-      });
-    }
-  );
+  [
+    NgssmDataActionType.loadDataSourceValue,
+    NgssmDataActionType.setDataSourceValue,
+    NgssmDataActionType.clearDataSourceValue,
+    NgssmDataActionType.setDataSourceParameter
+  ].forEach((actionType: string) => {
+    it(`should process action of type '${actionType}'`, () => {
+      expect(reducer.processedActions).toContain(actionType);
+    });
+  });
 
   it('should return input state when processing not valid action type', () => {
     const updatedState = reducer.updateState(state, { type: 'not-processed' });
@@ -210,6 +214,50 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.lastLoadingDate).toBeUndefined();
+    });
+  });
+
+  describe(`when processing action of type '${NgssmDataActionType.setDataSourceParameter}'`, () => {
+    it(`should reset source value parameter to undefined when parameter is not set in action`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing'
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterAction('data-providers');
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toBeUndefined();
+    });
+
+    it(`should update source value parameter with the value set in action`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing'
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterAction('data-providers', 'new parameter');
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual('new parameter');
     });
   });
 });
