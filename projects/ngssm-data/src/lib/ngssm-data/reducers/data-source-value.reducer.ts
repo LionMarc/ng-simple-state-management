@@ -92,7 +92,18 @@ export class DataSourceValueReducer implements Reducer {
 
       case NgssmDataActionType.clearDataSourceValue: {
         const ngssmClearDataSourceValueAction = action as NgssmClearDataSourceValueAction;
-        return updateNgssmDataState(state, {
+        let currentState = state;
+        if (ngssmClearDataSourceValueAction.clearParameter) {
+          currentState = updateNgssmDataState(state, {
+            dataSourceValues: {
+              [ngssmClearDataSourceValueAction.key]: {
+                parameter: { $set: undefined }
+              }
+            }
+          });
+        }
+
+        return updateNgssmDataState(currentState, {
           dataSourceValues: {
             [ngssmClearDataSourceValueAction.key]: {
               status: { $set: NgssmDataSourceValueStatus.none },
