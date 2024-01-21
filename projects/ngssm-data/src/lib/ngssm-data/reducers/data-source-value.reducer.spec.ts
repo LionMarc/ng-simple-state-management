@@ -232,7 +232,8 @@ describe('DataSourceValueReducer', () => {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
               value: ['test'],
-              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z')
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'previous'
             }
           }
         }
@@ -255,6 +256,18 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.lastLoadingDate).toBeUndefined();
+    });
+
+    it(`should reset parameter to undefined if clearParameter is set to true`, () => {
+      const updatedState = reducer.updateState(state, new NgssmClearDataSourceValueAction('data-providers', true));
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toBeUndefined();
+    });
+
+    it(`should not reset parameter to undefined if clearParameter is not set to true`, () => {
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual('previous');
     });
   });
 

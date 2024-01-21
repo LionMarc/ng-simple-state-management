@@ -142,6 +142,7 @@ classDiagram
 
     class NgssmClearDataSourceValueAction{
         key
+        clearParameter: boolean = false
     }
 
     class NgssmSetDataSourceValueAction~TData~{
