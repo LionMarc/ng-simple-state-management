@@ -119,10 +119,16 @@ classDiagram
         type: string
     }
 
-    class NgssmLoadDataSourceValueAction{
+    class ParameterValue~TParameter~{
+        value?: TParameter
+    }
+
+    class NgssmLoadDataSourceValueAction~TParameter~{
         key
         forceReload: boolean = false
     }
+
+    NgssmLoadDataSourceValueAction-->ParameterValue : parameter
 
     class NgssmRegisterDataSourcesAction{
         dataSources: NgssmDataSource[]
