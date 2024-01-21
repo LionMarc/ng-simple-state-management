@@ -24,6 +24,7 @@ import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-dashboard',
@@ -93,6 +94,14 @@ export class TodoDashboardComponent extends NgSsmComponent {
               click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
                 console.log('Column delete called.', params);
               }
+            },
+            {
+              cssClass: 'fa-solid fa-comment',
+              color: 'accent',
+              click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
+                this.router.navigate(['tree-demo']);
+              },
+              tooltip: 'To test ag-grid 31.0.2 => optimization by execution outside ng zone'
             }
           ]
         }),
@@ -100,7 +109,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
         valueGetter: (params: ValueGetterParams<TodoItem>) => params.data,
         headerName: 'actions',
         colId: 'actions',
-        width: 160,
+        width: 180,
         pinned: 'left',
         resizable: false
       },
@@ -157,7 +166,10 @@ export class TodoDashboardComponent extends NgSsmComponent {
     }
   };
 
-  constructor(store: Store) {
+  constructor(
+    store: Store,
+    private router: Router
+  ) {
     super(store);
 
     this.allowRestoringGridControl.valueChanges.subscribe((value) => {

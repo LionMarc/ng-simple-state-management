@@ -44,9 +44,9 @@
     "@angular/router": "^17.1.0",
     "@fortawesome/fontawesome-free": "^6.5.1",
     "ace-builds": "1.32.3",
-    "ag-grid-angular": "31.0.1",
-    "ag-grid-community": "31.0.1",
-    "ag-grid-enterprise": "31.0.1",
+    "ag-grid-angular": "31.0.2",
+    "ag-grid-community": "31.0.2",
+    "ag-grid-enterprise": "31.0.2",
     "immutability-helper": "^3.1.1",
     "luxon": "^3.4.4",
     "rxjs": "~7.8.1",
@@ -55,11 +55,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.1.0",
-    "@angular-eslint/builder": "^17.2.0",
-    "@angular-eslint/eslint-plugin": "^17.2.0",
-    "@angular-eslint/eslint-plugin-template": "^17.2.0",
-    "@angular-eslint/schematics": "^17.2.0",
-    "@angular-eslint/template-parser": "^17.2.0",
+    "@angular-eslint/builder": "^17.2.1",
+    "@angular-eslint/eslint-plugin": "^17.2.1",
+    "@angular-eslint/eslint-plugin-template": "^17.2.1",
+    "@angular-eslint/schematics": "^17.2.1",
+    "@angular-eslint/template-parser": "^17.2.1",
     "@angular/cli": "^17.1.0",
     "@angular/compiler-cli": "^17.1.0",
     "@types/jasmine": "5.1.4",
@@ -81,7 +81,7 @@
     "multiple-cucumber-html-reporter": "^3.6.1",
     "ng-packagr": "^17.1.0",
     "prettier": "^3.2.4",
-    "prettier-eslint": "^16.2.0",
+    "prettier-eslint": "^16.3.0",
     "typescript": "~5.3.3"
   }
 }

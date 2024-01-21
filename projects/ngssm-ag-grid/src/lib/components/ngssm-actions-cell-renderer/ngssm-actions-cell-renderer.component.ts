@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,7 +37,10 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
 
   private cellParams: ICellRendererParams<any, any> | undefined;
 
-  constructor(store: Store) {
+  constructor(
+    store: Store,
+    private ngZone: NgZone
+  ) {
     super(store);
   }
 
@@ -65,7 +68,7 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
   }
 
   public executeAction(action: ActionButton): void {
-    action.actionConfig.click?.(this.cellParams as any);
+    this.ngZone.run(() => action.actionConfig.click?.(this.cellParams as any));
   }
 
   private setupActions(rendererParams: NgssmActionsCellRendererParams): void {
