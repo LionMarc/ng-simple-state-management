@@ -34,6 +34,18 @@ export class DataSourceValueReducer implements Reducer {
 
         let shouldReload = false;
 
+        let currentState = state;
+        if (loadDataSourceValue.parameter) {
+          shouldReload = true;
+          currentState = updateNgssmDataState(state, {
+            dataSourceValues: {
+              [loadDataSourceValue.key]: {
+                parameter: { $set: loadDataSourceValue.parameter.value }
+              }
+            }
+          });
+        }
+
         if (dataSourceValue.status === NgssmDataSourceValueStatus.loaded) {
           if (loadDataSourceValue.forceReload === true || !dataSourceValue.dataLifetimeInSeconds || !dataSourceValue.lastLoadingDate) {
             shouldReload = true;
@@ -48,7 +60,7 @@ export class DataSourceValueReducer implements Reducer {
         }
 
         if (shouldReload) {
-          return updateNgssmDataState(state, {
+          return updateNgssmDataState(currentState, {
             dataSourceValues: {
               [loadDataSourceValue.key]: {
                 status: { $set: NgssmDataSourceValueStatus.loading }

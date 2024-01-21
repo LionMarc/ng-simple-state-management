@@ -68,6 +68,27 @@ describe('DataSourceValueReducer', () => {
       });
     });
 
+    it(`should update the parameter when parameter is set in action`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              dataLifetimeInSeconds: 50,
+              lastLoadingDate: DateTime.now().plus({ second: -30 }),
+              parameter: 'previous'
+            }
+          }
+        }
+      });
+
+      const action = new NgssmLoadDataSourceValueAction('data-providers', false, { value: 'next' });
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].parameter).toEqual('next');
+    });
+
     describe(`when data source has defined a lifetime for the data`, () => {
       it(`should not update the data status when reload has not been forced and data are still valid`, () => {
         state = updateNgssmDataState(state, {
@@ -103,6 +124,26 @@ describe('DataSourceValueReducer', () => {
         });
 
         const action = new NgssmLoadDataSourceValueAction('data-providers', true);
+
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loading);
+      });
+
+      it(`should set data status to '${NgssmDataSourceValueStatus.loading}' when parameter is set in action`, () => {
+        state = updateNgssmDataState(state, {
+          dataSourceValues: {
+            ['data-providers']: {
+              $set: {
+                status: NgssmDataSourceValueStatus.loaded,
+                dataLifetimeInSeconds: 50,
+                lastLoadingDate: DateTime.now().plus({ second: -30 })
+              }
+            }
+          }
+        });
+
+        const action = new NgssmLoadDataSourceValueAction('data-providers', false, { value: 'testing' });
 
         const updatedState = reducer.updateState(state, action);
 
