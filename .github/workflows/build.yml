@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: '20.x'
         cache: 'npm'
@@ -26,7 +26,7 @@ jobs:
 
     - name: Report
       id: testsReport
-      uses: dorny/test-reporter@v1.6.0
+      uses: dorny/test-reporter@v1
       if: always()
       with:
         name: Angular tests,
@@ -56,7 +56,7 @@ jobs:
         path: code-coverage-results.md
 
     - name: Create badge
-      uses: schneegans/dynamic-badges-action@v1.6.0
+      uses: schneegans/dynamic-badges-action@v1.7.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
         gistID: 0e6ea813e47d66e72b3c7b1be39bd10e
