@@ -26,7 +26,7 @@ jobs:
 
     - name: Report
       id: testsReport
-      uses: dorny/test-reporter@v1.6.0
+      uses: dorny/test-reporter@v1
       if: always()
       with:
         name: Angular tests,
