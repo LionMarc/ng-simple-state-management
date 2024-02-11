@@ -21,7 +21,8 @@ export class DataSourcesRegistrationReducer implements Reducer {
         }
 
         dataSourceValues[dataSource.key] = {
-          status: NgssmDataSourceValueStatus.none
+          status: NgssmDataSourceValueStatus.none,
+          additionalProperties: {}
         };
 
         if (dataSource.dataLifetimeInSeconds) {

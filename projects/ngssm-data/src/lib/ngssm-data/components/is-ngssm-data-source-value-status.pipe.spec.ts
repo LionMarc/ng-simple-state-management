@@ -40,7 +40,8 @@ describe('IsNgssmDataSourceValueStatusPipe', () => {
         dataSourceValues: {
           ['my-source']: {
             $set: {
-              status: NgssmDataSourceValueStatus.loading
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
             }
           }
         }

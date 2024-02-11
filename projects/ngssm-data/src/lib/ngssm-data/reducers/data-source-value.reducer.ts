@@ -7,7 +7,9 @@ import { Reducer, State, Action } from 'ngssm-store';
 import {
   NgssmClearDataSourceValueAction,
   NgssmDataActionType,
+  NgssmLoadDataSourceAdditionalPropertyValueAction,
   NgssmLoadDataSourceValueAction,
+  NgssmSetDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceValueAction
 } from '../actions';
@@ -20,7 +22,9 @@ export class DataSourceValueReducer implements Reducer {
     NgssmDataActionType.loadDataSourceValue,
     NgssmDataActionType.setDataSourceValue,
     NgssmDataActionType.clearDataSourceValue,
-    NgssmDataActionType.setDataSourceParameter
+    NgssmDataActionType.setDataSourceParameter,
+    NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.setDataSourceAdditionalPropertyValue
   ];
 
   public updateState(state: State, action: Action): State {
@@ -63,7 +67,8 @@ export class DataSourceValueReducer implements Reducer {
           return updateNgssmDataState(currentState, {
             dataSourceValues: {
               [loadDataSourceValue.key]: {
-                status: { $set: NgssmDataSourceValueStatus.loading }
+                status: { $set: NgssmDataSourceValueStatus.loading },
+                additionalProperties: { $set: {} }
               }
             }
           });
@@ -108,7 +113,8 @@ export class DataSourceValueReducer implements Reducer {
             [ngssmClearDataSourceValueAction.key]: {
               status: { $set: NgssmDataSourceValueStatus.none },
               value: { $set: undefined },
-              lastLoadingDate: { $set: undefined }
+              lastLoadingDate: { $set: undefined },
+              additionalProperties: { $set: {} }
             }
           }
         });
@@ -120,6 +126,60 @@ export class DataSourceValueReducer implements Reducer {
           dataSourceValues: {
             [ngssmSetDataSourceParameterAction.key]: {
               parameter: { $set: ngssmSetDataSourceParameterAction.parameter }
+            }
+          }
+        });
+      }
+
+      case NgssmDataActionType.loadDataSourceAdditionalPropertyValue: {
+        const ngssmLoadDataSourceAdditionalPropertyValueAction = action as NgssmLoadDataSourceAdditionalPropertyValueAction;
+        const dataSourcePropertyValue =
+          selectNgssmDataState(state).dataSourceValues[ngssmLoadDataSourceAdditionalPropertyValueAction.key]?.additionalProperties[
+            ngssmLoadDataSourceAdditionalPropertyValueAction.property
+          ];
+
+        if (dataSourcePropertyValue?.status === NgssmDataSourceValueStatus.loaded) {
+          break;
+        }
+
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmLoadDataSourceAdditionalPropertyValueAction.key]: {
+              additionalProperties: {
+                [ngssmLoadDataSourceAdditionalPropertyValueAction.property]: {
+                  $set: {
+                    status: NgssmDataSourceValueStatus.loading,
+                    value: undefined
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      case NgssmDataActionType.setDataSourceAdditionalPropertyValue: {
+        const ngssmSetDataSourceAdditionalPropertyValueAction = action as NgssmSetDataSourceAdditionalPropertyValueAction;
+        const dataSourcePropertyValue =
+          selectNgssmDataState(state).dataSourceValues[ngssmSetDataSourceAdditionalPropertyValueAction.key]?.additionalProperties[
+            ngssmSetDataSourceAdditionalPropertyValueAction.property
+          ];
+
+        if (!dataSourcePropertyValue) {
+          break;
+        }
+
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmSetDataSourceAdditionalPropertyValueAction.key]: {
+              additionalProperties: {
+                [ngssmSetDataSourceAdditionalPropertyValueAction.property]: {
+                  $set: {
+                    status: ngssmSetDataSourceAdditionalPropertyValueAction.status,
+                    value: ngssmSetDataSourceAdditionalPropertyValueAction.value
+                  }
+                }
+              }
             }
           }
         });

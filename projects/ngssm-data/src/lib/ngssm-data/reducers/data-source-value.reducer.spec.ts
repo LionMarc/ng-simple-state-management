@@ -28,7 +28,9 @@ describe('DataSourceValueReducer', () => {
     NgssmDataActionType.loadDataSourceValue,
     NgssmDataActionType.setDataSourceValue,
     NgssmDataActionType.clearDataSourceValue,
-    NgssmDataActionType.setDataSourceParameter
+    NgssmDataActionType.setDataSourceParameter,
+    NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.setDataSourceAdditionalPropertyValue
   ].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(reducer.processedActions).toContain(actionType);
@@ -48,12 +50,14 @@ describe('DataSourceValueReducer', () => {
           dataSourceValues: {
             ['data-providers']: {
               $set: {
-                status: status
+                status: status,
+                additionalProperties: {}
               }
             },
             ['team-managers']: {
               $set: {
-                status: NgssmDataSourceValueStatus.none
+                status: NgssmDataSourceValueStatus.none,
+                additionalProperties: {}
               }
             }
           }
@@ -76,7 +80,8 @@ describe('DataSourceValueReducer', () => {
               status: NgssmDataSourceValueStatus.loaded,
               dataLifetimeInSeconds: 50,
               lastLoadingDate: DateTime.now().plus({ second: -30 }),
-              parameter: 'previous'
+              parameter: 'previous',
+              additionalProperties: {}
             }
           }
         }
@@ -97,7 +102,8 @@ describe('DataSourceValueReducer', () => {
               $set: {
                 status: NgssmDataSourceValueStatus.loaded,
                 dataLifetimeInSeconds: 50,
-                lastLoadingDate: DateTime.now().plus({ second: -30 })
+                lastLoadingDate: DateTime.now().plus({ second: -30 }),
+                additionalProperties: {}
               }
             }
           }
@@ -117,7 +123,8 @@ describe('DataSourceValueReducer', () => {
               $set: {
                 status: NgssmDataSourceValueStatus.loaded,
                 dataLifetimeInSeconds: 50,
-                lastLoadingDate: DateTime.now().plus({ second: -30 })
+                lastLoadingDate: DateTime.now().plus({ second: -30 }),
+                additionalProperties: {}
               }
             }
           }
@@ -137,7 +144,8 @@ describe('DataSourceValueReducer', () => {
               $set: {
                 status: NgssmDataSourceValueStatus.loaded,
                 dataLifetimeInSeconds: 50,
-                lastLoadingDate: DateTime.now().plus({ second: -30 })
+                lastLoadingDate: DateTime.now().plus({ second: -30 }),
+                additionalProperties: {}
               }
             }
           }
@@ -157,7 +165,8 @@ describe('DataSourceValueReducer', () => {
               $set: {
                 status: NgssmDataSourceValueStatus.loaded,
                 dataLifetimeInSeconds: 50,
-                lastLoadingDate: DateTime.now().plus({ second: -80 })
+                lastLoadingDate: DateTime.now().plus({ second: -80 }),
+                additionalProperties: {}
               }
             }
           }
@@ -176,7 +185,8 @@ describe('DataSourceValueReducer', () => {
             ['data-providers']: {
               $set: {
                 status: NgssmDataSourceValueStatus.loaded,
-                dataLifetimeInSeconds: 50
+                dataLifetimeInSeconds: 50,
+                additionalProperties: {}
               }
             }
           }
@@ -198,7 +208,8 @@ describe('DataSourceValueReducer', () => {
           ['data-providers']: {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
-              value: ['test']
+              value: ['test'],
+              additionalProperties: {}
             }
           }
         }
@@ -233,7 +244,8 @@ describe('DataSourceValueReducer', () => {
               status: NgssmDataSourceValueStatus.loading,
               value: ['test'],
               lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
-              parameter: 'previous'
+              parameter: 'previous',
+              additionalProperties: {}
             }
           }
         }
@@ -280,7 +292,8 @@ describe('DataSourceValueReducer', () => {
               status: NgssmDataSourceValueStatus.loading,
               value: ['test'],
               lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
-              parameter: 'testing'
+              parameter: 'testing',
+              additionalProperties: {}
             }
           }
         }
@@ -301,7 +314,8 @@ describe('DataSourceValueReducer', () => {
               status: NgssmDataSourceValueStatus.loading,
               value: ['test'],
               lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
-              parameter: 'testing'
+              parameter: 'testing',
+              additionalProperties: {}
             }
           }
         }

@@ -31,7 +31,7 @@ A data source is defined as:
 classDiagram
     class NgssmDataLoading~TData, TParameter~{
         <<interface>>
-        loadData(state:State, parameter?: TParameter = undefined): Observable<TData>
+        loadData(state:State, parameter?: TParameter = undefined, additionalProperty?:string = undefined): Observable<TData>
     }
     class NgssmDataSource~TData, TParameter~{
         <<interface>>
@@ -49,7 +49,7 @@ classDiagram
 The data source must be registered with the function *provideNgssmDataSource*.
 
 ```javascript
-const dataLoader:NgssmDataLoading<string[], number> = (state:State, parameter?:number) : Observable<string[]> => {
+const dataLoader:NgssmDataLoading<string[], number> = (state:State, parameter?:number, additionalProperty?:string) : Observable<string[]> => {
     const query = selectMyQuery(state);
     return inject(HttpClient).post<string[]>(`${baseUrl}/${parameter}`, query);
 }
@@ -83,7 +83,21 @@ classDiagram
         parameter?: TParameter
         lastLoadingDate?: Date
     }
+
+    class NgssmDataSourceAdditionalPropertyValue~TProperty~{
+        <<interface>>
+        status: NgssmDataSourceValueStatus
+        value?: TProperty
+        lastLoadingDate?: Date
+    }
+
+    NgssmDataSourceValue --> "*" NgssmDataSourceAdditionalPropertyValue
 ```
+
+!!! Note "Additional properties of a data source"
+
+    Sometimes, some properties of the data source are not loaded at the same time as the data source itself.
+    It's the case when we want to load detail part only when the user asks for it.
 
 It can be retrieved by
 
@@ -91,10 +105,10 @@ It can be retrieved by
 const value:NgssmDataSourceValue = selectNgssmDataSourceValue(state, 'doc:example:data');
 ```
 
-If we want to get a signal instead of the value:
+Additional properties could be retirved from the data source value or by
 
 ```javascript
-const valueSignal:Signal<NgssmDataSourceValue> = selectNgssmDataSourceValueSignal(store, 'doc:example:data');
+const propertyValue:NgssmDataSourceAdditionalPropertyValue = selectNgssmDataSourceAdditionalPropertyValue(state, 'doc:example:data', propertyName);
 ```
 
 ## Actions
@@ -108,9 +122,11 @@ classDiagram
         <<enum>>
         registerDataSources
         loadDataSourceValue
+        loadDataSourceAdditionalPropertyValue
         setDataSourceParameter
         clearDataSourceValue
-        setDataSourceValue
+        setDataSourceValue,
+        setDataSourceAdditionalPropertyValue
     }
 
     note for Action "Interface defined in ngssm-store"
@@ -129,6 +145,12 @@ classDiagram
     }
 
     NgssmLoadDataSourceValueAction-->ParameterValue : parameter
+
+    class NgssmLoadDataSourceAdditionalPropertyValueAction{
+        key
+        property
+        forceReload: boolean = false
+    }
 
     class NgssmRegisterDataSourcesAction{
         dataSources: NgssmDataSource[]
@@ -151,11 +173,20 @@ classDiagram
         value?: TData
     }
 
+    class NgssmSetDataSourceAdditionalPropertyValueAction~TProperty~{
+        key
+        property
+        status: NgssmDataSourceValueStatus
+        value?: TProperty
+    }
+
     NgssmRegisterDataSourcesAction --|> Action: NgssmDataSourceActionType.registerDataSources
     NgssmLoadDataSourceValueAction --|> Action: NgssmDataSourceActionType.loadDataSourceValue
     NgssmSetDataSourceParameterAction --|> Action: NgssmDataSourceActionType.setDataSourceParameter
     NgssmClearDataSourceValueAction --|> Action: NgssmDataSourceActionType.clearDataSourceValue
     NgssmSetDataSourceValueAction --|> Action: NgssmDataSourceActionType.setDataSourceValue
+    NgssmLoadDataSourceAdditionalPropertyValueAction --|> Action: NgssmDataSourceActionType.loadDataSourceAdditionalPropertyValue
+    NgssmSetDataSourceAdditionalPropertyValueAction --|> Action: NgssmDataSourceActionType.setDataSourceAdditionalPropertyValue
 ```
 
 ```javascript

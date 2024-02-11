@@ -3,5 +3,7 @@ export enum NgssmDataActionType {
   loadDataSourceValue = '[NgssmDataActionType] loadDataSourceValue',
   setDataSourceParameter = '[NgssmDataActionType] setDataSourceParameter',
   clearDataSourceValue = '[NgssmDataActionType] clearDataSourceValue',
-  setDataSourceValue = '[NgssmDataActionType] setDataSourceValue'
+  setDataSourceValue = '[NgssmDataActionType] setDataSourceValue',
+  loadDataSourceAdditionalPropertyValue = '[NgssmDataActionType] loadDataSourceAdditionalPropertyValue',
+  setDataSourceAdditionalPropertyValue = '[NgssmDataActionType] setDataSourceAdditionalPropertyValue'
 }

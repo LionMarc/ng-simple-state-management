@@ -70,7 +70,8 @@ describe('NgssmDataReloadButtonComponent', () => {
             [dataSourceKey]: {
               $set: {
                 status: NgssmDataSourceValueStatus.none,
-                value: undefined
+                value: undefined,
+                additionalProperties: {}
               }
             }
           }
@@ -168,7 +169,8 @@ describe('NgssmDataReloadButtonComponent', () => {
           [firstSource]: {
             $set: {
               status: NgssmDataSourceValueStatus.none,
-              value: undefined
+              value: undefined,
+              additionalProperties: {}
             }
           }
         }
@@ -187,13 +189,15 @@ describe('NgssmDataReloadButtonComponent', () => {
           [firstSource]: {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
-              value: undefined
+              value: undefined,
+              additionalProperties: {}
             }
           },
           [secondSource]: {
             $set: {
               status: NgssmDataSourceValueStatus.loaded,
-              value: undefined
+              value: undefined,
+              additionalProperties: {}
             }
           }
         }
@@ -211,7 +215,8 @@ describe('NgssmDataReloadButtonComponent', () => {
           [firstSource]: {
             $set: {
               status: NgssmDataSourceValueStatus.none,
-              value: undefined
+              value: undefined,
+              additionalProperties: {}
             }
           }
         }
@@ -235,14 +240,16 @@ describe('NgssmDataReloadButtonComponent', () => {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
               value: undefined,
-              lastLoadingDate: DateTime.fromISO('2023-12-04T12:34:00Z')
+              lastLoadingDate: DateTime.fromISO('2023-12-04T12:34:00Z'),
+              additionalProperties: {}
             }
           },
           [secondSource]: {
             $set: {
               status: NgssmDataSourceValueStatus.loaded,
               value: undefined,
-              lastLoadingDate: DateTime.fromISO('2023-12-04T12:46:00Z')
+              lastLoadingDate: DateTime.fromISO('2023-12-04T12:46:00Z'),
+              additionalProperties: {}
             }
           }
         }
