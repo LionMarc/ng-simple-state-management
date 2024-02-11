@@ -47,10 +47,12 @@ describe('DataSourcesRegistrationReducer', () => {
 
       expect(selectNgssmDataState(updatedState).dataSourceValues).toEqual({
         'data-providers': {
-          status: NgssmDataSourceValueStatus.none
+          status: NgssmDataSourceValueStatus.none,
+          additionalProperties: {}
         },
         'team-managers': {
-          status: NgssmDataSourceValueStatus.none
+          status: NgssmDataSourceValueStatus.none,
+          additionalProperties: {}
         }
       });
     });
@@ -69,7 +71,8 @@ describe('DataSourcesRegistrationReducer', () => {
       expect(selectNgssmDataState(updatedState).dataSourceValues).toEqual({
         'data-providers': {
           status: NgssmDataSourceValueStatus.none,
-          dataLifetimeInSeconds: 60
+          dataLifetimeInSeconds: 60,
+          additionalProperties: {}
         }
       });
     });
@@ -88,7 +91,8 @@ describe('DataSourcesRegistrationReducer', () => {
           ['data-providers']: {
             $set: {
               status: NgssmDataSourceValueStatus.loaded,
-              value: ['pr1']
+              value: ['pr1'],
+              additionalProperties: {}
             }
           }
         }
@@ -110,10 +114,12 @@ describe('DataSourcesRegistrationReducer', () => {
       expect(selectNgssmDataState(updatedState).dataSourceValues).toEqual({
         'data-providers': {
           status: NgssmDataSourceValueStatus.loaded,
-          value: ['pr1']
+          value: ['pr1'],
+          additionalProperties: {}
         },
         'team-managers': {
-          status: NgssmDataSourceValueStatus.none
+          status: NgssmDataSourceValueStatus.none,
+          additionalProperties: {}
         }
       });
     });

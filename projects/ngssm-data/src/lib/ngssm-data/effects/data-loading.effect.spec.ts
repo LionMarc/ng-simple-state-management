@@ -98,27 +98,32 @@ describe('DataLoadingEffect', () => {
         dataSourceValues: {
           ['data-loaded']: {
             $set: {
-              status: NgssmDataSourceValueStatus.loaded
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {}
             }
           },
           ['data-providers']: {
             $set: {
-              status: NgssmDataSourceValueStatus.loading
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
             }
           },
           ['data-providers-ko']: {
             $set: {
-              status: NgssmDataSourceValueStatus.loading
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
             }
           },
           ['managers']: {
             $set: {
-              status: NgssmDataSourceValueStatus.loading
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
             }
           },
           ['managers-ko']: {
             $set: {
-              status: NgssmDataSourceValueStatus.loading
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
             }
           }
         }

@@ -5,3 +5,5 @@ export * from './ngssm-set-data-source-value.action';
 export * from './ngssm-register-data-sources.action';
 export * from './ngssm-clear-data-source-value.action';
 export * from './ngssm-set-data-source-parameter.action';
+export * from './ngssm-load-data-source-additional-property-value.action';
+export * from './ngssm-set-data-source-additional-property-value.action';

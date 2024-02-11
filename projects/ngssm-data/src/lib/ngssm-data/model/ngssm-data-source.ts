@@ -5,7 +5,7 @@ import { State, Store } from 'ngssm-store';
 import { NgssmLoadDataSourceValueAction } from '../actions';
 
 export interface NgssmDataLoading<TData = any, TParameter = any> {
-  (state: State, parameter?: TParameter): Observable<TData>;
+  (state: State, parameter?: TParameter, additionalProperty?: string): Observable<TData>;
 }
 
 export interface NgssmDataSource<TData = any, TParameter = any> {
