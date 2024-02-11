@@ -28,7 +28,9 @@ describe('DataSourceValueReducer', () => {
     NgssmDataActionType.loadDataSourceValue,
     NgssmDataActionType.setDataSourceValue,
     NgssmDataActionType.clearDataSourceValue,
-    NgssmDataActionType.setDataSourceParameter
+    NgssmDataActionType.setDataSourceParameter,
+    NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.setDataSourceAdditionalPropertyValue
   ].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(reducer.processedActions).toContain(actionType);
