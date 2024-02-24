@@ -25,7 +25,6 @@ import { provideNgssmData } from 'ngssm-data';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TodoModule } from './todo/public-api';
 import { AceEditorModule } from './ace-editor/public-api';
 import { ShellDemoModule } from './shell-demo/public-api';
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
@@ -33,6 +32,7 @@ import { provideRemoteDataDemo } from './remote-data-demo/public-api';
 import { provideJsonBuilder } from './ngssm-expression-tree-demo/json-builder/provide-json-builder';
 import { provideToolkitDemo } from './toolkit/public-api';
 import { provideNgssmDataDemo } from './ngssm-data-demo/public-api';
+import { provideTodo } from './todo/provide-todo';
 
 const dotnetRegexValidator: RegexEditorValidator = {
   validatePattern: (pattern: string) => {
@@ -56,7 +56,6 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     MaterialImportsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    TodoModule,
     AceEditorModule,
     ShellDemoModule,
     AppRoutingModule,
@@ -108,7 +107,8 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     provideRemoteDataDemo(),
     provideJsonBuilder(),
     provideToolkitDemo(),
-    provideNgssmDataDemo()
+    provideNgssmDataDemo(),
+    provideTodo()
   ],
   bootstrap: [AppComponent]
 })

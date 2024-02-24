@@ -1,16 +1,32 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject, Observable, take, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
+import { selectRemoteData } from 'ngssm-remote-data';
 
 import { selectTodoState } from '../../state';
 import { TodoActionType, UpdateTodoItemPropertyAction } from '../../actions';
-import { selectRemoteData } from 'ngssm-remote-data';
 import { TodoItem, todoItemKey } from '../../model';
 
 @Component({
   selector: 'app-todo-item-editor',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatButtonModule
+  ],
   templateUrl: './todo-item-editor.component.html',
   styleUrls: ['./todo-item-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

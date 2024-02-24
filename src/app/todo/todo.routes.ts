@@ -1,21 +1,14 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { ngssmReloadRemoteData } from 'ngssm-remote-data';
 
 import { TodoDashboardComponent } from './components/todo-dashboard/todo-dashboard.component';
 import { todoItemsKey } from './model';
 
-const routes: Routes = [
+export const todoRoutes: Routes = [
   {
     path: 'todo-list',
     component: TodoDashboardComponent,
     canActivate: [ngssmReloadRemoteData(todoItemsKey, { forceReload: false })]
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  providers: [RouterModule]
-})
-export class TodoRoutingModule {}

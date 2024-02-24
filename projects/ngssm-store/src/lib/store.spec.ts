@@ -19,7 +19,7 @@ describe('Store', () => {
   });
 
   it('should store the dispatched action in the queue before processing it in the next iteration', fakeAsync(() => {
-    store = new Store(logger, [], [], []);
+    store = new Store(logger, [], [], [], {} as any);
 
     store.dispatchAction({ type: 'testing' });
     expect((store as any).actionQueue.length).toEqual(1);
@@ -35,7 +35,7 @@ describe('Store', () => {
       initializeState: (state: State) => update(state, { second: { $set: 'initialized' } })
     };
 
-    store = new Store(logger, [], [], [first, second]);
+    store = new Store(logger, [], [], [first, second], {} as any);
 
     expect(store.state()).toEqual({
       first: 'initialized',
@@ -61,7 +61,7 @@ describe('Store', () => {
     spyOn(second, 'updateState').and.callThrough();
     spyOn(third, 'updateState').and.callThrough();
 
-    store = new Store(logger, [first, second, third], [], []);
+    store = new Store(logger, [first, second, third], [], [], {} as any);
 
     store.dispatchActionType('createTodo');
     tick();
@@ -94,7 +94,7 @@ describe('Store', () => {
     spyOn(second, 'processAction').and.callThrough();
     spyOn(third, 'processAction').and.callThrough();
 
-    store = new Store(logger, [], [first, second, third], []);
+    store = new Store(logger, [], [first, second, third], [], {} as any);
 
     store.dispatchActionType('createTodo');
     tick();

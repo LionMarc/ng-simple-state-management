@@ -10,6 +10,7 @@ import { remoteDataDemoRoutes } from './remote-data-demo/public-api';
 import { toolkitRoutes } from './toolkit/public-api';
 import { VisibilityDemoComponent } from './visibility-demo';
 import { ngssmDataDemoRoutes } from './ngssm-data-demo/public-api';
+import { todoRoutes } from './todo/todo.routes';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
     component: VisibilityDemoComponent
   },
   ...ngssmDataDemoRoutes,
+  ...todoRoutes,
   { path: '**', component: NotFoundComponent }
 ];
 

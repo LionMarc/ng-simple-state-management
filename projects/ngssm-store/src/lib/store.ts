@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional, Signal, signal } from '@angular/core';
+import { EnvironmentInjector, Inject, Injectable, Optional, Signal, runInInjectionContext, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import update from 'immutability-helper';
@@ -32,7 +32,8 @@ export class Store {
     private logger: Logger,
     @Inject(NGSSM_REDUCER) @Optional() reducers: Reducer[],
     @Inject(NGSSM_EFFECT) @Optional() effects: Effect[],
-    @Inject(NGSSM_STATE_INITIALIZER) @Optional() initializers: StateInitializer[]
+    @Inject(NGSSM_STATE_INITIALIZER) @Optional() initializers: StateInitializer[],
+    private injector: EnvironmentInjector
   ) {
     this._state$.subscribe((value) => this._stateSignal.set(value));
     this.logger.information('[Store] ---> state initialization...');
@@ -113,14 +114,10 @@ export class Store {
       const effects = this.effectsPerActionType.get(nextAction.type) ?? [];
       this.logger.debug(`[Store] ${effects.length} effects found to process the action ${nextAction.type}`, effects);
       effects.forEach((effect) => {
-        try {
-          effect.processAction(this, updatedState, nextAction);
-        } catch (error) {
-          this.logger.error(`Unable to process action ${nextAction.type} by effect ${effect}`, {
-            error,
-            action: nextAction,
-            processor: effect
-          });
+        if (effect.isFunc === true) {
+          runInInjectionContext(this.injector, () => this.runEffect(effect, updatedState, nextAction));
+        } else {
+          this.runEffect(effect, updatedState, nextAction);
         }
       });
     } catch (error) {
@@ -133,6 +130,18 @@ export class Store {
 
       // Should not be useful.But, just in case.
       setTimeout(() => this.processNextAction());
+    }
+  }
+
+  private runEffect(effect: Effect, updatedState: State, nextAction: Action) {
+    try {
+      effect.processAction(this, updatedState, nextAction);
+    } catch (error) {
+      this.logger.error(`Unable to process action ${nextAction.type} by effect ${effect}`, {
+        error,
+        action: nextAction,
+        processor: effect
+      });
     }
   }
 }
