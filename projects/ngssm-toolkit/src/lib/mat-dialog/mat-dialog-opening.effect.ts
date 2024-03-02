@@ -21,7 +21,7 @@ export class MatDialogOpeningEffect implements Effect {
     private logger: Logger,
     private matDialog: MatDialog
   ) {
-    this.processedActions.push(...(this.configs ?? []).flatMap((c) => [c.openingAction, c.closingAction]));
+    this.processedActions.push(...(this.configs ?? []).flatMap((c) => [c.openingAction, ...c.closingActions]));
     this.extendedConfigs = (this.configs ?? []).map((c) => ({
       config: c
     }));
@@ -29,7 +29,7 @@ export class MatDialogOpeningEffect implements Effect {
 
   public processAction(store: Store, state: State, action: Action): void {
     const extendedConfig = this.extendedConfigs.find(
-      (c) => c.config.openingAction === action.type || c.config.closingAction === action.type
+      (c) => c.config.openingAction === action.type || c.config.closingActions.includes(action.type)
     );
 
     if (!extendedConfig) {

@@ -9,7 +9,7 @@ export const provideToolkitDemo = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
     provideNgssmMatDialogConfigs({
       openingAction: ToolkitDemoActionType.openDialogDemo,
-      closingAction: ToolkitDemoActionType.closeDialogDemo,
+      closingActions: [ToolkitDemoActionType.closeDialogDemo],
       component: DialogDemoComponent,
       matDialogConfig: {
         disableClose: true,

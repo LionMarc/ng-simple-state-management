@@ -10,7 +10,10 @@ import { provideNgssmMatDialogConfigs } from './ngssm-mat-dialog-config';
 
 enum TestingActionType {
   openAction = '[TestingActionType] openAction',
-  closeAction = '[TestingActionType] closeAction'
+  closeAction = '[TestingActionType] closeAction',
+  edit = '[TestingActionType] edit',
+  cancelEdition = '[TestingActionType] cancelEdition',
+  submit = '[TestingActionType] submit'
 }
 
 @Component({
@@ -22,6 +25,16 @@ enum TestingActionType {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogDemoComponent {}
+
+@Component({
+  selector: 'ngssm-editor',
+  standalone: true,
+  imports: [CommonModule],
+  template: ` nothing `,
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class EditorComponent {}
 
 class MatDialogRefMock {
   public close(): void {
@@ -41,16 +54,28 @@ describe('MatDialogOpeningEffect', () => {
       imports: [MatDialogModule],
       providers: [
         MatDialogOpeningEffect,
-        provideNgssmMatDialogConfigs({
-          openingAction: TestingActionType.openAction,
-          closingAction: TestingActionType.closeAction,
-          component: DialogDemoComponent,
-          matDialogConfig: {
-            disableClose: true,
-            height: '400px',
-            width: '60vw'
+        provideNgssmMatDialogConfigs(
+          {
+            openingAction: TestingActionType.openAction,
+            closingActions: [TestingActionType.closeAction],
+            component: DialogDemoComponent,
+            matDialogConfig: {
+              disableClose: true,
+              height: '400px',
+              width: '60vw'
+            }
+          },
+          {
+            openingAction: TestingActionType.edit,
+            closingActions: [TestingActionType.cancelEdition, TestingActionType.submit],
+            component: EditorComponent,
+            matDialogConfig: {
+              disableClose: true,
+              height: '400px',
+              width: '60vw'
+            }
           }
-        })
+        )
       ]
     });
     effect = TestBed.inject(MatDialogOpeningEffect);
@@ -60,27 +85,57 @@ describe('MatDialogOpeningEffect', () => {
     spyOn(dialog, 'close');
   });
 
-  [TestingActionType.openAction, TestingActionType.closeAction].forEach((actionType: string) => {
+  [
+    TestingActionType.openAction,
+    TestingActionType.closeAction,
+    TestingActionType.edit,
+    TestingActionType.cancelEdition,
+    TestingActionType.submit
+  ].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(effect.processedActions).toContain(actionType);
     });
   });
 
-  it(`should open the dialog when calling the action type '${TestingActionType.openAction}'`, () => {
-    effect.processAction(store as any, store.stateValue, { type: TestingActionType.openAction });
+  describe(`one action to close`, () => {
+    it(`should open the dialog when calling the action type '${TestingActionType.openAction}'`, () => {
+      effect.processAction(store as any, store.stateValue, { type: TestingActionType.openAction });
 
-    expect(matDialog.open).toHaveBeenCalledWith(DialogDemoComponent, {
-      disableClose: true,
-      height: '400px',
-      width: '60vw'
+      expect(matDialog.open).toHaveBeenCalledWith(DialogDemoComponent, {
+        disableClose: true,
+        height: '400px',
+        width: '60vw'
+      });
+    });
+
+    it(`should close the dialog when calling the action type '${TestingActionType.closeAction}'`, () => {
+      effect.processAction(store as any, store.stateValue, { type: TestingActionType.openAction });
+
+      effect.processAction(store as any, store.stateValue, { type: TestingActionType.closeAction });
+
+      expect(dialog.close).toHaveBeenCalled();
     });
   });
 
-  it(`should close the dialog when calling the action type '${TestingActionType.closeAction}'`, () => {
-    effect.processAction(store as any, store.stateValue, { type: TestingActionType.openAction });
+  describe(`multiple actions to close`, () => {
+    it(`should open the editor when calling the action type '${TestingActionType.edit}'`, () => {
+      effect.processAction(store as any, store.stateValue, { type: TestingActionType.edit });
 
-    effect.processAction(store as any, store.stateValue, { type: TestingActionType.closeAction });
+      expect(matDialog.open).toHaveBeenCalledWith(EditorComponent, {
+        disableClose: true,
+        height: '400px',
+        width: '60vw'
+      });
+    });
 
-    expect(dialog.close).toHaveBeenCalled();
+    [TestingActionType.cancelEdition, TestingActionType.submit].forEach((actionType) => {
+      it(`should close the editor when calling the action type '${actionType}'`, () => {
+        effect.processAction(store as any, store.stateValue, { type: TestingActionType.edit });
+
+        effect.processAction(store as any, store.stateValue, { type: actionType });
+
+        expect(dialog.close).toHaveBeenCalled();
+      });
+    });
   });
 });
