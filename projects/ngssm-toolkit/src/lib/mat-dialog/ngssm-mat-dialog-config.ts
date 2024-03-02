@@ -4,7 +4,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 
 export interface NgssmMatDialogConfig<T = any, D = any> {
   openingAction: string;
-  closingAction: string;
+  closingActions: string[];
   component: ComponentType<T>;
   matDialogConfig?: MatDialogConfig<D>;
 }
