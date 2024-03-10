@@ -76,6 +76,18 @@ describe('CachedItemReducer', () => {
         });
       });
 
+      it(`should update the error if only the error is specified`, () => {
+        const action = new SetCachedItemAction('testing', { error: 'unexpected error' });
+
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
+          status: CachedItemStatus.loading,
+          item: 'waiting',
+          error: 'unexpected error'
+        });
+      });
+
       it(`should update the cached item`, () => {
         const action = new SetCachedItemAction('testing', { status: CachedItemStatus.error, item: 'done with error' });
 

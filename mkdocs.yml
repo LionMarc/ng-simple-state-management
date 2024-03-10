@@ -37,5 +37,6 @@ plugins:
 nav:
   - index.md
   - Libraries:
+    - libraries/ngssm-store-caching.md
     - libraries/ngssm-data.md
     - libraries/ngssm-toolkit.md
