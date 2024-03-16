@@ -1,5 +1,5 @@
-import { inject, NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 
 import { NotFoundComponent } from 'ngssm-toolkit';
 
@@ -11,8 +11,11 @@ import { toolkitRoutes } from './toolkit/public-api';
 import { VisibilityDemoComponent } from './visibility-demo';
 import { ngssmDataDemoRoutes } from './ngssm-data-demo/public-api';
 import { todoRoutes } from './todo/todo.routes';
+import { aceEditorDemoRoutes } from './ace-editor/ace-editor-demo.routes';
+import { shellDemoRoutes } from './shell-demo/shell-demo.routes';
 
-const routes: Routes = [
+export const routes: Routes = [
+  ...aceEditorDemoRoutes,
   {
     path: 'tree-demo',
     component: NgssmTreeDemoComponent,
@@ -35,12 +38,7 @@ const routes: Routes = [
     component: VisibilityDemoComponent
   },
   ...ngssmDataDemoRoutes,
+  ...shellDemoRoutes,
   ...todoRoutes,
   { path: '**', component: NotFoundComponent }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}

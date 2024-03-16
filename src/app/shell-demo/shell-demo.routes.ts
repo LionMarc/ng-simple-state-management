@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { NotificationsDemoComponent } from './components/notifications-demo/notifications-demo.component';
 
-const routes: Routes = [
+export const shellDemoRoutes: Routes = [
   {
     path: 'shell-demo',
     children: [
@@ -14,9 +13,3 @@ const routes: Routes = [
     ]
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class ShellDemoRoutingModule {}

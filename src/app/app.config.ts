@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
-import { NgssmCachesDisplayButtonComponent, provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
+import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import {
   defaultRegexEditorValidator,
-  MaterialImportsModule,
   NGSSM_REGEX_EDITOR_VALIDATOR,
   provideNgssmMatDialog,
   RegexEditorValidator,
@@ -17,22 +15,20 @@ import {
 } from 'ngssm-toolkit';
 import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree } from 'ngssm-tree';
 import { provideNgssmNavigation } from 'ngssm-navigation';
-import { ShellComponent, provideNgssmShell } from 'ngssm-shell';
+import { provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
 import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
 import { provideConsoleAppender } from 'ngssm-store';
 import { provideNgssmData } from 'ngssm-data';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AceEditorModule } from './ace-editor/public-api';
-import { ShellDemoModule } from './shell-demo/public-api';
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
 import { provideRemoteDataDemo } from './remote-data-demo/public-api';
 import { provideJsonBuilder } from './ngssm-expression-tree-demo/json-builder/provide-json-builder';
 import { provideToolkitDemo } from './toolkit/public-api';
 import { provideNgssmDataDemo } from './ngssm-data-demo/public-api';
 import { provideTodo } from './todo/provide-todo';
+import { routes } from './app.routes';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 const dotnetRegexValidator: RegexEditorValidator = {
   validatePattern: (pattern: string) => {
@@ -50,19 +46,11 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
   return defaultRegexEditorValidator;
 };
 
-@NgModule({
-  declarations: [AppComponent],
-  imports: [
-    MaterialImportsModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    AceEditorModule,
-    ShellDemoModule,
-    AppRoutingModule,
-    NgssmCachesDisplayButtonComponent,
-    ShellComponent
-  ],
+export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom([MatDialogModule, MatSnackBarModule]),
+    provideRouter(routes, withHashLocation()),
+    provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
@@ -109,7 +97,5 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
     provideToolkitDemo(),
     provideNgssmDataDemo(),
     provideTodo()
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
+  ]
+};

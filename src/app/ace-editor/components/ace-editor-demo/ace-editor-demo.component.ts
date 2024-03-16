@@ -1,12 +1,33 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { NgssmAceEditorApi, NgssmAceEditorMode } from 'ngssm-ace-editor';
+import { NgssmAceEditorApi, NgssmAceEditorComponent, NgssmAceEditorMode } from 'ngssm-ace-editor';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
   selector: 'app-ace-editor-demo',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    NgssmAceEditorComponent
+  ],
   templateUrl: './ace-editor-demo.component.html',
   styleUrls: ['./ace-editor-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
