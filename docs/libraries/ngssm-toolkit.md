@@ -16,6 +16,7 @@ classDiagram
     class NgssmMatDialogConfig~TComponent, TDialog~{
         openingAction: string;
         closingActions: string[];
+        beforeOpeningDialog?: (state:State) => void;
     }
 
     class MatDialogConfig~TDialog~{
