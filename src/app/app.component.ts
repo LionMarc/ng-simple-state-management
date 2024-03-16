@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
-import { NavigationActionType } from 'ngssm-navigation';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
-import { LockNavigationBarAction, LockStatus, ShellActionType, ShellConfig } from 'ngssm-shell';
+import { NavigationActionType } from 'ngssm-navigation';
+import { NgssmCachesDisplayButtonComponent } from 'ngssm-remote-data';
+import { LockNavigationBarAction, LockStatus, ShellActionType, ShellComponent, ShellConfig } from 'ngssm-shell';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
