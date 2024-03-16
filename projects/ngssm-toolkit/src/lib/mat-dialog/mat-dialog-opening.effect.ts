@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { EnvironmentInjector, Inject, Injectable, Optional, runInInjectionContext } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Effect, Store, State, Action, Logger } from 'ngssm-store';
@@ -19,7 +19,8 @@ export class MatDialogOpeningEffect implements Effect {
   constructor(
     @Inject(NGSSM_MAT_DIALOG_CONFIG) @Optional() private configs: NgssmMatDialogConfig[],
     private logger: Logger,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private injector: EnvironmentInjector
   ) {
     this.processedActions.push(...(this.configs ?? []).flatMap((c) => [c.openingAction, ...c.closingActions]));
     this.extendedConfigs = (this.configs ?? []).map((c) => ({
@@ -27,7 +28,7 @@ export class MatDialogOpeningEffect implements Effect {
     }));
   }
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(_store: Store, state: State, action: Action): void {
     const extendedConfig = this.extendedConfigs.find(
       (c) => c.config.openingAction === action.type || c.config.closingActions.includes(action.type)
     );
@@ -38,6 +39,10 @@ export class MatDialogOpeningEffect implements Effect {
     }
 
     if (action.type === extendedConfig.config.openingAction) {
+      const beforeOpeningDialog = extendedConfig.config.beforeOpeningDialog;
+      if (beforeOpeningDialog) {
+        runInInjectionContext(this.injector, () => beforeOpeningDialog(state));
+      }
       extendedConfig.dialog = this.matDialog.open(extendedConfig.config.component, extendedConfig.config.matDialogConfig);
       return;
     }

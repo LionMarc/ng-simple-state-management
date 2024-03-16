@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { StoreMock } from 'ngssm-store/testing';
+import { Store } from 'ngssm-store';
 
 import { MatDialogOpeningEffect } from './mat-dialog-opening.effect';
 import { provideNgssmMatDialogConfigs } from './ngssm-mat-dialog-config';
@@ -13,7 +14,8 @@ enum TestingActionType {
   closeAction = '[TestingActionType] closeAction',
   edit = '[TestingActionType] edit',
   cancelEdition = '[TestingActionType] cancelEdition',
-  submit = '[TestingActionType] submit'
+  submit = '[TestingActionType] submit',
+  withfunction = '[TestingActionType] withfunction'
 }
 
 @Component({
@@ -47,12 +49,14 @@ describe('MatDialogOpeningEffect', () => {
   let matDialog: MatDialog;
   let dialog: MatDialogRefMock;
   let store: StoreMock;
+  let functionCalled = false;
 
   beforeEach(() => {
     store = new StoreMock({});
     TestBed.configureTestingModule({
       imports: [MatDialogModule],
       providers: [
+        { provide: Store, useValue: store },
         MatDialogOpeningEffect,
         provideNgssmMatDialogConfigs(
           {
@@ -74,6 +78,22 @@ describe('MatDialogOpeningEffect', () => {
               height: '400px',
               width: '60vw'
             }
+          },
+          {
+            openingAction: TestingActionType.withfunction,
+            closingActions: [],
+            component: EditorComponent,
+            matDialogConfig: {
+              disableClose: true,
+              height: '400px',
+              width: '60vw'
+            },
+            beforeOpeningDialog: () => {
+              // To test inject in function
+              const store = inject(Store);
+              store.dispatchActionType('TESTING');
+              functionCalled = true;
+            }
           }
         )
       ]
@@ -83,6 +103,8 @@ describe('MatDialogOpeningEffect', () => {
     dialog = new MatDialogRefMock();
     spyOn(matDialog, 'open').and.returnValue(dialog as any);
     spyOn(dialog, 'close');
+    functionCalled = false;
+    spyOn(store, 'dispatchActionType');
   });
 
   [
@@ -135,6 +157,20 @@ describe('MatDialogOpeningEffect', () => {
         effect.processAction(store as any, store.stateValue, { type: actionType });
 
         expect(dialog.close).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe(`with function to execute before opening dialog`, () => {
+    it(`should open the dialog when calling the action type '${TestingActionType.withfunction}'`, () => {
+      effect.processAction(store as any, store.stateValue, { type: TestingActionType.withfunction });
+
+      expect(functionCalled).toBeTruthy();
+      expect(store.dispatchActionType).toHaveBeenCalledWith('TESTING');
+      expect(matDialog.open).toHaveBeenCalledWith(EditorComponent, {
+        disableClose: true,
+        height: '400px',
+        width: '60vw'
       });
     });
   });

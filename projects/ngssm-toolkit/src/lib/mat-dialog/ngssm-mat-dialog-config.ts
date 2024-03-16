@@ -2,11 +2,14 @@ import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders } from '
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialogConfig } from '@angular/material/dialog';
 
+import { State } from 'ngssm-store';
+
 export interface NgssmMatDialogConfig<T = any, D = any> {
   openingAction: string;
   closingActions: string[];
   component: ComponentType<T>;
   matDialogConfig?: MatDialogConfig<D>;
+  beforeOpeningDialog?: (state: State) => void;
 }
 
 export const NGSSM_MAT_DIALOG_CONFIG = new InjectionToken<NgssmMatDialogConfig>('NGSSM_MAT_DIALOG_CONFIG');
