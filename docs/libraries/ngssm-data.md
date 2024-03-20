@@ -2,7 +2,7 @@
 
 This library provides states, components and helpers to simplify management of data loaded from remote services or computed from any source.
 
-To use it, simply add **provideNgssmData()** in *app.config.ts*.
+To use it, simply add **provideNgssmData()** in _app.config.ts_.
 
 ```javascript
 export const appConfig: ApplicationConfig = {
@@ -17,7 +17,6 @@ export const appConfig: ApplicationConfig = {
 !!! Note
 
     This library is provided as a replacement of **ngssm-remote-data**.
-
 
 !!! Warning
 
@@ -44,9 +43,9 @@ classDiagram
 
 - **key**: unique identifer of the data source;
 - **dataLifetimeInSeconds**: lifetime of the stored data in seconds;
-- **loadData**: a function used to load the data. The *parameter* is optional.
+- **loadData**: a function used to load the data. The _parameter_ is optional.
 
-The data source must be registered with the function *provideNgssmDataSource*.
+The data source must be registered with the function _provideNgssmDataSource_.
 
 ```javascript
 const dataLoader:NgssmDataLoading<string[], number> = (state:State, parameter?:number, additionalProperty?:string) : Observable<string[]> => {
@@ -139,12 +138,17 @@ classDiagram
         value?: TParameter
     }
 
-    class NgssmLoadDataSourceValueAction~TParameter~{
-        key
+    class NgssmLoadDataSourceOptions~TParameter~ {
         forceReload: boolean = false
+        keepAdditionalProperties: boolean: false
     }
 
-    NgssmLoadDataSourceValueAction-->ParameterValue : parameter
+    class NgssmLoadDataSourceValueAction~TParameter~{
+        key
+    }
+
+    NgssmLoadDataSourceValueAction-->NgssmLoadDataSourceOptions: options
+    NgssmLoadDataSourceOptions-->ParameterValue : parameter
 
     class NgssmLoadDataSourceAdditionalPropertyValueAction{
         key
@@ -190,7 +194,7 @@ classDiagram
 ```
 
 ```javascript
-store.dispatchAction(new NgssmLoadDataSourceValueAction('doc:example:data', true));
+store.dispatchAction(new NgssmLoadDataSourceValueAction('doc:example:data', { forceReload: true }));
 store.dispatchAction(new NgssmSetDataSourceParameterAction('doc:example:data', 567));
 store.dispatchAction(new NgssmClearDataSourceValueAction('doc:example:data'));
 store.dispatchAction(new NgssmSetDataSourceValueAction('doc:example:data', NgssmDataSourceValueStatus.loaded, ['val1', 'val2']));
@@ -199,7 +203,6 @@ store.dispatchAction(new NgssmSetDataSourceValueAction('doc:example:data', Ngssm
 !!! Note
 
     *NgssmSetDataSourceValueAction* should not be called by the application. This action is used by the library after the execution of the data source loading function.
-
 
 !!! Note
 
@@ -211,10 +214,9 @@ store.dispatchAction(new NgssmSetDataSourceValueAction('doc:example:data', Ngssm
 
     If *NgssmRegisterDataSourcesAction* is dispatched for a data source already registered, nothing is done by the library.
 
-
 ## Guard
 
-In case we need to reload the value of a data source when going to a given page, we can use the function *ngssmLoadDataSourceValue*.
+In case we need to reload the value of a data source when going to a given page, we can use the function _ngssmLoadDataSourceValue_.
 
 ```javascript
 export const myRoutes:Routes = [
@@ -232,13 +234,13 @@ The function will simply inject the store and dispatch the action **NgssmLoadDat
 
 ## Pipe
 
-The pipe *isNgssmDataSourceValueStatus* is provided to allow updating the ui according to the status of a given data source value.
+The pipe _isNgssmDataSourceValueStatus_ is provided to allow updating the ui according to the status of a given data source value.
 
 ```html
 @if ( store.state() | isNgssmDataSourceValueStatus:'doc:example:data':'loading') {
-    <p>The data is being loaded</p>
+<p>The data is being loaded</p>
 } @else if ( store.state() | isNgssmDataSourceValueStatus:'doc:example:data':'loaded':'error'){
-    <div>Display the data</div>
+<div>Display the data</div>
 }
 ```
 
@@ -246,7 +248,8 @@ The pipe *isNgssmDataSourceValueStatus* is provided to allow updating the ui acc
 
 - **ngssm-data-reload-button**
 
-    - used to reload a list of data sources;
-    - inputs:
+  - used to reload a list of data sources;
+  - inputs:
 
-        - dataSourceKeys: string[] => the keys of the data sources managed by the button.
+    - dataSourceKeys: string[] => the keys of the data sources managed by the button;
+    - keepAdditionalProperties: boolean => if true, additional properties are not cleared when reloading data.

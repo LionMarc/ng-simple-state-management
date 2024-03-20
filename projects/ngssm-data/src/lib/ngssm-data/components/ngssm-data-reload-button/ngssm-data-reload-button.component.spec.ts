@@ -113,7 +113,21 @@ describe('NgssmDataReloadButtonComponent', () => {
 
             await element.click();
 
-            expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction(dataSourceKey, true));
+            expect(store.dispatchAction).toHaveBeenCalledWith(
+              new NgssmLoadDataSourceValueAction(dataSourceKey, { forceReload: true, keepAdditionalProperties: false })
+            );
+          });
+
+          it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' with keepAdditionalProperties to true when clicking on button`, async () => {
+            spyOn(store, 'dispatchAction');
+            component.keepAdditionalProperties = true;
+            const element = await loader.getHarness(MatButtonHarness);
+
+            await element.click();
+
+            expect(store.dispatchAction).toHaveBeenCalledWith(
+              new NgssmLoadDataSourceValueAction(dataSourceKey, { forceReload: true, keepAdditionalProperties: true })
+            );
           });
         });
       });
@@ -229,8 +243,12 @@ describe('NgssmDataReloadButtonComponent', () => {
 
       await element.click();
 
-      expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction(firstSource, true));
-      expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction(secondSource, true));
+      expect(store.dispatchAction).toHaveBeenCalledWith(
+        new NgssmLoadDataSourceValueAction(firstSource, { forceReload: true, keepAdditionalProperties: false })
+      );
+      expect(store.dispatchAction).toHaveBeenCalledWith(
+        new NgssmLoadDataSourceValueAction(secondSource, { forceReload: true, keepAdditionalProperties: false })
+      );
     });
 
     it(`should dispatch a tooltip message with the data of the oldest loaded source`, async () => {

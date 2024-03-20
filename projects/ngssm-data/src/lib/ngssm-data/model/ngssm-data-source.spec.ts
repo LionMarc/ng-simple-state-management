@@ -28,7 +28,7 @@ describe('NgssmDataSource', () => {
         const func = ngssmLoadDataSourceValue('testing', forceReload);
         TestBed.runInInjectionContext(() => func());
 
-        expect(storeMock.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('testing', forceReload));
+        expect(storeMock.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('testing', { forceReload }));
       });
     });
   });
