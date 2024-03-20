@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, booleanAttribute } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
@@ -17,6 +17,7 @@ import { IsElementVisiblePipe } from '../is-element-visible.pipe';
 })
 export class VisibilityToggleGroupComponent extends NgSsmComponent {
   @Input() public items: { label: string; key: string }[] = [];
+  @Input({ transform: booleanAttribute }) hideMultipleSelectionIndicator = false;
 
   constructor(store: Store) {
     super(store);
