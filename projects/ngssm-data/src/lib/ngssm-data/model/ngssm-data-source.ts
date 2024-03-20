@@ -39,7 +39,7 @@ export const provideNgssmDataSource = <TData = any, TParameter = any>(
 
 export const ngssmLoadDataSourceValue = (key: string, forceReload: boolean = false): (() => boolean) => {
   return () => {
-    inject(Store).dispatchAction(new NgssmLoadDataSourceValueAction(key, forceReload));
+    inject(Store).dispatchAction(new NgssmLoadDataSourceValueAction(key, { forceReload }));
     return true;
   };
 };

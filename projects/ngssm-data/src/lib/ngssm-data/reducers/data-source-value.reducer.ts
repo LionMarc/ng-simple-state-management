@@ -39,19 +39,23 @@ export class DataSourceValueReducer implements Reducer {
         let shouldReload = false;
 
         let currentState = state;
-        if (loadDataSourceValue.parameter) {
+        if (loadDataSourceValue.options?.parameter) {
           shouldReload = true;
           currentState = updateNgssmDataState(state, {
             dataSourceValues: {
               [loadDataSourceValue.key]: {
-                parameter: { $set: loadDataSourceValue.parameter.value }
+                parameter: { $set: loadDataSourceValue.options?.parameter.value }
               }
             }
           });
         }
 
         if (dataSourceValue.status === NgssmDataSourceValueStatus.loaded) {
-          if (loadDataSourceValue.forceReload === true || !dataSourceValue.dataLifetimeInSeconds || !dataSourceValue.lastLoadingDate) {
+          if (
+            loadDataSourceValue.options?.forceReload === true ||
+            !dataSourceValue.dataLifetimeInSeconds ||
+            !dataSourceValue.lastLoadingDate
+          ) {
             shouldReload = true;
           } else {
             const dataLifetime = DateTime.now().diff(dataSourceValue.lastLoadingDate, 'second');
@@ -64,6 +68,16 @@ export class DataSourceValueReducer implements Reducer {
         }
 
         if (shouldReload) {
+          if (loadDataSourceValue.options?.keepAdditionalProperties === true) {
+            return updateNgssmDataState(currentState, {
+              dataSourceValues: {
+                [loadDataSourceValue.key]: {
+                  status: { $set: NgssmDataSourceValueStatus.loading }
+                }
+              }
+            });
+          }
+
           return updateNgssmDataState(currentState, {
             dataSourceValues: {
               [loadDataSourceValue.key]: {
@@ -148,8 +162,7 @@ export class DataSourceValueReducer implements Reducer {
               additionalProperties: {
                 [ngssmLoadDataSourceAdditionalPropertyValueAction.property]: {
                   $set: {
-                    status: NgssmDataSourceValueStatus.loading,
-                    value: undefined
+                    status: NgssmDataSourceValueStatus.loading
                   }
                 }
               }

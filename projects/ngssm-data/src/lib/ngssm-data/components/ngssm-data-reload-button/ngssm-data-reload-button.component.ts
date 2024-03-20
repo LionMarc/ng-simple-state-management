@@ -30,6 +30,8 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   public readonly buttonDisabled = signal<boolean>(true);
   public readonly tooltipMessage = signal<string>('');
 
+  @Input() public keepAdditionalProperties = false;
+
   constructor(store: Store) {
     super(store);
   }
@@ -61,6 +63,10 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   }
 
   public reload(): void {
-    this._dataSourceKeys.forEach((key) => this.dispatchAction(new NgssmLoadDataSourceValueAction(key, true)));
+    this._dataSourceKeys.forEach((key) =>
+      this.dispatchAction(
+        new NgssmLoadDataSourceValueAction(key, { forceReload: true, keepAdditionalProperties: this.keepAdditionalProperties })
+      )
+    );
   }
 }

@@ -87,11 +87,55 @@ describe('DataSourceValueReducer', () => {
         }
       });
 
-      const action = new NgssmLoadDataSourceValueAction('data-providers', false, { value: 'next' });
+      const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: false, parameter: { value: 'next' } });
 
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].parameter).toEqual('next');
+    });
+
+    describe(`when data source has additional properties`, () => {
+      beforeEach(() => {
+        state = updateNgssmDataState(state, {
+          dataSourceValues: {
+            ['data-providers']: {
+              $set: {
+                status: NgssmDataSourceValueStatus.loaded,
+                dataLifetimeInSeconds: 50,
+                lastLoadingDate: DateTime.now().plus({ second: -30 }),
+                parameter: 'previous',
+                additionalProperties: {
+                  first: {
+                    status: NgssmDataSourceValueStatus.loaded,
+                    value: 'testing'
+                  }
+                }
+              }
+            }
+          }
+        });
+      });
+
+      it(`should clear the additional properties when reloading source`, () => {
+        const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true, keepAdditionalProperties: false });
+
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({});
+      });
+
+      it(`should clear the additional properties when reloading source when options keepAdditionalProperties is set to true`, () => {
+        const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true, keepAdditionalProperties: true });
+
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+          first: {
+            status: NgssmDataSourceValueStatus.loaded,
+            value: 'testing'
+          }
+        });
+      });
     });
 
     describe(`when data source has defined a lifetime for the data`, () => {
@@ -130,7 +174,7 @@ describe('DataSourceValueReducer', () => {
           }
         });
 
-        const action = new NgssmLoadDataSourceValueAction('data-providers', true);
+        const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true });
 
         const updatedState = reducer.updateState(state, action);
 
@@ -151,7 +195,7 @@ describe('DataSourceValueReducer', () => {
           }
         });
 
-        const action = new NgssmLoadDataSourceValueAction('data-providers', false, { value: 'testing' });
+        const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: false, parameter: { value: 'testing' } });
 
         const updatedState = reducer.updateState(state, action);
 

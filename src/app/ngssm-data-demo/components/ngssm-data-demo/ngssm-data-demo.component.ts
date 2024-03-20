@@ -47,11 +47,11 @@ export class NgssmDataDemoComponent extends NgSsmComponent {
   }
 
   public reloadTeams(): void {
-    this.dispatchAction(new NgssmLoadDataSourceValueAction(teamsKey, true));
+    this.dispatchAction(new NgssmLoadDataSourceValueAction(teamsKey, { forceReload: true }));
   }
 
   public reloadPlayers(): void {
-    this.dispatchAction(new NgssmLoadDataSourceValueAction(playersKey, true));
+    this.dispatchAction(new NgssmLoadDataSourceValueAction(playersKey, { forceReload: true }));
   }
 
   public registerPlayers(): void {
