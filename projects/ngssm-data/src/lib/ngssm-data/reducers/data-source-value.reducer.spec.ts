@@ -12,6 +12,7 @@ import {
 } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
+import { NgssmLoadDataSourceAdditionalPropertyValueAction } from 'ngssm-data';
 
 describe('DataSourceValueReducer', () => {
   let reducer: DataSourceValueReducer;
@@ -370,6 +371,114 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual('new parameter');
+    });
+  });
+
+  describe(`when processing action of type '${NgssmDataActionType.loadDataSourceAdditionalPropertyValue}'`, () => {
+    it(`should add property into state when property does not exist`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
+            }
+          }
+        }
+      });
+
+      const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers', 'testing');
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+        testing: {
+          status: NgssmDataSourceValueStatus.loading
+        }
+      });
+    });
+
+    [NgssmDataSourceValueStatus.error, NgssmDataSourceValueStatus.loading, NgssmDataSourceValueStatus.none].forEach((status) => {
+      it(`should set the property status to ${NgssmDataSourceValueStatus.loading} when it is ${status}`, () => {
+        state = updateNgssmDataState(state, {
+          dataSourceValues: {
+            ['data-providers']: {
+              $set: {
+                status: NgssmDataSourceValueStatus.loading,
+                additionalProperties: {
+                  testing: {
+                    status
+                  }
+                }
+              }
+            }
+          }
+        });
+
+        const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers', 'testing');
+
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+          testing: {
+            status: NgssmDataSourceValueStatus.loading
+          }
+        });
+      });
+    });
+
+    it(`should not update the property status when it is ${NgssmDataSourceValueStatus.loaded} and action does not force reload`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {
+                testing: {
+                  status: NgssmDataSourceValueStatus.loaded
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers', 'testing');
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+        testing: {
+          status: NgssmDataSourceValueStatus.loaded
+        }
+      });
+    });
+
+    it(`should not update the property status to ${NgssmDataSourceValueStatus.loading} when it is ${NgssmDataSourceValueStatus.loaded} and action forces reload`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {
+                testing: {
+                  status: NgssmDataSourceValueStatus.loaded
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers', 'testing', true);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+        testing: {
+          status: NgssmDataSourceValueStatus.loading
+        }
+      });
     });
   });
 });
