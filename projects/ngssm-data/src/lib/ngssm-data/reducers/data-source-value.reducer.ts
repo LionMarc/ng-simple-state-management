@@ -152,7 +152,10 @@ export class DataSourceValueReducer implements Reducer {
             ngssmLoadDataSourceAdditionalPropertyValueAction.property
           ];
 
-        if (dataSourcePropertyValue?.status === NgssmDataSourceValueStatus.loaded) {
+        if (
+          dataSourcePropertyValue?.status === NgssmDataSourceValueStatus.loaded &&
+          ngssmLoadDataSourceAdditionalPropertyValueAction.forceReload !== true
+        ) {
           break;
         }
 
