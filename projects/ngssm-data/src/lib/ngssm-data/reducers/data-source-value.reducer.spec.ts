@@ -480,5 +480,34 @@ describe('DataSourceValueReducer', () => {
         }
       });
     });
+
+    it(`should not reset the value when the value is already set`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {
+                testing: {
+                  status: NgssmDataSourceValueStatus.loaded,
+                  value: 'testing'
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers', 'testing', true);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+        testing: {
+          status: NgssmDataSourceValueStatus.loading,
+          value: 'testing'
+        }
+      });
+    });
   });
 });
