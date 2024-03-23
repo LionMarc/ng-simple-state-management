@@ -159,14 +159,28 @@ export class DataSourceValueReducer implements Reducer {
           break;
         }
 
+        if (!dataSourcePropertyValue) {
+          return updateNgssmDataState(state, {
+            dataSourceValues: {
+              [ngssmLoadDataSourceAdditionalPropertyValueAction.key]: {
+                additionalProperties: {
+                  [ngssmLoadDataSourceAdditionalPropertyValueAction.property]: {
+                    $set: {
+                      status: NgssmDataSourceValueStatus.loading
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+
         return updateNgssmDataState(state, {
           dataSourceValues: {
             [ngssmLoadDataSourceAdditionalPropertyValueAction.key]: {
               additionalProperties: {
                 [ngssmLoadDataSourceAdditionalPropertyValueAction.property]: {
-                  $set: {
-                    status: NgssmDataSourceValueStatus.loading
-                  }
+                  status: { $set: NgssmDataSourceValueStatus.loading }
                 }
               }
             }
