@@ -73,3 +73,4 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 .vs/
 /src/assets/dotnet/dotnet-tools
+/.nx/
