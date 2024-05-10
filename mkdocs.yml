@@ -30,12 +30,16 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
 plugins:
   - search
   - glightbox
   - include-markdown
 nav:
   - index.md
+  - Concepts:
+    - state.md
   - Libraries:
     - libraries/ngssm-store-caching.md
     - libraries/ngssm-data.md

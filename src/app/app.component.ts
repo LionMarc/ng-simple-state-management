@@ -73,6 +73,11 @@ export class AppComponent extends NgSsmComponent {
           route: '/ace-editor'
         },
         {
+          label: 'Ngssm Feature State',
+          icon: '<i class="fa-solid fa-store"></i>',
+          route: '/ngssm-feature-state'
+        },
+        {
           label: 'Ngssm Toolkit',
           icon: '<i class="fa-solid fa-toolbox"></i>',
           route: '/ngssm-toolkit'

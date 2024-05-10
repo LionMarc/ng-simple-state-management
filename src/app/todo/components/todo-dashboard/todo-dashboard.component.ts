@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ENVIRONMENT_INITIALIZER } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -25,6 +25,7 @@ import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { Router } from '@angular/router';
+import { provideFeatureState } from '../../feature-state-provider';
 
 @Component({
   selector: 'app-todo-dashboard',
@@ -44,7 +45,8 @@ import { Router } from '@angular/router';
   ],
   templateUrl: './todo-dashboard.component.html',
   styleUrls: ['./todo-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideFeatureState('todo-dashboard', {})]
 })
 export class TodoDashboardComponent extends NgSsmComponent {
   private readonly _deleteHidden$ = new BehaviorSubject<boolean>(false);
@@ -171,6 +173,8 @@ export class TodoDashboardComponent extends NgSsmComponent {
     private router: Router
   ) {
     super(store);
+
+    console.log('CALLED ctor of dashboard');
 
     this.allowRestoringGridControl.valueChanges.subscribe((value) => {
       this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskColumnsState: value ?? true };

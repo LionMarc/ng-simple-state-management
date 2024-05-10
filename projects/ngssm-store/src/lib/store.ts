@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import update from 'immutability-helper';
 
-import { FeatureStateSpecification } from './feature-state-specification';
+import { FeatureStateSpecification } from './feature-state';
 import { State } from './state';
 import { Action } from './action';
 import { NGSSM_REDUCER, Reducer } from './reducer';
