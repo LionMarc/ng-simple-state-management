@@ -29,32 +29,50 @@ describe('Store', () => {
 
   it('should call all the state initializers when the object is generated', () => {
     const first: StateInitializer = {
-      initializeState: (state: State) => update(state, { first: { $set: 'initialized' } })
+      initializeState: (state: State) =>
+        update(state, {
+          first: {
+            $set: {
+              message: 'initialized'
+            }
+          }
+        })
     };
     const second: StateInitializer = {
-      initializeState: (state: State) => update(state, { second: { $set: 'initialized' } })
+      initializeState: (state: State) =>
+        update(state, {
+          second: {
+            $set: {
+              message: 'initialized'
+            }
+          }
+        })
     };
 
     store = new Store(logger, [], [], [first, second], {} as any);
 
     expect(store.state()).toEqual({
-      first: 'initialized',
-      second: 'initialized'
+      first: {
+        message: 'initialized'
+      },
+      second: {
+        message: 'initialized'
+      }
     });
   });
 
   it('should call the reducers associated to the dispatched action only', fakeAsync(() => {
     const first: Reducer = {
       processedActions: ['createTodo'],
-      updateState: (state: State, action: Action) => update(state, { first: { $set: 'called' } })
+      updateState: (state: State, action: Action) => update(state, { first: { $set: { message: 'called' } } })
     };
     const second: Reducer = {
       processedActions: ['deleteTodo'],
-      updateState: (state: State, action: Action) => update(state, { second: { $set: 'called' } })
+      updateState: (state: State, action: Action) => update(state, { second: { $set: { message: 'called' } } })
     };
     const third: Reducer = {
       processedActions: ['createTodo'],
-      updateState: (state: State, action: Action) => update(state, { third: { $set: 'called' } })
+      updateState: (state: State, action: Action) => update(state, { third: { $set: { message: 'called' } } })
     };
 
     spyOn(first, 'updateState').and.callThrough();
@@ -71,8 +89,8 @@ describe('Store', () => {
     expect(third.updateState).toHaveBeenCalled();
 
     expect(store.state()).toEqual({
-      first: 'called',
-      third: 'called'
+      first: { message: 'called' },
+      third: { message: 'called' }
     });
   }));
 

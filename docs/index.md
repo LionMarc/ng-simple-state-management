@@ -21,3 +21,10 @@ The implementation is inspired from [Redux](https://redux.js.org/).
 - The registration of all the active objects is made by using the dependency injection of [angular](https://angular.io/guide/dependency-injection);
 - The update of the state uses [immutability-helper](https://github.com/kolodny/immutability-helper);
 - The state notifications are based on [RxJS](https://rxjs.dev/).
+
+
+To use this state management implementation, install the packages and add the following in your *app.config.ts* file: 
+
+```typescript
+provideNgssmStore()
+```

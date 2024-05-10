@@ -1,3 +1,3 @@
 export interface State {
-  [key: string]: any;
+  [key: string]: object;
 }

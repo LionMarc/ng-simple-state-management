@@ -13,6 +13,7 @@ import { ngssmDataDemoRoutes } from './ngssm-data-demo/public-api';
 import { todoRoutes } from './todo/todo.routes';
 import { aceEditorDemoRoutes } from './ace-editor/ace-editor-demo.routes';
 import { shellDemoRoutes } from './shell-demo/shell-demo.routes';
+import { ngssmFeatureStateDemoRoutes } from './ngssm-feature-state-demo/public-api';
 
 export const routes: Routes = [
   ...aceEditorDemoRoutes,
@@ -38,6 +39,7 @@ export const routes: Routes = [
     component: VisibilityDemoComponent
   },
   ...ngssmDataDemoRoutes,
+  ...ngssmFeatureStateDemoRoutes,
   ...shellDemoRoutes,
   ...todoRoutes,
   { path: '**', component: NotFoundComponent }

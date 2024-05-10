@@ -4,6 +4,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { provideNgssmStore, provideConsoleAppender } from 'ngssm-store';
 import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import {
@@ -18,7 +19,6 @@ import { provideNgssmNavigation } from 'ngssm-navigation';
 import { provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
 import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
-import { provideConsoleAppender } from 'ngssm-store';
 import { provideNgssmData } from 'ngssm-data';
 
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
@@ -29,6 +29,7 @@ import { provideNgssmDataDemo } from './ngssm-data-demo/public-api';
 import { provideTodo } from './todo/provide-todo';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideNgssmFeatureStateDemo } from './ngssm-feature-state-demo/public-api';
 
 const dotnetRegexValidator: RegexEditorValidator = {
   validatePattern: (pattern: string) => {
@@ -60,6 +61,7 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { horizontalPosition: 'right', verticalPosition: 'top', duration: 1000 }
     },
+    provideNgssmStore(),
     provideConsoleAppender('Main'),
     useDefaultErrorStateMatcher,
     {
@@ -96,6 +98,7 @@ export const appConfig: ApplicationConfig = {
     provideJsonBuilder(),
     provideToolkitDemo(),
     provideNgssmDataDemo(),
-    provideTodo()
+    provideTodo(),
+    provideNgssmFeatureStateDemo()
   ]
 };
