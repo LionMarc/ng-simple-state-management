@@ -1,6 +1,8 @@
 # State and feature state
 
-The state is nothing else than a dictionary used to associate a _feature key_ to a _feature state_ object.
+The state is the global object that contains all data to be shared among components and with a lifetime greater than a component's lifetime.
+
+The state contains all the defined feature states.
 
 ```javascript title="State"
 --8<-- "projects/ngssm-store/src/lib/state.ts"
@@ -10,9 +12,9 @@ The state is nothing else than a dictionary used to associate a _feature key_ to
 
     The state must be immutable but, to keep it simple, the state remains a simple javascript object. This is the responsibility of the coder to guarantee immutability of the state.
 
-## Defining a feature state - Legacy
+## Static definition of a feature state
 
-The legacy way of providing a feature state is to use the decorator _NgSsmFeatureState_.
+The static way of providing a feature state is to use the decorator _NgSsmFeatureState_.
 
 ```javascript
 --8<-- "projects/ngssm-store/src/lib/store.ts:15:19"
@@ -51,9 +53,14 @@ export class TestFeatureStateStateSpecification {
 }
 ```
 
-## Registering a feature state
+## Dynamic registration of a feature state
 
-The new way to register a feature state is driven by the need to associate a feature state to a component and so, to remove that state when the component is destroyed.
+In order to allow associating a feature state to a component and so, to remove that state when the component is destroyed, a feature state could also be registered at any time.
+
+!!! Note
+
+    As the static registration of feature state will be removed in a future release, this is the way to register any feature state.
+
 
 Two actions are provided to register and unregister feature state:
 
