@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { StoreMock } from 'ngssm-store/testing';
 
@@ -43,17 +43,19 @@ describe('RemoteDataLoadingEffect', () => {
       [RemoteDataStateSpecification.featureStateKey]: RemoteDataStateSpecification.initialState
     });
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, MatSnackBarModule],
-      providers: [
+    imports: [MatSnackBarModule],
+    providers: [
         RemoteDataLoadingEffect,
         provideRemoteDataFunc(remoteDataKeyForFunc, loadingFunc),
         {
-          provide: NGSSM_REMOTE_DATA_PROVIDER,
-          useClass: RemoteDataTesting,
-          multi: true
-        }
-      ]
-    });
+            provide: NGSSM_REMOTE_DATA_PROVIDER,
+            useClass: RemoteDataTesting,
+            multi: true
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
     effect = TestBed.inject(RemoteDataLoadingEffect);
     httpTestingController = TestBed.inject(HttpTestingController);
   });

@@ -1,6 +1,6 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material'as mat;
+@use '@angular/material' as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -11,16 +11,16 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$ng-simple-state-management-primary: mat.define-palette(mat.$indigo-palette);
-$ng-simple-state-management-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-$my-typography: mat.define-typography-config();
+$ng-simple-state-management-primary: mat.m2-define-palette(mat.$m2-indigo-palette);
+$ng-simple-state-management-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+$my-typography: mat.m2-define-typography-config();
 
 // The warn palette is optional (defaults to red).
-$ng-simple-state-management-warn: mat.define-palette(mat.$red-palette);
+$ng-simple-state-management-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$ng-simple-state-management-theme: mat.define-light-theme((color: (primary: $ng-simple-state-management-primary,
+$ng-simple-state-management-theme: mat.m2-define-light-theme((color: (primary: $ng-simple-state-management-primary,
             accent: $ng-simple-state-management-accent,
             warn: $ng-simple-state-management-warn,
         ),
