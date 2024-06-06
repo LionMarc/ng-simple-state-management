@@ -13,8 +13,10 @@ import {
   NgssmDataReloadButtonComponent
 } from 'ngssm-data';
 import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
+import { NgssmAceEditorComponent } from 'ngssm-ace-editor';
 
 import { playersKey, playersLoader, teamsKey } from '../../model';
+import { ComponentWithScopedDataSourceComponent } from '../component-with-scoped-data-source/component-with-scoped-data-source.component';
 
 @Component({
   selector: 'app-ngssm-data-demo',
@@ -26,7 +28,9 @@ import { playersKey, playersLoader, teamsKey } from '../../model';
     MatButtonModule,
     IsNgssmDataSourceValueStatusPipe,
     NgssmDataReloadButtonComponent,
-    NgssmComponentOverlayDirective
+    NgssmComponentOverlayDirective,
+    NgssmAceEditorComponent,
+    ComponentWithScopedDataSourceComponent
   ],
   templateUrl: './ngssm-data-demo.component.html',
   styleUrls: ['./ngssm-data-demo.component.scss'],
@@ -38,12 +42,15 @@ export class NgssmDataDemoComponent extends NgSsmComponent {
 
   public readonly teamsSourceValue = signal<any>({});
   public readonly playersSourceValue = signal<any>({});
+  public readonly componentWithScopedDatasourceRendered = signal<boolean>(false);
+  public readonly state = signal<string>('{}');
 
   constructor(store: Store) {
     super(store);
 
     this.watch((s) => selectNgssmDataSourceValue(s, teamsKey)).subscribe((v) => this.teamsSourceValue.set(v));
     this.watch((s) => selectNgssmDataSourceValue(s, playersKey)).subscribe((v) => this.playersSourceValue.set(v));
+    this.watch((s) => s).subscribe((s) => this.state.set(JSON.stringify(s, undefined, 4)));
   }
 
   public reloadTeams(): void {

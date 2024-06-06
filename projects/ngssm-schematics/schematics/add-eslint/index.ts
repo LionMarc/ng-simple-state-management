@@ -1,11 +1,9 @@
 import { Rule, SchematicContext, Tree, chain, externalSchematic } from '@angular-devkit/schematics';
 import { addPackageJsonDependency, NodeDependencyType, NodeDependency } from '@schematics/angular/utility/dependencies';
 
-function addEslint():Rule {
+function addEslint(): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const dependencies: NodeDependency[] = [
-      { type: NodeDependencyType.Dev, version: '^8.57.0', name: 'eslint' }
-    ];
+    const dependencies: NodeDependency[] = [{ type: NodeDependencyType.Dev, version: '^8.57.0', name: 'eslint' }];
 
     dependencies.forEach((dependency) => {
       addPackageJsonDependency(host, dependency);
