@@ -1,6 +1,21 @@
 import { Rule, SchematicContext, Tree, chain, externalSchematic } from '@angular-devkit/schematics';
 import { addPackageJsonDependency, NodeDependencyType, NodeDependency } from '@schematics/angular/utility/dependencies';
 
+function addEslint():Rule {
+  return (host: Tree, context: SchematicContext) => {
+    const dependencies: NodeDependency[] = [
+      { type: NodeDependencyType.Dev, version: '^8.57.0', name: 'eslint' }
+    ];
+
+    dependencies.forEach((dependency) => {
+      addPackageJsonDependency(host, dependency);
+      context.logger.log('info', `"${dependency.name}" added into ${dependency.type}`);
+    });
+
+    return host;
+  };
+}
+
 function addPrettierDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
@@ -91,6 +106,7 @@ export default function (): Rule {
     context.logger.info('Starting installation and configuration of eslint and prettier');
 
     return chain([
+      addEslint(),
       externalSchematic('@angular-eslint/schematics', 'ng-add', {}),
       addPrettierDependencies(),
       updateEslintRc(),
