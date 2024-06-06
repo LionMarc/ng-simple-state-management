@@ -43,19 +43,19 @@ describe('RemoteDataLoadingEffect', () => {
       [RemoteDataStateSpecification.featureStateKey]: RemoteDataStateSpecification.initialState
     });
     TestBed.configureTestingModule({
-    imports: [MatSnackBarModule],
-    providers: [
+      imports: [MatSnackBarModule],
+      providers: [
         RemoteDataLoadingEffect,
         provideRemoteDataFunc(remoteDataKeyForFunc, loadingFunc),
         {
-            provide: NGSSM_REMOTE_DATA_PROVIDER,
-            useClass: RemoteDataTesting,
-            multi: true
+          provide: NGSSM_REMOTE_DATA_PROVIDER,
+          useClass: RemoteDataTesting,
+          multi: true
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
     effect = TestBed.inject(RemoteDataLoadingEffect);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
