@@ -60,6 +60,8 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
+A data source could also be added by using the action **NgssmRegisterDataSource**. It could then be removed with the action **NgssmUnregisterDataSource**.
+
 The value of a data source is stored in state as **NgssmDataSourceValue**
 
 ```mermaid
@@ -114,83 +116,8 @@ const propertyValue:NgssmDataSourceAdditionalPropertyValue = selectNgssmDataSour
 
 Some actions are provided by the library to manage the data source.
 
-```mermaid
-classDiagram
-    direction LR
-    class NgssmDataSourceActionType{
-        <<enum>>
-        registerDataSources
-        loadDataSourceValue
-        loadDataSourceAdditionalPropertyValue
-        setDataSourceParameter
-        clearDataSourceValue
-        setDataSourceValue,
-        setDataSourceAdditionalPropertyValue
-    }
-
-    note for Action "Interface defined in ngssm-store"
-    class Action {
-        <<interface>>
-        type: string
-    }
-
-    class ParameterValue~TParameter~{
-        value?: TParameter
-    }
-
-    class NgssmLoadDataSourceOptions~TParameter~ {
-        forceReload: boolean = false
-        keepAdditionalProperties: boolean: false
-    }
-
-    class NgssmLoadDataSourceValueAction~TParameter~{
-        key
-    }
-
-    NgssmLoadDataSourceValueAction-->NgssmLoadDataSourceOptions: options
-    NgssmLoadDataSourceOptions-->ParameterValue : parameter
-
-    class NgssmLoadDataSourceAdditionalPropertyValueAction{
-        key
-        property
-        forceReload: boolean = false
-    }
-
-    class NgssmRegisterDataSourcesAction{
-        dataSources: NgssmDataSource[]
-    }
-
-    class NgssmSetDataSourceParameterAction~TParameter~{
-        key
-        parameter?: TParameter
-        forceReload: boolean = false
-    }
-
-    class NgssmClearDataSourceValueAction{
-        key
-        clearParameter: boolean = false
-    }
-
-    class NgssmSetDataSourceValueAction~TData~{
-        key
-        status: NgssmDataSourceValueStatus
-        value?: TData
-    }
-
-    class NgssmSetDataSourceAdditionalPropertyValueAction~TProperty~{
-        key
-        property
-        status: NgssmDataSourceValueStatus
-        value?: TProperty
-    }
-
-    NgssmRegisterDataSourcesAction --|> Action: NgssmDataSourceActionType.registerDataSources
-    NgssmLoadDataSourceValueAction --|> Action: NgssmDataSourceActionType.loadDataSourceValue
-    NgssmSetDataSourceParameterAction --|> Action: NgssmDataSourceActionType.setDataSourceParameter
-    NgssmClearDataSourceValueAction --|> Action: NgssmDataSourceActionType.clearDataSourceValue
-    NgssmSetDataSourceValueAction --|> Action: NgssmDataSourceActionType.setDataSourceValue
-    NgssmLoadDataSourceAdditionalPropertyValueAction --|> Action: NgssmDataSourceActionType.loadDataSourceAdditionalPropertyValue
-    NgssmSetDataSourceAdditionalPropertyValueAction --|> Action: NgssmDataSourceActionType.setDataSourceAdditionalPropertyValue
+```typescript
+{% include "../../projects/ngssm-data/src/lib/ngssm-data/actions/ngssm-data-action-type.ts" %}
 ```
 
 ```javascript
