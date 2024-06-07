@@ -12,13 +12,13 @@
     "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
   },
   "peerDependencies": {
-    "@angular/common": ">=16.0.0",
-    "@angular/core": ">=16.0.0"
+    "@angular/common": ">=18.0.0",
+    "@angular/core": ">=18.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0",
-    "@angular-eslint/schematics": ">=16.0.0",
-    "@angular/material": ">=16.0.0"
+    "@angular-eslint/schematics": ">=18.0.0",
+    "@angular/material": ">=18.0.0"
   },
   "schematics": "./schematics/collection.json",
   "ng-add": {
