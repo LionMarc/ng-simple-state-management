@@ -15,7 +15,10 @@ enum TestingActionType {
   edit = '[TestingActionType] edit',
   cancelEdition = '[TestingActionType] cancelEdition',
   submit = '[TestingActionType] submit',
-  withfunction = '[TestingActionType] withfunction'
+  withfunction = '[TestingActionType] withfunction',
+  toCloseMultipleDialogs = '[TestingActionType] toCloseMultipleDialogs',
+  open1toCloseMultipleDialogs = '[TestingActionType] open1toCloseMultipleDialogs',
+  open2toCloseMultipleDialogs = '[TestingActionType] open2toCloseMultipleDialogs'
 }
 
 @Component({
@@ -94,6 +97,26 @@ describe('MatDialogOpeningEffect', () => {
               store.dispatchActionType('TESTING');
               functionCalled = true;
             }
+          },
+          {
+            openingAction: TestingActionType.open1toCloseMultipleDialogs,
+            closingActions: [TestingActionType.toCloseMultipleDialogs],
+            component: EditorComponent,
+            matDialogConfig: {
+              disableClose: true,
+              height: '400px',
+              width: '60vw'
+            }
+          },
+          {
+            openingAction: TestingActionType.open2toCloseMultipleDialogs,
+            closingActions: [TestingActionType.toCloseMultipleDialogs],
+            component: EditorComponent,
+            matDialogConfig: {
+              disableClose: true,
+              height: '400px',
+              width: '60vw'
+            }
           }
         )
       ]
@@ -171,6 +194,18 @@ describe('MatDialogOpeningEffect', () => {
         disableClose: true,
         height: '400px',
         width: '60vw'
+      });
+    });
+  });
+
+  describe('one action to close multiple dialogs', () => {
+    [TestingActionType.open1toCloseMultipleDialogs, TestingActionType.open2toCloseMultipleDialogs].forEach((open) => {
+      it(`should close the dialog open with '${open}' when calling the action type '${TestingActionType.toCloseMultipleDialogs}'`, () => {
+        effect.processAction(store as any, store.stateValue, { type: open });
+
+        effect.processAction(store as any, store.stateValue, { type: TestingActionType.toCloseMultipleDialogs });
+
+        expect(dialog.close).toHaveBeenCalled();
       });
     });
   });

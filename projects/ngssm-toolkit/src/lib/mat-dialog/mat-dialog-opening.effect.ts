@@ -18,36 +18,38 @@ export class MatDialogOpeningEffect implements Effect {
 
   constructor(
     @Inject(NGSSM_MAT_DIALOG_CONFIG) @Optional() private configs: NgssmMatDialogConfig[],
-    private logger: Logger,
     private matDialog: MatDialog,
     private injector: EnvironmentInjector
   ) {
-    this.processedActions.push(...(this.configs ?? []).flatMap((c) => [c.openingAction, ...c.closingActions]));
+    const allActions = (this.configs ?? []).flatMap((c) => [c.openingAction, ...c.closingActions]);
+    const actions = new Set<string>(allActions);
+    this.processedActions.push(...actions);
     this.extendedConfigs = (this.configs ?? []).map((c) => ({
       config: c
     }));
   }
 
   public processAction(_store: Store, state: State, action: Action): void {
-    const extendedConfig = this.extendedConfigs.find(
-      (c) => c.config.openingAction === action.type || c.config.closingActions.includes(action.type)
-    );
+    this.processActionAsClosingOne(action);
+    this.processActionAsOpeningOne(state, action);
+  }
 
-    if (!extendedConfig) {
-      this.logger.error(`Need to process action '${action.type}' with no associated config.`);
-      return;
-    }
-
-    if (action.type === extendedConfig.config.openingAction) {
+  private processActionAsOpeningOne(state: State, action: Action): void {
+    const extendedConfig = this.extendedConfigs.find((c) => c.config.openingAction === action.type);
+    if (extendedConfig) {
       const beforeOpeningDialog = extendedConfig.config.beforeOpeningDialog;
       if (beforeOpeningDialog) {
         runInInjectionContext(this.injector, () => beforeOpeningDialog(state));
       }
       extendedConfig.dialog = this.matDialog.open(extendedConfig.config.component, extendedConfig.config.matDialogConfig);
-      return;
     }
+  }
 
-    extendedConfig.dialog?.close();
-    extendedConfig.dialog = undefined;
+  private processActionAsClosingOne(action: Action): void {
+    const extendedConfigs = this.extendedConfigs.filter((c) => c.config.closingActions.includes(action.type));
+    extendedConfigs.forEach((config) => {
+      config.dialog?.close();
+      config.dialog = undefined;
+    });
   }
 }
