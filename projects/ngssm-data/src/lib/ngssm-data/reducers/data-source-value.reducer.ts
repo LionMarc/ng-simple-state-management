@@ -68,11 +68,21 @@ export class DataSourceValueReducer implements Reducer {
         }
 
         if (shouldReload) {
-          if (loadDataSourceValue.options?.keepAdditionalProperties === true) {
-            return updateNgssmDataState(currentState, {
+          if (loadDataSourceValue.options?.keepAdditionalProperties !== true) {
+            currentState = updateNgssmDataState(currentState, {
               dataSourceValues: {
                 [loadDataSourceValue.key]: {
-                  status: { $set: NgssmDataSourceValueStatus.loading }
+                  additionalProperties: { $set: {} }
+                }
+              }
+            });
+          }
+
+          if (loadDataSourceValue.options?.resetValue === true) {
+            currentState = updateNgssmDataState(currentState, {
+              dataSourceValues: {
+                [loadDataSourceValue.key]: {
+                  value: { $set: undefined }
                 }
               }
             });
@@ -81,8 +91,7 @@ export class DataSourceValueReducer implements Reducer {
           return updateNgssmDataState(currentState, {
             dataSourceValues: {
               [loadDataSourceValue.key]: {
-                status: { $set: NgssmDataSourceValueStatus.loading },
-                additionalProperties: { $set: {} }
+                status: { $set: NgssmDataSourceValueStatus.loading }
               }
             }
           });

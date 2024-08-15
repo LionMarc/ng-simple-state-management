@@ -110,6 +110,9 @@ describe('DataSourceValueReducer', () => {
                     status: NgssmDataSourceValueStatus.loaded,
                     value: 'testing'
                   }
+                },
+                value: {
+                  label: 'testing'
                 }
               }
             }
@@ -123,6 +126,14 @@ describe('DataSourceValueReducer', () => {
         const updatedState = reducer.updateState(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({});
+      });
+
+      it(`should clear the value when option resetValue is set to true`, () => {
+        const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true, resetValue: true });
+
+        const updatedState = reducer.updateState(state, action);
+
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].value).toBeFalsy();
       });
 
       it(`should clear the additional properties when reloading source when options keepAdditionalProperties is set to true`, () => {
