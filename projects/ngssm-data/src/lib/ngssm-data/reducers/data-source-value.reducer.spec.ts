@@ -301,7 +301,8 @@ describe('DataSourceValueReducer', () => {
               value: ['test'],
               lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
               parameter: 'previous',
-              additionalProperties: {}
+              additionalProperties: {},
+              parameterIsValid: true
             }
           }
         }
@@ -336,6 +337,18 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual('previous');
+    });
+
+    it(`should reset parameter validity to undefined if clearParameter is set to true`, () => {
+      const updatedState = reducer.updateState(state, new NgssmClearDataSourceValueAction('data-providers', true));
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toBeUndefined();
+    });
+
+    it(`should not reset parameter validity to undefined if clearParameter is not set to true`, () => {
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(true);
     });
   });
 
@@ -382,6 +395,28 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual('new parameter');
+    });
+
+    it(`should update source value parameter validity with the value set in action`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing',
+              additionalProperties: {}
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterAction('data-providers', 'new parameter', false);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(false);
     });
   });
 

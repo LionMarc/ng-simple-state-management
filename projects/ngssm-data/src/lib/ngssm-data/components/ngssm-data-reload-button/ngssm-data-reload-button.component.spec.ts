@@ -159,6 +159,24 @@ describe('NgssmDataReloadButtonComponent', () => {
           });
         });
       });
+
+      it(`should be disabled when parameter validity flag is set to false`, async () => {
+        const state = updateNgssmDataState(store.stateValue, {
+          dataSourceValues: {
+            [dataSourceKey]: {
+              status: { $set: NgssmDataSourceValueStatus.loaded },
+              parameterIsValid: { $set: false }
+            }
+          }
+        });
+        store.stateValue = state;
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const element = await loader.getHarness(MatButtonHarness);
+
+        expect(await element.isDisabled()).toBeTrue();
+      });
     });
   });
 
