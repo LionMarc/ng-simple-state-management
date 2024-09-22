@@ -43,7 +43,6 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
       .pipe(takeUntil(this.toUnsubscribe$))
       .subscribe((values) => {
         this.loadInProgress.set(this._dataSourceKeys.findIndex((v) => values[v]?.status === NgssmDataSourceValueStatus.loading) !== -1);
-        this.buttonDisabled.set(this.loadInProgress() === true || this._dataSourceKeys.findIndex((v) => !!values[v]) === -1);
         let timestamp: DateTime | undefined;
         this._dataSourceKeys.forEach((key) => {
           const keyTimestamp = values[key]?.lastLoadingDate;
@@ -59,6 +58,19 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
           tooltiMessage = [tooltiMessage, `Loaded at ${timestamp.toHTTP()}`].join('\n');
         }
         this.tooltipMessage.set(tooltiMessage);
+
+        if (this.loadInProgress()) {
+          this.buttonDisabled.set(true);
+          return;
+        }
+
+        const someHasAnInvalidParameter = this._dataSourceKeys.findIndex((key) => values[key]?.parameterIsValid === false) !== -1;
+        if (someHasAnInvalidParameter) {
+          this.buttonDisabled.set(true);
+          return;
+        }
+
+        this.buttonDisabled.set(this._dataSourceKeys.findIndex((v) => !!values[v]) === -1);
       });
   }
 

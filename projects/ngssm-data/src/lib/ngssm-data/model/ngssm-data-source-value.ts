@@ -21,4 +21,5 @@ export interface NgssmDataSourceValue<TData = any, TParameter = any> {
   lastLoadingDate?: DateTime;
   dataLifetimeInSeconds?: number;
   additionalProperties: { [key: string]: NgssmDataSourceAdditionalPropertyValue };
+  parameterIsValid?: boolean;
 }

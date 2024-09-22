@@ -67,6 +67,10 @@ export class DataSourceValueReducer implements Reducer {
           shouldReload = true;
         }
 
+        if (dataSourceValue.parameterIsValid === false) {
+          shouldReload = false;
+        }
+
         if (shouldReload) {
           if (loadDataSourceValue.options?.keepAdditionalProperties !== true) {
             currentState = updateNgssmDataState(currentState, {
@@ -125,7 +129,8 @@ export class DataSourceValueReducer implements Reducer {
           currentState = updateNgssmDataState(state, {
             dataSourceValues: {
               [ngssmClearDataSourceValueAction.key]: {
-                parameter: { $set: undefined }
+                parameter: { $set: undefined },
+                parameterIsValid: { $set: undefined }
               }
             }
           });
@@ -148,7 +153,8 @@ export class DataSourceValueReducer implements Reducer {
         return updateNgssmDataState(state, {
           dataSourceValues: {
             [ngssmSetDataSourceParameterAction.key]: {
-              parameter: { $set: ngssmSetDataSourceParameterAction.parameter }
+              parameter: { $set: ngssmSetDataSourceParameterAction.parameter },
+              parameterIsValid: { $set: ngssmSetDataSourceParameterAction.parameterIsValid }
             }
           }
         });
