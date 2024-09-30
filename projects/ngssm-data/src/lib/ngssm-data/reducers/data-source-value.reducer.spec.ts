@@ -6,13 +6,15 @@ import { DataSourceValueReducer } from './data-source-value.reducer';
 import {
   NgssmClearDataSourceValueAction,
   NgssmDataActionType,
+  NgssmLoadDataSourceAdditionalPropertyValueAction,
   NgssmLoadDataSourceValueAction,
   NgssmSetDataSourceParameterAction,
-  NgssmSetDataSourceValueAction
+  NgssmSetDataSourceParameterValidityAction,
+  NgssmSetDataSourceValueAction,
+  NgssmUpdateDataSourceParameterAction
 } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
-import { NgssmLoadDataSourceAdditionalPropertyValueAction } from 'ngssm-data';
 
 describe('DataSourceValueReducer', () => {
   let reducer: DataSourceValueReducer;
@@ -31,7 +33,9 @@ describe('DataSourceValueReducer', () => {
     NgssmDataActionType.clearDataSourceValue,
     NgssmDataActionType.setDataSourceParameter,
     NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
-    NgssmDataActionType.setDataSourceAdditionalPropertyValue
+    NgssmDataActionType.setDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.updateDataSourceParameter,
+    NgssmDataActionType.setDataSourceParameterValidity
   ].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(reducer.processedActions).toContain(actionType);
@@ -413,6 +417,65 @@ describe('DataSourceValueReducer', () => {
       });
 
       const action = new NgssmSetDataSourceParameterAction('data-providers', 'new parameter', false);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(false);
+    });
+  });
+
+  describe(`when processing action of type '${NgssmDataActionType.updateDataSourceParameter}'`, () => {
+    it(`should merge source value parameter with value set in action`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: {
+                label: 'testing',
+                onlyLast: true
+              },
+              additionalProperties: {}
+            }
+          }
+        }
+      });
+
+      const action = new NgssmUpdateDataSourceParameterAction('data-providers', {
+        onlyLast: false,
+        description: 'something'
+      });
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual({
+        label: 'testing',
+        onlyLast: false,
+        description: 'something'
+      });
+    });
+  });
+
+  describe(`when processing action of type '${NgssmDataActionType.setDataSourceParameterValidity}'`, () => {
+    it(`should update source value parameter validity with the value set in action`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing',
+              additionalProperties: {},
+              parameterIsValid: true
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterValidityAction('data-providers', false);
 
       const updatedState = reducer.updateState(state, action);
 

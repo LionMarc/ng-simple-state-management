@@ -11,7 +11,9 @@ import {
   NgssmLoadDataSourceValueAction,
   NgssmSetDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceParameterAction,
-  NgssmSetDataSourceValueAction
+  NgssmSetDataSourceParameterValidityAction,
+  NgssmSetDataSourceValueAction,
+  NgssmUpdateDataSourceParameterAction
 } from '../actions';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
 import { NgssmDataSourceValueStatus } from '../model';
@@ -24,7 +26,9 @@ export class DataSourceValueReducer implements Reducer {
     NgssmDataActionType.clearDataSourceValue,
     NgssmDataActionType.setDataSourceParameter,
     NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
-    NgssmDataActionType.setDataSourceAdditionalPropertyValue
+    NgssmDataActionType.setDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.updateDataSourceParameter,
+    NgssmDataActionType.setDataSourceParameterValidity
   ];
 
   public updateState(state: State, action: Action): State {
@@ -155,6 +159,28 @@ export class DataSourceValueReducer implements Reducer {
             [ngssmSetDataSourceParameterAction.key]: {
               parameter: { $set: ngssmSetDataSourceParameterAction.parameter },
               parameterIsValid: { $set: ngssmSetDataSourceParameterAction.parameterIsValid }
+            }
+          }
+        });
+      }
+
+      case NgssmDataActionType.updateDataSourceParameter: {
+        const ngssmUpdateDataSourceParameterAction = action as NgssmUpdateDataSourceParameterAction;
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmUpdateDataSourceParameterAction.key]: {
+              parameter: { $merge: ngssmUpdateDataSourceParameterAction.parameter }
+            }
+          }
+        });
+      }
+
+      case NgssmDataActionType.setDataSourceParameterValidity: {
+        const ngssmSetDataSourceParameterValidityAction = action as NgssmSetDataSourceParameterValidityAction;
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmSetDataSourceParameterValidityAction.key]: {
+              parameterIsValid: { $set: ngssmSetDataSourceParameterValidityAction.isValid }
             }
           }
         });
