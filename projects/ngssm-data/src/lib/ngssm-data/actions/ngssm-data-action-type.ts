@@ -13,6 +13,12 @@ export enum NgssmDataActionType {
   // Update the parameter used by the loading method, if one is required
   setDataSourceParameter = '[NgssmDataActionType] setDataSourceParameter',
 
+  // Used to partially update the parameter. Usefull when creating a search component with multiple search criteria.
+  updateDataSourceParameter = '[NgssmDataActionType] updateDataSourceParameter',
+
+  // Update only the validity of the parameter. Usefull in case of a partial update of the parameter.
+  setDataSourceParameterValidity = '[NgssmDataActionType] setDataSourceParameterValidity',
+
   // Clear the stored value associated to a data source
   clearDataSourceValue = '[NgssmDataActionType] clearDataSourceValue',
 
