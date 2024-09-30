@@ -4,7 +4,7 @@
     @if (loadInProgress()) {
     <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
     } @else {
-    <mat-icon class="fa-solid fa-rotate-right"></mat-icon>
+    <mat-icon [ngClass]="icon()"></mat-icon>
     }
 
 </button>
