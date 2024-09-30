@@ -29,11 +29,16 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   public readonly loadInProgress = signal<boolean>(false);
   public readonly buttonDisabled = signal<boolean>(true);
   public readonly tooltipMessage = signal<string>('');
+  public readonly icon = signal<string>('fa-solid fa-rotate-right');
 
   @Input() public keepAdditionalProperties = false;
 
   constructor(store: Store) {
     super(store);
+  }
+
+  @Input() set buttonIcon(value: string) {
+    this.icon.set(value);
   }
 
   @Input() public set dataSourceKeys(value: string[]) {

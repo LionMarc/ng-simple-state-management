@@ -48,6 +48,22 @@ describe('NgssmDataReloadButtonComponent', () => {
     expect(await element.isDisabled()).toBeTrue();
   });
 
+  describe('Rendered icon', () => {
+    it(`should render a fa-rotate-right by default`, () => {
+      const icon = fixture.debugElement.query(By.css('.fa-rotate-right'));
+      expect(icon).toBeTruthy();
+    });
+
+    it(`should render a fa-magnifying-glass when input property buttonIcon is set to fa-magnifying-glass`, async () => {
+      component.buttonIcon = 'fa-solid fa-magnifying-glass';
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const icon = fixture.debugElement.query(By.css('.fa-magnifying-glass'));
+      expect(icon).toBeTruthy();
+    });
+  });
+
   describe('when one data source is associated to the button', () => {
     const dataSourceKey = 'my-first-source';
 

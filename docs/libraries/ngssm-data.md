@@ -179,4 +179,5 @@ The pipe _isNgssmDataSourceValueStatus_ is provided to allow updating the ui acc
   - inputs:
 
     - dataSourceKeys: string[] => the keys of the data sources managed by the button;
-    - keepAdditionalProperties: boolean => if true, additional properties are not cleared when reloading data.
+    - keepAdditionalProperties: boolean => if true, additional properties are not cleared when reloading data;
+    - buttonIcon: string => css class to override default reload icon.
