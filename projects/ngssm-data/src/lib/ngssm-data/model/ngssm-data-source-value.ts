@@ -22,4 +22,7 @@ export interface NgssmDataSourceValue<TData = any, TParameter = any> {
   dataLifetimeInSeconds?: number;
   additionalProperties: { [key: string]: NgssmDataSourceAdditionalPropertyValue };
   parameterIsValid?: boolean;
+
+  // Parameter has been updated but not value
+  valueOutdated?: boolean;
 }

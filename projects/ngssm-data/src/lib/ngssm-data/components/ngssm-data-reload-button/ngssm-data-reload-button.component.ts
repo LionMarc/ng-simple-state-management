@@ -30,6 +30,7 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   public readonly buttonDisabled = signal<boolean>(true);
   public readonly tooltipMessage = signal<string>('');
   public readonly icon = signal<string>('fa-solid fa-rotate-right');
+  public readonly color = signal<string>('primary');
 
   @Input() public keepAdditionalProperties = false;
 
@@ -76,6 +77,9 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
         }
 
         this.buttonDisabled.set(this._dataSourceKeys.findIndex((v) => !!values[v]) === -1);
+
+        const someHasAnOutdatedValue = this._dataSourceKeys.findIndex((key) => values[key]?.valueOutdated === true) !== -1;
+        this.color.set(someHasAnOutdatedValue ? 'accent' : 'primary');
       });
   }
 
