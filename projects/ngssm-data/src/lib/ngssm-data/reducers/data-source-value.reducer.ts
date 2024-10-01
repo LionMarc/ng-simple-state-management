@@ -99,7 +99,8 @@ export class DataSourceValueReducer implements Reducer {
           return updateNgssmDataState(currentState, {
             dataSourceValues: {
               [loadDataSourceValue.key]: {
-                status: { $set: NgssmDataSourceValueStatus.loading }
+                status: { $set: NgssmDataSourceValueStatus.loading },
+                valueOutdated: { $set: false }
               }
             }
           });
@@ -158,7 +159,8 @@ export class DataSourceValueReducer implements Reducer {
           dataSourceValues: {
             [ngssmSetDataSourceParameterAction.key]: {
               parameter: { $set: ngssmSetDataSourceParameterAction.parameter },
-              parameterIsValid: { $set: ngssmSetDataSourceParameterAction.parameterIsValid }
+              parameterIsValid: { $set: ngssmSetDataSourceParameterAction.parameterIsValid },
+              valueOutdated: { $set: true }
             }
           }
         });
@@ -169,7 +171,8 @@ export class DataSourceValueReducer implements Reducer {
         return updateNgssmDataState(state, {
           dataSourceValues: {
             [ngssmUpdateDataSourceParameterAction.key]: {
-              parameter: { $merge: ngssmUpdateDataSourceParameterAction.parameter }
+              parameter: { $merge: ngssmUpdateDataSourceParameterAction.parameter },
+              valueOutdated: { $set: true }
             }
           }
         });

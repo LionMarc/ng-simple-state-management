@@ -99,6 +99,29 @@ describe('DataSourceValueReducer', () => {
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].parameter).toEqual('next');
     });
 
+    it(`should set the valueOutdated to false`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              dataLifetimeInSeconds: 50,
+              lastLoadingDate: DateTime.now().plus({ second: -30 }),
+              parameter: 'previous',
+              additionalProperties: {},
+              valueOutdated: true
+            }
+          }
+        }
+      });
+
+      const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true });
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].valueOutdated).toEqual(false);
+    });
+
     describe(`when data source has additional properties`, () => {
       beforeEach(() => {
         state = updateNgssmDataState(state, {
@@ -357,48 +380,64 @@ describe('DataSourceValueReducer', () => {
   });
 
   describe(`when processing action of type '${NgssmDataActionType.setDataSourceParameter}'`, () => {
-    it(`should reset source value parameter to undefined when parameter is not set in action`, () => {
-      state = updateNgssmDataState(state, {
-        dataSourceValues: {
-          ['data-providers']: {
-            $set: {
-              status: NgssmDataSourceValueStatus.loading,
-              value: ['test'],
-              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
-              parameter: 'testing',
-              additionalProperties: {}
-            }
-          }
-        }
-      });
-
+    describe('when parameter is not set in action', () => {
       const action = new NgssmSetDataSourceParameterAction('data-providers');
 
-      const updatedState = reducer.updateState(state, action);
-
-      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toBeUndefined();
-    });
-
-    it(`should update source value parameter with the value set in action`, () => {
-      state = updateNgssmDataState(state, {
-        dataSourceValues: {
-          ['data-providers']: {
-            $set: {
-              status: NgssmDataSourceValueStatus.loading,
-              value: ['test'],
-              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
-              parameter: 'testing',
-              additionalProperties: {}
+      beforeEach(() => {
+        state = updateNgssmDataState(state, {
+          dataSourceValues: {
+            ['data-providers']: {
+              $set: {
+                status: NgssmDataSourceValueStatus.loading,
+                value: ['test'],
+                lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+                parameter: 'testing',
+                additionalProperties: {}
+              }
             }
           }
-        }
+        });
       });
 
+      it(`should reset source value parameter to undefined`, () => {
+        const updatedState = reducer.updateState(state, action);
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toBeUndefined();
+      });
+
+      it(`should set source value valueOutdated to true`, () => {
+        const updatedState = reducer.updateState(state, action);
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBeTrue();
+      });
+    });
+
+    describe('when parameter is set in action', () => {
       const action = new NgssmSetDataSourceParameterAction('data-providers', 'new parameter');
 
-      const updatedState = reducer.updateState(state, action);
+      beforeEach(() => {
+        state = updateNgssmDataState(state, {
+          dataSourceValues: {
+            ['data-providers']: {
+              $set: {
+                status: NgssmDataSourceValueStatus.loading,
+                value: ['test'],
+                lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+                parameter: 'testing',
+                additionalProperties: {}
+              }
+            }
+          }
+        });
+      });
 
-      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual('new parameter');
+      it(`should update source value parameter with the value set in action`, () => {
+        const updatedState = reducer.updateState(state, action);
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual('new parameter');
+      });
+
+      it(`should set source value valueOutdated to true`, () => {
+        const updatedState = reducer.updateState(state, action);
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBeTrue();
+      });
     });
 
     it(`should update source value parameter validity with the value set in action`, () => {
@@ -425,7 +464,12 @@ describe('DataSourceValueReducer', () => {
   });
 
   describe(`when processing action of type '${NgssmDataActionType.updateDataSourceParameter}'`, () => {
-    it(`should merge source value parameter with value set in action`, () => {
+    const action = new NgssmUpdateDataSourceParameterAction('data-providers', {
+      onlyLast: false,
+      description: 'something'
+    });
+
+    beforeEach(() => {
       state = updateNgssmDataState(state, {
         dataSourceValues: {
           ['data-providers']: {
@@ -437,24 +481,27 @@ describe('DataSourceValueReducer', () => {
                 label: 'testing',
                 onlyLast: true
               },
-              additionalProperties: {}
+              additionalProperties: {},
+              valueOutdated: false
             }
           }
         }
       });
+    });
 
-      const action = new NgssmUpdateDataSourceParameterAction('data-providers', {
-        onlyLast: false,
-        description: 'something'
-      });
-
+    it(`should merge source value parameter with value set in action`, () => {
       const updatedState = reducer.updateState(state, action);
-
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual({
         label: 'testing',
         onlyLast: false,
         description: 'something'
       });
+    });
+
+    it(`should should set source value valueOutdated to true`, () => {
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBeTrue();
     });
   });
 

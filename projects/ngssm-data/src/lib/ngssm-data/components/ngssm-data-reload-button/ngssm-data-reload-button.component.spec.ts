@@ -1,4 +1,5 @@
 import { By } from '@angular/platform-browser';
+import { MatIconButton } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -173,6 +174,56 @@ describe('NgssmDataReloadButtonComponent', () => {
             const element = fixture.debugElement.query(By.css('mat-spinner'));
             expect(element).toBeTruthy();
           });
+        });
+      });
+
+      describe('Rendered color', () => {
+        it(`should render a primary button when valueOutdated is undefined`, async () => {
+          const state = updateNgssmDataState(store.stateValue, {
+            dataSourceValues: {
+              [dataSourceKey]: {
+                valueOutdated: { $set: undefined }
+              }
+            }
+          });
+          store.stateValue = state;
+          fixture.detectChanges();
+          await fixture.whenStable();
+
+          const button = fixture.debugElement.query(By.css('button')).injector.get(MatIconButton);
+          expect(button.color).toEqual('primary');
+        });
+
+        it(`should render a accent button when valueOutdated is true`, async () => {
+          const state = updateNgssmDataState(store.stateValue, {
+            dataSourceValues: {
+              [dataSourceKey]: {
+                valueOutdated: { $set: true }
+              }
+            }
+          });
+          store.stateValue = state;
+          fixture.detectChanges();
+          await fixture.whenStable();
+
+          const button = fixture.debugElement.query(By.css('button')).injector.get(MatIconButton);
+          expect(button.color).toEqual('accent');
+        });
+
+        it(`should render a primary button when valueOutdated is false`, async () => {
+          const state = updateNgssmDataState(store.stateValue, {
+            dataSourceValues: {
+              [dataSourceKey]: {
+                valueOutdated: { $set: false }
+              }
+            }
+          });
+          store.stateValue = state;
+          fixture.detectChanges();
+          await fixture.whenStable();
+
+          const button = fixture.debugElement.query(By.css('button')).injector.get(MatIconButton);
+          expect(button.color).toEqual('primary');
         });
       });
 
