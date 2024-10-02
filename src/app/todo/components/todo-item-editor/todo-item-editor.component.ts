@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -6,10 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { BehaviorSubject, Observable, take, takeUntil } from 'rxjs';
+import { take, takeUntil } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { selectRemoteData } from 'ngssm-remote-data';
+import { selectNgssmDataSourceValue } from 'ngssm-data';
 
 import { selectTodoState } from '../../state';
 import { TodoActionType, UpdateTodoItemPropertyAction } from '../../actions';
@@ -32,10 +32,10 @@ import { TodoItem, todoItemKey } from '../../model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemEditorComponent extends NgSsmComponent {
-  private readonly _dialogTitle$ = new BehaviorSubject<string>('');
-  private readonly _submitLabel$ = new BehaviorSubject<string>('Create to-do');
-
+  public readonly dialogTitle = signal<string>('');
+  public readonly submitLabel = signal<string>('Create to-do');
   public readonly titleControl = new FormControl<string | null>(null, Validators.required);
+  public readonly submittingTodo = signal<boolean>(false);
 
   constructor(store: Store) {
     super(store);
@@ -44,15 +44,15 @@ export class TodoItemEditorComponent extends NgSsmComponent {
       .pipe(take(1))
       .subscribe((value) => {
         if (value !== undefined) {
-          this._dialogTitle$.next(`To-Do edition`);
-          this._submitLabel$.next('Update To-Do');
+          this.dialogTitle.set(`To-Do edition`);
+          this.submitLabel.set('Update To-Do');
         } else {
-          this._dialogTitle$.next(`To-Do creation`);
-          this._submitLabel$.next('Create To-Do');
+          this.dialogTitle.set(`To-Do creation`);
+          this.submitLabel.set('Create To-Do');
         }
       });
 
-    this.watch((s) => selectRemoteData(s, todoItemKey)?.data).subscribe((value: TodoItem) => {
+    this.watch((s) => selectNgssmDataSourceValue(s, todoItemKey)?.value).subscribe((value: TodoItem) => {
       if (value?.title) {
         this.titleControl.setValue(value.title);
       }
@@ -69,18 +69,8 @@ export class TodoItemEditorComponent extends NgSsmComponent {
         this.titleControl.enable();
       }
     });
-  }
 
-  public get dialogTitle$(): Observable<string> {
-    return this._dialogTitle$.asObservable();
-  }
-
-  public get submittingTodo$(): Observable<boolean> {
-    return this.watch((s) => selectTodoState(s).todoItemEditor.submissionInProgress);
-  }
-
-  public get submitLabel$(): Observable<string> {
-    return this._submitLabel$.asObservable();
+    this.watch((s) => selectTodoState(s).todoItemEditor.submissionInProgress).subscribe((v) => this.submittingTodo.set(v));
   }
 
   public closeEditor(): void {

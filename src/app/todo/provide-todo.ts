@@ -1,16 +1,17 @@
 import { EnvironmentProviders, inject, makeEnvironmentProviders } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { of, throwError } from 'rxjs';
 
-import { provideRemoteDataFunc, provideRemoteDataProviders } from 'ngssm-remote-data';
 import { NGSSM_NAVIGATION_LOCKING_CONFIG } from 'ngssm-navigation';
 import { Action, State, provideEffectFunc, provideEffects, provideReducer } from 'ngssm-store';
+import { provideNgssmDataSource } from 'ngssm-data';
 
-import { TodoItemProviderService, TodoItemsService } from './services';
+import { TodoItemsService } from './services';
 import { TodoEditorEffect } from './effects/todo-editor.effect';
 import { TodoItemEditorReducer } from './reducers/todo-item-editor.reducer';
 import { TodoActionType } from './actions';
 import { EditedTodoItemSubmissionEffect } from './effects/edited-todo-item-submission.effect';
-import { todoItemsKey } from './model';
-import { HttpClient } from '@angular/common/http';
+import { todoItemKey, todoItemsKey } from './model';
 
 const testingEffectFunc = (state: State, action: Action) => {
   inject(HttpClient)
@@ -20,7 +21,7 @@ const testingEffectFunc = (state: State, action: Action) => {
 
 export const provideTodo = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
-    provideRemoteDataFunc(
+    provideNgssmDataSource(
       todoItemsKey,
       () => {
         const service = inject(TodoItemsService);
@@ -28,7 +29,27 @@ export const provideTodo = (): EnvironmentProviders => {
       },
       600
     ),
-    provideRemoteDataProviders(TodoItemProviderService),
+    provideNgssmDataSource(
+      todoItemKey,
+      (state: State, parameter?: number) => {
+        if (!parameter) {
+          throw new Error('Invalid todo item id.');
+        }
+
+        const service = inject(TodoItemsService);
+        const items = service.items;
+
+        const wanted = items.find((i) => i.id === parameter);
+        if (wanted) {
+          return of(wanted);
+        }
+
+        return throwError(() => ({
+          error: { type: 'https://tools.ietf.org/html/rfc7231#section-6.5.4', title: 'Not Found', status: 404 }
+        }));
+      },
+      600
+    ),
     provideReducer(TodoItemEditorReducer),
     provideEffects(EditedTodoItemSubmissionEffect, TodoEditorEffect),
     {

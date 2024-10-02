@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, ENVIRONMENT_INITIALIZER } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -6,10 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { GetContextMenuItems, GetRowIdParams, GridOptions, ICellRendererParams, MenuItemDef, ValueGetterParams } from 'ag-grid-community';
+import { GetRowIdParams, GridOptions, ICellRendererParams, MenuItemDef, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
-import { DataStatus, NgssmRemoteDataReloadButtonComponent, selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
 import {
   getColDefForEditableColumn,
@@ -20,11 +20,11 @@ import {
   NgssmAgGridThemeDirective
 } from 'ngssm-ag-grid';
 import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
+import { NgssmDataReloadButtonComponent, NgssmDataSourceValueStatus, selectNgssmDataSourceValue } from 'ngssm-data';
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { Router } from '@angular/router';
 import { provideFeatureState } from '../../feature-state-provider';
 
 @Component({
@@ -39,8 +39,8 @@ import { provideFeatureState } from '../../feature-state-provider';
     AgGridModule,
     NgssmAgGridDirective,
     NgssmAgGridThemeDirective,
-    NgssmRemoteDataReloadButtonComponent,
     NgssmComponentOverlayDirective,
+    NgssmDataReloadButtonComponent,
     TodoItemComponent
   ],
   templateUrl: './todo-dashboard.component.html',
@@ -50,9 +50,9 @@ import { provideFeatureState } from '../../feature-state-provider';
 })
 export class TodoDashboardComponent extends NgSsmComponent {
   private readonly _deleteHidden$ = new BehaviorSubject<boolean>(false);
-  private readonly _todoItems$ = new BehaviorSubject<TodoItem[]>([]);
 
-  public readonly dataStatus = DataStatus;
+  public readonly waitingOverlayRendered = signal<boolean>(false);
+  public readonly todoItems = signal<TodoItem[]>([]);
   public readonly allowRestoringGridControl = new FormControl(true);
   public readonly gridOptions: GridOptions = {
     columnDefs: [
@@ -182,19 +182,10 @@ export class TodoDashboardComponent extends NgSsmComponent {
 
     this.deleteHiddenControl.valueChanges.subscribe((v) => this._deleteHidden$.next(v ?? false));
 
-    this.watch((s) => selectRemoteData(s, todoItemsKey)?.data).subscribe((v) => this._todoItems$.next(v ?? []));
-  }
-
-  public get status$(): Observable<DataStatus> {
-    return this.watch((s) => selectRemoteData(s, todoItemsKey)?.status ?? DataStatus.none);
-  }
-
-  public get todoItemIds$(): Observable<number[]> {
-    return this.watch((s) => (selectRemoteData(s, todoItemsKey)?.data ?? []).map((t: TodoItem) => t.id));
-  }
-
-  public get todoItems$(): Observable<TodoItem[]> {
-    return this._todoItems$.asObservable();
+    this.watch((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value).subscribe((v) => this.todoItems.set(v ?? []));
+    this.watch((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.status).subscribe((s) =>
+      this.waitingOverlayRendered.set(s === NgssmDataSourceValueStatus.loading)
+    );
   }
 
   public addTodo(): void {

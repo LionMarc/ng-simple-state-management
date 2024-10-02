@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { getDefaultRemoteData, selectRemoteData, updateRemoteDataState } from 'ngssm-remote-data';
+import { NgssmDataSourceValueStatus, selectNgssmDataSourceValue, updateNgssmDataState } from 'ngssm-data';
 import { Reducer, State, Action } from 'ngssm-store';
 
 import { EditTodoItemAction, TodoActionType, UpdateTodoItemPropertyAction } from '../actions';
@@ -19,8 +19,16 @@ export class TodoItemEditorReducer implements Reducer {
   public updateState(state: State, action: Action): State {
     switch (action.type) {
       case TodoActionType.addTodoItem: {
-        const updatedState = updateRemoteDataState(state, {
-          [todoItemKey]: { $set: getDefaultRemoteData<TodoItem>() }
+        const updatedState = updateNgssmDataState(state, {
+          dataSourceValues: {
+            [todoItemKey]: {
+              $set: {
+                status: NgssmDataSourceValueStatus.none,
+                value: {},
+                additionalProperties: {}
+              }
+            }
+          }
         });
         return updateTodoState(updatedState, {
           todoItemEditor: { $set: getDefaultTodoItemEditor() }
@@ -33,7 +41,9 @@ export class TodoItemEditorReducer implements Reducer {
           todoItemEditor: {
             todoItemId: { $set: editTodoItemAction.todoItemId },
             todoItem: {
-              $set: (selectRemoteData(state, todoItemsKey)?.data ?? []).find((t: TodoItem) => t.id === editTodoItemAction.todoItemId)
+              $set: (selectNgssmDataSourceValue(state, todoItemsKey)?.value ?? []).find(
+                (t: TodoItem) => t.id === editTodoItemAction.todoItemId
+              )
             },
             submissionInProgress: { $set: false }
           }

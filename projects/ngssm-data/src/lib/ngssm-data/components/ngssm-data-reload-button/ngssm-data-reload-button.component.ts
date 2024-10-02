@@ -13,11 +13,12 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { selectNgssmDataState } from '../../state';
 import { NgssmDataSourceValueStatus } from '../../model';
 import { NgssmLoadDataSourceValueAction } from '../../actions';
+import { NgssmAutoReloadComponent } from '../ngssm-auto-reload/ngssm-auto-reload.component';
 
 @Component({
   selector: 'ngssm-data-reload-button',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule, NgssmAutoReloadComponent],
   templateUrl: './ngssm-data-reload-button.component.html',
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -31,6 +32,8 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   public readonly tooltipMessage = signal<string>('');
   public readonly icon = signal<string>('fa-solid fa-rotate-right');
   public readonly color = signal<string>('primary');
+  public readonly withAutoReload = signal<boolean>(false);
+  public readonly reloadAction = () => this.reload();
 
   @Input() public keepAdditionalProperties = false;
 
@@ -40,6 +43,10 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
 
   @Input() set buttonIcon(value: string) {
     this.icon.set(value);
+  }
+
+  @Input() set autoReloadEnabled(value: boolean) {
+    this.withAutoReload.set(value);
   }
 
   @Input() public set dataSourceKeys(value: string[]) {
@@ -84,6 +91,11 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   }
 
   public reload(): void {
+    const isDisabled = this.buttonDisabled();
+    if (isDisabled) {
+      return;
+    }
+
     this._dataSourceKeys.forEach((key) =>
       this.dispatchAction(
         new NgssmLoadDataSourceValueAction(key, { forceReload: true, keepAdditionalProperties: this.keepAdditionalProperties })
