@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoadRemoteDataAction } from 'ngssm-remote-data';
 
+import { NgssmLoadDataSourceValueAction } from 'ngssm-data';
 import { Effect, Store, State, Action, Logger } from 'ngssm-store';
 
 import { TodoActionType } from '../actions';
@@ -20,11 +20,12 @@ export class EditedTodoItemSubmissionEffect implements Effect {
   public processAction(store: Store, state: State, action: Action): void {
     const todoItem = selectTodoState(state).todoItemEditor.todoItem;
     const id = selectTodoState(state).todoItemEditor.todoItemId;
+    console.log('CALLED', todoItem, id);
     if (id === undefined) {
       this.todoItemsService.createTodoItem(todoItem).subscribe({
         next: () => {
           this.logger.information('To-Do created.');
-          store.dispatchAction(new LoadRemoteDataAction(todoItemsKey, { forceReload: true }));
+          store.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
           store.dispatchActionType(TodoActionType.closeTodoItemEditor);
         },
         error: (error) => {
@@ -36,7 +37,7 @@ export class EditedTodoItemSubmissionEffect implements Effect {
       this.todoItemsService.updateTodoItem(id, todoItem).subscribe({
         next: () => {
           this.logger.information('To-Do updated.');
-          store.dispatchAction(new LoadRemoteDataAction(todoItemsKey, { forceReload: true }));
+          store.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
           store.dispatchActionType(TodoActionType.closeTodoItemEditor);
         },
         error: (error) => {

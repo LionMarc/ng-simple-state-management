@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,7 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction } from '../../actions';
+import { selectNgssmDataSourceValue } from 'ngssm-data';
 
 @Component({
   selector: 'app-todo-item',
@@ -21,23 +22,21 @@ import { EditTodoItemAction } from '../../actions';
 })
 export class TodoItemComponent extends NgSsmComponent {
   private readonly _todoItemId$ = new Subject<number>();
-  private readonly _todoItem$ = new BehaviorSubject<TodoItem | undefined>(undefined);
+  public readonly todoItem = signal<TodoItem | undefined>(undefined);
 
   constructor(store: Store) {
     super(store);
 
-    combineLatest([this._todoItemId$, this.watch((s) => selectRemoteData(s, todoItemsKey)?.data)]).subscribe((values) => {
-      this._todoItem$.next((values[1] ?? []).find((t: TodoItem) => t.id === values[0]));
-    });
+    combineLatest([this._todoItemId$, this.watch((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value)]).subscribe(
+      (values) => {
+        this.todoItem.set((values[1] ?? []).find((t: TodoItem) => t.id === values[0]));
+      }
+    );
   }
 
   @Input()
   public set todoId(value: number) {
     this._todoItemId$.next(value);
-  }
-
-  public get todoItem$(): Observable<TodoItem | undefined> {
-    return this._todoItem$.asObservable();
   }
 
   public editTodoItem(id: number): void {

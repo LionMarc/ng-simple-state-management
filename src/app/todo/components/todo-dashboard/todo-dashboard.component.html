@@ -1,9 +1,9 @@
-<mat-card appearance="outlined" [ngssmDisplayOverlay]="(status$ | async) === dataStatus.loading"
-    class="flex-column-stretch fxFlex">
+<mat-card [ngssmDisplayOverlay]="waitingOverlayRendered()" class="flex-column-stretch fxFlex">
     <mat-card-header>
         <mat-card-title class="flex-row-center">
             To-Do List
-            <ngssm-remote-data-reload-button [remoteDataKeys]="[remoteDataKey]"></ngssm-remote-data-reload-button>
+            <ngssm-data-reload-button [dataSourceKeys]="[remoteDataKey]"
+                [autoReloadEnabled]="true"></ngssm-data-reload-button>
             <span class="fxFlex"></span>
             <button mat-raised-button color="primary" (click)="addTodo()">
                 Add to-do
@@ -13,9 +13,12 @@
 
     <mat-card-content class="flex-row-stretch fxFlex">
         <div class="flex-column-stretch fxFlex">
-            <app-todo-item *ngFor="let id of todoItemIds$ | async" [todoId]="id">
+            @for (todoItem of todoItems(); track todoItem.id){
+            <app-todo-item [todoId]="todoItem.id ?? -1">
 
             </app-todo-item>
+            }
+
         </div>
 
         <div class="flex-column-stretch fxFlex">
@@ -24,7 +27,7 @@
                 <mat-checkbox [formControl]="deleteHiddenControl">Delete hidden?</mat-checkbox>
             </div>
 
-            <ag-grid-angular ngssmAgGridTheme class="fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems$ | async"
+            <ag-grid-angular ngssmAgGridTheme class="fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems()"
                 [ngssmAgGrid]="agGridConfig">
 
             </ag-grid-angular>

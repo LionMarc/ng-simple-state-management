@@ -9,6 +9,7 @@ import { TodoActionType } from '../actions';
 import { TodoItemEditorComponent } from '../components/todo-item-editor/todo-item-editor.component';
 import { todoItemKey } from '../model';
 import { selectTodoState } from '../state';
+import { NgssmLoadDataSourceValueAction } from 'ngssm-data';
 
 @Injectable()
 export class TodoEditorEffect implements Effect {
@@ -42,25 +43,19 @@ export class TodoEditorEffect implements Effect {
 
         // To test error notification
         store.dispatchAction(
-          new LoadRemoteDataAction(todoItemKey, {
+          new NgssmLoadDataSourceValueAction(todoItemKey, {
             forceReload: true,
-            params: {
-              serviceParams: 12345,
-              callbackAction: TodoActionType.todoItemLoaded,
-              errorNotificationMessage: (error?: RemoteCallError) =>
-                `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
+            parameter: {
+              value: 12345
             }
           })
         );
 
         store.dispatchAction(
-          new LoadRemoteDataAction(todoItemKey, {
+          new NgssmLoadDataSourceValueAction(todoItemKey, {
             forceReload: true,
-            params: {
-              serviceParams: selectTodoState(state).todoItemEditor.todoItemId,
-              callbackAction: TodoActionType.todoItemLoaded,
-              errorNotificationMessage: (error?: RemoteCallError) =>
-                `Unable to load TodoItem ${selectTodoState(state).todoItemEditor.todoItemId} : ${error?.title}`
+            parameter: {
+              value: selectTodoState(state).todoItemEditor.todoItemId
             }
           })
         );

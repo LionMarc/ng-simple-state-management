@@ -1,10 +1,12 @@
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconButton } from '@angular/material/button';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatTooltipHarness } from '@angular/material/tooltip/testing';
+import { MatSelectHarness } from '@angular/material/select/testing';
 
 import { DateTime } from 'luxon';
 
@@ -27,9 +29,9 @@ describe('NgssmDataReloadButtonComponent', () => {
       [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
     });
     await TestBed.configureTestingModule({
-      imports: [NgssmDataReloadButtonComponent],
+      imports: [NgssmDataReloadButtonComponent, NoopAnimationsModule],
       providers: [{ provide: Store, useValue: store }],
-      teardown: { destroyAfterEach: true }
+      teardown: { destroyAfterEach: false }
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgssmDataReloadButtonComponent);
@@ -37,6 +39,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     fixture.nativeElement.style['min-height'] = '200px';
     loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
+    spyOn(store, 'dispatchAction');
   });
 
   it('should create', () => {
@@ -62,6 +65,35 @@ describe('NgssmDataReloadButtonComponent', () => {
 
       const icon = fixture.debugElement.query(By.css('.fa-magnifying-glass'));
       expect(icon).toBeTruthy();
+    });
+  });
+
+  describe('Rendering auto reload component', () => {
+    it(`should not render an auto reload component by default`, () => {
+      const element = fixture.debugElement.query(By.css('ngssm-auto-reload'));
+      expect(element).toBeFalsy();
+    });
+
+    describe('when autoReloadEnabled is set to true', () => {
+      beforeEach(async () => {
+        component.autoReloadEnabled = true;
+        fixture.detectChanges();
+        await fixture.whenStable();
+      });
+
+      it(`should render an auto reload component`, () => {
+        const element = fixture.debugElement.query(By.css('ngssm-auto-reload'));
+        expect(element).toBeTruthy();
+      });
+
+      it(`should not render an auto reload component when autoReloadEnabled is reset to false`, async () => {
+        component.autoReloadEnabled = false;
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const element = fixture.debugElement.query(By.css('ngssm-auto-reload'));
+        expect(element).toBeFalsy();
+      });
     });
   });
 
@@ -125,7 +157,6 @@ describe('NgssmDataReloadButtonComponent', () => {
           });
 
           it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' when clicking on button`, async () => {
-            spyOn(store, 'dispatchAction');
             const element = await loader.getHarness(MatButtonHarness);
 
             await element.click();
@@ -136,7 +167,6 @@ describe('NgssmDataReloadButtonComponent', () => {
           });
 
           it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' with keepAdditionalProperties to true when clicking on button`, async () => {
-            spyOn(store, 'dispatchAction');
             component.keepAdditionalProperties = true;
             const element = await loader.getHarness(MatButtonHarness);
 
@@ -145,6 +175,28 @@ describe('NgssmDataReloadButtonComponent', () => {
             expect(store.dispatchAction).toHaveBeenCalledWith(
               new NgssmLoadDataSourceValueAction(dataSourceKey, { forceReload: true, keepAdditionalProperties: true })
             );
+          });
+
+          describe(`when auto reload is active`, () => {
+            beforeEach(async () => {
+              component.autoReloadEnabled = true;
+              fixture.detectChanges();
+              await fixture.whenStable();
+            });
+
+            it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' when period elapsed`, fakeAsync(async () => {
+              const selector = await loader.getHarness(MatSelectHarness);
+              await selector.open();
+              await selector.clickOptions({ text: 'Every minute' });
+
+              tick(60100);
+
+              expect(store.dispatchAction).toHaveBeenCalledWith(
+                new NgssmLoadDataSourceValueAction(dataSourceKey, { forceReload: true, keepAdditionalProperties: false })
+              );
+
+              discardPeriodicTasks();
+            }));
           });
         });
       });
@@ -323,7 +375,6 @@ describe('NgssmDataReloadButtonComponent', () => {
       store.stateValue = state;
       fixture.detectChanges();
 
-      spyOn(store, 'dispatchAction');
       const element = await loader.getHarness(MatButtonHarness);
 
       await element.click();

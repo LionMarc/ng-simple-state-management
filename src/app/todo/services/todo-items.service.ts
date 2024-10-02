@@ -1,42 +1,35 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
 
-import { RemoteDataProvider } from 'ngssm-remote-data';
-
-import { TodoItem, todoItemsKey } from '../model';
-
-export const items: TodoItem[] = [
-  {
-    id: 1,
-    title: 'Add a schematic for remote data provider'
-  },
-  {
-    id: 2,
-    title: 'Find a way to facilitate the configuration of the guards'
-  }
-];
-let nextId = 3;
+import { TodoItem } from '../model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodoItemsService implements RemoteDataProvider {
-  public remoteDataKey: string = todoItemsKey;
-  public cacheDurationInSeconds: number = 600;
+export class TodoItemsService {
+  public readonly items: TodoItem[] = [
+    {
+      id: 1,
+      title: 'Add a schematic for remote data provider'
+    },
+    {
+      id: 2,
+      title: 'Find a way to facilitate the configuration of the guards'
+    }
+  ];
+  public nextId = 3;
 
-  constructor() {}
-
-  public get(): Observable<any> {
-    return of([...items]).pipe(delay(1000));
+  public get(): Observable<TodoItem[]> {
+    return of([...this.items]).pipe(delay(1000));
   }
 
   public createTodoItem(item: TodoItem): Observable<TodoItem> {
     const created: TodoItem = {
       ...item,
-      id: nextId++
+      id: this.nextId++
     };
 
-    items.push(created);
+    this.items.push(created);
 
     return of(created).pipe(delay(1000));
   }
@@ -47,8 +40,8 @@ export class TodoItemsService implements RemoteDataProvider {
       id
     };
 
-    const index = items.findIndex((i) => i.id === id);
-    items.splice(index, 1, updated);
+    const index = this.items.findIndex((i) => i.id === id);
+    this.items.splice(index, 1, updated);
 
     return of(updated).pipe(delay(1000));
   }
