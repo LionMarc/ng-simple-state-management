@@ -12,6 +12,7 @@ export interface NgssmDataSource<TData = any, TParameter = any> {
   key: string;
   dataLifetimeInSeconds?: number;
   dataLoadingFunc: NgssmDataLoading<TData, TParameter>;
+  initialParameter?: TParameter;
 }
 
 export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA_SOURCE');
@@ -19,7 +20,8 @@ export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA
 export const provideNgssmDataSource = <TData = any, TParameter = any>(
   key: string,
   loadingFunc: NgssmDataLoading<TData, TParameter>,
-  dataLifetimeInSeconds?: number
+  dataLifetimeInSeconds?: number,
+  initialParameter?: TParameter
 ): EnvironmentProviders => {
   return makeEnvironmentProviders([
     {
@@ -30,6 +32,10 @@ export const provideNgssmDataSource = <TData = any, TParameter = any>(
           dataLifetimeInSeconds,
           dataLoadingFunc: loadingFunc
         };
+        if (initialParameter) {
+          dataSource.initialParameter = initialParameter;
+        }
+
         return dataSource;
       },
       multi: true

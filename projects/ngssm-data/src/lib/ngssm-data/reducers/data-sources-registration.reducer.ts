@@ -39,6 +39,10 @@ export class DataSourcesRegistrationReducer implements Reducer {
             dataSourceValues[dataSource.key].dataLifetimeInSeconds = dataSource.dataLifetimeInSeconds;
           }
 
+          if (dataSource.initialParameter) {
+            dataSourceValues[dataSource.key].parameter = dataSource.initialParameter;
+          }
+
           dataSources[dataSource.key] = dataSource;
         });
 
