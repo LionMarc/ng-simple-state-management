@@ -10,16 +10,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgssmHelpComponent } from './ngssm-help.component';
 
 @Component({
-  template: ` <ngssm-help> NGContent Help </ngssm-help> `,
-  standalone: true,
-  imports: [CommonModule, NgssmHelpComponent]
+    template: ` <ngssm-help> NGContent Help </ngssm-help> `,
+    imports: [CommonModule, NgssmHelpComponent]
 })
 class WithNgContentComponent {}
 
 @Component({
-  template: ` <ngssm-help [help]="help"></ngssm-help> `,
-  standalone: true,
-  imports: [CommonModule, NgssmHelpComponent]
+    template: ` <ngssm-help [help]="help"></ngssm-help> `,
+    imports: [CommonModule, NgssmHelpComponent]
 })
 class WithInputContentComponent {
   public readonly help = 'INPUT help';

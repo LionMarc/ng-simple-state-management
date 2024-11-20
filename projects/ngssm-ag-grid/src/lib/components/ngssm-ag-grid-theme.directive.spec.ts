@@ -8,11 +8,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NgssmAgGridThemeDirective } from './ngssm-ag-grid-theme.directive';
 
 @Component({
-  standalone: true,
-  imports: [CommonModule, AgGridModule, NgssmAgGridThemeDirective],
-  template: ` <ag-grid-angular ngssmAgGridTheme> </ag-grid-angular> `,
-  styles: [
-    `
+    imports: [CommonModule, AgGridModule, NgssmAgGridThemeDirective],
+    template: ` <ag-grid-angular ngssmAgGridTheme> </ag-grid-angular> `,
+    styles: [
+        `
       :host {
         min-height: 400px;
         max-height: 400px;
@@ -24,7 +23,7 @@ import { NgssmAgGridThemeDirective } from './ngssm-ag-grid-theme.directive';
         height: 100%;
       }
     `
-  ]
+    ]
 })
 class TestingComponent {}
 

@@ -8,12 +8,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { NgssmRegexEditorComponent } from '../ngssm-regex-editor/ngssm-regex-editor.component';
 
 @Component({
-  selector: 'ngssm-regex-editor-toggle',
-  standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, OverlayModule, NgssmRegexEditorComponent],
-  templateUrl: './ngssm-regex-editor-toggle.component.html',
-  styleUrls: ['./ngssm-regex-editor-toggle.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-regex-editor-toggle',
+    imports: [CommonModule, MatIconModule, MatButtonModule, OverlayModule, NgssmRegexEditorComponent],
+    templateUrl: './ngssm-regex-editor-toggle.component.html',
+    styleUrls: ['./ngssm-regex-editor-toggle.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmRegexEditorToggleComponent {
   private readonly _isOpen$ = new BehaviorSubject<boolean>(false);

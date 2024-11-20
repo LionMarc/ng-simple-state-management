@@ -10,11 +10,10 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    imports: [CommonModule, MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends NgSsmComponent {
   private readonly footerComponents: any[] = [

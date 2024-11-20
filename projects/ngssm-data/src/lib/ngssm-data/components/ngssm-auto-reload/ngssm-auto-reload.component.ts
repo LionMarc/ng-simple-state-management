@@ -9,12 +9,11 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { getNgssmDataSourceValueAutoReloadTypes, NgssmDataSourceValueAutoReloadType } from '../../model';
 
 @Component({
-  selector: 'ngssm-auto-reload',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule],
-  templateUrl: './ngssm-auto-reload.component.html',
-  styleUrls: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-auto-reload',
+    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule],
+    templateUrl: './ngssm-auto-reload.component.html',
+    styleUrls: [],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmAutoReloadComponent extends NgSsmComponent {
   private timerId: any;

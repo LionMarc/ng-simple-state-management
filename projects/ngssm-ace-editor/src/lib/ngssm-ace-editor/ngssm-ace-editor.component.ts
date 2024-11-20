@@ -9,11 +9,10 @@ import { NgssmAceEditorApi } from '../ngssm-ace-editor-api';
 import { NgssmAceEditorMode } from '../ngssm-ace-editor-mode';
 
 @Component({
-  selector: 'ngssm-ace-editor',
-  standalone: true,
-  imports: [CommonModule, NgssmComponentOverlayDirective],
-  templateUrl: './ngssm-ace-editor.component.html',
-  styleUrls: ['./ngssm-ace-editor.component.scss']
+    selector: 'ngssm-ace-editor',
+    imports: [CommonModule, NgssmComponentOverlayDirective],
+    templateUrl: './ngssm-ace-editor.component.html',
+    styleUrls: ['./ngssm-ace-editor.component.scss']
 })
 export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
   private initialContent = '';

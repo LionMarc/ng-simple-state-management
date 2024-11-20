@@ -25,12 +25,11 @@ interface ActionButton {
 }
 
 @Component({
-  selector: 'ngssm-actions-cell-renderer',
-  standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
-  templateUrl: './ngssm-actions-cell-renderer.component.html',
-  styleUrls: ['./ngssm-actions-cell-renderer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-actions-cell-renderer',
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
+    templateUrl: './ngssm-actions-cell-renderer.component.html',
+    styleUrls: ['./ngssm-actions-cell-renderer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmActionsCellRendererComponent extends NgSsmComponent implements ICellRendererAngularComp {
   private readonly _actionButtons$ = new BehaviorSubject<ActionButton[]>([]);

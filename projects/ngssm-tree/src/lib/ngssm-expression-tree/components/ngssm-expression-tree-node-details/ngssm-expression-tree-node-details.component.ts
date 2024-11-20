@@ -8,12 +8,11 @@ import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-tool
 import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '../../model';
 
 @Component({
-  selector: 'ngssm-expression-tree-node-details',
-  standalone: true,
-  imports: [CommonModule, NgssmComponentDisplayDirective],
-  templateUrl: './ngssm-expression-tree-node-details.component.html',
-  styleUrls: ['./ngssm-expression-tree-node-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-expression-tree-node-details',
+    imports: [CommonModule, NgssmComponentDisplayDirective],
+    templateUrl: './ngssm-expression-tree-node-details.component.html',
+    styleUrls: ['./ngssm-expression-tree-node-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
   private readonly _nodeId$ = new Subject<string>();

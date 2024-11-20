@@ -15,9 +15,8 @@ import { NgssmVisibilityStateSpecification } from '../state';
 import { NgssmVisibilityActionType, ToggleElementVisibilityAction } from '../actions';
 
 @Component({
-  template: ` <button mat-raised-button [toggleElementVisibility]="'element-one'" id="buttonId">Toggle Element</button> `,
-  standalone: true,
-  imports: [CommonModule, MatButtonModule, ToggleElementVisibilityDirective]
+    template: ` <button mat-raised-button [toggleElementVisibility]="'element-one'" id="buttonId">Toggle Element</button> `,
+    imports: [CommonModule, MatButtonModule, ToggleElementVisibilityDirective]
 })
 class TestingComponent {}
 

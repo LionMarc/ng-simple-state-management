@@ -27,22 +27,21 @@ import { NgssmTreeActionType, SearchTreeNodesAction } from '../../actions';
 import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../../model';
 
 @Component({
-  selector: 'ngssm-ngssm-tree-search-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatProgressSpinnerModule
-  ],
-  templateUrl: './ngssm-tree-search-dialog.component.html',
-  styleUrls: ['./ngssm-tree-search-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-ngssm-tree-search-dialog',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatProgressSpinnerModule
+    ],
+    templateUrl: './ngssm-tree-search-dialog.component.html',
+    styleUrls: ['./ngssm-tree-search-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmTreeSearchDialogComponent extends NgSsmComponent implements AfterViewInit {
   private readonly _currentSearchedPath$ = new BehaviorSubject<string>('');

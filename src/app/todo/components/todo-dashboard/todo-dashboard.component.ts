@@ -28,25 +28,24 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { provideFeatureState } from '../../feature-state-provider';
 
 @Component({
-  selector: 'app-todo-dashboard',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    AgGridModule,
-    NgssmAgGridDirective,
-    NgssmAgGridThemeDirective,
-    NgssmComponentOverlayDirective,
-    NgssmDataReloadButtonComponent,
-    TodoItemComponent
-  ],
-  templateUrl: './todo-dashboard.component.html',
-  styleUrls: ['./todo-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideFeatureState('todo-dashboard', {})]
+    selector: 'app-todo-dashboard',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        AgGridModule,
+        NgssmAgGridDirective,
+        NgssmAgGridThemeDirective,
+        NgssmComponentOverlayDirective,
+        NgssmDataReloadButtonComponent,
+        TodoItemComponent
+    ],
+    templateUrl: './todo-dashboard.component.html',
+    styleUrls: ['./todo-dashboard.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [provideFeatureState('todo-dashboard', {})]
 })
 export class TodoDashboardComponent extends NgSsmComponent {
   private readonly _deleteHidden$ = new BehaviorSubject<boolean>(false);

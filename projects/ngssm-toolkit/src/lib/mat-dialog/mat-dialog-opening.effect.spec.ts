@@ -22,22 +22,20 @@ enum TestingActionType {
 }
 
 @Component({
-  selector: 'ngssm-testing',
-  standalone: true,
-  imports: [CommonModule],
-  template: ` nothing `,
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-testing',
+    imports: [CommonModule],
+    template: ` nothing `,
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogDemoComponent {}
 
 @Component({
-  selector: 'ngssm-editor',
-  standalone: true,
-  imports: [CommonModule],
-  template: ` nothing `,
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-editor',
+    imports: [CommonModule],
+    template: ` nothing `,
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditorComponent {}
 

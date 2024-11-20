@@ -23,22 +23,21 @@ import {
 import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions';
 
 @Component({
-  selector: 'app-remote-data-demo',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatCardModule,
-    MatButtonModule,
-    NgssmRemoteCallDirective,
-    NgssmRemoteDataOverlayDirective,
-    NgssmRemoteCallErrorComponent
-  ],
-  templateUrl: './remote-data-demo.component.html',
-  styleUrls: ['./remote-data-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-remote-data-demo',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatCardModule,
+        MatButtonModule,
+        NgssmRemoteCallDirective,
+        NgssmRemoteDataOverlayDirective,
+        NgssmRemoteCallErrorComponent
+    ],
+    templateUrl: './remote-data-demo.component.html',
+    styleUrls: ['./remote-data-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemoteDataDemoComponent extends NgSsmComponent {
   private readonly _statuses$ = new BehaviorSubject<string[]>([]);

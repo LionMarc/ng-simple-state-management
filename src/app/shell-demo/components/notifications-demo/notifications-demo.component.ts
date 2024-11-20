@@ -12,21 +12,20 @@ import { DisplayNotificationAction, ShellNotificationType } from 'ngssm-shell';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
-  selector: 'app-notifications-demo',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatInputModule,
-    NgssmAceEditorComponent
-  ],
-  templateUrl: './notifications-demo.component.html',
-  styleUrls: ['./notifications-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-notifications-demo',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatInputModule,
+        NgssmAceEditorComponent
+    ],
+    templateUrl: './notifications-demo.component.html',
+    styleUrls: ['./notifications-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationsDemoComponent extends NgSsmComponent {
   private details: string | undefined;

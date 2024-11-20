@@ -19,22 +19,21 @@ import { playersKey, playersLoader, teamsKey } from '../../model';
 import { ComponentWithScopedDataSourceComponent } from '../component-with-scoped-data-source/component-with-scoped-data-source.component';
 
 @Component({
-  selector: 'app-ngssm-data-demo',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatButtonModule,
-    IsNgssmDataSourceValueStatusPipe,
-    NgssmDataReloadButtonComponent,
-    NgssmComponentOverlayDirective,
-    NgssmAceEditorComponent,
-    ComponentWithScopedDataSourceComponent
-  ],
-  templateUrl: './ngssm-data-demo.component.html',
-  styleUrls: ['./ngssm-data-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-ngssm-data-demo',
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatProgressSpinnerModule,
+        MatButtonModule,
+        IsNgssmDataSourceValueStatusPipe,
+        NgssmDataReloadButtonComponent,
+        NgssmComponentOverlayDirective,
+        NgssmAceEditorComponent,
+        ComponentWithScopedDataSourceComponent
+    ],
+    templateUrl: './ngssm-data-demo.component.html',
+    styleUrls: ['./ngssm-data-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmDataDemoComponent extends NgSsmComponent {
   public readonly teamsKey = teamsKey;

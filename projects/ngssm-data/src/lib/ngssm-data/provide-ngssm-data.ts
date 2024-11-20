@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, EnvironmentProviders, Inject, Injectable, Optional, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, Inject, Injectable, Optional, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
 
 import { Store, provideEffects, provideReducers } from 'ngssm-store';
 
@@ -25,12 +25,7 @@ const initDataSourceValues = (store: Store, dataSourceCollection: NgssmDataSourc
 
 export const provideNgssmData = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initDataSourceValues,
-      deps: [Store, NgssmDataSourceCollection],
-      multi: true
-    },
+    provideAppInitializer((initDataSourceValues)(inject(Store), inject(NgssmDataSourceCollection))),
     provideReducers(DataSourcesRegistrationReducer, DataSourceValueReducer),
     provideEffects(DataLoadingEffect)
   ]);

@@ -14,23 +14,22 @@ import { NgssmAceEditorApi, NgssmAceEditorComponent, NgssmAceEditorMode } from '
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
-  selector: 'app-ace-editor-demo',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatIconModule,
-    MatInputModule,
-    MatButtonModule,
-    NgssmAceEditorComponent
-  ],
-  templateUrl: './ace-editor-demo.component.html',
-  styleUrls: ['./ace-editor-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-ace-editor-demo',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatIconModule,
+        MatInputModule,
+        MatButtonModule,
+        NgssmAceEditorComponent
+    ],
+    templateUrl: './ace-editor-demo.component.html',
+    styleUrls: ['./ace-editor-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AceEditorDemoComponent extends NgSsmComponent {
   private readonly _updatedContent$ = new BehaviorSubject<string>('');

@@ -13,19 +13,18 @@ import { NgssmTreeStateSpecification, updateNgssmTreeState } from '../../state';
 import { NgssmTreeComponent } from './ngssm-tree.component';
 
 @Component({
-  selector: 'ngssm-tree-demo',
-  standalone: true,
-  imports: [CommonModule, NgssmTreeComponent],
-  template: `<ngssm-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-tree>`,
-  styles: [
-    `
+    selector: 'ngssm-tree-demo',
+    imports: [CommonModule, NgssmTreeComponent],
+    template: `<ngssm-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-tree>`,
+    styles: [
+        `
       :host {
         min-height: 600px;
         display: flex;
         flex-direction: column;
       }
     `
-  ]
+    ]
 })
 export class DemoComponent {
   public treeConfig$ = new BehaviorSubject<NgssmTreeConfig | undefined>(undefined);

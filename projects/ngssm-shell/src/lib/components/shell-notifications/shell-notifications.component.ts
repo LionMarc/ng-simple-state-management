@@ -14,12 +14,11 @@ import { DisplayNotificationDetailsAction, ShellActionType } from '../../actions
 import { ShellNotificationComponent } from '../shell-notification/shell-notification.component';
 
 @Component({
-  selector: 'ngssm-shell-notifications',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, NgssmAceEditorComponent, ShellNotificationComponent],
-  templateUrl: './shell-notifications.component.html',
-  styleUrls: ['./shell-notifications.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-shell-notifications',
+    imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, NgssmAceEditorComponent, ShellNotificationComponent],
+    templateUrl: './shell-notifications.component.html',
+    styleUrls: ['./shell-notifications.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellNotificationsComponent extends NgSsmComponent {
   private readonly _notificationSelected$ = new BehaviorSubject<boolean>(false);

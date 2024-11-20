@@ -8,12 +8,11 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { todoItemsKey } from '../../model';
 
 @Component({
-  selector: 'app-todo-footer',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './todo-footer.component.html',
-  styleUrls: ['./todo-footer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-todo-footer',
+    imports: [CommonModule],
+    templateUrl: './todo-footer.component.html',
+    styleUrls: ['./todo-footer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoFooterComponent extends NgSsmComponent {
   constructor(store: Store) {

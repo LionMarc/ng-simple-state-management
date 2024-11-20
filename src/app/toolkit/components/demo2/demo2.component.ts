@@ -5,12 +5,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
-  selector: 'app-demo2',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './demo2.component.html',
-  styleUrls: ['./demo2.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-demo2',
+    imports: [CommonModule],
+    templateUrl: './demo2.component.html',
+    styleUrls: ['./demo2.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Demo2Component extends NgSsmComponent {
   private readonly _comment$ = new BehaviorSubject<string>('');

@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
 
 import { provideRemoteDataFunc } from 'ngssm-remote-data';
 import { Store } from 'ngssm-store';
@@ -9,11 +9,6 @@ export const provideNgssmServiceInfo = (infoUrl = '../info'): EnvironmentProvide
   return makeEnvironmentProviders([
     { provide: NGSSM_SERVICE_INFO_URL, useValue: infoUrl },
     provideRemoteDataFunc(serviceInfoKey, serviceInfoLoader),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: serviceInfoInitializerFactory,
-      deps: [Store],
-      multi: true
-    }
+    provideAppInitializer((serviceInfoInitializerFactory)(inject(Store)))
   ]);
 };

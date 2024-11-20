@@ -10,11 +10,10 @@ import { SidenavConfig } from '../../model';
 import { WrapperComponent } from '../wrapper/wrapper.component';
 
 @Component({
-  selector: 'ngssm-side-nav',
-  standalone: true,
-  imports: [CommonModule, MatDividerModule, RouterModule, WrapperComponent],
-  templateUrl: './side-nav.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-side-nav',
+    imports: [CommonModule, MatDividerModule, RouterModule, WrapperComponent],
+    templateUrl: './side-nav.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SideNavComponent extends NgSsmComponent {
   private readonly _sidenavConfig$ = new BehaviorSubject<SidenavConfig | undefined>(undefined);

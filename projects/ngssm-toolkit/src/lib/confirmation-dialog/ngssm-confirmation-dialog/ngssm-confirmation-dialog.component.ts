@@ -8,12 +8,11 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmConfirmationDialogConfig } from '../ngssm-confirmation-dialog-config';
 
 @Component({
-  selector: 'ngssm-confirmation-dialog',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
-  templateUrl: './ngssm-confirmation-dialog.component.html',
-  styleUrls: ['./ngssm-confirmation-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-confirmation-dialog',
+    imports: [CommonModule, MatDialogModule, MatButtonModule],
+    templateUrl: './ngssm-confirmation-dialog.component.html',
+    styleUrls: ['./ngssm-confirmation-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmConfirmationDialogComponent extends NgSsmComponent {
   constructor(

@@ -8,12 +8,11 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 @Component({
-  selector: 'app-overlay-demo',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatSlideToggleModule, NgssmComponentOverlayDirective],
-  templateUrl: './overlay-demo.component.html',
-  styleUrls: ['./overlay-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-overlay-demo',
+    imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatSlideToggleModule, NgssmComponentOverlayDirective],
+    templateUrl: './overlay-demo.component.html',
+    styleUrls: ['./overlay-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OverlayDemoComponent extends NgSsmComponent {
   public readonly rightControl = new FormControl(false);

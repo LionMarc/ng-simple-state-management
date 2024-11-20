@@ -13,12 +13,11 @@ import { EditTodoItemAction } from '../../actions';
 import { selectNgssmDataSourceValue } from 'ngssm-data';
 
 @Component({
-  selector: 'app-todo-item',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
-  templateUrl: './todo-item.component.html',
-  styleUrls: ['./todo-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-todo-item',
+    imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+    templateUrl: './todo-item.component.html',
+    styleUrls: ['./todo-item.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemComponent extends NgSsmComponent {
   private readonly _todoItemId$ = new Subject<number>();

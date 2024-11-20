@@ -16,19 +16,18 @@ import { TreeNodeExpandReducer } from '../../reducers';
 import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction, NgssmExpressionTreeActionType } from '../../actions';
 
 @Component({
-  selector: 'ngssm-tree-demo',
-  standalone: true,
-  imports: [CommonModule, NgssmExpressionTreeComponent],
-  template: `<ngssm-expression-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-expression-tree>`,
-  styles: [
-    `
+    selector: 'ngssm-tree-demo',
+    imports: [CommonModule, NgssmExpressionTreeComponent],
+    template: `<ngssm-expression-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-expression-tree>`,
+    styles: [
+        `
       :host {
         min-height: 600px;
         display: flex;
         flex-direction: column;
       }
     `
-  ]
+    ]
 })
 export class DemoComponent {
   public treeConfig$ = new BehaviorSubject<NgssmExpressionTreeConfig | undefined>(undefined);

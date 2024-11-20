@@ -11,12 +11,11 @@ import { NgssmExpressionTreeCustomComponent, selectNgssmExpressionTreeState } fr
 import { Filter, FilterType } from '../filter';
 
 @Component({
-  selector: 'app-group-filter',
-  standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
-  templateUrl: './group-filter.component.html',
-  styleUrls: ['./group-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-group-filter',
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
+    templateUrl: './group-filter.component.html',
+    styleUrls: ['./group-filter.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupFilterComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent {
   private readonly _nodeId$ = new BehaviorSubject<string>('');

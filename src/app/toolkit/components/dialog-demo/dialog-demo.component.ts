@@ -7,12 +7,11 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { ToolkitDemoActionType } from '../../actions';
 
 @Component({
-  selector: 'app-dialog-demo',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
-  templateUrl: './dialog-demo.component.html',
-  styleUrls: ['./dialog-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-dialog-demo',
+    imports: [CommonModule, MatDialogModule, MatButtonModule],
+    templateUrl: './dialog-demo.component.html',
+    styleUrls: ['./dialog-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogDemoComponent extends NgSsmComponent {
   constructor(store: Store) {

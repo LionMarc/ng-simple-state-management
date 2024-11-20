@@ -8,12 +8,11 @@ import { Filter } from '../filter';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-node-detail',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './node-detail.component.html',
-  styleUrls: ['./node-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-node-detail',
+    imports: [CommonModule],
+    templateUrl: './node-detail.component.html',
+    styleUrls: ['./node-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeDetailComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent {
   private readonly _node$ = new BehaviorSubject<Filter | null>(null);

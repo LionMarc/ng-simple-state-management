@@ -11,12 +11,11 @@ import { selectNgssmTreeState } from '../../state';
 import { SelectNodeAction } from '../../actions';
 
 @Component({
-  selector: 'ngssm-breadcrumb',
-  standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
-  templateUrl: './ngssm-breadcrumb.component.html',
-  styleUrls: ['./ngssm-breadcrumb.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ngssm-breadcrumb',
+    imports: [CommonModule, MatIconModule, MatButtonModule],
+    templateUrl: './ngssm-breadcrumb.component.html',
+    styleUrls: ['./ngssm-breadcrumb.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmBreadcrumbComponent extends NgSsmComponent {
   private readonly _treeId$ = new BehaviorSubject<string | undefined>(undefined);
