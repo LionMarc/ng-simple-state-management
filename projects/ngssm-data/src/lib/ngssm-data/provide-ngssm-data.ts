@@ -14,18 +14,18 @@ export class NgssmDataSourceCollection {
   constructor(@Inject(NGSSM_DATA_SOURCE) @Optional() public dataSources: NgssmDataSource[]) {}
 }
 
-const initDataSourceValues = (store: Store, dataSourceCollection: NgssmDataSourceCollection): (() => void) => {
-  return () => {
-    const dataSources = dataSourceCollection.dataSources ?? [];
-    if (dataSources.length > 0) {
-      store.dispatchAction(new NgssmRegisterDataSourcesAction(dataSources));
-    }
-  };
+const initDataSourceValues = () => {
+  const store = inject(Store);
+  const dataSourceCollection = inject(NgssmDataSourceCollection);
+  const dataSources = dataSourceCollection.dataSources ?? [];
+  if (dataSources.length > 0) {
+    store.dispatchAction(new NgssmRegisterDataSourcesAction(dataSources));
+  }
 };
 
 export const provideNgssmData = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
-    provideAppInitializer((initDataSourceValues)(inject(Store), inject(NgssmDataSourceCollection))),
+    provideAppInitializer(initDataSourceValues),
     provideReducers(DataSourcesRegistrationReducer, DataSourceValueReducer),
     provideEffects(DataLoadingEffect)
   ]);

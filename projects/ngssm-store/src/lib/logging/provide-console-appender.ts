@@ -3,8 +3,10 @@ import { ConsoleAppender } from './console-appender';
 
 export const NGSSM_CONSOLE_APPENDER_NAME = new InjectionToken<string>('NGSSM_CONSOLE_APPENDER_NAME');
 
-export const startConsoleAppenderFactory = (name: string, consoleAppender: ConsoleAppender): (() => void) => {
+export const startConsoleAppenderFactory = (): (() => void) => {
   return () => {
+    const name = inject(NGSSM_CONSOLE_APPENDER_NAME);
+    const consoleAppender = inject(ConsoleAppender);
     consoleAppender.start(name);
   };
 };
@@ -15,6 +17,6 @@ export const provideConsoleAppender = (name: string): EnvironmentProviders => {
       provide: NGSSM_CONSOLE_APPENDER_NAME,
       useValue: name
     },
-    provideAppInitializer((startConsoleAppenderFactory)(inject(NGSSM_CONSOLE_APPENDER_NAME), inject(ConsoleAppender)))
+    provideAppInitializer(startConsoleAppenderFactory())
   ]);
 };

@@ -14,9 +14,9 @@ export const serviceInfoLoader: RemoteDataLoadingFunc<ServiceInfo, any> = () => 
   return inject(HttpClient).get<ServiceInfo>(serviceUrl);
 };
 
-export const serviceInfoInitializerFactory = (store: Store): (() => Promise<boolean>) => {
+export const serviceInfoInitializerFactory = (): (() => Promise<boolean>) => {
   return async () => {
-    store.dispatchAction(new LoadRemoteDataAction(serviceInfoKey, { forceReload: true }));
+    inject(Store).dispatchAction(new LoadRemoteDataAction(serviceInfoKey, { forceReload: true }));
     return true;
   };
 };
