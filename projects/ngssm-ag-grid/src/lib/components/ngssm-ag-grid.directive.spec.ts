@@ -20,11 +20,11 @@ interface Item {
 }
 
 @Component({
-    template: `
+  template: `
     <ag-grid-angular class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="'items'"> </ag-grid-angular>
   `,
-    styles: [
-        `
+  styles: [
+    `
       :host {
         min-height: 400px;
         max-height: 400px;
@@ -36,8 +36,8 @@ interface Item {
         height: 100%;
       }
     `
-    ],
-    standalone: false
+  ],
+  standalone: false
 })
 class TestingComponent {
   public readonly gridOptions: GridOptions = {
@@ -82,11 +82,11 @@ class TestingComponent {
 }
 
 @Component({
-    template: `
+  template: `
     <ag-grid-angular class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="config"> </ag-grid-angular>
   `,
-    styles: [
-        `
+  styles: [
+    `
       :host {
         min-height: 400px;
         max-height: 400px;
@@ -99,8 +99,8 @@ class TestingComponent {
         height: 100%;
       }
     `
-    ],
-    standalone: false
+  ],
+  standalone: false
 })
 class TestingWithConfigComponent {
   public readonly gridOptions: GridOptions = {

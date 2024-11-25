@@ -15,19 +15,19 @@ import { NgssmExpressionTreeNodeComponent } from '../ngssm-expression-tree-node/
 import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tree-node-details/ngssm-expression-tree-node-details.component';
 
 @Component({
-    selector: 'ngssm-expression-tree',
-    imports: [
-        CommonModule,
-        ScrollingModule,
-        MatCardModule,
-        MatDividerModule,
-        MatIconModule,
-        NgssmExpressionTreeNodeComponent,
-        NgssmExpressionTreeNodeDetailsComponent
-    ],
-    templateUrl: './ngssm-expression-tree.component.html',
-    styleUrls: ['./ngssm-expression-tree.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-expression-tree',
+  imports: [
+    CommonModule,
+    ScrollingModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    NgssmExpressionTreeNodeComponent,
+    NgssmExpressionTreeNodeDetailsComponent
+  ],
+  templateUrl: './ngssm-expression-tree.component.html',
+  styleUrls: ['./ngssm-expression-tree.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeComponent extends NgSsmComponent {
   private readonly _tree$ = new BehaviorSubject<NgssmExpressionTree | undefined>(undefined);

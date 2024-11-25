@@ -7,26 +7,26 @@ import { BehaviorSubject } from 'rxjs';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-component-display.directive';
 
 @Component({
-    selector: 'ngssm-first',
-    template: `{{ title }}`,
-    imports: [CommonModule]
+  selector: 'ngssm-first',
+  template: `{{ title }}`,
+  imports: [CommonModule]
 })
 class FirstComponent {
   public title = 'First';
 }
 
 @Component({
-    selector: 'ngssm-second',
-    template: `{{ title }}`,
-    imports: [CommonModule]
+  selector: 'ngssm-second',
+  template: `{{ title }}`,
+  imports: [CommonModule]
 })
 class SecondComponent {
   public title = 'Second';
 }
 
 @Component({
-    template: ` <div [ngssmComponentDisplay]="componentToDisplay$ | async" [ngssmComponentAction]="componentAction$ | async"></div> `,
-    imports: [CommonModule, NgssmComponentDisplayDirective]
+  template: ` <div [ngssmComponentDisplay]="componentToDisplay$ | async" [ngssmComponentAction]="componentAction$ | async"></div> `,
+  imports: [CommonModule, NgssmComponentDisplayDirective]
 })
 class TestingComponent {
   public readonly componentToDisplay$ = new BehaviorSubject<any>(FirstComponent);

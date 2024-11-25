@@ -13,21 +13,21 @@ import { useDefaultErrorStateMatcher } from '../../default-error-state-matcher';
 import { defaultRegexEditorValidator, NGSSM_REGEX_EDITOR_VALIDATOR, RegexEditorValidator } from '../regex-editor-validator';
 
 @Component({
-    selector: 'ngssm-regex-editor',
-    imports: [
-        CommonModule,
-        A11yModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule
-    ],
-    providers: [useDefaultErrorStateMatcher],
-    templateUrl: './ngssm-regex-editor.component.html',
-    styleUrls: ['./ngssm-regex-editor.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-regex-editor',
+  imports: [
+    CommonModule,
+    A11yModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule
+  ],
+  providers: [useDefaultErrorStateMatcher],
+  templateUrl: './ngssm-regex-editor.component.html',
+  styleUrls: ['./ngssm-regex-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmRegexEditorComponent {
   private readonly regexValidator: RegexEditorValidator;

@@ -1,132 +1,34 @@
-import {
-  Overlay,
-  OverlayKeyboardDispatcher,
-  OverlayOutsideClickDispatcher,
-  OverlayPositionBuilder,
-  OverlayRef,
-  ScrollStrategyOptions
-} from '@angular/cdk/overlay';
-import { DOCUMENT } from '@angular/common';
-import {
-  AfterViewInit,
-  ComponentFactoryResolver,
-  Directive,
-  ElementRef,
-  Inject,
-  Injector,
-  Input,
-  NgZone,
-  OnDestroy,
-  Renderer2,
-  TemplateRef,
-  ViewContainerRef
-} from '@angular/core';
-import { Location } from '@angular/common';
-import { Directionality } from '@angular/cdk/bidi';
-import { ComponentPortal, ComponentType, TemplatePortal } from '@angular/cdk/portal';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Directive, inject, Input, TemplateRef } from '@angular/core';
+import { ComponentType } from '@angular/cdk/portal';
 
-import { NgssmMessageOverlayComponent } from './ngssm-message-overlay.component';
+import { NgssmOverlayBuilder } from './ngssm-overlay-builder';
+import { NgssmOverlay } from './ngssm-overlay';
 
 @Directive({
   selector: '[ngssmDisplayOverlay]',
-  standalone: true
+  providers: [NgssmOverlayBuilder, NgssmOverlay]
 })
-export class NgssmComponentOverlayDirective implements OnDestroy, AfterViewInit {
-  private readonly unSubscribeAll$ = new Subject<void>();
-  private readonly _displayOverlay$ = new BehaviorSubject<boolean>(false);
-  private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
-
-  private overlay: Overlay;
-  private overlayRef: OverlayRef;
-
-  constructor(
-    private elementRef: ElementRef,
-    private viewContainerRef: ViewContainerRef,
-    @Inject(DOCUMENT) document: any,
-    scrollStrategies: ScrollStrategyOptions,
-    // eslint-disable-next-line deprecation/deprecation
-    componentFactoryResolver: ComponentFactoryResolver,
-    positionBuilder: OverlayPositionBuilder,
-    keyboardDispatcher: OverlayKeyboardDispatcher,
-    injector: Injector,
-    ngZone: NgZone,
-    directionality: Directionality,
-    location: Location,
-    outsideClickDispatcher: OverlayOutsideClickDispatcher,
-    renderer: Renderer2
-  ) {
-    renderer.setStyle(this.elementRef.nativeElement, 'position', 'relative');
-    const container = {
-      getContainerElement: () => this.elementRef.nativeElement
-    };
-
-    this.overlay = new Overlay(
-      scrollStrategies,
-      container as any,
-      componentFactoryResolver,
-      positionBuilder,
-      keyboardDispatcher,
-      injector,
-      ngZone,
-      document,
-      directionality,
-      location,
-      outsideClickDispatcher
-    );
-
-    this.overlayRef = this.overlay.create({
-      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-      hasBackdrop: true
-    });
-  }
+export class NgssmComponentOverlayDirective {
+  private overlayBuilder = inject(NgssmOverlayBuilder);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('overlayTemplate') overLayTemplate: TemplateRef<any> | undefined;
+  @Input('overlayTemplate') set overLayTemplate(value: TemplateRef<any> | undefined) {
+    this.overlayBuilder.overLayTemplate = value;
+  }
 
-  @Input() overlayComponent: ComponentType<any> | undefined;
+  @Input() set overlayComponent(value: ComponentType<any> | undefined) {
+    this.overlayBuilder.overlayComponent = value;
+  }
 
   @Input() public set overlayMessage(value: string) {
-    this._overlayMessage$.next(value);
+    this.overlayBuilder.overlayMessage = value;
   }
 
-  @Input('ngssmDisplayOverlay') public set dispalyOverlay(value: boolean) {
-    this._displayOverlay$.next(value);
-  }
-
-  public ngAfterViewInit(): void {
-    this._displayOverlay$.pipe(takeUntil(this.unSubscribeAll$)).subscribe((v) => {
-      if (v) {
-        this.showOverlay();
-      } else {
-        this.hideOverlay();
-      }
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.unSubscribeAll$.next();
-    this.unSubscribeAll$.complete();
-    if (this._displayOverlay$.getValue()) {
-      this.overlayRef.detach();
-    }
-  }
-
-  private showOverlay(): void {
-    if (this.overLayTemplate) {
-      this.overlayRef.attach(new TemplatePortal(this.overLayTemplate, this.viewContainerRef));
-    } else if (this.overlayComponent) {
-      const ref = this.overlayRef.attach(new ComponentPortal(this.overlayComponent));
-      if (this.overlayComponent === NgssmMessageOverlayComponent) {
-        ref.instance.message$ = this._overlayMessage$.asObservable();
-      }
+  @Input('ngssmDisplayOverlay') public set displayOverlay(value: boolean) {
+    if (value === true) {
+      this.overlayBuilder.showOverlay();
     } else {
-      const ref = this.overlayRef.attach(new ComponentPortal(NgssmMessageOverlayComponent));
-      ref.instance.message$ = this._overlayMessage$.asObservable();
+      this.overlayBuilder.hideOverlay();
     }
-  }
-
-  private hideOverlay(): void {
-    this.overlayRef.detach();
   }
 }

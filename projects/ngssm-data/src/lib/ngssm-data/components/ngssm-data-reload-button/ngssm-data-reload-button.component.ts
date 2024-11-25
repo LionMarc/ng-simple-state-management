@@ -16,11 +16,11 @@ import { NgssmLoadDataSourceValueAction } from '../../actions';
 import { NgssmAutoReloadComponent } from '../ngssm-auto-reload/ngssm-auto-reload.component';
 
 @Component({
-    selector: 'ngssm-data-reload-button',
-    imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule, NgssmAutoReloadComponent],
-    templateUrl: './ngssm-data-reload-button.component.html',
-    styleUrls: [],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-data-reload-button',
+  imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule, NgssmAutoReloadComponent],
+  templateUrl: './ngssm-data-reload-button.component.html',
+  styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   private readonly toUnsubscribe$ = new Subject<void>();

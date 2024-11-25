@@ -10,11 +10,11 @@ import { selectNgssmRemoteCallState } from '../../state';
 import { RemoteCallStatus } from '../../model';
 
 @Component({
-    selector: 'ngssm-remote-call-error',
-    imports: [CommonModule, MatButtonModule, MatIconModule],
-    templateUrl: './ngssm-remote-call-error.component.html',
-    styleUrls: [],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-remote-call-error',
+  imports: [CommonModule, MatButtonModule, MatIconModule],
+  templateUrl: './ngssm-remote-call-error.component.html',
+  styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmRemoteCallErrorComponent extends NgSsmComponent {
   private readonly _remoteCallId$ = new Subject<string>();

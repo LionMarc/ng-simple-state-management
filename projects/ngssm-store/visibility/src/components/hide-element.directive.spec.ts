@@ -15,8 +15,8 @@ import { NgssmVisibilityStateSpecification } from '../state';
 import { HideElementAction, NgssmVisibilityActionType } from '../actions';
 
 @Component({
-    template: ` <button mat-raised-button [hideElement]="'element-one'" id="buttonId">Hide Element</button> `,
-    imports: [CommonModule, MatButtonModule, HideElementDirective]
+  template: ` <button mat-raised-button [hideElement]="'element-one'" id="buttonId">Hide Element</button> `,
+  imports: [CommonModule, MatButtonModule, HideElementDirective]
 })
 class TestingComponent {}
 

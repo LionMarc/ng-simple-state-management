@@ -10,11 +10,11 @@ import { NgssmFileSizePipe } from './ngssm-file-size.pipe';
 export const noop = () => {};
 
 @Component({
-    selector: 'ngssm-file-picker',
-    imports: [CommonModule, NgssmFileSizePipe],
-    templateUrl: './ngssm-file-picker.component.html',
-    styleUrls: ['./ngssm-file-picker.component.scss'],
-    providers: [{ provide: MatFormFieldControl, useExisting: NgssmFilePickerComponent }]
+  selector: 'ngssm-file-picker',
+  imports: [CommonModule, NgssmFileSizePipe],
+  templateUrl: './ngssm-file-picker.component.html',
+  styleUrls: ['./ngssm-file-picker.component.scss'],
+  providers: [{ provide: MatFormFieldControl, useExisting: NgssmFilePickerComponent }]
 })
 export class NgssmFilePickerComponent implements MatFormFieldControl<File>, ControlValueAccessor, OnDestroy {
   private static nextId = 0;

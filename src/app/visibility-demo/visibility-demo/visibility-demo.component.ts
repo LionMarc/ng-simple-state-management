@@ -15,21 +15,21 @@ import {
 } from 'ngssm-store/visibility';
 
 @Component({
-    selector: 'app-visibility-demo',
-    imports: [
-        CommonModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        ToggleElementVisibilityDirective,
-        IsElementVisiblePipe,
-        ShowElementDirective,
-        HideElementDirective,
-        VisibilityToggleGroupComponent
-    ],
-    templateUrl: './visibility-demo.component.html',
-    styleUrls: ['./visibility-demo.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-visibility-demo',
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    ToggleElementVisibilityDirective,
+    IsElementVisiblePipe,
+    ShowElementDirective,
+    HideElementDirective,
+    VisibilityToggleGroupComponent
+  ],
+  templateUrl: './visibility-demo.component.html',
+  styleUrls: ['./visibility-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VisibilityDemoComponent extends NgSsmComponent {
   public readonly visibilityItems: { key: string; label: string }[] = [

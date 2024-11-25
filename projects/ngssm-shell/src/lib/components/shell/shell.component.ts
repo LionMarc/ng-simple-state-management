@@ -18,21 +18,21 @@ import { ShellNotificationsComponent } from '../shell-notifications/shell-notifi
 import { WrapperComponent } from '../wrapper/wrapper.component';
 
 @Component({
-    selector: 'ngssm-shell',
-    imports: [
-        CommonModule,
-        RouterModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-        MatBadgeModule,
-        SideNavComponent,
-        ShellNotificationsComponent,
-        WrapperComponent
-    ],
-    templateUrl: './shell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-shell',
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatBadgeModule,
+    SideNavComponent,
+    ShellNotificationsComponent,
+    WrapperComponent
+  ],
+  templateUrl: './shell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent extends NgSsmComponent {
   private readonly _shellConfig$ = new BehaviorSubject<ShellConfig | undefined>(undefined);

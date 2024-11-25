@@ -6,31 +6,31 @@ import { By } from '@angular/platform-browser';
 import { WrapperComponent } from './wrapper.component';
 
 @Component({
-    template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-    imports: [CommonModule, WrapperComponent]
+  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  imports: [CommonModule, WrapperComponent]
 })
 class UndefinedComponent {
   public item = undefined;
 }
 
 @Component({
-    template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-    imports: [CommonModule, WrapperComponent]
+  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  imports: [CommonModule, WrapperComponent]
 })
 class StringComponent {
   public item = 'MESSAGE';
 }
 
 @Component({
-    selector: 'ngssm-wrapped',
-    template: `TESTING`,
-    imports: [CommonModule]
+  selector: 'ngssm-wrapped',
+  template: `TESTING`,
+  imports: [CommonModule]
 })
 class WrappedComponent {}
 
 @Component({
-    template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-    imports: [CommonModule, WrapperComponent]
+  template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  imports: [CommonModule, WrapperComponent]
 })
 class WithComponent {
   public item = WrappedComponent;

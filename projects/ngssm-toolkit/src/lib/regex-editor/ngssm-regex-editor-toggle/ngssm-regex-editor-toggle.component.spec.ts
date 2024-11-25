@@ -15,9 +15,9 @@ import { NgssmRegexEditorComponent } from '../ngssm-regex-editor/ngssm-regex-edi
 import { NgssmRegexEditorToggleComponent } from './ngssm-regex-editor-toggle.component';
 
 @Component({
-    selector: 'ngssm-testing',
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgssmRegexEditorToggleComponent],
-    template: `
+  selector: 'ngssm-testing',
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgssmRegexEditorToggleComponent],
+  template: `
     <mat-form-field>
       <mat-label>Regex</mat-label>
       <input matInput [formControl]="regexControl" #regexInput readonly (click)="editorToggle.openEditor($event)" />
@@ -25,7 +25,7 @@ import { NgssmRegexEditorToggleComponent } from './ngssm-regex-editor-toggle.com
       </ngssm-regex-editor-toggle>
     </mat-form-field>
   `,
-    styles: []
+  styles: []
 })
 export class TestingComponent {
   public readonly regexControl = new FormControl<string | null>(null);

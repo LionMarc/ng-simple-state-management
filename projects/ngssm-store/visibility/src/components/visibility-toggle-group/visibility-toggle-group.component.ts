@@ -8,11 +8,11 @@ import { ToggleElementVisibilityDirective } from '../toggle-element-visibility.d
 import { IsElementVisiblePipe } from '../is-element-visible.pipe';
 
 @Component({
-    selector: 'ngssm-visibility-toggle-group',
-    imports: [CommonModule, MatButtonToggleModule, ToggleElementVisibilityDirective, IsElementVisiblePipe],
-    templateUrl: './visibility-toggle-group.component.html',
-    styleUrls: [],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-visibility-toggle-group',
+  imports: [CommonModule, MatButtonToggleModule, ToggleElementVisibilityDirective, IsElementVisiblePipe],
+  templateUrl: './visibility-toggle-group.component.html',
+  styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VisibilityToggleGroupComponent extends NgSsmComponent {
   @Input() public items: { label: string; key: string }[] = [];

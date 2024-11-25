@@ -9,11 +9,11 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { RemoteDataActionType } from '../../actions';
 
 @Component({
-    selector: 'ngssm-caches-display-button',
-    imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
-    templateUrl: './ngssm-caches-display-button.component.html',
-    styleUrls: ['./ngssm-caches-display-button.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-caches-display-button',
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  templateUrl: './ngssm-caches-display-button.component.html',
+  styleUrls: ['./ngssm-caches-display-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmCachesDisplayButtonComponent extends NgSsmComponent {
   constructor(store: Store) {

@@ -35,11 +35,11 @@ const getDefaultCutAndPaste = (): CutAndPaste => ({
 });
 
 @Component({
-    selector: 'ngssm-expression-tree-node',
-    imports: [CommonModule, MatIconModule, MatMenuModule, MatDividerModule, NgssmComponentDisplayDirective],
-    templateUrl: './ngssm-expression-tree-node.component.html',
-    styleUrls: ['./ngssm-expression-tree-node.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-expression-tree-node',
+  imports: [CommonModule, MatIconModule, MatMenuModule, MatDividerModule, NgssmComponentDisplayDirective],
+  templateUrl: './ngssm-expression-tree-node.component.html',
+  styleUrls: ['./ngssm-expression-tree-node.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
   private readonly _nodeId$ = new BehaviorSubject<string | undefined>(undefined);

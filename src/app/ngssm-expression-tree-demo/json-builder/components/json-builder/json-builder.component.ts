@@ -20,11 +20,11 @@ import { selectJsonBuilderState } from '../../state';
 import { JsonBuilderActionType } from '../../actions';
 
 @Component({
-    selector: 'app-json-builder',
-    imports: [CommonModule, NgssmExpressionTreeComponent],
-    templateUrl: './json-builder.component.html',
-    styleUrls: ['./json-builder.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-json-builder',
+  imports: [CommonModule, NgssmExpressionTreeComponent],
+  templateUrl: './json-builder.component.html',
+  styleUrls: ['./json-builder.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsonBuilderComponent extends NgSsmComponent {
   public readonly treeConfig: NgssmExpressionTreeConfig<JsonNode> = {

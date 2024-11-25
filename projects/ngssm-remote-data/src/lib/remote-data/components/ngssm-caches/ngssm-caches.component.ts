@@ -19,11 +19,11 @@ interface Cache {
 }
 
 @Component({
-    selector: 'ngssm-caches',
-    imports: [CommonModule, MatDialogModule, MatButtonModule, MatTableModule, MatIconModule, MatProgressSpinnerModule],
-    templateUrl: './ngssm-caches.component.html',
-    styleUrls: ['./ngssm-caches.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-caches',
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatTableModule, MatIconModule, MatProgressSpinnerModule],
+  templateUrl: './ngssm-caches.component.html',
+  styleUrls: ['./ngssm-caches.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmCachesComponent extends NgSsmComponent {
   private readonly _caches$ = new BehaviorSubject<Cache[]>([]);

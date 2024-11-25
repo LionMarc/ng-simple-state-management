@@ -5,9 +5,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Observable, Subject } from 'rxjs';
 
 @Component({
-    selector: 'ngssm-message-overlay',
-    imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
-    template: `
+  selector: 'ngssm-message-overlay',
+  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
+  template: `
     <mat-card>
       <mat-card-content class="message-container">
         <mat-spinner></mat-spinner>
@@ -15,15 +15,15 @@ import { Observable, Subject } from 'rxjs';
       </mat-card-content>
     </mat-card>
   `,
-    styles: [
-        `
+  styles: [
+    `
       .message-container {
         display: flex !important;
         flex-direction: column;
         align-items: center;
       }
     `
-    ]
+  ]
 })
 export class NgssmMessageOverlayComponent {
   public message$: Observable<string> = new Subject<string>();

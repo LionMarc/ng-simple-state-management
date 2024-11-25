@@ -8,11 +8,11 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { todoItemsKey } from '../../model';
 
 @Component({
-    selector: 'app-todo-count',
-    imports: [CommonModule],
-    templateUrl: './todo-count.component.html',
-    styleUrls: ['./todo-count.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-todo-count',
+  imports: [CommonModule],
+  templateUrl: './todo-count.component.html',
+  styleUrls: ['./todo-count.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoCountComponent extends NgSsmComponent {
   constructor(store: Store) {

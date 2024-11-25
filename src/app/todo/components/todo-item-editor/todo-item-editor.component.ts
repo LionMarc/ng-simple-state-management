@@ -16,19 +16,19 @@ import { TodoActionType, UpdateTodoItemPropertyAction } from '../../actions';
 import { TodoItem, todoItemKey } from '../../model';
 
 @Component({
-    selector: 'app-todo-item-editor',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatProgressSpinnerModule,
-        MatInputModule,
-        MatButtonModule
-    ],
-    templateUrl: './todo-item-editor.component.html',
-    styleUrls: ['./todo-item-editor.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-todo-item-editor',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatButtonModule
+  ],
+  templateUrl: './todo-item-editor.component.html',
+  styleUrls: ['./todo-item-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemEditorComponent extends NgSsmComponent {
   public readonly dialogTitle = signal<string>('');

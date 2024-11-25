@@ -6,11 +6,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
-    selector: 'ngssm-help',
-    imports: [CommonModule, MatButtonModule, MatIconModule, MatMenuModule],
-    templateUrl: './ngssm-help.component.html',
-    styleUrls: [],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-help',
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatMenuModule],
+  templateUrl: './ngssm-help.component.html',
+  styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmHelpComponent {
   private readonly _help$ = new BehaviorSubject<string | undefined>(undefined);

@@ -10,19 +10,19 @@ import {
 } from 'ngssm-store';
 
 @Component({
-    selector: 'app-component-with-feature-state',
-    imports: [CommonModule],
-    templateUrl: './component-with-feature-state.component.html',
-    styleUrls: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    hostDirectives: [ProvideNgssmFeatureStateDirective],
-    providers: [
-        {
-            provide: NGSSM_COMPONENT_WITH_FEATURE_STATE,
-            multi: false,
-            useExisting: ComponentWithFeatureStateComponent
-        }
-    ]
+  selector: 'app-component-with-feature-state',
+  imports: [CommonModule],
+  templateUrl: './component-with-feature-state.component.html',
+  styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [ProvideNgssmFeatureStateDirective],
+  providers: [
+    {
+      provide: NGSSM_COMPONENT_WITH_FEATURE_STATE,
+      multi: false,
+      useExisting: ComponentWithFeatureStateComponent
+    }
+  ]
 })
 export class ComponentWithFeatureStateComponent extends NgSsmComponent implements FeatureStateSpecification {
   private static nextId = 1;

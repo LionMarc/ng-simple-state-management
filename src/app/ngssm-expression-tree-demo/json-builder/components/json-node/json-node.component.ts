@@ -12,11 +12,11 @@ import { JsonNode, JsonNodeType } from '../../model';
 import { NewPropertyAction } from '../../actions';
 
 @Component({
-    selector: 'app-json-node',
-    imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
-    templateUrl: './json-node.component.html',
-    styleUrls: ['./json-node.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-json-node',
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  templateUrl: './json-node.component.html',
+  styleUrls: ['./json-node.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsonNodeComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent {
   private readonly _node$ = new BehaviorSubject<JsonNode | undefined>(undefined);

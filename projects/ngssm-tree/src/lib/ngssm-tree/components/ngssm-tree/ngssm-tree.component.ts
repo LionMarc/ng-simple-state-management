@@ -19,11 +19,11 @@ interface DisplayedNode {
 }
 
 @Component({
-    selector: 'ngssm-tree',
-    imports: [CommonModule, ScrollingModule, MatCardModule, MatIconModule, MatProgressSpinnerModule],
-    templateUrl: './ngssm-tree.component.html',
-    styleUrls: ['./ngssm-tree.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-tree',
+  imports: [CommonModule, ScrollingModule, MatCardModule, MatIconModule, MatProgressSpinnerModule],
+  templateUrl: './ngssm-tree.component.html',
+  styleUrls: ['./ngssm-tree.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmTreeComponent extends NgSsmComponent {
   private readonly _treeConfig$ = new BehaviorSubject<NgssmTreeConfig | undefined>(undefined);

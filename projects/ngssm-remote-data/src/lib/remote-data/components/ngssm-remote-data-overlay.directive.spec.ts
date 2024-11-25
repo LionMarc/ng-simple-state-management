@@ -10,8 +10,8 @@ import { RemoteDataStateSpecification } from '../state';
 import { NgssmRemoteDataOverlayDirective } from './ngssm-remote-data-overlay.directive';
 
 @Component({
-    template: ` <div [ngssmRemoteDataOverlay]="['key1', 'key2']">custom content</div> `,
-    imports: [CommonModule, NgssmRemoteDataOverlayDirective]
+  template: ` <div [ngssmRemoteDataOverlay]="['key1', 'key2']">custom content</div> `,
+  imports: [CommonModule, NgssmRemoteDataOverlayDirective]
 })
 class TestingComponent {}
 

@@ -34,28 +34,28 @@ export class TestingFilePickerInitialization {
 }
 
 @Component({
-    selector: 'app-toolkit-demo',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatIconModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        NgssmFilePickerComponent,
-        NgssmRegexEditorToggleComponent,
-        OverlayDemoComponent,
-        NgssmComponentDisplayDirective,
-        NgssmHelpComponent,
-        Demo1Component,
-        Demo2Component
-    ],
-    templateUrl: './toolkit-demo.component.html',
-    styleUrls: ['./toolkit-demo.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-toolkit-demo',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    NgssmFilePickerComponent,
+    NgssmRegexEditorToggleComponent,
+    OverlayDemoComponent,
+    NgssmComponentDisplayDirective,
+    NgssmHelpComponent,
+    Demo1Component,
+    Demo2Component
+  ],
+  templateUrl: './toolkit-demo.component.html',
+  styleUrls: ['./toolkit-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolkitDemoComponent extends NgSsmComponent {
   private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | null>(null);

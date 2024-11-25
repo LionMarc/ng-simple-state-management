@@ -12,11 +12,11 @@ import { selectShellState } from '../../state';
 import { DisplayNotificationDetailsAction } from '../../actions';
 
 @Component({
-    selector: 'ngssm-shell-notification',
-    imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
-    templateUrl: './shell-notification.component.html',
-    styleUrls: ['./shell-notification.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-shell-notification',
+  imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
+  templateUrl: './shell-notification.component.html',
+  styleUrls: ['./shell-notification.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellNotificationComponent extends NgSsmComponent {
   private readonly _displayDetailsButton$ = new BehaviorSubject<boolean>(false);

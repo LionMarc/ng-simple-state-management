@@ -20,20 +20,20 @@ import {
 import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
 
 @Component({
-    selector: 'app-ngssm-tree-demo',
-    imports: [
-        CommonModule,
-        MatCardModule,
-        MatIconModule,
-        AgGridModule,
-        NgssmTreeComponent,
-        NgssmBreadcrumbComponent,
-        NgssmAgGridDirective,
-        NgssmAgGridThemeDirective
-    ],
-    templateUrl: './ngssm-tree-demo.component.html',
-    styleUrls: ['./ngssm-tree-demo.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-ngssm-tree-demo',
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatIconModule,
+    AgGridModule,
+    NgssmTreeComponent,
+    NgssmBreadcrumbComponent,
+    NgssmAgGridDirective,
+    NgssmAgGridThemeDirective
+  ],
+  templateUrl: './ngssm-tree-demo.component.html',
+  styleUrls: ['./ngssm-tree-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmTreeDemoComponent extends NgSsmComponent {
   private readonly _selectedNodeChildren$ = new BehaviorSubject<NgssmTreeNode[]>([]);

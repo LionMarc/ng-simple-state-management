@@ -8,11 +8,11 @@ import { selectShellState } from '../../state';
 import { ShellNotificationComponent } from '../shell-notification/shell-notification.component';
 
 @Component({
-    selector: 'ngssm-shell-notification-popup',
-    imports: [CommonModule, ShellNotificationComponent],
-    templateUrl: './shell-notification-popup.component.html',
-    styleUrls: ['./shell-notification-popup.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'ngssm-shell-notification-popup',
+  imports: [CommonModule, ShellNotificationComponent],
+  templateUrl: './shell-notification-popup.component.html',
+  styleUrls: ['./shell-notification-popup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellNotificationPopupComponent extends NgSsmComponent {
   private readonly _shellNotificationIndex$ = new BehaviorSubject<number>(-1);
