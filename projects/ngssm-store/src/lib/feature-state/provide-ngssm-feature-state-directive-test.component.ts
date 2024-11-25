@@ -4,7 +4,6 @@ import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE } from '.
 
 @Component({
   selector: 'ngssm-provide-ngssm-feature-state-directive-test',
-  standalone: true,
   imports: [],
   template: ` <p>provide-ngssm-feature-state-directive-test works!</p> `,
   styles: ``,

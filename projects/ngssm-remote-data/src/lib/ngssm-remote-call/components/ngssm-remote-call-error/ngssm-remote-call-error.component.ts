@@ -11,7 +11,6 @@ import { RemoteCallStatus } from '../../model';
 
 @Component({
   selector: 'ngssm-remote-call-error',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './ngssm-remote-call-error.component.html',
   styleUrls: [],

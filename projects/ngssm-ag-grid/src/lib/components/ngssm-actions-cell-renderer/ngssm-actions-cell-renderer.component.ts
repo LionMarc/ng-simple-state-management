@@ -26,7 +26,6 @@ interface ActionButton {
 
 @Component({
   selector: 'ngssm-actions-cell-renderer',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './ngssm-actions-cell-renderer.component.html',
   styleUrls: ['./ngssm-actions-cell-renderer.component.scss'],

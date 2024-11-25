@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmOverlayBuilder } from 'ngssm-toolkit';
+import { NgssmOverlay, NgssmOverlayBuilder } from 'ngssm-toolkit';
 
 import { RemoteCallStatus } from '../model';
 import { selectRemoteCall } from '../state';
@@ -10,7 +10,7 @@ import { selectRemoteCall } from '../state';
 @Directive({
   selector: '[ngssmRemoteCall]',
   standalone: true,
-  providers: [NgssmOverlayBuilder]
+  providers: [NgssmOverlayBuilder, NgssmOverlay]
 })
 export class NgssmRemoteCallDirective extends NgSsmComponent {
   private subscription: Subscription | undefined;

@@ -36,7 +36,8 @@ interface Item {
         height: 100%;
       }
     `
-  ]
+  ],
+  standalone: false
 })
 class TestingComponent {
   public readonly gridOptions: GridOptions = {
@@ -98,7 +99,8 @@ class TestingComponent {
         height: 100%;
       }
     `
-  ]
+  ],
+  standalone: false
 })
 class TestingWithConfigComponent {
   public readonly gridOptions: GridOptions = {

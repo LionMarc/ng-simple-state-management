@@ -8,7 +8,6 @@ import { ToolkitDemoActionType } from '../../actions';
 
 @Component({
   selector: 'app-dialog-demo',
-  standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './dialog-demo.component.html',
   styleUrls: ['./dialog-demo.component.scss'],

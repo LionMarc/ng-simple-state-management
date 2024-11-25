@@ -16,7 +16,6 @@ import { NgssmVisibilityActionType, ShowElementAction } from '../actions';
 
 @Component({
   template: ` <button mat-raised-button [showElement]="'element-one'" id="buttonId">Show Element</button> `,
-  standalone: true,
   imports: [CommonModule, MatButtonModule, ShowElementDirective]
 })
 class TestingComponent {}

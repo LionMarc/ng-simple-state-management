@@ -5,7 +5,6 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'ngssm-notification-error',
-  standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './ngssm-notification-error.component.html',
   styleUrls: ['./ngssm-notification-error.component.scss'],

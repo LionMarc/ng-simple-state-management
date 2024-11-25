@@ -11,7 +11,6 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
 
 @Component({
   selector: 'app-tree-demo-results-viewer',
-  standalone: true,
   imports: [CommonModule, AgGridModule, NgssmAgGridDirective, NgssmAgGridThemeDirective],
   templateUrl: './tree-demo-results-viewer.component.html',
   styleUrls: ['./tree-demo-results-viewer.component.scss'],

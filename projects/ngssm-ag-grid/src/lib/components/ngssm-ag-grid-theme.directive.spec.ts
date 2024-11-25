@@ -8,7 +8,6 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NgssmAgGridThemeDirective } from './ngssm-ag-grid-theme.directive';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, AgGridModule, NgssmAgGridThemeDirective],
   template: ` <ag-grid-angular ngssmAgGridTheme> </ag-grid-angular> `,
   styles: [

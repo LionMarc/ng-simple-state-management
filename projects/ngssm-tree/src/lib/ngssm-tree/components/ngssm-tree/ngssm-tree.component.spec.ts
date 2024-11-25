@@ -14,7 +14,6 @@ import { NgssmTreeComponent } from './ngssm-tree.component';
 
 @Component({
   selector: 'ngssm-tree-demo',
-  standalone: true,
   imports: [CommonModule, NgssmTreeComponent],
   template: `<ngssm-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-tree>`,
   styles: [

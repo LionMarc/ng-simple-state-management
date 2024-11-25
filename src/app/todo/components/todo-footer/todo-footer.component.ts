@@ -9,7 +9,6 @@ import { todoItemsKey } from '../../model';
 
 @Component({
   selector: 'app-todo-footer',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './todo-footer.component.html',
   styleUrls: ['./todo-footer.component.scss'],

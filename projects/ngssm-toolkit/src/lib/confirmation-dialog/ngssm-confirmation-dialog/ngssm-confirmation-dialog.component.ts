@@ -9,7 +9,6 @@ import { NgssmConfirmationDialogConfig } from '../ngssm-confirmation-dialog-conf
 
 @Component({
   selector: 'ngssm-confirmation-dialog',
-  standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './ngssm-confirmation-dialog.component.html',
   styleUrls: ['./ngssm-confirmation-dialog.component.scss'],

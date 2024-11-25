@@ -21,7 +21,6 @@ import { JsonBuilderActionType } from '../../actions';
 
 @Component({
   selector: 'app-json-builder',
-  standalone: true,
   imports: [CommonModule, NgssmExpressionTreeComponent],
   templateUrl: './json-builder.component.html',
   styleUrls: ['./json-builder.component.scss'],

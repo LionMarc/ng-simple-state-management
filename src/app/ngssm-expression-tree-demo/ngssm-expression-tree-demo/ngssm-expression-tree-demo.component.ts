@@ -22,7 +22,6 @@ import { Entry, databases } from '../database';
 
 @Component({
   selector: 'app-ngssm-expression-tree-demo',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, NgssmExpressionTreeComponent, JsonBuilderComponent],
   templateUrl: './ngssm-expression-tree-demo.component.html',
   styleUrls: ['./ngssm-expression-tree-demo.component.scss'],

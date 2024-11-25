@@ -7,7 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-component-display.directive';
 
 @Component({
-  standalone: true,
   selector: 'ngssm-first',
   template: `{{ title }}`,
   imports: [CommonModule]
@@ -17,7 +16,6 @@ class FirstComponent {
 }
 
 @Component({
-  standalone: true,
   selector: 'ngssm-second',
   template: `{{ title }}`,
   imports: [CommonModule]
@@ -27,7 +25,6 @@ class SecondComponent {
 }
 
 @Component({
-  standalone: true,
   template: ` <div [ngssmComponentDisplay]="componentToDisplay$ | async" [ngssmComponentAction]="componentAction$ | async"></div> `,
   imports: [CommonModule, NgssmComponentDisplayDirective]
 })

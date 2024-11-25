@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
 
 import { NgSsmComponent, Store } from 'ngssm-store';
-import { NgssmOverlayBuilder } from 'ngssm-toolkit';
+import { NgssmOverlay, NgssmOverlayBuilder } from 'ngssm-toolkit';
 
 import { DataStatus } from '../model';
 import { selectRemoteData } from '../state';
@@ -10,7 +10,7 @@ import { selectRemoteData } from '../state';
 @Directive({
   selector: '[ngssmRemoteDataOverlay]',
   standalone: true,
-  providers: [NgssmOverlayBuilder]
+  providers: [NgssmOverlayBuilder, NgssmOverlay]
 })
 export class NgssmRemoteDataOverlayDirective extends NgSsmComponent {
   private subscription: Subscription | undefined;

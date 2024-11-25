@@ -23,7 +23,6 @@ enum TestingActionType {
 
 @Component({
   selector: 'ngssm-testing',
-  standalone: true,
   imports: [CommonModule],
   template: ` nothing `,
   styles: [],
@@ -33,7 +32,6 @@ export class DialogDemoComponent {}
 
 @Component({
   selector: 'ngssm-editor',
-  standalone: true,
   imports: [CommonModule],
   template: ` nothing `,
   styles: [],

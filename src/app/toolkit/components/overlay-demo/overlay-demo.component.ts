@@ -9,7 +9,6 @@ import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 @Component({
   selector: 'app-overlay-demo',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatSlideToggleModule, NgssmComponentOverlayDirective],
   templateUrl: './overlay-demo.component.html',
   styleUrls: ['./overlay-demo.component.scss'],

@@ -16,7 +16,6 @@ import {
 
 @Component({
   selector: 'app-visibility-demo',
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,

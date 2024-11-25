@@ -28,7 +28,6 @@ import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../
 
 @Component({
   selector: 'ngssm-ngssm-tree-search-dialog',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

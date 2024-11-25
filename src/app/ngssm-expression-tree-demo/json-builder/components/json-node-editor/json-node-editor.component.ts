@@ -14,7 +14,6 @@ import { JsonNodeType, getJsonNodeTypes } from '../../model';
 
 @Component({
   selector: 'app-json-node-editor',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatDialogModule, MatButtonModule],
   templateUrl: './json-node-editor.component.html',
   styleUrls: ['./json-node-editor.component.scss'],

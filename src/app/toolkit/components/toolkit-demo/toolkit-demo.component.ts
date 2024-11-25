@@ -35,7 +35,6 @@ export class TestingFilePickerInitialization {
 
 @Component({
   selector: 'app-toolkit-demo',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

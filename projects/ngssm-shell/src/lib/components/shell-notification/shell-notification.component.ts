@@ -13,7 +13,6 @@ import { DisplayNotificationDetailsAction } from '../../actions';
 
 @Component({
   selector: 'ngssm-shell-notification',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './shell-notification.component.html',
   styleUrls: ['./shell-notification.component.scss'],

@@ -13,7 +13,6 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
   selector: 'app-notifications-demo',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

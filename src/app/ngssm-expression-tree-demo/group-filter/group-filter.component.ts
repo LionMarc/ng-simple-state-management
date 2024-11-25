@@ -12,7 +12,6 @@ import { Filter, FilterType } from '../filter';
 
 @Component({
   selector: 'app-group-filter',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './group-filter.component.html',
   styleUrls: ['./group-filter.component.scss'],

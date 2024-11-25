@@ -15,7 +15,6 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
   selector: 'app-ace-editor-demo',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

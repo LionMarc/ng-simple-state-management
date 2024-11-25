@@ -7,7 +7,6 @@ import { NgssmDataSource, NgssmScopedDataSourceDirective } from 'ngssm-data';
 
 @Component({
   selector: 'app-component-with-scoped-data-source',
-  standalone: true,
   imports: [CommonModule, NgssmScopedDataSourceDirective],
   templateUrl: './component-with-scoped-data-source.component.html',
   styleUrls: ['./component-with-scoped-data-source.component.scss'],

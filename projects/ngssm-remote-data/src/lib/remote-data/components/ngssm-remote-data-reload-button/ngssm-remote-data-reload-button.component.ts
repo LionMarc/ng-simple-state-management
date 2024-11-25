@@ -16,7 +16,6 @@ const datePipe = new DatePipe('en-US');
 
 @Component({
   selector: 'ngssm-remote-data-reload-button',
-  standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule],
   templateUrl: './ngssm-remote-data-reload-button.component.html',
   styleUrls: ['./ngssm-remote-data-reload-button.component.scss'],

@@ -20,7 +20,6 @@ interface DisplayedNode {
 
 @Component({
   selector: 'ngssm-tree',
-  standalone: true,
   imports: [CommonModule, ScrollingModule, MatCardModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './ngssm-tree.component.html',
   styleUrls: ['./ngssm-tree.component.scss'],

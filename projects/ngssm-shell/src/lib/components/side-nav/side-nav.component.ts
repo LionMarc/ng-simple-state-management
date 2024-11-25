@@ -11,7 +11,6 @@ import { WrapperComponent } from '../wrapper/wrapper.component';
 
 @Component({
   selector: 'ngssm-side-nav',
-  standalone: true,
   imports: [CommonModule, MatDividerModule, RouterModule, WrapperComponent],
   templateUrl: './side-nav.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

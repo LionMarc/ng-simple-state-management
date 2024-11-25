@@ -9,7 +9,6 @@ import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '.
 
 @Component({
   selector: 'ngssm-expression-tree-node-details',
-  standalone: true,
   imports: [CommonModule, NgssmComponentDisplayDirective],
   templateUrl: './ngssm-expression-tree-node-details.component.html',
   styleUrls: ['./ngssm-expression-tree-node-details.component.scss'],

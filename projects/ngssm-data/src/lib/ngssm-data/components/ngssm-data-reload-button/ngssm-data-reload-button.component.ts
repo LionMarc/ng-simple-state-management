@@ -17,7 +17,6 @@ import { NgssmAutoReloadComponent } from '../ngssm-auto-reload/ngssm-auto-reload
 
 @Component({
   selector: 'ngssm-data-reload-button',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule, NgssmAutoReloadComponent],
   templateUrl: './ngssm-data-reload-button.component.html',
   styleUrls: [],

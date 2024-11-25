@@ -6,7 +6,6 @@ import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'ngssm-message-overlay',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
   template: `
     <mat-card>

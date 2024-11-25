@@ -20,7 +20,6 @@ import { ComponentWithScopedDataSourceComponent } from '../component-with-scoped
 
 @Component({
   selector: 'app-ngssm-data-demo',
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,

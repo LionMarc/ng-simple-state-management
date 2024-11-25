@@ -9,7 +9,6 @@ import { ShellNotificationComponent } from '../shell-notification/shell-notifica
 
 @Component({
   selector: 'ngssm-shell-notification-popup',
-  standalone: true,
   imports: [CommonModule, ShellNotificationComponent],
   templateUrl: './shell-notification-popup.component.html',
   styleUrls: ['./shell-notification-popup.component.scss'],

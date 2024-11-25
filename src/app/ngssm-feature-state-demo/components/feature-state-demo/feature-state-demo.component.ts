@@ -9,7 +9,6 @@ import { ComponentWithFeatureStateComponent } from '../component-with-feature-st
 
 @Component({
   selector: 'app-feature-state-demo',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, NgssmAceEditorComponent, ComponentWithFeatureStateComponent],
   templateUrl: './feature-state-demo.component.html',
   styleUrls: ['./feature-state-demo.component.scss'],

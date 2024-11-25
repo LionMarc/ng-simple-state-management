@@ -10,7 +10,6 @@ import { RemoteDataActionType } from '../../actions';
 
 @Component({
   selector: 'ngssm-caches-display-button',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './ngssm-caches-display-button.component.html',
   styleUrls: ['./ngssm-caches-display-button.component.scss'],

@@ -20,7 +20,6 @@ interface Cache {
 
 @Component({
   selector: 'ngssm-caches',
-  standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatTableModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './ngssm-caches.component.html',
   styleUrls: ['./ngssm-caches.component.scss'],

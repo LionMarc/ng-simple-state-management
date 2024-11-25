@@ -16,7 +16,6 @@ import { NgssmRegexEditorToggleComponent } from './ngssm-regex-editor-toggle.com
 
 @Component({
   selector: 'ngssm-testing',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgssmRegexEditorToggleComponent],
   template: `
     <mat-form-field>

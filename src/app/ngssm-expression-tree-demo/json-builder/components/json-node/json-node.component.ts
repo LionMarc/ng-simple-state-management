@@ -13,7 +13,6 @@ import { NewPropertyAction } from '../../actions';
 
 @Component({
   selector: 'app-json-node',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './json-node.component.html',
   styleUrls: ['./json-node.component.scss'],

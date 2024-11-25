@@ -11,7 +11,6 @@ import {
 
 @Component({
   selector: 'app-component-with-feature-state',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './component-with-feature-state.component.html',
   styleUrls: [],

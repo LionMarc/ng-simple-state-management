@@ -24,7 +24,6 @@ import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions'
 
 @Component({
   selector: 'app-remote-data-demo',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

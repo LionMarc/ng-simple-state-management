@@ -12,7 +12,6 @@ import { SelectNodeAction } from '../../actions';
 
 @Component({
   selector: 'ngssm-breadcrumb',
-  standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './ngssm-breadcrumb.component.html',
   styleUrls: ['./ngssm-breadcrumb.component.scss'],

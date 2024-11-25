@@ -16,7 +16,6 @@ import { HideElementAction, NgssmVisibilityActionType } from '../actions';
 
 @Component({
   template: ` <button mat-raised-button [hideElement]="'element-one'" id="buttonId">Hide Element</button> `,
-  standalone: true,
   imports: [CommonModule, MatButtonModule, HideElementDirective]
 })
 class TestingComponent {}

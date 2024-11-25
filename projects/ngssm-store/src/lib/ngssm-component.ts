@@ -5,7 +5,9 @@ import { Action } from './action';
 import { State } from './state';
 import { Store } from './store';
 
-@Directive({})
+@Directive({
+  standalone: false
+})
 export class NgSsmComponent implements OnDestroy {
   private readonly _unsubscribeAll$ = new Subject<void>();
 

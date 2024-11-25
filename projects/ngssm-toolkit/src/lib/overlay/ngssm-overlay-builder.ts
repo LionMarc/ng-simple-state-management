@@ -1,35 +1,15 @@
-import { Directionality } from '@angular/cdk/bidi';
-import {
-  ComponentType,
-  Overlay,
-  OverlayKeyboardDispatcher,
-  OverlayOutsideClickDispatcher,
-  OverlayPositionBuilder,
-  OverlayRef,
-  ScrollStrategyOptions
-} from '@angular/cdk/overlay';
+import { ComponentType, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
-import { DOCUMENT, Location } from '@angular/common';
-import {
-  ComponentFactoryResolver,
-  ElementRef,
-  Inject,
-  Injectable,
-  Injector,
-  NgZone,
-  Renderer2,
-  TemplateRef,
-  ViewContainerRef
-} from '@angular/core';
+import { ElementRef, Injectable, OnDestroy, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { NgssmMessageOverlayComponent } from './ngssm-message-overlay.component';
+import { NgssmOverlay } from './ngssm-overlay';
 
 @Injectable()
-export class NgssmOverlayBuilder {
+export class NgssmOverlayBuilder implements OnDestroy {
   private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
 
-  private overlay: Overlay;
   private overlayRef: OverlayRef;
 
   public overLayTemplate: TemplateRef<any> | undefined;
@@ -37,43 +17,21 @@ export class NgssmOverlayBuilder {
 
   constructor(
     private elementRef: ElementRef,
+    private ngssmOverlay: NgssmOverlay,
     private viewContainerRef: ViewContainerRef,
-    @Inject(DOCUMENT) document: any,
-    scrollStrategies: ScrollStrategyOptions,
-    // eslint-disable-next-line deprecation/deprecation
-    componentFactoryResolver: ComponentFactoryResolver,
-    positionBuilder: OverlayPositionBuilder,
-    keyboardDispatcher: OverlayKeyboardDispatcher,
-    injector: Injector,
-    ngZone: NgZone,
-    directionality: Directionality,
-    location: Location,
-    outsideClickDispatcher: OverlayOutsideClickDispatcher,
     renderer: Renderer2
   ) {
     renderer.setStyle(this.elementRef.nativeElement, 'position', 'relative');
-    const container = {
-      getContainerElement: () => this.elementRef.nativeElement
-    };
+    this.ngssmOverlay.setContainerRef(this.elementRef);
 
-    this.overlay = new Overlay(
-      scrollStrategies,
-      container as any,
-      componentFactoryResolver,
-      positionBuilder,
-      keyboardDispatcher,
-      injector,
-      ngZone,
-      document,
-      directionality,
-      location,
-      outsideClickDispatcher
-    );
-
-    this.overlayRef = this.overlay.create({
-      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+    this.overlayRef = this.ngssmOverlay.create({
+      positionStrategy: this.ngssmOverlay.position().global().centerHorizontally().centerVertically(),
       hasBackdrop: true
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.overlayRef.detach();
   }
 
   public set overlayMessage(value: string) {

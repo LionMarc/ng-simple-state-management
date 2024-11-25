@@ -36,7 +36,6 @@ const getDefaultCutAndPaste = (): CutAndPaste => ({
 
 @Component({
   selector: 'ngssm-expression-tree-node',
-  standalone: true,
   imports: [CommonModule, MatIconModule, MatMenuModule, MatDividerModule, NgssmComponentDisplayDirective],
   templateUrl: './ngssm-expression-tree-node.component.html',
   styleUrls: ['./ngssm-expression-tree-node.component.scss'],

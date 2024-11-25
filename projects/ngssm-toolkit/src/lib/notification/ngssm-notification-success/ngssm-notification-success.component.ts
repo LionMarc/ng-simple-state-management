@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'ngssm-notification-success',
-  standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './ngssm-notification-success.component.html',
   styleUrls: ['./ngssm-notification-success.component.scss'],

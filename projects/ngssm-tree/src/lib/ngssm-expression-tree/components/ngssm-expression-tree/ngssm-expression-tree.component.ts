@@ -16,7 +16,6 @@ import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tre
 
 @Component({
   selector: 'ngssm-expression-tree',
-  standalone: true,
   imports: [
     CommonModule,
     ScrollingModule,

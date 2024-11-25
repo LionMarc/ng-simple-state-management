@@ -14,7 +14,6 @@ import { selectNgssmDataSourceValue } from 'ngssm-data';
 
 @Component({
   selector: 'app-todo-item',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],

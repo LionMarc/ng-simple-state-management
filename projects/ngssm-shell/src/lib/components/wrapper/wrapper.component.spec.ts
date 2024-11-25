@@ -7,7 +7,6 @@ import { WrapperComponent } from './wrapper.component';
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-  standalone: true,
   imports: [CommonModule, WrapperComponent]
 })
 class UndefinedComponent {
@@ -16,7 +15,6 @@ class UndefinedComponent {
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-  standalone: true,
   imports: [CommonModule, WrapperComponent]
 })
 class StringComponent {
@@ -26,14 +24,12 @@ class StringComponent {
 @Component({
   selector: 'ngssm-wrapped',
   template: `TESTING`,
-  standalone: true,
   imports: [CommonModule]
 })
 class WrappedComponent {}
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-  standalone: true,
   imports: [CommonModule, WrapperComponent]
 })
 class WithComponent {

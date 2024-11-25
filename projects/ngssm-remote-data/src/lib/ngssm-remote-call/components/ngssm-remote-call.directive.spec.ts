@@ -10,7 +10,6 @@ import { NgssmRemoteCallStateSpecification } from '../state';
 import { NgssmRemoteCallDirective } from './ngssm-remote-call.directive';
 
 @Component({
-  standalone: true,
   template: ` <div [ngssmRemoteCall]="'demo'">custom content</div> `,
   imports: [CommonModule, NgssmRemoteCallDirective]
 })

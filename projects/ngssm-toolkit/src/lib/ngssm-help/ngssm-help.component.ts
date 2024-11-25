@@ -7,7 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'ngssm-help',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatMenuModule],
   templateUrl: './ngssm-help.component.html',
   styleUrls: [],

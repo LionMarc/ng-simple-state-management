@@ -9,7 +9,6 @@ import { NgssmRegexEditorComponent } from '../ngssm-regex-editor/ngssm-regex-edi
 
 @Component({
   selector: 'ngssm-regex-editor-toggle',
-  standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule, OverlayModule, NgssmRegexEditorComponent],
   templateUrl: './ngssm-regex-editor-toggle.component.html',
   styleUrls: ['./ngssm-regex-editor-toggle.component.scss'],

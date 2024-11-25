@@ -17,7 +17,6 @@ import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAct
 
 @Component({
   selector: 'ngssm-tree-demo',
-  standalone: true,
   imports: [CommonModule, NgssmExpressionTreeComponent],
   template: `<ngssm-expression-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-expression-tree>`,
   styles: [

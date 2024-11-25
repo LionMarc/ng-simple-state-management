@@ -9,7 +9,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-node-detail',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './node-detail.component.html',
   styleUrls: ['./node-detail.component.scss'],

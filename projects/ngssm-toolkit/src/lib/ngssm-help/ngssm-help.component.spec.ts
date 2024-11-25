@@ -11,14 +11,12 @@ import { NgssmHelpComponent } from './ngssm-help.component';
 
 @Component({
   template: ` <ngssm-help> NGContent Help </ngssm-help> `,
-  standalone: true,
   imports: [CommonModule, NgssmHelpComponent]
 })
 class WithNgContentComponent {}
 
 @Component({
   template: ` <ngssm-help [help]="help"></ngssm-help> `,
-  standalone: true,
   imports: [CommonModule, NgssmHelpComponent]
 })
 class WithInputContentComponent {

@@ -17,7 +17,6 @@ import { TodoItem, todoItemKey } from '../../model';
 
 @Component({
   selector: 'app-todo-item-editor',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

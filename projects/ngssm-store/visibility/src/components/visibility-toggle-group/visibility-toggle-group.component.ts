@@ -9,7 +9,6 @@ import { IsElementVisiblePipe } from '../is-element-visible.pipe';
 
 @Component({
   selector: 'ngssm-visibility-toggle-group',
-  standalone: true,
   imports: [CommonModule, MatButtonToggleModule, ToggleElementVisibilityDirective, IsElementVisiblePipe],
   templateUrl: './visibility-toggle-group.component.html',
   styleUrls: [],

@@ -11,7 +11,6 @@ import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

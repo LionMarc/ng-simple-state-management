@@ -10,7 +10,6 @@ import { getNgssmDataSourceValueAutoReloadTypes, NgssmDataSourceValueAutoReloadT
 
 @Component({
   selector: 'ngssm-auto-reload',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule],
   templateUrl: './ngssm-auto-reload.component.html',
   styleUrls: [],

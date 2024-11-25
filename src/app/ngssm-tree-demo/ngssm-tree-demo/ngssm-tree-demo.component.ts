@@ -21,7 +21,6 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
 
 @Component({
   selector: 'app-ngssm-tree-demo',
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,

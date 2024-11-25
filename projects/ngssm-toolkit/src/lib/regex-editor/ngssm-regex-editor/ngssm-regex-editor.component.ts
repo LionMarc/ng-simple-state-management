@@ -14,7 +14,6 @@ import { defaultRegexEditorValidator, NGSSM_REGEX_EDITOR_VALIDATOR, RegexEditorV
 
 @Component({
   selector: 'ngssm-regex-editor',
-  standalone: true,
   imports: [
     CommonModule,
     A11yModule,

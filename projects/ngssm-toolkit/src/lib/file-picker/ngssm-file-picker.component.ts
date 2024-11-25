@@ -11,7 +11,6 @@ export const noop = () => {};
 
 @Component({
   selector: 'ngssm-file-picker',
-  standalone: true,
   imports: [CommonModule, NgssmFileSizePipe],
   templateUrl: './ngssm-file-picker.component.html',
   styleUrls: ['./ngssm-file-picker.component.scss'],

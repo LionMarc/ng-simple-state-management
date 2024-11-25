@@ -19,7 +19,6 @@ import { WrapperComponent } from '../wrapper/wrapper.component';
 
 @Component({
   selector: 'ngssm-shell',
-  standalone: true,
   imports: [
     CommonModule,
     RouterModule,

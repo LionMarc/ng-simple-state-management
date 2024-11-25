@@ -15,7 +15,6 @@ import { ShellNotificationComponent } from '../shell-notification/shell-notifica
 
 @Component({
   selector: 'ngssm-shell-notifications',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, NgssmAceEditorComponent, ShellNotificationComponent],
   templateUrl: './shell-notifications.component.html',
   styleUrls: ['./shell-notifications.component.scss'],

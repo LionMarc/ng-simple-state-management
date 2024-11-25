@@ -29,7 +29,6 @@ import { provideFeatureState } from '../../feature-state-provider';
 
 @Component({
   selector: 'app-todo-dashboard',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
