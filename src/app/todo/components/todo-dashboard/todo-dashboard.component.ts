@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { GetRowIdParams, GridOptions, ICellRendererParams, MenuItemDef, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, NgSsmComponent, Store } from 'ngssm-store';
 import {
   getColDefForEditableColumn,
   getColDefWithNoPadding,
@@ -51,7 +51,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
   private readonly _deleteHidden$ = new BehaviorSubject<boolean>(false);
 
   public readonly waitingOverlayRendered = signal<boolean>(false);
-  public readonly todoItems = signal<TodoItem[]>([]);
+  public readonly todoItems = createSignal<TodoItem[]>((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value ?? []);
   public readonly allowRestoringGridControl = new FormControl(true);
   public readonly gridOptions: GridOptions = {
     columnDefs: [
@@ -181,7 +181,6 @@ export class TodoDashboardComponent extends NgSsmComponent {
 
     this.deleteHiddenControl.valueChanges.subscribe((v) => this._deleteHidden$.next(v ?? false));
 
-    this.watch((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value).subscribe((v) => this.todoItems.set(v ?? []));
     this.watch((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.status).subscribe((s) =>
       this.waitingOverlayRendered.set(s === NgssmDataSourceValueStatus.loading)
     );

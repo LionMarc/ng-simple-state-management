@@ -1,9 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 
-import { selectRemoteData } from 'ngssm-remote-data';
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { selectNgssmDataSourceValue } from 'ngssm-data';
+import { createSignal } from 'ngssm-store';
 
 import { todoItemsKey } from '../../model';
 
@@ -14,12 +13,6 @@ import { todoItemsKey } from '../../model';
   styleUrls: ['./todo-count.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TodoCountComponent extends NgSsmComponent {
-  constructor(store: Store) {
-    super(store);
-  }
-
-  public get count$(): Observable<number> {
-    return this.watch((s) => ((selectRemoteData(s, todoItemsKey)?.data ?? []) as any[]).length);
-  }
+export class TodoCountComponent {
+  public readonly count = createSignal<number>((s) => (selectNgssmDataSourceValue(s, todoItemsKey)?.value ?? []).length);
 }
