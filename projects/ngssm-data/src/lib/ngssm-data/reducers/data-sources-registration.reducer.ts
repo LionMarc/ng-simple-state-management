@@ -43,6 +43,10 @@ export class DataSourcesRegistrationReducer implements Reducer {
             dataSourceValues[dataSource.key].parameter = dataSource.initialParameter;
           }
 
+          if (dataSource.initialParameterInvalid) {
+            dataSourceValues[dataSource.key].parameterIsValid = false;
+          }
+
           dataSources[dataSource.key] = dataSource;
         });
 
