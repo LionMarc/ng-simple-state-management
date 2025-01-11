@@ -13,15 +13,19 @@ export interface NgssmDataSource<TData = any, TParameter = any> {
   dataLifetimeInSeconds?: number;
   dataLoadingFunc: NgssmDataLoading<TData, TParameter>;
   initialParameter?: TParameter;
+  initialParameterInvalid?: boolean;
 }
 
 export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA_SOURCE');
 
+// Why not creating an app intializer that dispatch a NgssmRegisterDataSourceAction action
+// instead of registering the data source ?
 export const provideNgssmDataSource = <TData = any, TParameter = any>(
   key: string,
   loadingFunc: NgssmDataLoading<TData, TParameter>,
   dataLifetimeInSeconds?: number,
-  initialParameter?: TParameter
+  initialParameter?: TParameter,
+  initialParameterInvalid?: boolean
 ): EnvironmentProviders => {
   return makeEnvironmentProviders([
     {
@@ -32,8 +36,13 @@ export const provideNgssmDataSource = <TData = any, TParameter = any>(
           dataLifetimeInSeconds,
           dataLoadingFunc: loadingFunc
         };
+
         if (initialParameter) {
           dataSource.initialParameter = initialParameter;
+        }
+
+        if (initialParameterInvalid) {
+          dataSource.initialParameterInvalid = initialParameterInvalid;
         }
 
         return dataSource;

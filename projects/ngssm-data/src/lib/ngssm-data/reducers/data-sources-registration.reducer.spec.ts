@@ -108,6 +108,32 @@ describe('DataSourcesRegistrationReducer', () => {
       });
     });
 
+    it(`should store in state the parameter validity if set in action`, () => {
+      const action = new NgssmRegisterDataSourcesAction([
+        {
+          key: 'data-providers',
+          dataLoadingFunc: () => of([]),
+          initialParameter: {
+            label: 'testing'
+          },
+          initialParameterInvalid: true
+        }
+      ]);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues).toEqual({
+        'data-providers': {
+          status: NgssmDataSourceValueStatus.none,
+          additionalProperties: {},
+          parameter: {
+            label: 'testing'
+          },
+          parameterIsValid: false
+        }
+      });
+    });
+
     it(`should not modify the value for a source already registered`, () => {
       state = updateNgssmDataState(state, {
         dataSources: {
