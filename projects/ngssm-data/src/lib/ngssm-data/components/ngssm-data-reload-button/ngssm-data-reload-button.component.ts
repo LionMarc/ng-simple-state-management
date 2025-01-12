@@ -33,6 +33,7 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
   public readonly color = signal<string>('primary');
   public readonly withAutoReload = signal<boolean>(false);
   public readonly reloadAction = () => this.reload();
+  public readonly buttonLabel = signal<string | undefined>(undefined);
 
   @Input() public keepAdditionalProperties = false;
 
@@ -87,6 +88,10 @@ export class NgssmDataReloadButtonComponent extends NgSsmComponent {
         const someHasAnOutdatedValue = this._dataSourceKeys.findIndex((key) => values[key]?.valueOutdated === true) !== -1;
         this.color.set(someHasAnOutdatedValue ? 'accent' : 'primary');
       });
+  }
+
+  @Input() public set label(value: string | undefined) {
+    this.buttonLabel.set(value);
   }
 
   public reload(): void {

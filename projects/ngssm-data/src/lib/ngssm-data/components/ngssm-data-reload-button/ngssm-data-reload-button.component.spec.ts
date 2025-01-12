@@ -418,4 +418,28 @@ describe('NgssmDataReloadButtonComponent', () => {
       expect(text).toEqual(['Reload data.', `Loaded at ${DateTime.fromISO('2023-12-04T12:34:00Z').toHTTP()}`].join('\n'));
     });
   });
+
+  describe('rendering label', () => {
+    it('should render the label when it is set', async () => {
+      component.label = 'Reload data';
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const button = await loader.getHarness(MatButtonHarness);
+      expect(button).toBeTruthy();
+      const text = await button.getText();
+      expect(text).toContain('Reload data');
+    });
+
+    it('should render a mat-icon-button when label is not set', async () => {
+      component.label = undefined;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const button = await loader.getHarness(MatButtonHarness);
+      expect(button).toBeTruthy();
+      const type = await button.getVariant();
+      expect(type).toEqual('icon');
+    });
+  });
 });
