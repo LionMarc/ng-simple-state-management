@@ -1,36 +1,31 @@
 <mat-card [ngssmDisplayOverlay]="waitingOverlayRendered()" class="flex-column-stretch fxFlex">
-    <mat-card-header>
-        <mat-card-title class="flex-row-center">
-            To-Do List
-            <ngssm-data-reload-button [dataSourceKeys]="[remoteDataKey]"
-                [autoReloadEnabled]="true"></ngssm-data-reload-button>
-            <span class="fxFlex"></span>
-            <button mat-raised-button color="primary" (click)="addTodo()">
-                Add to-do
-            </button>
-        </mat-card-title>
-    </mat-card-header>
+  <mat-card-header>
+    <mat-card-title class="flex-row-center">
+      To-Do List
+      <ngssm-data-reload-button
+        [dataSourceKeys]="[remoteDataKey]"
+        [autoReloadEnabled]="true"
+        label="Reload Todos"></ngssm-data-reload-button>
+      <span class="fxFlex"></span>
+      <button mat-raised-button color="primary" (click)="addTodo()">Add to-do</button>
+    </mat-card-title>
+  </mat-card-header>
 
-    <mat-card-content class="flex-row-stretch fxFlex">
-        <div class="flex-column-stretch fxFlex">
-            @for (todoItem of todoItems(); track todoItem.id){
-            <app-todo-item [todoId]="todoItem.id ?? -1">
+  <mat-card-content class="flex-row-stretch fxFlex">
+    <div class="flex-column-stretch fxFlex">
+      @for (todoItem of todoItems(); track todoItem.id) {
+        <app-todo-item [todoId]="todoItem.id ?? -1"> </app-todo-item>
+      }
+    </div>
 
-            </app-todo-item>
-            }
+    <div class="flex-column-stretch fxFlex">
+      <div class="flex-row-center">
+        <mat-checkbox [formControl]="allowRestoringGridControl">Allow restoring grid?</mat-checkbox>
+        <mat-checkbox [formControl]="deleteHiddenControl">Delete hidden?</mat-checkbox>
+      </div>
 
-        </div>
-
-        <div class="flex-column-stretch fxFlex">
-            <div class="flex-row-center">
-                <mat-checkbox [formControl]="allowRestoringGridControl">Allow restoring grid?</mat-checkbox>
-                <mat-checkbox [formControl]="deleteHiddenControl">Delete hidden?</mat-checkbox>
-            </div>
-
-            <ag-grid-angular ngssmAgGridTheme class="fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems()"
-                [ngssmAgGrid]="agGridConfig">
-
-            </ag-grid-angular>
-        </div>
-    </mat-card-content>
+      <ag-grid-angular ngssmAgGridTheme class="fxFlex" [gridOptions]="gridOptions" [rowData]="todoItems()" [ngssmAgGrid]="agGridConfig">
+      </ag-grid-angular>
+    </div>
+  </mat-card-content>
 </mat-card>

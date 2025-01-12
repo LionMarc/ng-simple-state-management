@@ -1,15 +1,41 @@
 <div class="flex-row-center">
-    <button mat-icon-button [color]="color()" (click)="reload()" [matTooltip]="tooltipMessage()"
-        [disabled]="buttonDisabled() === true" id="reloadButton">
-
+  @if (buttonLabel()) {
+    <button
+      mat-stroked-button
+      [color]="color()"
+      (click)="reload()"
+      [matTooltip]="tooltipMessage()"
+      [disabled]="buttonDisabled() === true"
+      id="reloadButton">
+      <div class="flex-row-center">
         @if (loadInProgress()) {
-        <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
+          <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
         } @else {
-        <mat-icon [ngClass]="icon()"></mat-icon>
+          <mat-icon [ngClass]="icon()"></mat-icon>
         }
 
+        <span style="width:0.5rem"></span>
+
+        {{ buttonLabel() }}
+      </div>
     </button>
-    @if (withAutoReload()) {
+  } @else {
+    <button
+      mat-icon-button
+      [color]="color()"
+      (click)="reload()"
+      [matTooltip]="tooltipMessage()"
+      [disabled]="buttonDisabled() === true"
+      id="reloadButton">
+      @if (loadInProgress()) {
+        <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
+      } @else {
+        <mat-icon [ngClass]="icon()"></mat-icon>
+      }
+    </button>
+  }
+
+  @if (withAutoReload()) {
     <ngssm-auto-reload class="with-margin-left-8" [autoReloadAction]="reloadAction"></ngssm-auto-reload>
-    }
+  }
 </div>
