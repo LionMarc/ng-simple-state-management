@@ -53,6 +53,7 @@ export function component(options: AngularComponentOptionsSchema): Rule {
     // component selector
     angularComponentOptions.selector =
       angularComponentOptions.selector || buildSelector(angularComponentOptions, (project && project.prefix) || '');
+    angularComponentOptions.standalone = true;
 
     const componentPath =
       `/${angularComponentOptions.path}/` + (angularComponentOptions.flat ? '' : strings.dasherize(angularComponentOptions.name) + '/');
