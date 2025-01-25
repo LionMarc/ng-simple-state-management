@@ -22,7 +22,11 @@ export class StoreMock {
     return this._stateValue;
   }
 
-  public dispatchAction(action: Action): void {}
+  public dispatchAction(action: Action): void {
+    console.log('[StoreMock - dispatchAction]', action);
+  }
 
-  public dispatchActionType(type: string): void {}
+  public dispatchActionType(type: string): void {
+    console.log('[StoreMock - dispatchActionType]', type);
+  }
 }

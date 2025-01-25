@@ -10,10 +10,10 @@ export interface Reducer {
 
 export const NGSSM_REDUCER = new InjectionToken<Reducer>('NGSSM_REDUCER');
 
-export const provideReducer = (reducer: Type<any>): EnvironmentProviders => {
+export const provideReducer = (reducer: Type<unknown>): EnvironmentProviders => {
   return makeEnvironmentProviders([{ provide: NGSSM_REDUCER, useClass: reducer, multi: true }]);
 };
 
-export const provideReducers = (...reducers: Type<any>[]): EnvironmentProviders => {
+export const provideReducers = (...reducers: Type<unknown>[]): EnvironmentProviders => {
   return makeEnvironmentProviders(reducers.map((reducer) => ({ provide: NGSSM_REDUCER, useClass: reducer, multi: true })));
 };

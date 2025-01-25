@@ -47,7 +47,7 @@ describe('CachedItemReducer', () => {
             ['testing']: {
               $set: {
                 status: CachedItemStatus.loading,
-                item: 'waiting'
+                item: 'waiting' as never
               }
             }
           }
@@ -121,7 +121,7 @@ describe('CachedItemReducer', () => {
           ['testing']: {
             $set: {
               status: CachedItemStatus.loading,
-              item: 'waiting'
+              item: 'waiting' as never
             }
           }
         }

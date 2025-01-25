@@ -21,7 +21,6 @@ import { HideElementAction, NgssmVisibilityActionType } from '../actions';
 class TestingComponent {}
 
 describe('HideElementDirective', () => {
-  let component: TestingComponent;
   let fixture: ComponentFixture<TestingComponent>;
   let store: StoreMock;
   let loader: HarnessLoader;
@@ -37,7 +36,6 @@ describe('HideElementDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestingComponent);
-    component = fixture.componentInstance;
     fixture.nativeElement.style['min-height'] = '200px';
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);

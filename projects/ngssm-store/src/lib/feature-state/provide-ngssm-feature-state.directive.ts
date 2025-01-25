@@ -1,4 +1,4 @@
-import { Directive, Inject, InjectionToken, OnDestroy } from '@angular/core';
+import { Directive, Inject, OnDestroy } from '@angular/core';
 
 import { Store } from '../store';
 import { NgssmRegisterFeatureStateAction, NgssmUnregisterFeatureStateAction } from '../actions';

@@ -12,17 +12,15 @@ export interface Effect {
 
 export const NGSSM_EFFECT = new InjectionToken<Effect>('NGSSM_EFFECT');
 
-export const provideEffect = (effect: Type<any>): EnvironmentProviders => {
+export const provideEffect = (effect: Type<unknown>): EnvironmentProviders => {
   return makeEnvironmentProviders([{ provide: NGSSM_EFFECT, useClass: effect, multi: true }]);
 };
 
-export const provideEffects = (...effects: Type<any>[]): EnvironmentProviders => {
+export const provideEffects = (...effects: Type<unknown>[]): EnvironmentProviders => {
   return makeEnvironmentProviders(effects.map((effect) => ({ provide: NGSSM_EFFECT, useClass: effect, multi: true })));
 };
 
-export interface EffectFunc {
-  (state: State, action: Action): void;
-}
+export type EffectFunc = (state: State, action: Action) => void;
 
 export const provideEffectFunc = (actionType: string, effectFunc: EffectFunc): EnvironmentProviders => {
   return makeEnvironmentProviders([

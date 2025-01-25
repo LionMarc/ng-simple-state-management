@@ -14,19 +14,19 @@ export class Logger {
     return this._logEvents$.asObservable();
   }
 
-  public debug(message: string, payload?: any): void {
+  public debug(message: string, payload?: unknown): void {
     this.log(LogLevel.debug, message, payload);
   }
 
-  public information(message: string, payload?: any): void {
+  public information(message: string, payload?: unknown): void {
     this.log(LogLevel.information, message, payload);
   }
 
-  public error(message: string, payload?: any): void {
+  public error(message: string, payload?: unknown): void {
     this.log(LogLevel.error, message, payload);
   }
 
-  public log(level: LogLevel, message: string, payload?: any): void {
+  public log(level: LogLevel, message: string, payload?: unknown): void {
     this._logEvents$.next({
       level,
       message,

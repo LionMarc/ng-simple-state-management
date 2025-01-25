@@ -1,3 +1,1 @@
-export interface State {
-  [key: string]: object;
-}
+export type State = Record<string, object>;
