@@ -3,5 +3,5 @@ export interface RemoteCallError {
   title?: string;
   status?: number;
   traceId?: string;
-  errors?: { [key: string]: string[] };
+  errors?: Record<string, string[]>;
 }

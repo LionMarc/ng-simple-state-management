@@ -16,7 +16,6 @@ import { NgssmRemoteDataOverlayDirective } from './ngssm-remote-data-overlay.dir
 class TestingComponent {}
 
 describe('NgssmRemoteDataOverlayDirective', () => {
-  let component: TestingComponent;
   let fixture: ComponentFixture<TestingComponent>;
   let store: StoreMock;
   let directive: NgssmRemoteDataOverlayDirective;
@@ -32,7 +31,6 @@ describe('NgssmRemoteDataOverlayDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestingComponent);
-    component = fixture.componentInstance;
     fixture.nativeElement.style['min-height'] = '200px';
     fixture.detectChanges();
     directive = fixture.debugElement

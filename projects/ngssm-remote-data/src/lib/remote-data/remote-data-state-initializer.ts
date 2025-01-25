@@ -10,7 +10,7 @@ export class RemoteDataStateInitializer implements StateInitializer {
   constructor(@Inject(NGSSM_REMOTE_DATA_PROVIDER) @Optional() private remoteDataProviders: RemoteDataProvider[]) {}
 
   public initializeState(state: State): State {
-    let tempState = state;
+    const tempState = state;
     return (this.remoteDataProviders ?? []).reduce(
       (s, provider) => updateRemoteDataState(s, { [provider.remoteDataKey]: { $set: { status: DataStatus.none } } }),
       tempState

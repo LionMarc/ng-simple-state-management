@@ -12,9 +12,7 @@ export const updateRemoteDataState = (state: State, command: Spec<RemoteDataStat
     [RemoteDataStateSpecification.featureStateKey]: command
   });
 
-export interface RemoteDataState {
-  [key: string]: RemoteData<any>;
-}
+export type RemoteDataState = Record<string, RemoteData<unknown>>;
 
 @NgSsmFeatureState({
   featureStateKey: RemoteDataStateSpecification.featureStateKey,

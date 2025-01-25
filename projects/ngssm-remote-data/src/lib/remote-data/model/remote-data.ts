@@ -2,7 +2,7 @@ import { RemoteCallError } from '../../ngssm-remote-call/model';
 import { DataStatus } from './data-status';
 import { RemoteDataGetterParams } from './remote-data-getter-params';
 
-export interface RemoteData<TData = any, TGetterParams = any> {
+export interface RemoteData<TData = unknown, TGetterParams = unknown> {
   status: DataStatus;
   data?: TData;
   timestamp?: Date;

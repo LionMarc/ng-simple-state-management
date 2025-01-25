@@ -18,7 +18,7 @@ export class RemoteDataReducer implements Reducer {
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
-      case RemoteDataActionType.loadRemoteData:
+      case RemoteDataActionType.loadRemoteData: {
         const loadRemoteDataAction = action as LoadRemoteDataAction;
         const item = selectRemoteDataState(state)[loadRemoteDataAction.remoteDataKey];
         if (!item) {
@@ -56,8 +56,9 @@ export class RemoteDataReducer implements Reducer {
         }
 
         break;
+      }
 
-      case RemoteDataActionType.registerLoadedRemoteData:
+      case RemoteDataActionType.registerLoadedRemoteData: {
         const registerLoadedRemoteDataAction = action as RegisterLoadedRemoteDataAction;
         if (this.remoteDataProvidersPerKey.has(registerLoadedRemoteDataAction.remoteDataKey)) {
           return updateRemoteDataState(state, {
@@ -72,6 +73,7 @@ export class RemoteDataReducer implements Reducer {
         }
 
         break;
+      }
     }
 
     return state;

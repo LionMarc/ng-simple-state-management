@@ -13,7 +13,7 @@ export const updateNgssmRemoteCallState = (state: State, command: Spec<NgssmRemo
   });
 
 export interface NgssmRemoteCallState {
-  remoteCalls: { [key: string]: RemoteCall };
+  remoteCalls: Record<string, RemoteCall>;
 }
 
 @NgSsmFeatureState({

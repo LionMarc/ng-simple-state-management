@@ -32,9 +32,9 @@ export class NgssmRemoteCallErrorComponent extends NgSsmComponent {
       const description: string =
         remoteCall?.status !== RemoteCallStatus.ko
           ? ''
-          : !!remoteCall.message
+          : remoteCall.message
             ? remoteCall.message
-            : !!remoteCall.error
+            : remoteCall.error
               ? JSON.stringify(remoteCall.error, null, 2)
               : 'No error description provided!';
       this.errorDescription.set(description);

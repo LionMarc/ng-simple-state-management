@@ -32,7 +32,7 @@ export class RemoteDataLoadingGuard {
   }
 }
 
-export const ngssmReloadRemoteData = <TData = any>(
+export const ngssmReloadRemoteData = <TData = unknown>(
   remoteDataKey: string,
   params: ReloadParams<TData> = { forceReload: true }
 ): (() => boolean) => {

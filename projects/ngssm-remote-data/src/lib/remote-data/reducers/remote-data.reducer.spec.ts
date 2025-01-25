@@ -1,14 +1,16 @@
 import { Observable, of } from 'rxjs';
 
+import { State } from 'ngssm-store';
+
 import { LoadRemoteDataAction, RemoteDataActionType } from '../actions';
-import { DataStatus, RemoteDataGetterParams, RemoteDataProvider } from '../model';
+import { DataStatus, RemoteDataProvider } from '../model';
 import { RemoteDataStateInitializer } from '../remote-data-state-initializer';
 import { RemoteDataStateSpecification, selectRemoteData, updateRemoteDataState } from '../state';
 import { RemoteDataReducer } from './remote-data.reducer';
 
 describe('RemoteDataReducer', () => {
   let reducer: RemoteDataReducer;
-  let state: { [key: string]: any };
+  let state: State;
 
   beforeEach(() => {
     state = {
@@ -17,12 +19,12 @@ describe('RemoteDataReducer', () => {
     const remoteDataProviders: RemoteDataProvider[] = [
       {
         remoteDataKey: 'data001',
-        get: (params?: RemoteDataGetterParams<number>): Observable<number> => of(1)
+        get: (): Observable<number> => of(1)
       },
       {
         remoteDataKey: 'data002',
         cacheDurationInSeconds: 100,
-        get: (params?: RemoteDataGetterParams<number>): Observable<number> => of(1)
+        get: (): Observable<number> => of(1)
       }
     ];
     state = new RemoteDataStateInitializer(remoteDataProviders).initializeState(state);
@@ -56,7 +58,7 @@ describe('RemoteDataReducer', () => {
         {
           remoteDataKey: 'data002',
           cacheDurationInSeconds: 100,
-          get: (params?: RemoteDataGetterParams<number>): Observable<number> => of(1)
+          get: (): Observable<number> => of(1)
         }
       ];
       reducer = new RemoteDataReducer(remoteDataProviders);

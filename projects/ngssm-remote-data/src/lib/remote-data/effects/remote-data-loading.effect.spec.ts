@@ -3,15 +3,15 @@ import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { Observable } from 'rxjs';
 
 import { StoreMock } from 'ngssm-store/testing';
+import { Store } from 'ngssm-store';
 
 import { RemoteDataLoadingEffect } from './remote-data-loading.effect';
 import { DataStatus, NGSSM_REMOTE_DATA_PROVIDER, RemoteDataProvider, provideRemoteDataFunc } from '../model';
 import { RemoteDataStateSpecification, updateRemoteDataState } from '../state';
 import { LoadRemoteDataAction, RegisterLoadedRemoteDataAction } from '../actions';
-
-import { Observable } from 'rxjs';
 
 const remoteDataKeyForFunc = 'remote-data-key-for-func';
 const remoteDataKeyForClass = 'remote-data-key-for-class';
@@ -32,7 +32,7 @@ class RemoteDataTesting implements RemoteDataProvider {
 describe('RemoteDataLoadingEffect', () => {
   let effect: RemoteDataLoadingEffect;
   let store: StoreMock;
-  let loadingFunc = () => {
+  const loadingFunc = () => {
     const httpClient = inject(HttpClient);
     return httpClient.get<string[]>('/testing-func');
   };
@@ -76,7 +76,11 @@ describe('RemoteDataLoadingEffect', () => {
     it(`should call the function associated to the remote data`, () => {
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForFunc, { forceReload: true }));
+      effect.processAction(
+        store as unknown as Store,
+        store.stateValue,
+        new LoadRemoteDataAction(remoteDataKeyForFunc, { forceReload: true })
+      );
 
       const req = httpTestingController.expectOne('/testing-func');
 
@@ -104,7 +108,7 @@ describe('RemoteDataLoadingEffect', () => {
     it(`should call the function associated to the remote data`, () => {
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForClass, { forceReload: true }));
+      effect.processAction(store as unknown as Store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForClass, { forceReload: true }));
 
       const req = httpTestingController.expectOne('/testing-class');
 
