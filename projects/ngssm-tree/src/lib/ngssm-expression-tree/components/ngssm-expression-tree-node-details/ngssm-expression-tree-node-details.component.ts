@@ -35,7 +35,7 @@ export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
       .subscribe((values) => {
         this.initialized = true;
 
-        this._componentAction$.next((c: NgssmExpressionTreeCustomComponent) => c.setup(values[1].treeId, values[0]));
+        this._componentAction$.next((c: unknown) => (c as NgssmExpressionTreeCustomComponent).setup(values[1].treeId, values[0]));
         this._componentToDisplay$.next(values[1].nodeDetailComponent);
         setTimeout(() => {
           this.heightChanged.emit(this.elementRef?.nativeElement.getBoundingClientRect().height ?? 0);

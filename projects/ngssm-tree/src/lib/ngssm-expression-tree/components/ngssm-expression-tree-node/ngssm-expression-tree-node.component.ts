@@ -99,7 +99,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
         const treeConfig = values[1];
         const nodeId = values[0];
         if (treeConfig && nodeId) {
-          this._componentAction$.next((c: NgssmExpressionTreeCustomComponent) => c.setup(treeConfig.treeId, nodeId));
+          this._componentAction$.next((c: unknown) => (c as NgssmExpressionTreeCustomComponent).setup(treeConfig.treeId, nodeId));
           this._componentToDisplay$.next(treeConfig.nodeDescriptionComponent);
         }
       });

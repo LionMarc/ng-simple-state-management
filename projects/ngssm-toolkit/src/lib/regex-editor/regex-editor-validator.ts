@@ -19,8 +19,8 @@ export const defaultRegexEditorValidator: RegexEditorValidator = {
       if (regex.test('')) {
         return { isValid: true };
       }
-    } catch (error: any) {
-      return { isValid: false, error: error.message } as any;
+    } catch (error) {
+      return { isValid: false, error: (error as Error).message };
     }
 
     return { isValid: true };
@@ -31,7 +31,7 @@ export const defaultRegexEditorValidator: RegexEditorValidator = {
       if (regex.test(testString)) {
         return true;
       }
-    } catch (error: any) {
+    } catch {
       return false;
     }
 

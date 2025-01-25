@@ -12,11 +12,11 @@ export class NgssmComponentOverlayDirective {
   private overlayBuilder = inject(NgssmOverlayBuilder);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('overlayTemplate') set overLayTemplate(value: TemplateRef<any> | undefined) {
+  @Input('overlayTemplate') set overLayTemplate(value: TemplateRef<unknown> | undefined) {
     this.overlayBuilder.overLayTemplate = value;
   }
 
-  @Input() set overlayComponent(value: ComponentType<any> | undefined) {
+  @Input() set overlayComponent(value: ComponentType<unknown> | undefined) {
     this.overlayBuilder.overlayComponent = value;
   }
 

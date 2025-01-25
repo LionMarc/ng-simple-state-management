@@ -29,7 +29,7 @@ class SecondComponent {
   imports: [CommonModule, NgssmComponentDisplayDirective]
 })
 class TestingComponent {
-  public readonly componentToDisplay$ = new BehaviorSubject<any>(FirstComponent);
+  public readonly componentToDisplay$ = new BehaviorSubject<unknown>(FirstComponent);
   public readonly componentAction$ = new BehaviorSubject<NgssmComponentAction | null>(null);
 }
 
@@ -67,7 +67,7 @@ describe('NgssmComponentDisplayDirective', () => {
   });
 
   it('should render the new title when component action is updated', async () => {
-    component.componentAction$.next((component) => (component.title = 'New Title'));
+    component.componentAction$.next((component) => ((component as FirstComponent).title = 'New Title'));
 
     fixture.detectChanges();
     await fixture.whenStable();

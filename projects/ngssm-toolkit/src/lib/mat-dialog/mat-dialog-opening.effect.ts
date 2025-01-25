@@ -1,13 +1,13 @@
 import { EnvironmentInjector, Inject, Injectable, Optional, runInInjectionContext } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Effect, Store, State, Action, Logger } from 'ngssm-store';
+import { Effect, Store, State, Action } from 'ngssm-store';
 
 import { NGSSM_MAT_DIALOG_CONFIG, NgssmMatDialogConfig } from './ngssm-mat-dialog-config';
 
 interface ExtendedConfig {
   config: NgssmMatDialogConfig;
-  dialog?: MatDialogRef<any, any>;
+  dialog?: MatDialogRef<unknown, unknown>;
 }
 
 @Injectable()

@@ -95,7 +95,7 @@ export class ToolkitDemoComponent extends NgSsmComponent {
       if (!value) {
         this._componentAction$.next(null);
       } else {
-        this._componentAction$.next((component) => component.setComment(value));
+        this._componentAction$.next((component) => (component as Demo1Component).setComment(value));
       }
     });
 
