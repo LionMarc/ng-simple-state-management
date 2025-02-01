@@ -23,7 +23,7 @@ import {
 import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions';
 
 @Component({
-  selector: 'app-remote-data-demo',
+  selector: 'ngssm-remote-data-demo',
   imports: [
     CommonModule,
     ReactiveFormsModule,

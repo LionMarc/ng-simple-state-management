@@ -1,29 +1,37 @@
 <mat-card class="flex-column-stretch fxFlex">
-    <mat-card-content class="flex-column-stretch fxFlex" *ngIf="(treeConfig$ | async) as treeConfig">
-        <cdk-virtual-scroll-viewport itemSize="30" class="fxFlex">
-            <div *cdkVirtualFor="let item of displayedItems$ | async; trackBy: getItemId" class="ngssm-tree-node"
-                [style.padding-left.px]="item.node.level * 20" (click)="selectNode(item.node)"
-                [ngClass]="{'selected' : (selectedNodeId$ | async) === item.node.node.nodeId}">
-                <mat-icon class="fa-solid fa-chevron-right"
-                    *ngIf="item.node.node.isExpandable && item.node.isExpanded === false && item.node.status !== dataStatus.loading"
-                    (click)="$event.stopPropagation();expand(item.node);"></mat-icon>
-                <mat-icon class="fa-solid fa-chevron-down"
-                    *ngIf="item.node.node.isExpandable && item.node.isExpanded && item.node.status !== dataStatus.loading"
-                    (click)="$event.stopPropagation();collapse(item.node)"></mat-icon>
-                <mat-spinner diameter="20"
-                    *ngIf="item.node.node.isExpandable && item.node.status === dataStatus.loading"></mat-spinner>
-                <span *ngIf="!item.node.node.isExpandable" class="not-expandable-padding"></span>
+  <mat-card-content class="flex-column-stretch fxFlex" *ngIf="treeConfig$ | async as treeConfig">
+    <cdk-virtual-scroll-viewport itemSize="30" class="fxFlex">
+      <div
+        *cdkVirtualFor="let item of displayedItems$ | async; trackBy: getItemId"
+        class="ngssm-tree-node"
+        [style.padding-left.px]="item.node.level * 20"
+        (click)="selectNode(item.node)"
+        aria-hidden="true"
+        (keyup.enter)="selectNode(item.node)"
+        [ngClass]="{ selected: (selectedNodeId$ | async) === item.node.node.nodeId }">
+        <mat-icon
+          class="fa-solid fa-chevron-right"
+          *ngIf="item.node.node.isExpandable && item.node.isExpanded === false && item.node.status !== dataStatus.loading"
+          (click)="$event.stopPropagation(); expand(item.node)"></mat-icon>
+        <mat-icon
+          class="fa-solid fa-chevron-down"
+          *ngIf="item.node.node.isExpandable && item.node.isExpanded && item.node.status !== dataStatus.loading"
+          (click)="$event.stopPropagation(); collapse(item.node)"></mat-icon>
+        <mat-spinner diameter="20" *ngIf="item.node.node.isExpandable && item.node.status === dataStatus.loading"></mat-spinner>
+        <span *ngIf="!item.node.node.isExpandable" class="not-expandable-padding"></span>
 
-                <mat-icon class="{{treeConfig.iconClasses[item.node.node.type]}}" color="primary"></mat-icon>
+        <mat-icon class="{{ treeConfig.iconClasses[item.node.node.type] }}" color="primary"></mat-icon>
 
-                <span class="ngssm-tree-node-label">
-                    {{item.node.node.label}}
-                </span>
-                <span class="fxFlex"></span>
-                <i class="fa-solid fa-magnifying-glass search-icon" *ngIf="item.canSearch"
-                    (click)="$event.stopPropagation();displaySearchDialog(item.node)">
-                </i>
-            </div>
-        </cdk-virtual-scroll-viewport>
-    </mat-card-content>
+        <span class="ngssm-tree-node-label">
+          {{ item.node.node.label }}
+        </span>
+        <span class="fxFlex"></span>
+        <i
+          class="fa-solid fa-magnifying-glass search-icon"
+          *ngIf="item.canSearch"
+          (click)="$event.stopPropagation(); displaySearchDialog(item.node)">
+        </i>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </mat-card-content>
 </mat-card>

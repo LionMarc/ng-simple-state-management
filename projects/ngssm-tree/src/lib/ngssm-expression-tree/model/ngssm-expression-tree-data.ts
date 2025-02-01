@@ -1,3 +1,1 @@
-export interface NgssmExpressionTreeData<TData = any> {
-  [key: string]: TData;
-}
+export type NgssmExpressionTreeData<TData = unknown> = Record<string, TData>;

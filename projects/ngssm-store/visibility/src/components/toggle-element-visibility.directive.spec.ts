@@ -21,7 +21,6 @@ import { NgssmVisibilityActionType, ToggleElementVisibilityAction } from '../act
 class TestingComponent {}
 
 describe('ToggleElementVisibilityDirective', () => {
-  let component: TestingComponent;
   let fixture: ComponentFixture<TestingComponent>;
   let store: StoreMock;
   let loader: HarnessLoader;
@@ -37,7 +36,6 @@ describe('ToggleElementVisibilityDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestingComponent);
-    component = fixture.componentInstance;
     fixture.nativeElement.style['min-height'] = '200px';
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);

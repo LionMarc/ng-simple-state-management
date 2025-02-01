@@ -13,7 +13,7 @@ import { JsonBuilderActionType, SubmitJsonNodeAction } from '../../actions';
 import { JsonNodeType, getJsonNodeTypes } from '../../model';
 
 @Component({
-  selector: 'app-json-node-editor',
+  selector: 'ngssm-json-node-editor',
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatDialogModule, MatButtonModule],
   templateUrl: './json-node-editor.component.html',
   styleUrls: ['./json-node-editor.component.scss'],

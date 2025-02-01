@@ -13,7 +13,7 @@ export const updateNgssmTreeState = (state: State, command: Spec<NgssmTreeState,
   });
 
 export interface NgssmTreeState {
-  trees: { [key: string]: NgssmTree };
+  trees: Record<string, NgssmTree>;
   treeNodesSearch: TreeNodesSearch;
 }
 

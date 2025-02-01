@@ -13,7 +13,7 @@ export class ConsoleAppender {
 
   public start(contextName?: string): void {
     this.logger.logEvents$.pipe(takeUntil(this.stopEvent$)).subscribe((logEvent) => {
-      let logFunction: any;
+      let logFunction: (...data:unknown[])=> void;
       switch (logEvent.level) {
         case LogLevel.error:
           logFunction = console.error;

@@ -21,7 +21,7 @@ import { JsonBuilderComponent } from '../json-builder/public-api';
 import { Entry, databases } from '../database';
 
 @Component({
-  selector: 'app-ngssm-expression-tree-demo',
+  selector: 'ngssm-ngssm-expression-tree-demo',
   imports: [CommonModule, MatCardModule, MatIconModule, NgssmExpressionTreeComponent, JsonBuilderComponent],
   templateUrl: './ngssm-expression-tree-demo.component.html',
   styleUrls: ['./ngssm-expression-tree-demo.component.scss'],

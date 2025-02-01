@@ -13,6 +13,7 @@ import { Logger } from './logging';
 
 const featureStateSpecifications: FeatureStateSpecification[] = [];
 export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return (target: object) => {
     featureStateSpecifications.push(specification);
   };

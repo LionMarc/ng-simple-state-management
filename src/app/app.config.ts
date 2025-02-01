@@ -33,13 +33,16 @@ import { provideNgssmFeatureStateDemo } from './ngssm-feature-state-demo/public-
 
 const dotnetRegexValidator: RegexEditorValidator = {
   validatePattern: (pattern: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = JSON.parse((window as any).dotnet.tools.regexToolsApi.validatePattern(pattern));
     return result;
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   isMatch: (pattern: string, testString: string) => (window as any).dotnet.tools.regexToolsApi.isMatch(pattern, testString)
 };
 
 const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((window as any).dotnet?.tools?.regexToolsApi) {
     return dotnetRegexValidator;
   }

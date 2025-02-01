@@ -16,7 +16,7 @@ export class ShellNotificationsReducer implements Reducer {
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
-      case ShellActionType.displayNotification:
+      case ShellActionType.displayNotification: {
         const displayNotificationAction = action as DisplayNotificationAction;
         const notification: ShellNotification = {
           type: displayNotificationAction.notificationType,
@@ -29,14 +29,16 @@ export class ShellNotificationsReducer implements Reducer {
             notifications: { $push: [notification] }
           }
         });
+      }
 
-      case ShellActionType.displayNotificationDetails:
+      case ShellActionType.displayNotificationDetails: {
         const displayNotificationDetailsAction = action as DisplayNotificationDetailsAction;
         return updateShellState(state, {
           shellNotifications: {
             selectedNotificaitonIndex: { $set: displayNotificationDetailsAction.notificationIndex }
           }
         });
+      }
 
       case ShellActionType.clearAllNotifications:
         return updateShellState(state, {

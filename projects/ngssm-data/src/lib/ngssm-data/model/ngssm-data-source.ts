@@ -4,11 +4,9 @@ import { Observable } from 'rxjs';
 import { State, Store } from 'ngssm-store';
 import { NgssmLoadDataSourceValueAction } from '../actions';
 
-export interface NgssmDataLoading<TData = any, TParameter = any> {
-  (state: State, parameter?: TParameter, additionalProperty?: string): Observable<TData>;
-}
+export type NgssmDataLoading<TData = unknown, TParameter = unknown> = (state: State, parameter?: TParameter, additionalProperty?: string) => Observable<TData>;
 
-export interface NgssmDataSource<TData = any, TParameter = any> {
+export interface NgssmDataSource<TData = unknown, TParameter = unknown> {
   key: string;
   dataLifetimeInSeconds?: number;
   dataLoadingFunc: NgssmDataLoading<TData, TParameter>;
@@ -20,7 +18,7 @@ export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA
 
 // Why not creating an app intializer that dispatch a NgssmRegisterDataSourceAction action
 // instead of registering the data source ?
-export const provideNgssmDataSource = <TData = any, TParameter = any>(
+export const provideNgssmDataSource = <TData = unknown, TParameter = unknown>(
   key: string,
   loadingFunc: NgssmDataLoading<TData, TParameter>,
   dataLifetimeInSeconds?: number,
@@ -52,7 +50,7 @@ export const provideNgssmDataSource = <TData = any, TParameter = any>(
   ]);
 };
 
-export const ngssmLoadDataSourceValue = (key: string, forceReload: boolean = false): (() => boolean) => {
+export const ngssmLoadDataSourceValue = (key: string, forceReload = false): (() => boolean) => {
   return () => {
     inject(Store).dispatchAction(new NgssmLoadDataSourceValueAction(key, { forceReload }));
     return true;

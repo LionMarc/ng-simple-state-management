@@ -16,7 +16,6 @@ import { NgssmRemoteCallDirective } from './ngssm-remote-call.directive';
 class TestingComponent {}
 
 describe('NgssmRemoteCallDirective', () => {
-  let component: TestingComponent;
   let fixture: ComponentFixture<TestingComponent>;
   let store: StoreMock;
   let directive: NgssmRemoteCallDirective;
@@ -32,7 +31,6 @@ describe('NgssmRemoteCallDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestingComponent);
-    component = fixture.componentInstance;
     fixture.nativeElement.style['min-height'] = '200px';
     fixture.detectChanges();
     directive = fixture.debugElement

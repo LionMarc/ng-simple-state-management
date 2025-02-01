@@ -10,7 +10,7 @@ import {
 } from 'ngssm-store';
 
 @Component({
-  selector: 'app-component-with-feature-state',
+  selector: 'ngssm-component-with-feature-state',
   imports: [CommonModule],
   templateUrl: './component-with-feature-state.component.html',
   styleUrls: [],

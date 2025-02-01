@@ -1,9 +1,10 @@
+import { State } from 'ngssm-store';
 import { NgssmTreeActionType } from '../actions';
 import { TreeNodeSelectionReducer } from './tree-node-selection.reducer';
 
 describe('TreeNodeSelectionReducer', () => {
   let reducer: TreeNodeSelectionReducer;
-  let state: { [key: string]: any };
+  let state: State;
 
   beforeEach(() => {
     reducer = new TreeNodeSelectionReducer();

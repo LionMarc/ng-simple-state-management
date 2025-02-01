@@ -6,6 +6,6 @@ export class UpdateTodoItemPropertyAction implements Action {
 
   constructor(
     public readonly propertyName: string,
-    public readonly propertyValue: any
+    public readonly propertyValue: unknown
   ) {}
 }

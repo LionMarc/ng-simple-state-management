@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -48,7 +48,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
   private readonly _nodeCssIcon$ = new BehaviorSubject<string | undefined>(undefined);
   private readonly _nodeDescription$ = new BehaviorSubject<string | undefined>(undefined);
   private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | undefined>(undefined);
-  private readonly _componentToDisplay$ = new BehaviorSubject<any>(undefined);
+  private readonly _componentToDisplay$ = new BehaviorSubject<Type<unknown> | undefined>(undefined);
   private readonly _cutAndPaste$ = new BehaviorSubject<CutAndPaste>(getDefaultCutAndPaste());
 
   constructor(store: Store) {
@@ -99,7 +99,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
         const treeConfig = values[1];
         const nodeId = values[0];
         if (treeConfig && nodeId) {
-          this._componentAction$.next((c: NgssmExpressionTreeCustomComponent) => c.setup(treeConfig.treeId, nodeId));
+          this._componentAction$.next((c: unknown) => (c as NgssmExpressionTreeCustomComponent).setup(treeConfig.treeId, nodeId));
           this._componentToDisplay$.next(treeConfig.nodeDescriptionComponent);
         }
       });
@@ -141,7 +141,7 @@ export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
     return this._componentAction$.asObservable();
   }
 
-  public get componentToDisplay$(): Observable<any> {
+  public get componentToDisplay$(): Observable<Type<unknown> | undefined> {
     return this._componentToDisplay$.asObservable();
   }
 

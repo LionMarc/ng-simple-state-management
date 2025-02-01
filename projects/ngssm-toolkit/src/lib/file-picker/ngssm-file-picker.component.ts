@@ -7,7 +7,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { NgssmFileSizePipe } from './ngssm-file-size.pipe';
 
-export const noop = () => {};
+export const noop = () => {
+  // nothing to do
+};
 
 @Component({
   selector: 'ngssm-file-picker',
@@ -21,7 +23,7 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
 
   private readonly _displayDetails$ = new BehaviorSubject<boolean>(true);
 
-  private onChangeCallback: (_: any) => void = noop;
+  private onChangeCallback: (_: unknown) => void = noop;
   private _required = false;
   private _disabled = false;
 
@@ -38,8 +40,8 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
 
   @HostBinding('id') public id = `file-picker-${NgssmFilePickerComponent.nextId++}`;
   public controlType = 'file-picker';
-  public placeholder: string = '';
-  public focused: boolean = false;
+  public placeholder = '';
+  public focused = false;
   public stateChanges = new Subject<void>();
   public value: File | null = null;
   public autofilled?: boolean | undefined;
@@ -95,13 +97,15 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
     this._displayDetails$.next(value);
   }
 
-  public setDescribedByIds(ids: string[]): void {}
+  public setDescribedByIds(): void {
+    // nothing to do
+  }
 
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  public onContainerClick(event: MouseEvent): void {
+  public onContainerClick(): void {
     if (!this.disabled) {
       this.fileInput?.nativeElement.click();
     }
@@ -116,28 +120,30 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
     this.stateChanges.next();
   }
 
-  public registerOnChange(fn: any): void {
+  public registerOnChange(fn: (_: unknown) => void): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {}
+  public registerOnTouched(): void {
+    // nothing to do
+  }
 
   public ngOnDestroy(): void {
     this.stateChanges.complete();
   }
 
-  public onDrop(event: any): void {
+  public onDrop(event: DragEvent): void {
     this.preventAndStop(event);
-    if (!this.disabled) {
+    if (!this.disabled && event.dataTransfer !== null) {
       this.updateValue(event.dataTransfer.files);
     }
   }
 
-  public onDragOver(event: any): void {
+  public onDragOver(event: DragEvent): void {
     this.preventAndStop(event);
   }
 
-  public onDragLeave(event: any): void {
+  public onDragLeave(event: DragEvent): void {
     this.preventAndStop(event);
   }
 
@@ -145,7 +151,7 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
     this.updateValue(this.fileInput?.nativeElement.files);
   }
 
-  private preventAndStop(event: any): void {
+  private preventAndStop(event: DragEvent): void {
     event.stopPropagation();
     event.preventDefault();
   }

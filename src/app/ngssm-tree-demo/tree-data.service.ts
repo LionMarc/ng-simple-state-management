@@ -22,7 +22,7 @@ export class TreeDataService implements NgssmTreeDataService {
 
   public load(treeId: string, nodeId: string): Observable<NodeData[]> {
     console.log('Tree Demo Data Service - load', treeId, nodeId);
-    const entry = this.findEntry(+nodeId, (fileEntries as any)[0]);
+    const entry = this.findEntry(+nodeId, (fileEntries as FileEntry[])[0]);
     return of(entry).pipe(
       delay(100),
       map((e) => {
@@ -46,7 +46,7 @@ export class TreeDataService implements NgssmTreeDataService {
       return undefined;
     }
 
-    for (let child of entry.contents) {
+    for (const child of entry.contents) {
       const wanted = this.findEntry(id, child);
       if (wanted) {
         return wanted;

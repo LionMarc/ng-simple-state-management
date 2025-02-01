@@ -35,21 +35,22 @@ export class TodoItemEditorReducer implements Reducer {
         });
       }
 
-      case TodoActionType.editTodoItem:
+      case TodoActionType.editTodoItem: {
         const editTodoItemAction = action as EditTodoItemAction;
         return updateTodoState(state, {
           todoItemEditor: {
             todoItemId: { $set: editTodoItemAction.todoItemId },
             todoItem: {
-              $set: (selectNgssmDataSourceValue(state, todoItemsKey)?.value ?? []).find(
+              $set: (selectNgssmDataSourceValue<TodoItem[]>(state, todoItemsKey)?.value ?? []).find(
                 (t: TodoItem) => t.id === editTodoItemAction.todoItemId
               )
             },
             submissionInProgress: { $set: false }
           }
         });
+      }
 
-      case TodoActionType.updateTodoItemProperty:
+      case TodoActionType.updateTodoItemProperty: {
         const updateTodoItemPropertyAction = action as UpdateTodoItemPropertyAction;
         return updateTodoState(state, {
           todoItemEditor: {
@@ -58,6 +59,7 @@ export class TodoItemEditorReducer implements Reducer {
             }
           }
         });
+      }
 
       case TodoActionType.submitEditedTodoItem:
         return updateTodoState(state, {

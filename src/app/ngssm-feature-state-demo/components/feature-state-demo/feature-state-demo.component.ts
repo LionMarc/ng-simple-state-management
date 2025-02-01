@@ -8,7 +8,7 @@ import { NgssmAceEditorComponent } from 'ngssm-ace-editor';
 import { ComponentWithFeatureStateComponent } from '../component-with-feature-state/component-with-feature-state.component';
 
 @Component({
-  selector: 'app-feature-state-demo',
+  selector: 'ngssm-feature-state-demo',
   imports: [CommonModule, MatCardModule, MatButtonModule, NgssmAceEditorComponent, ComponentWithFeatureStateComponent],
   templateUrl: './feature-state-demo.component.html',
   styleUrls: ['./feature-state-demo.component.scss'],

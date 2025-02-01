@@ -1,3 +1,4 @@
+import { State } from 'ngssm-store';
 import { NgssmRemoteCallActionType, SetRemoteCallAction } from '../actions';
 import { RemoteCallStatus } from '../model';
 import { NgssmRemoteCallStateSpecification, selectNgssmRemoteCallState, updateNgssmRemoteCallState } from '../state';
@@ -5,7 +6,7 @@ import { RemoteCallSetterReducer } from './remote-call-setter.reducer';
 
 describe('RemoteCallSetterReducer', () => {
   let reducer: RemoteCallSetterReducer;
-  let state: { [key: string]: any };
+  let state: State;
 
   beforeEach(() => {
     reducer = new RemoteCallSetterReducer();

@@ -4,7 +4,7 @@ import { MatDialogConfig } from '@angular/material/dialog';
 
 import { State } from 'ngssm-store';
 
-export interface NgssmMatDialogConfig<T = any, D = any> {
+export interface NgssmMatDialogConfig<T = unknown, D = unknown> {
   openingAction: string;
   closingActions: string[];
   component: ComponentType<T>;

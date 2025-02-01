@@ -3,7 +3,7 @@ import { Action } from 'ngssm-store';
 import { ReloadParams } from '../model';
 import { RemoteDataActionType } from './remote-data-action-type';
 
-export class LoadRemoteDataAction<TValue = any> implements Action {
+export class LoadRemoteDataAction<TValue = unknown> implements Action {
   public readonly type: string = RemoteDataActionType.loadRemoteData;
 
   constructor(

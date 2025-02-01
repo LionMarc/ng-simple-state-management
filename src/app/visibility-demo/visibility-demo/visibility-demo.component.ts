@@ -15,7 +15,7 @@ import {
 } from 'ngssm-store/visibility';
 
 @Component({
-  selector: 'app-visibility-demo',
+  selector: 'ngssm-visibility-demo',
   imports: [
     CommonModule,
     MatCardModule,

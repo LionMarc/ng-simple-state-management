@@ -2,13 +2,13 @@ import { NgssmExpressionTreeData } from './ngssm-expression-tree-data';
 import { NgssmExpressionTreeNode } from './ngssm-expression-tree-node';
 import { NgssmNode } from './ngssm-node';
 
-export interface NgssmExpressionTree<TData = any> {
+export interface NgssmExpressionTree<TData = unknown> {
   nodes: NgssmExpressionTreeNode<TData>[];
   data: NgssmExpressionTreeData<TData>;
   nodeCut?: NgssmExpressionTreeNode<TData>;
 }
 
-export const createNgssmExpressionTreeFromNodes = <TData = any>(nodes: NgssmNode<TData>[]): NgssmExpressionTree<TData> => {
+export const createNgssmExpressionTreeFromNodes = <TData = unknown>(nodes: NgssmNode<TData>[]): NgssmExpressionTree<TData> => {
   const tree: NgssmExpressionTree<TData> = {
     nodes: [],
     data: {}

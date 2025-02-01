@@ -15,15 +15,16 @@ export class LocalStorageEffect implements Effect {
     const agGridAction = action as AgGridAction;
 
     switch (action.type) {
-      case AgGridActionType.saveColumnsStateOnDisk:
+      case AgGridActionType.saveColumnsStateOnDisk: {
         const columnsState = selectAgGridState(state).gridStates[agGridAction.gridId];
         if (columnsState) {
           localStorage.setItem(this.getColumnsStateLocalStorageKey(agGridAction.gridId), JSON.stringify(columnsState.columnsState));
         }
 
         break;
+      }
 
-      case AgGridActionType.resetColumnsStateFromDisk:
+      case AgGridActionType.resetColumnsStateFromDisk: {
         const stored = localStorage.getItem(this.getColumnsStateLocalStorageKey(agGridAction.gridId));
         console.log(stored);
         if (stored) {
@@ -40,6 +41,7 @@ export class LocalStorageEffect implements Effect {
         }
 
         break;
+      }
     }
   }
 

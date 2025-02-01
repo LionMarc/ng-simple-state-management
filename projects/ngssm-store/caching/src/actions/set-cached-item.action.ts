@@ -3,7 +3,7 @@ import { Action } from 'ngssm-store';
 import { NgssmCachingActionType } from './ngssm-caching-action-type';
 import { CachedItem } from '../model';
 
-export class SetCachedItemAction<TData = any> implements Action {
+export class SetCachedItemAction<TData = never> implements Action {
   public readonly type: string = NgssmCachingActionType.setCachedItem;
 
   constructor(

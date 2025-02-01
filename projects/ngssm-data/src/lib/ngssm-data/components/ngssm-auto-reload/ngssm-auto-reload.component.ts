@@ -16,12 +16,14 @@ import { getNgssmDataSourceValueAutoReloadTypes, NgssmDataSourceValueAutoReloadT
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmAutoReloadComponent extends NgSsmComponent {
-  private timerId: any;
+  private timerId: number | undefined;
 
   public readonly reloadTypes = getNgssmDataSourceValueAutoReloadTypes();
   public readonly reloadTypeControl = new FormControl<NgssmDataSourceValueAutoReloadType>('Off');
 
-  @Input() autoReloadAction: () => void = () => {};
+  @Input() autoReloadAction: () => void = () => {
+    // nothing by default
+  };
 
   constructor(store: Store) {
     super(store);
@@ -44,7 +46,7 @@ export class NgssmAutoReloadComponent extends NgSsmComponent {
           break;
       }
 
-      this.timerId = setInterval(this.autoReloadAction, period);
+      this.timerId = setInterval(this.autoReloadAction, period) as unknown as number;
     });
 
     this.unsubscribeAll$.subscribe(() => {

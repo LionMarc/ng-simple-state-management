@@ -99,7 +99,7 @@ export class CutAndPasteReducer implements Reducer {
             [ngssmPasteExpressionTreeNodeAction.treeId]: {
               nodes: {
                 $apply: (nodes: NgssmExpressionTreeNode[]) => {
-                  let output = [...nodes];
+                  const output = [...nodes];
                   if (targetIndex > currentIndex) {
                     output.splice(targetIndex, 0, movedNode, ...nodesToMove);
                     output.splice(currentIndex, nodesToMove.length + 1);

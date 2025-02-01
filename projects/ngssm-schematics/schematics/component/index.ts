@@ -27,6 +27,7 @@ function buildSelector(options: AngularComponentOptionsSchema, projectPrefix: st
   return selector;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getAngularComponentExtensions(extensions: any) {
   if (extensions?.schematics && extensions.schematics['@schematics/angular:component']) {
     return extensions.schematics['@schematics/angular:component'];

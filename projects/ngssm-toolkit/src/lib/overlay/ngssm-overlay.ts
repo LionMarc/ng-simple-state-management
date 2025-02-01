@@ -8,6 +8,7 @@ export class NgssmOverlay extends Overlay {
   }
 
   public setContainerRef(elementRef: ElementRef) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (this as any)._overlayContainer = {
       getContainerElement: () => elementRef.nativeElement
     };

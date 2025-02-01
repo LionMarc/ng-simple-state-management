@@ -11,7 +11,7 @@ export const updateNgssmVisibilityState = (state: State, command: Spec<NgssmVisi
   });
 
 export interface NgssmVisibilityState {
-  elements: { [key: string]: boolean };
+  elements: Record<string, boolean>;
   elementsGroups: string[][];
 }
 

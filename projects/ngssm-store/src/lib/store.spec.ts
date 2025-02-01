@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fakeAsync, tick } from '@angular/core/testing';
 
 import update from 'immutability-helper';
@@ -6,7 +7,6 @@ import { State } from './state';
 import { StateInitializer } from './state-initializer';
 import { Store } from './store';
 import { Reducer } from './reducer';
-import { Action } from './action';
 import { Effect } from './effect';
 import { Logger } from './logging';
 
@@ -64,15 +64,15 @@ describe('Store', () => {
   it('should call the reducers associated to the dispatched action only', fakeAsync(() => {
     const first: Reducer = {
       processedActions: ['createTodo'],
-      updateState: (state: State, action: Action) => update(state, { first: { $set: { message: 'called' } } })
+      updateState: (state: State) => update(state, { first: { $set: { message: 'called' } } })
     };
     const second: Reducer = {
       processedActions: ['deleteTodo'],
-      updateState: (state: State, action: Action) => update(state, { second: { $set: { message: 'called' } } })
+      updateState: (state: State) => update(state, { second: { $set: { message: 'called' } } })
     };
     const third: Reducer = {
       processedActions: ['createTodo'],
-      updateState: (state: State, action: Action) => update(state, { third: { $set: { message: 'called' } } })
+      updateState: (state: State) => update(state, { third: { $set: { message: 'called' } } })
     };
 
     spyOn(first, 'updateState').and.callThrough();
@@ -97,15 +97,21 @@ describe('Store', () => {
   it('should call the effects associated to the dispatched action only', fakeAsync(() => {
     const first: Effect = {
       processedActions: ['createTodo'],
-      processAction: (store: Store, state: State, action: Action) => {}
+      processAction: () => {
+        console.log('createTodo');
+      }
     };
     const second: Effect = {
       processedActions: ['deleteTodo'],
-      processAction: (store: Store, state: State, action: Action) => {}
+      processAction: () => {
+        console.log('deleteTodo');
+      }
     };
     const third: Effect = {
       processedActions: ['createTodo'],
-      processAction: (store: Store, state: State, action: Action) => {}
+      processAction: () => {
+        console.log('createTodo');
+      }
     };
 
     spyOn(first, 'processAction').and.callThrough();

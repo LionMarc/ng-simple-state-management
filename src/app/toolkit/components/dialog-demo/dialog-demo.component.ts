@@ -7,7 +7,7 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { ToolkitDemoActionType } from '../../actions';
 
 @Component({
-  selector: 'app-dialog-demo',
+  selector: 'ngssm-dialog-demo',
   imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './dialog-demo.component.html',
   styleUrls: ['./dialog-demo.component.scss'],

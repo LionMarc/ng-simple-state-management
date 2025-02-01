@@ -1,4 +1,3 @@
-import { inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 
@@ -37,6 +36,7 @@ describe('DataLoadingEffect', () => {
   });
 
   const dataProvidersLoadingFunc = jasmine
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
     .createSpy(undefined, (state: State, parameter: any, prperty?: string) => of(['test']))
     .and.callThrough();
   const dataProvidersLoadingFailsFunc = jasmine
@@ -48,13 +48,11 @@ describe('DataLoadingEffect', () => {
     );
   const managersLoadingFunc = jasmine
     .createSpy(undefined, () => {
-      const store = inject(Store);
       return of(['main']);
     })
     .and.callThrough();
   const managersLoadingFailsFunc = jasmine
     .createSpy(undefined, () => {
-      const store = inject(Store);
       return of(['main']);
     })
     .and.returnValue(
@@ -162,7 +160,7 @@ describe('DataLoadingEffect', () => {
     it(`should log an error when there is no data source for the key set in action`, () => {
       const action = new NgssmLoadDataSourceValueAction('wrong-key');
 
-      effect.processAction(store as any, store.stateValue, action);
+      effect.processAction(store as unknown as Store, store.stateValue, action);
 
       expect(logger.error).toHaveBeenCalledWith(`No data source setup for key 'wrong-key'`);
     });
@@ -170,7 +168,7 @@ describe('DataLoadingEffect', () => {
     it(`should log an information when data source value is not in '${NgssmDataSourceValueStatus.loading}' status`, () => {
       const action = new NgssmLoadDataSourceValueAction('data-loaded');
 
-      effect.processAction(store as any, store.stateValue, action);
+      effect.processAction(store as unknown as Store, store.stateValue, action);
 
       expect(logger.information).toHaveBeenCalledWith(
         `Data source value for 'data-loaded' is not in '${NgssmDataSourceValueStatus.loading}' status: '${NgssmDataSourceValueStatus.loaded}'`
@@ -181,7 +179,7 @@ describe('DataLoadingEffect', () => {
       it(`should execute the loading function`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(dataProvidersLoadingFunc).toHaveBeenCalled();
       });
@@ -189,7 +187,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceValue}' with status '${NgssmDataSourceValueStatus.loaded}' when loading succeeds`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceValueAction('data-providers', NgssmDataSourceValueStatus.loaded, ['test'])
@@ -199,7 +197,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceValue}' with status '${NgssmDataSourceValueStatus.error}' when loading fails`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers-ko');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceValueAction('data-providers-ko', NgssmDataSourceValueStatus.error)
@@ -211,7 +209,7 @@ describe('DataLoadingEffect', () => {
       it(`should execute the loading function`, () => {
         const action = new NgssmLoadDataSourceValueAction('managers');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(managersLoadingFunc).toHaveBeenCalled();
       });
@@ -219,7 +217,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceValue}' with status '${NgssmDataSourceValueStatus.loaded}' when loading succeeds`, () => {
         const action = new NgssmLoadDataSourceValueAction('managers');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceValueAction('managers', NgssmDataSourceValueStatus.loaded, ['main'])
@@ -229,7 +227,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceValue}' with status '${NgssmDataSourceValueStatus.error}' when loading fails`, () => {
         const action = new NgssmLoadDataSourceValueAction('managers-ko');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceValueAction('managers-ko', NgssmDataSourceValueStatus.error)
@@ -242,7 +240,7 @@ describe('DataLoadingEffect', () => {
     it(`should log an error when there is no data source for the key set in action`, () => {
       const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('wrong-key', 'my-prop');
 
-      effect.processAction(store as any, store.stateValue, action);
+      effect.processAction(store as unknown as Store, store.stateValue, action);
 
       expect(logger.error).toHaveBeenCalledWith(`No data source setup for key 'wrong-key'`);
     });
@@ -250,7 +248,7 @@ describe('DataLoadingEffect', () => {
     it(`should log an information when data source property value is not in '${NgssmDataSourceValueStatus.loading}' status`, () => {
       const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-loaded', 'my-prop');
 
-      effect.processAction(store as any, store.stateValue, action);
+      effect.processAction(store as unknown as Store, store.stateValue, action);
 
       expect(logger.information).toHaveBeenCalledWith(
         `Data source additional property value for 'data-loaded' and property 'my-prop' is not in '${NgssmDataSourceValueStatus.loading}' status: '${NgssmDataSourceValueStatus.loaded}'`
@@ -261,7 +259,7 @@ describe('DataLoadingEffect', () => {
       it(`should execute the loading function`, () => {
         const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers', 'my-prop');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(dataProvidersLoadingFunc).toHaveBeenCalledWith(jasmine.any(Object), undefined, 'my-prop');
       });
@@ -269,7 +267,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceAdditionalPropertyValue}' with status '${NgssmDataSourceValueStatus.loaded}' when loading succeeds`, () => {
         const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers', 'my-prop');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers', 'my-prop', NgssmDataSourceValueStatus.loaded, ['test'])
@@ -279,7 +277,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceAdditionalPropertyValue}' with status '${NgssmDataSourceValueStatus.error}' when loading fails`, () => {
         const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('data-providers-ko', 'my-prop');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers-ko', 'my-prop', NgssmDataSourceValueStatus.error)
@@ -291,7 +289,7 @@ describe('DataLoadingEffect', () => {
       it(`should execute the loading function`, () => {
         const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('managers', 'my-prop');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(managersLoadingFunc).toHaveBeenCalled();
       });
@@ -299,7 +297,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceAdditionalPropertyValue}' with status '${NgssmDataSourceValueStatus.loaded}' when loading succeeds`, () => {
         const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('managers', 'my-prop');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceAdditionalPropertyValueAction('managers', 'my-prop', NgssmDataSourceValueStatus.loaded, ['main'])
@@ -309,7 +307,7 @@ describe('DataLoadingEffect', () => {
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceAdditionalPropertyValue}' with status '${NgssmDataSourceValueStatus.error}' when loading fails`, () => {
         const action = new NgssmLoadDataSourceAdditionalPropertyValueAction('managers-ko', 'my-prop');
 
-        effect.processAction(store as any, store.stateValue, action);
+        effect.processAction(store as unknown as Store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceAdditionalPropertyValueAction('managers-ko', 'my-prop', NgssmDataSourceValueStatus.error)

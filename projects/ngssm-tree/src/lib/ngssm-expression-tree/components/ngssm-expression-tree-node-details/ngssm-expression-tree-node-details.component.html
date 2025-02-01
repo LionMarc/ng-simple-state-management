@@ -1,1 +1,4 @@
-<div [ngssmComponentDisplay]="componentToDisplay$ | async" [ngssmComponentAction]="componentAction$ | async"></div>
+@let component = componentToDisplay$ | async;
+@if (component){
+    <div [ngssmComponentDisplay]="component" [ngssmComponentAction]="componentAction$ | async"></div>
+}

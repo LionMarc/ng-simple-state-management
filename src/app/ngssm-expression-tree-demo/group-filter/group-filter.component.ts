@@ -11,7 +11,7 @@ import { NgssmExpressionTreeCustomComponent, selectNgssmExpressionTreeState } fr
 import { Filter, FilterType } from '../filter';
 
 @Component({
-  selector: 'app-group-filter',
+  selector: 'ngssm-group-filter',
   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './group-filter.component.html',
   styleUrls: ['./group-filter.component.scss'],
@@ -37,8 +37,9 @@ export class GroupFilterComponent extends NgSsmComponent implements NgssmExpress
   public setup(treeId: string, nodeId: string): void {
     console.log('GroupFilterComponent', treeId, nodeId, this._nodeId$.getValue());
     this._nodeId$.next(nodeId);
-    this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId].data[nodeId]).subscribe((v: Filter) =>
-      this._mustBeDisplayed$.next(v.type === FilterType.and || v.type === FilterType.or)
-    );
+    this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId].data[nodeId]).subscribe((v) => {
+      const filter = v as Filter;
+      this._mustBeDisplayed$.next(filter.type === FilterType.and || filter.type === FilterType.or);
+    });
   }
 }

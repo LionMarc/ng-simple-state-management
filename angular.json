@@ -622,6 +622,9 @@
     }
   },
   "schematics": {
+    "schematicCollections": [
+      "angular-eslint"
+    ],
     "@angular-eslint/schematics:application": {
       "setParserOptionsProject": true
     },

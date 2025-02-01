@@ -9,7 +9,7 @@ export const serviceInfoKey = 'service-info';
 
 export const NGSSM_SERVICE_INFO_URL = new InjectionToken<string>('NGSSM_SERVICE_INFO_URL');
 
-export const serviceInfoLoader: RemoteDataLoadingFunc<ServiceInfo, any> = () => {
+export const serviceInfoLoader: RemoteDataLoadingFunc<ServiceInfo, unknown> = () => {
   const serviceUrl = inject(NGSSM_SERVICE_INFO_URL);
   return inject(HttpClient).get<ServiceInfo>(serviceUrl);
 };

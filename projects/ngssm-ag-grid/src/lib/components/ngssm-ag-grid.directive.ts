@@ -24,7 +24,7 @@ export class NgssmAgGridDirective implements OnDestroy {
     private store: Store,
     private agGridAngular: AgGridAngular
   ) {
-    this.agGridAngular.gridReady.pipe(take(1)).subscribe((v) => {
+    this.agGridAngular.gridReady.pipe(take(1)).subscribe(() => {
       combineLatest([
         this.store.state$.pipe(
           take(1),

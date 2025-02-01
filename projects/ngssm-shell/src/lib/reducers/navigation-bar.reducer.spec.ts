@@ -1,16 +1,11 @@
 import { ShellActionType } from '../actions';
-import { ShellStateSpecification } from '../state';
 import { NavigationBarReducer } from './navigation-bar.reducer';
 
 describe('NavigationBarReducer', () => {
   let reducer: NavigationBarReducer;
-  let state: { [key: string]: any };
 
   beforeEach(() => {
     reducer = new NavigationBarReducer();
-    state = {
-      [ShellStateSpecification.featureStateKey]: ShellStateSpecification.initialState
-    };
   });
 
   [

@@ -6,7 +6,6 @@ import { NgssmRegisterFeatureStateAction, NgssmStoreActionType, NgssmUnregisterF
 import { ProvideNgssmFeatureStateDirectiveTestComponent } from './provide-ngssm-feature-state-directive-test.component';
 
 describe('ProvideNgssmFeatureStateDirective', () => {
-  let component: ProvideNgssmFeatureStateDirectiveTestComponent;
   let fixture: ComponentFixture<ProvideNgssmFeatureStateDirectiveTestComponent>;
   let store: StoreMock;
 
@@ -20,7 +19,6 @@ describe('ProvideNgssmFeatureStateDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProvideNgssmFeatureStateDirectiveTestComponent);
-    component = fixture.componentInstance;
     fixture.nativeElement.style['min-height'] = '200px';
     fixture.detectChanges();
   });

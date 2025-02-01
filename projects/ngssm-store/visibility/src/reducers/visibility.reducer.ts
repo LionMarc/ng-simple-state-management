@@ -70,7 +70,7 @@ export class VisibilityReducer implements Reducer {
 
   private groupExists(keys: string[], groups: string[][]): boolean {
     const index = groups.findIndex((group) => {
-      group.length === keys.length && group.findIndex((k, i) => k !== keys[i]) === -1;
+      return group.length === keys.length && group.findIndex((k, i) => k !== keys[i]) === -1;
     });
     return index !== -1;
   }
@@ -83,7 +83,7 @@ export class VisibilityReducer implements Reducer {
   }
 
   private setElementVisible(state: State, key: string): State {
-    const elementsCommand: Spec<{ [key: string]: boolean }, never> = {
+    const elementsCommand: Spec<Record<string, boolean>, never> = {
       [key]: { $set: true }
     };
 

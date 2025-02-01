@@ -8,7 +8,7 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { todoItemsKey } from '../../model';
 
 @Component({
-  selector: 'app-todo-footer',
+  selector: 'ngssm-todo-footer',
   imports: [CommonModule],
   templateUrl: './todo-footer.component.html',
   styleUrls: ['./todo-footer.component.scss'],
@@ -20,6 +20,6 @@ export class TodoFooterComponent extends NgSsmComponent {
   }
 
   public get count$(): Observable<number> {
-    return this.watch((s) => ((selectRemoteData(s, todoItemsKey)?.data ?? []) as any[]).length);
+    return this.watch((s) => ((selectRemoteData(s, todoItemsKey)?.data ?? []) as unknown[]).length);
   }
 }

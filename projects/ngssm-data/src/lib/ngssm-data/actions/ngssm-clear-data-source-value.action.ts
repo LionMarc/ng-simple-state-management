@@ -4,7 +4,7 @@ import { NgssmDataActionType } from './ngssm-data-action-type';
 export class NgssmClearDataSourceValueAction extends NgssmDataSourceValueAction {
   constructor(
     key: string,
-    public readonly clearParameter: boolean = false
+    public readonly clearParameter = false
   ) {
     super(NgssmDataActionType.clearDataSourceValue, key);
   }

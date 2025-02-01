@@ -20,7 +20,7 @@ import {
 import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
 
 @Component({
-  selector: 'app-ngssm-tree-demo',
+  selector: 'ngssm-ngssm-tree-demo',
   imports: [
     CommonModule,
     MatCardModule,

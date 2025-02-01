@@ -1,3 +1,4 @@
+import { State } from 'ngssm-store';
 import { NgssmClearExpressionTreeAction, NgssmExpressionTreeActionType, NgssmInitExpressionTreeAction } from '../actions';
 import { NgssmNode } from '../model';
 import { NgssmExpressionTreeStateSpecification, selectNgssmExpressionTreeState, updateNgssmExpressionTreeState } from '../state';
@@ -5,7 +6,7 @@ import { TreesReducer } from './trees.reducer';
 
 describe('TreesReducer', () => {
   let reducer: TreesReducer;
-  let state: { [key: string]: any };
+  let state: State;
 
   beforeEach(() => {
     reducer = new TreesReducer();

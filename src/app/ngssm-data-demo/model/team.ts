@@ -1,7 +1,6 @@
 import { Observable, delay, of } from 'rxjs';
 
 import { NgssmDataLoading } from 'ngssm-data';
-import { State } from 'ngssm-store';
 
 export const teamsKey = 'ngssm-data-demo:teams';
 
@@ -18,6 +17,6 @@ const teams: Team[] = [
   }
 ];
 
-export const teamsLoader: NgssmDataLoading<Team[], unknown> = (state: State): Observable<Team[]> => {
+export const teamsLoader: NgssmDataLoading<Team[], unknown> = (): Observable<Team[]> => {
   return of(teams).pipe(delay(2000));
 };

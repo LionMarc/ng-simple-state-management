@@ -19,7 +19,7 @@ import { playersKey, playersLoader, teamsKey } from '../../model';
 import { ComponentWithScopedDataSourceComponent } from '../component-with-scoped-data-source/component-with-scoped-data-source.component';
 
 @Component({
-  selector: 'app-ngssm-data-demo',
+  selector: 'ngssm-ngssm-data-demo',
   imports: [
     CommonModule,
     MatCardModule,
@@ -39,8 +39,8 @@ export class NgssmDataDemoComponent extends NgSsmComponent {
   public readonly teamsKey = teamsKey;
   public readonly playersKey = playersKey;
 
-  public readonly teamsSourceValue = signal<any>({});
-  public readonly playersSourceValue = signal<any>({});
+  public readonly teamsSourceValue = signal<unknown>({});
+  public readonly playersSourceValue = signal<unknown>({});
   public readonly componentWithScopedDatasourceRendered = signal<boolean>(false);
   public readonly state = signal<string>('{}');
 

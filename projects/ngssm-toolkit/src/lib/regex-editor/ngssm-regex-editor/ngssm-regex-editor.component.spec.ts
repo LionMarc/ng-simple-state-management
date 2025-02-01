@@ -265,8 +265,8 @@ describe('NgssmRegexEditorComponent', () => {
 
   describe('when using custom regex validator', () => {
     const customValidator: RegexEditorValidator = {
-      validatePattern: (pattern: string) => ({ isValid: true }),
-      isMatch: (pattern: string, testString: string) => true
+      validatePattern: () => ({ isValid: true }),
+      isMatch: () => true
     };
 
     beforeEach(async () => {

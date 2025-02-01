@@ -12,8 +12,8 @@ export class NgssmOverlayBuilder implements OnDestroy {
 
   private overlayRef: OverlayRef;
 
-  public overLayTemplate: TemplateRef<any> | undefined;
-  public overlayComponent: ComponentType<any> | undefined;
+  public overLayTemplate: TemplateRef<unknown> | undefined;
+  public overlayComponent: ComponentType<unknown> | undefined;
 
   constructor(
     private elementRef: ElementRef,
@@ -44,7 +44,7 @@ export class NgssmOverlayBuilder implements OnDestroy {
     } else if (this.overlayComponent) {
       const ref = this.overlayRef.attach(new ComponentPortal(this.overlayComponent));
       if (this.overlayComponent === NgssmMessageOverlayComponent) {
-        ref.instance.message$ = this._overlayMessage$.asObservable();
+        (ref.instance as NgssmMessageOverlayComponent).message$ = this._overlayMessage$.asObservable();
       }
     } else {
       const ref = this.overlayRef.attach(new ComponentPortal(NgssmMessageOverlayComponent));

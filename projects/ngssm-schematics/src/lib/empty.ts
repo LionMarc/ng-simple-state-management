@@ -1,3 +1,1 @@
-export interface Empty {
-  // only to use angular build process
-}
+export type Empty = object

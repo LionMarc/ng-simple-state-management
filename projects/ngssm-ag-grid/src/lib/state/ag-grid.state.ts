@@ -12,8 +12,8 @@ export const updateAgGridState = (state: State, command: Spec<AgGridState, never
   });
 
 export interface AgGridState {
-  gridStates: { [key: string]: GridState };
-  selectedRows: { [key: string]: SelectedRows };
+  gridStates: Record<string, GridState>;
+  selectedRows: Record<string, SelectedRows>;
 }
 
 @NgSsmFeatureState({

@@ -9,6 +9,7 @@ export class FeatureStateRegistrator {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const provideFeatureState = (featureStateKey: string, defaultValue: object): Provider => {
   console.log('CALLED');
   return {

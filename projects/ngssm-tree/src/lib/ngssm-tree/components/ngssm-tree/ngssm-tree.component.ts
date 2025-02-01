@@ -50,7 +50,7 @@ export class NgssmTreeComponent extends NgSsmComponent {
           return;
         }
 
-        const alwaysTrue = (_: NodeData) => true;
+        const alwaysTrue = () => true;
         const filter: (node: NodeData) => boolean = config.filter ?? alwaysTrue;
         const canSearch: (node: NodeData) => boolean = config.canSearch ?? alwaysTrue;
 

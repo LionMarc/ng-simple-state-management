@@ -29,10 +29,10 @@ import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tre
   styleUrls: ['./ngssm-expression-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmExpressionTreeComponent extends NgSsmComponent {
+export class NgssmExpressionTreeComponent<T = unknown> extends NgSsmComponent {
   private readonly _tree$ = new BehaviorSubject<NgssmExpressionTree | undefined>(undefined);
   private readonly _displayedNodes$ = new BehaviorSubject<NgssmExpressionTreeNode[]>([]);
-  private readonly _treeConfig$ = new BehaviorSubject<NgssmExpressionTreeConfig | undefined>(undefined);
+  private readonly _treeConfig$ = new BehaviorSubject<NgssmExpressionTreeConfig<T> | undefined>(undefined);
 
   private _treeSubscription?: Subscription;
 
@@ -59,14 +59,14 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
     });
   }
 
-  @Input() public set treeConfig(value: NgssmExpressionTreeConfig | null | undefined) {
+  @Input() public set treeConfig(value: NgssmExpressionTreeConfig<T> | null | undefined) {
     this._treeSubscription?.unsubscribe();
     if (!value) {
       this._treeConfig$.next(undefined);
       return;
     }
 
-    const config: NgssmExpressionTreeConfig = {
+    const config: NgssmExpressionTreeConfig<T> = {
       ...value
     };
     if (!config.getNodeLabel) {
@@ -87,7 +87,7 @@ export class NgssmExpressionTreeComponent extends NgSsmComponent {
     );
   }
 
-  public get treeConfig$(): Observable<NgssmExpressionTreeConfig | undefined> {
+  public get treeConfig$(): Observable<NgssmExpressionTreeConfig<T> | undefined> {
     return this._treeConfig$.asObservable();
   }
 

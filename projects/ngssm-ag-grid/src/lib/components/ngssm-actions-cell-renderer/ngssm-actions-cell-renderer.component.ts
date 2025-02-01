@@ -34,7 +34,7 @@ interface ActionButton {
 export class NgssmActionsCellRendererComponent extends NgSsmComponent implements ICellRendererAngularComp {
   private readonly _actionButtons$ = new BehaviorSubject<ActionButton[]>([]);
 
-  private cellParams: ICellRendererParams<any, any> | undefined;
+  private cellParams: ICellRendererParams | undefined;
 
   constructor(
     store: Store,
@@ -47,27 +47,30 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
     return this._actionButtons$.asObservable();
   }
 
-  public agInit(params: ICellRendererParams<any, any>): void {
+  public agInit(params: ICellRendererParams): void {
     this.cellParams = params;
-    this.setupActions(params as any);
+    this.setupActions(params as unknown as NgssmActionsCellRendererParams);
   }
 
-  public refresh(params: ICellRendererParams<any, any>): boolean {
+  public refresh(params: ICellRendererParams): boolean {
     this.cellParams = params;
     this._actionButtons$.getValue().forEach((a) => {
       if (a.actionConfig.isDisabled instanceof Function) {
-        a.disabled$.next(a.actionConfig.isDisabled(params as any));
+        a.disabled$.next(a.actionConfig.isDisabled(params));
       }
 
       if (a.actionConfig.isHidden instanceof Function) {
-        a.hidden$.next(a.actionConfig.isHidden(params as any));
+        a.hidden$.next(a.actionConfig.isHidden(params));
       }
     });
     return true;
   }
 
   public executeAction(action: ActionButton): void {
-    this.ngZone.run(() => action.actionConfig.click?.(this.cellParams as any));
+    const params = this.cellParams;
+    if (params) {
+      this.ngZone.run(() => action.actionConfig.click?.(params));
+    }
   }
 
   private setupActions(rendererParams: NgssmActionsCellRendererParams): void {
@@ -82,13 +85,13 @@ export class NgssmActionsCellRendererComponent extends NgSsmComponent implements
       };
 
       if (a.isDisabled instanceof Function) {
-        actionButton.disabled$.next(a.isDisabled(rendererParams as any));
+        actionButton.disabled$.next(a.isDisabled(rendererParams as unknown as ICellRendererParams));
       } else if (isObservable(a.isDisabled)) {
         a.isDisabled.pipe(takeUntil(this.unsubscribeAll$)).subscribe((v) => actionButton.disabled$.next(v));
       }
 
       if (a.isHidden instanceof Function) {
-        actionButton.hidden$.next(a.isHidden(rendererParams as any));
+        actionButton.hidden$.next(a.isHidden(rendererParams as unknown as ICellRendererParams));
       } else if (isObservable(a.isHidden)) {
         a.isHidden.pipe(takeUntil(this.unsubscribeAll$)).subscribe((v) => actionButton.hidden$.next(v));
       }

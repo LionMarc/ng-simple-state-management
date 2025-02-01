@@ -7,8 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NgssmFileSizePipe implements PipeTransform {
   private readonly units = ['bytes', 'KB', 'MB', 'GB'];
 
-  public transform(value: any, precision: number = 2): any {
-    let bytes = +value;
+  public transform(value: unknown, precision = 2): string {
+    let bytes = value as number;
     if (isNaN(bytes) || !isFinite(bytes)) {
       return '?';
     }

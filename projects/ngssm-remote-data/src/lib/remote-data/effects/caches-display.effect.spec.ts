@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { StoreMock } from 'ngssm-store/testing';
+import { Store } from 'ngssm-store';
 
 import { RemoteDataActionType } from '../actions';
 import { NgssmCachesComponent } from '../components';
 import { CachesDisplayEffect } from './caches-display.effect';
 
 class MatDialogRefMock {
-  public close() {}
+  public close() {
+    // nothing to do
+  }
 }
 
 describe('CachesDisplayEffect', () => {
@@ -26,7 +29,7 @@ describe('CachesDisplayEffect', () => {
     effect = TestBed.inject(CachesDisplayEffect);
     matDialog = TestBed.inject(MatDialog);
     dialog = new MatDialogRefMock();
-    spyOn(matDialog, 'open').and.returnValue(dialog as any);
+    spyOn(matDialog, 'open').and.returnValue(dialog as MatDialogRef<unknown, unknown>);
   });
 
   [RemoteDataActionType.displayCaches, RemoteDataActionType.closeCachesComponent].forEach((actionType: string) => {
@@ -36,7 +39,7 @@ describe('CachesDisplayEffect', () => {
   });
 
   it(`should display the NgssmCachesComponent dialog when processing action of type '${RemoteDataActionType.displayCaches}'`, () => {
-    effect.processAction(store as any, store.stateValue, { type: RemoteDataActionType.displayCaches });
+    effect.processAction(store as unknown as Store, store.stateValue, { type: RemoteDataActionType.displayCaches });
 
     expect(matDialog.open).toHaveBeenCalledWith(NgssmCachesComponent, {
       disableClose: true
@@ -44,11 +47,11 @@ describe('CachesDisplayEffect', () => {
   });
 
   it(`should close the NgssmCachesComponent dialog when processing action of type '${RemoteDataActionType.closeCachesComponent}'`, () => {
-    effect.processAction(store as any, store.stateValue, { type: RemoteDataActionType.displayCaches });
+    effect.processAction(store as unknown as Store, store.stateValue, { type: RemoteDataActionType.displayCaches });
 
     spyOn(dialog, 'close');
 
-    effect.processAction(store as any, store.stateValue, { type: RemoteDataActionType.closeCachesComponent });
+    effect.processAction(store as unknown as Store, store.stateValue, { type: RemoteDataActionType.closeCachesComponent });
 
     expect(dialog.close).toHaveBeenCalled();
   });

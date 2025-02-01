@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { updateAgGridState } from 'ngssm-ag-grid';
 
 import { StoreMock } from 'ngssm-store/testing';
+import { Store } from 'ngssm-store';
 
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction } from '../actions';
 import { AgGridStateSpecification, ChangeOrigin } from '../state';
@@ -35,7 +36,7 @@ describe('LocalStorageEffect', () => {
         gridStates: {}
       });
 
-      effect.processAction(store as any, state, new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, 'items'));
+      effect.processAction(store as unknown as Store, state, new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, 'items'));
 
       expect(window.localStorage.setItem).not.toHaveBeenCalled();
     });
@@ -53,7 +54,7 @@ describe('LocalStorageEffect', () => {
         }
       });
 
-      effect.processAction(store as any, state, new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, 'items'));
+      effect.processAction(store as unknown as Store, state, new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, 'items'));
 
       expect(window.localStorage.setItem).toHaveBeenCalledWith('ngssm-ag-grid_items', JSON.stringify([{ colId: 'id' }]));
     });
@@ -64,7 +65,7 @@ describe('LocalStorageEffect', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue(null);
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
+      effect.processAction(store as unknown as Store, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
 
       expect(store.dispatchAction).not.toHaveBeenCalled();
     });
@@ -73,7 +74,7 @@ describe('LocalStorageEffect', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue('bad data');
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
+      effect.processAction(store as unknown as Store, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
 
       expect(store.dispatchAction).not.toHaveBeenCalled();
     });
@@ -82,7 +83,7 @@ describe('LocalStorageEffect', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue(`[{ "colId": "id" }]`);
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as any, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
+      effect.processAction(store as unknown as Store, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
 
       expect(store.dispatchAction).toHaveBeenCalledWith(new RegisterAgGridStateAction('items', ChangeOrigin.other, [{ colId: 'id' }]));
     });

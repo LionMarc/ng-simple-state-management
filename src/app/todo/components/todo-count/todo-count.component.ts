@@ -4,15 +4,15 @@ import { CommonModule } from '@angular/common';
 import { selectNgssmDataSourceValue } from 'ngssm-data';
 import { createSignal } from 'ngssm-store';
 
-import { todoItemsKey } from '../../model';
+import { TodoItem, todoItemsKey } from '../../model';
 
 @Component({
-  selector: 'app-todo-count',
+  selector: 'ngssm-todo-count',
   imports: [CommonModule],
   templateUrl: './todo-count.component.html',
   styleUrls: ['./todo-count.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoCountComponent {
-  public readonly count = createSignal<number>((s) => (selectNgssmDataSourceValue(s, todoItemsKey)?.value ?? []).length);
+  public readonly count = createSignal<number>((s) => (selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value ?? []).length);
 }

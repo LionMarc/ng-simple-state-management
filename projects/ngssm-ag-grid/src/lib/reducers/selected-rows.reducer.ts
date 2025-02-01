@@ -11,7 +11,7 @@ export class SelectedRowsReducer implements Reducer {
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
-      case AgGridActionType.registerSelectedRows:
+      case AgGridActionType.registerSelectedRows: {
         const registerSelectedRowsAction = action as RegisterSelectedRowsAction;
         return updateAgGridState(state, {
           selectedRows: {
@@ -23,6 +23,7 @@ export class SelectedRowsReducer implements Reducer {
             }
           }
         });
+      }
     }
 
     return state;

@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 
-import { selectRemoteData } from 'ngssm-remote-data';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 import { TodoItem, todoItemsKey } from '../../model';
@@ -13,7 +12,7 @@ import { EditTodoItemAction } from '../../actions';
 import { selectNgssmDataSourceValue } from 'ngssm-data';
 
 @Component({
-  selector: 'app-todo-item',
+  selector: 'ngssm-todo-item',
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],
