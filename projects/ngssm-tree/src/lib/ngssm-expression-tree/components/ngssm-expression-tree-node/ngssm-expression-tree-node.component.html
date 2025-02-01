@@ -1,48 +1,56 @@
 <div class="ngssm-expression-tree-node-icon" *ngIf="(nodeCssIcon$ | async) !== undefined" id="treeNodeIcon">
-    <mat-icon class="{{nodeCssIcon$ | async}}"></mat-icon>
+  <mat-icon class="{{ nodeCssIcon$ | async }}"></mat-icon>
 </div>
 
-<div class="ngssm-expression-tree-node-label" [matMenuTriggerFor]="contextMenu"
-    [class.ngssm-expression-tree-node-to-cut]="(cutAndPaste$ | async)?.isPartOfCut === true" id="treeNodeLabel">
-    {{nodeLabel$ | async}}
+<div
+  class="ngssm-expression-tree-node-label"
+  [matMenuTriggerFor]="contextMenu"
+  [class.ngssm-expression-tree-node-to-cut]="(cutAndPaste$ | async)?.isPartOfCut === true"
+  id="treeNodeLabel">
+  {{ nodeLabel$ | async }}
 </div>
 
-<div class="ngssm-expression-tree-node-description" [innerHTML]="nodeDescription$ | async">
-</div>
+<div class="ngssm-expression-tree-node-description" [innerHTML]="nodeDescription$ | async"></div>
 
-<div class="ngssm-expression-tree-node-description-component" [ngssmComponentDisplay]="componentToDisplay$ | async"
-    [ngssmComponentAction]="componentAction$ | async">
-</div>
+@let component = componentToDisplay$ | async;
+@if (component) {
+  <div
+    class="ngssm-expression-tree-node-description-component"
+    [ngssmComponentDisplay]="component"
+    [ngssmComponentAction]="componentAction$ | async"></div>
+}
 
 <mat-menu #contextMenu="matMenu" [class]="'ngssm-expression-tree-popup-menu'">
-    <div class="flex-column-stretch"
-        *ngIf="treeConfig?.displayCutAndPasteMenus === true && (cutAndPaste$ | async) as cutAndPasteSetup">
-        <button mat-menu-item (click)="cut()" *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === false"
-            [disabled]="cutAndPasteSetup.canCut !== true">
-            <mat-icon class="fa-solid fa-scissors"></mat-icon>
-            <span>Cut</span>
-        </button>
-        <button mat-menu-item *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === true" (click)="cancelCut()">
-            <mat-icon class="fa-solid fa-slash"></mat-icon>
-            <span>Cancel cut</span>
-        </button>
-        <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteInside !== true" (click)="paste('Inside')">
-            <mat-icon class="fa-solid fa-paste"></mat-icon>
-            <span>Paste inside</span>
-        </button>
-        <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteAfter !== true" (click)="paste('After')">
-            <mat-icon class="fa-solid fa-paste"></mat-icon>
-            <span>Paste after</span>
-        </button>
-        <mat-divider></mat-divider>
-    </div>
+  <div class="flex-column-stretch" *ngIf="treeConfig?.displayCutAndPasteMenus === true && (cutAndPaste$ | async) as cutAndPasteSetup">
+    <button
+      mat-menu-item
+      (click)="cut()"
+      *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === false"
+      [disabled]="cutAndPasteSetup.canCut !== true">
+      <mat-icon class="fa-solid fa-scissors"></mat-icon>
+      <span>Cut</span>
+    </button>
+    <button mat-menu-item *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === true" (click)="cancelCut()">
+      <mat-icon class="fa-solid fa-slash"></mat-icon>
+      <span>Cancel cut</span>
+    </button>
+    <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteInside !== true" (click)="paste('Inside')">
+      <mat-icon class="fa-solid fa-paste"></mat-icon>
+      <span>Paste inside</span>
+    </button>
+    <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteAfter !== true" (click)="paste('After')">
+      <mat-icon class="fa-solid fa-paste"></mat-icon>
+      <span>Paste after</span>
+    </button>
+    <mat-divider></mat-divider>
+  </div>
 
-    <button mat-menu-item (click)="expandAll()">
-        <mat-icon class="fa-solid fa-up-right-and-down-left-from-center"></mat-icon>
-        <span>Expand all</span>
-    </button>
-    <button mat-menu-item (click)="collapseAll()">
-        <mat-icon class="fa-solid fa-down-left-and-up-right-to-center"></mat-icon>
-        <span>Collapse all</span>
-    </button>
+  <button mat-menu-item (click)="expandAll()">
+    <mat-icon class="fa-solid fa-up-right-and-down-left-from-center"></mat-icon>
+    <span>Expand all</span>
+  </button>
+  <button mat-menu-item (click)="collapseAll()">
+    <mat-icon class="fa-solid fa-down-left-and-up-right-to-center"></mat-icon>
+    <span>Collapse all</span>
+  </button>
 </mat-menu>

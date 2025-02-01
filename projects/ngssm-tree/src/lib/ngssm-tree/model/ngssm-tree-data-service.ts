@@ -1,11 +1,11 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NodeData } from './node-data';
 
 export interface NgssmTreeDataService {
   readonly treeType: string;
   // Component used to display the result of a search
-  readonly searchResultViewer?: any;
+  readonly searchResultViewer?: Type<unknown>;
   load(treeId: string, nodeId: string): Observable<NodeData[]>;
 }
 

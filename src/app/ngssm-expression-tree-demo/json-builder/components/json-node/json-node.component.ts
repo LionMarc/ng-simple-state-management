@@ -12,7 +12,7 @@ import { JsonNode, JsonNodeType } from '../../model';
 import { NewPropertyAction } from '../../actions';
 
 @Component({
-  selector: 'app-json-node',
+  selector: 'ngssm-json-node',
   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './json-node.component.html',
   styleUrls: ['./json-node.component.scss'],
@@ -47,7 +47,7 @@ export class JsonNodeComponent extends NgSsmComponent implements NgssmExpression
     this.treeId = treeId;
     this.nodeId = nodeId;
 
-    this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId]?.data[nodeId]).subscribe((v) => this._node$.next(v));
+    this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId]?.data[nodeId]).subscribe((v) => this._node$.next(v as JsonNode));
     this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId]?.nodes)
       .pipe(take(1))
       .subscribe((nodes) => {

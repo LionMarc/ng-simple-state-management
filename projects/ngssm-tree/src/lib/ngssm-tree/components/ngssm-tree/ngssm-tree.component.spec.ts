@@ -31,6 +31,7 @@ export class DemoComponent {
 }
 
 // cf https://github.com/angular/components/blob/main/src/cdk/scrolling/virtual-scroll-viewport.spec.ts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function finishInit(fixture: ComponentFixture<any>) {
   // On the first cycle we render and measure the viewport.
   fixture.detectChanges();

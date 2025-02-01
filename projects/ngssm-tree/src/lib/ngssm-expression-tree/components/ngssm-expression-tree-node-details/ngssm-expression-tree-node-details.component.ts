@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ElementRef, Output, EventEmitter, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable, Subject, combineLatest, take } from 'rxjs';
 
@@ -18,7 +18,7 @@ export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
   private readonly _nodeId$ = new Subject<string>();
   private readonly _treeConfig$ = new Subject<NgssmExpressionTreeConfig>();
   private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | undefined>(undefined);
-  private readonly _componentToDisplay$ = new BehaviorSubject<any>(undefined);
+  private readonly _componentToDisplay$ = new BehaviorSubject<Type<unknown> | undefined>(undefined);
 
   private initialized = false;
 
@@ -71,7 +71,7 @@ export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
     return this._componentAction$.asObservable();
   }
 
-  public get componentToDisplay$(): Observable<any> {
+  public get componentToDisplay$(): Observable<Type<unknown> | undefined> {
     return this._componentToDisplay$.asObservable();
   }
 }

@@ -12,12 +12,16 @@ import { NgssmExpressionTreeNodeComponent } from './ngssm-expression-tree-node.c
 import { NgssmExpressionTreeStateSpecification, updateNgssmExpressionTreeState } from '../../state';
 import { NgssmExpressionTreeConfig } from '../../model';
 
+interface TreeTestingData {
+  name: string;
+}
+
 describe('NgssmExpressionTreeNodeComponent', () => {
   let component: NgssmExpressionTreeNodeComponent;
   let fixture: ComponentFixture<NgssmExpressionTreeNodeComponent>;
   let store: StoreMock;
   let loader: HarnessLoader;
-  let treeConfig: NgssmExpressionTreeConfig;
+  let treeConfig: NgssmExpressionTreeConfig<TreeTestingData>;
 
   beforeEach(async () => {
     store = new StoreMock({
@@ -78,7 +82,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
   describe(`Node icon`, () => {
     it(`should render no icon when property getNodeCssIcon is not set in tree config`, async () => {
       treeConfig.getNodeCssIcon = undefined;
-      component.treeConfig = treeConfig;
+      component.treeConfig = treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -90,14 +94,14 @@ describe('NgssmExpressionTreeNodeComponent', () => {
     });
 
     it(`should render no icon when getNodeCssIcon returns null for current node`, async () => {
-      treeConfig.getNodeCssIcon = (node, data) => {
+      treeConfig.getNodeCssIcon = (node) => {
         if (node.data.id === '1') {
           return undefined;
         }
 
         return 'fa-solid fa-folder-open';
       };
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -109,14 +113,14 @@ describe('NgssmExpressionTreeNodeComponent', () => {
     });
 
     it(`should render the icon returned by getNodeCssIcon for current node`, async () => {
-      treeConfig.getNodeCssIcon = (node, data) => {
+      treeConfig.getNodeCssIcon = (node) => {
         if (node.data.id !== '1') {
           return undefined;
         }
 
         return 'fa-solid fa-folder-open';
       };
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -134,7 +138,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
     it(`should not render the cut and maste menu items when feature is not enabled`, async () => {
       treeConfig.displayCutAndPasteMenus = false;
       treeConfig.getNodeLabel = (node, data) => data.name;
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -150,7 +154,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
     it(`should render the cut and maste menu items when feature is enabled`, async () => {
       treeConfig.displayCutAndPasteMenus = true;
       treeConfig.getNodeLabel = (node, data) => data.name;
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -166,7 +170,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
     it(`should render a Cut menu item when no cut operation is in progress`, async () => {
       treeConfig.displayCutAndPasteMenus = true;
       treeConfig.getNodeLabel = (node, data) => data.name;
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -183,7 +187,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
     it(`should render a 'Cancel cut' menu item when a cut operation is in progress`, async () => {
       treeConfig.displayCutAndPasteMenus = true;
       treeConfig.getNodeLabel = (node, data) => data.name;
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       const state = updateNgssmExpressionTreeState(store.stateValue, {
@@ -223,7 +227,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
     it(`Cut menu should be enabled when canCut property is not set in tree config`, async () => {
       treeConfig.displayCutAndPasteMenus = true;
       treeConfig.getNodeLabel = (node, data) => data.name;
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -241,7 +245,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
       treeConfig.displayCutAndPasteMenus = true;
       treeConfig.getNodeLabel = (node, data) => data.name;
       treeConfig.canCut = (node) => node.data.id === '1';
-      component.treeConfig = treeConfig;
+      component.treeConfig =  treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();
@@ -259,7 +263,7 @@ describe('NgssmExpressionTreeNodeComponent', () => {
       treeConfig.displayCutAndPasteMenus = true;
       treeConfig.getNodeLabel = (node, data) => data.name;
       treeConfig.canCut = (node) => node.data.id !== '1';
-      component.treeConfig = treeConfig;
+      component.treeConfig = treeConfig as NgssmExpressionTreeConfig<unknown>;
       component.nodeId = '1';
 
       fixture.detectChanges();

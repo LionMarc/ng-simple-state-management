@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
@@ -216,8 +217,8 @@ describe('NgssmExpressionTreeComponent', () => {
     it('should render all the nodes', fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -230,8 +231,8 @@ describe('NgssmExpressionTreeComponent', () => {
       component.treeConfig$.next({
         treeId: demoTreeId,
         disableVirtualization: true,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       fixture.detectChanges();
@@ -244,8 +245,8 @@ describe('NgssmExpressionTreeComponent', () => {
     it('should render the label of the nodes', fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -258,8 +259,8 @@ describe('NgssmExpressionTreeComponent', () => {
     it('should render the description of the nodes', fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -290,8 +291,8 @@ describe('NgssmExpressionTreeComponent', () => {
 
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -308,8 +309,8 @@ describe('NgssmExpressionTreeComponent', () => {
 
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -325,8 +326,8 @@ describe('NgssmExpressionTreeComponent', () => {
 
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -341,8 +342,8 @@ describe('NgssmExpressionTreeComponent', () => {
     it(`should render a collapsed icon when node is expandable and is expanded`, fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -355,8 +356,8 @@ describe('NgssmExpressionTreeComponent', () => {
     it(`should dispatch a '${NgssmExpressionTreeActionType.ngssmCollapseExpressionTreeNode}' when clicking on an expanded node`, fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);
@@ -371,8 +372,8 @@ describe('NgssmExpressionTreeComponent', () => {
     it(`should render no icon when node is not expandable`, fakeAsync(() => {
       component.treeConfig$.next({
         treeId: demoTreeId,
-        getNodeLabel: (node) => getFilterLabel(node.data.data),
-        getNodeDescription: (node) => getFilterDescription(node.data.data)
+        getNodeLabel: (node) => getFilterLabel(node.data.data as Filter),
+        getNodeDescription: (node) => getFilterDescription(node.data.data as Filter)
       });
 
       finishInit(fixture);

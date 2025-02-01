@@ -1,5 +1,6 @@
 import { DataStatus } from 'ngssm-remote-data';
 import { SelectNodeAction } from 'ngssm-tree';
+import { State } from 'ngssm-store';
 
 import { CollapseNodeAction, ExpandNodeAction, NgssmTreeActionType } from '../actions';
 import { NgssmTreeStateSpecification, selectNgssmTreeState, updateNgssmTreeState } from '../state';
@@ -7,7 +8,7 @@ import { TreeNodeExpandReducer } from './tree-node-expand.reducer';
 
 describe('TreeNodeExpandReducer', () => {
   let reducer: TreeNodeExpandReducer;
-  let state: { [key: string]: any };
+  let state: State;
 
   beforeEach(() => {
     reducer = new TreeNodeExpandReducer();

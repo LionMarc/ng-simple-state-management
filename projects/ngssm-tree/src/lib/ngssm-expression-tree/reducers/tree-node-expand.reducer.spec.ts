@@ -1,3 +1,4 @@
+import { State } from 'ngssm-store';
 import {
   NgssmCollapseAllExpressionTreeNodesAction,
   NgssmCollapseExpressionTreeNodeAction,
@@ -10,7 +11,7 @@ import { TreeNodeExpandReducer } from './tree-node-expand.reducer';
 
 describe('TreeNodeExpandReducer', () => {
   let reducer: TreeNodeExpandReducer;
-  let state: { [key: string]: any };
+  let state: State;
 
   beforeEach(() => {
     reducer = new TreeNodeExpandReducer();

@@ -1,4 +1,4 @@
-export interface NodeData<TData = any> {
+export interface NodeData<TData = unknown> {
   nodeId: string;
   parentNodeId?: string;
   label: string;

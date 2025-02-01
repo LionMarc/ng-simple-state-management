@@ -1,7 +1,7 @@
 /**
  * Represents the configuration information of a node.
  */
-export interface NgssmNode<TData = any> {
+export interface NgssmNode<TData = unknown> {
   id: string;
   parentId?: string;
   isExpandable?: boolean;

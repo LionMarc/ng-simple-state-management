@@ -12,7 +12,7 @@ export const updateNgssmExpressionTreeState = (state: State, command: Spec<Ngssm
   });
 
 export interface NgssmExpressionTreeState {
-  trees: { [key: string]: NgssmExpressionTree };
+  trees: Record<string, NgssmExpressionTree>;
 }
 
 @NgSsmFeatureState({

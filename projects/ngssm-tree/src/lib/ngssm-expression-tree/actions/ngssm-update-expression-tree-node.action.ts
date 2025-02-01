@@ -1,7 +1,7 @@
 import { NgssmExpressionTreeNodeAction } from './ngssm-expression-tree-node.action';
 import { NgssmExpressionTreeActionType } from './ngssm-expression-tree-action-type';
 
-export class NgssmUpdateExpressionTreeNodeAction<TData = any> extends NgssmExpressionTreeNodeAction {
+export class NgssmUpdateExpressionTreeNodeAction<TData = unknown> extends NgssmExpressionTreeNodeAction {
   constructor(
     treeId: string,
     nodeId: string,

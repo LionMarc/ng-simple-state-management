@@ -20,7 +20,7 @@ import { selectJsonBuilderState } from '../../state';
 import { JsonBuilderActionType } from '../../actions';
 
 @Component({
-  selector: 'app-json-builder',
+  selector: 'ngssm-json-builder',
   imports: [CommonModule, NgssmExpressionTreeComponent],
   templateUrl: './json-builder.component.html',
   styleUrls: ['./json-builder.component.scss'],
@@ -36,6 +36,7 @@ export class JsonBuilderComponent extends NgSsmComponent {
     getNodeLabel: (_, data) => data.name ?? 'Root',
     nodeDescriptionComponent: JsonNodeComponent,
     displayCutAndPasteMenus: true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canPaste: (node: NgssmExpressionTreeNode<JsonNode>, targetNode: NgssmExpressionTreeNode<JsonNode>, target: CutAndPasteTarget) => true
   };
 
@@ -60,11 +61,13 @@ export class JsonBuilderComponent extends NgSsmComponent {
 
     this.unsubscribeAll$.subscribe(() => this.dispatchAction(new NgssmClearExpressionTreeAction(this.treeConfig.treeId)));
 
-    this.watch((s) => selectNgssmExpressionTreeState(s).trees[this.treeConfig.treeId]).subscribe((tree: NgssmExpressionTree<JsonNode>) => {
+    this.watch((s) => selectNgssmExpressionTreeState(s).trees[this.treeConfig.treeId]).subscribe((value) => {
+      const tree = value as NgssmExpressionTree<JsonNode>;
       if (!tree) {
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = {};
 
       tree.nodes.forEach((node) => {
@@ -72,6 +75,7 @@ export class JsonBuilderComponent extends NgSsmComponent {
           return;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let item: any = result;
         node.path.forEach((id) => {
           const name = tree.data[id].name;
