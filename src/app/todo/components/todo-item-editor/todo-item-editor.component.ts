@@ -16,7 +16,7 @@ import { TodoActionType, UpdateTodoItemPropertyAction } from '../../actions';
 import { TodoItem, todoItemKey } from '../../model';
 
 @Component({
-  selector: 'app-todo-item-editor',
+  selector: 'ngssm-todo-item-editor',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -51,7 +51,7 @@ export class TodoItemEditorComponent extends NgSsmComponent {
         }
       });
 
-    this.watch((s) => selectNgssmDataSourceValue(s, todoItemKey)?.value).subscribe((value: TodoItem) => {
+    this.watch((s) => selectNgssmDataSourceValue<TodoItem>(s, todoItemKey)?.value).subscribe((value) => {
       if (value?.title) {
         this.titleControl.setValue(value.title);
       }

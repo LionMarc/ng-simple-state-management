@@ -11,8 +11,8 @@ export const updateNgssmDataState = (state: State, command: Spec<NgssmDataState,
   });
 
 export interface NgssmDataState {
-  dataSourceValues: { [key: string]: NgssmDataSourceValue };
-  dataSources: { [key: string]: NgssmDataSource };
+  dataSourceValues: Record<string, NgssmDataSourceValue>;
+  dataSources: Record<string, NgssmDataSource>;
 }
 
 @NgSsmFeatureState({

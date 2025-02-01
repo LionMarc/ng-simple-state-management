@@ -2,7 +2,7 @@ import { TodoItem } from '../model';
 
 export interface TodoItemEditor {
   todoItemId?: number;
-  todoItem: TodoItem;
+  todoItem?: TodoItem;
   submissionInProgress: boolean;
 }
 

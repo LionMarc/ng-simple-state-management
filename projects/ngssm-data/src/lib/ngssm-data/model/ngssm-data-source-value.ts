@@ -8,19 +8,19 @@ export enum NgssmDataSourceValueStatus {
   error = 'error'
 }
 
-export interface NgssmDataSourceAdditionalPropertyValue<TProperty = any> {
+export interface NgssmDataSourceAdditionalPropertyValue<TProperty = unknown> {
   status: NgssmDataSourceValueStatus;
   value?: TProperty;
   lastLoadingDate?: DateTime;
 }
 
-export interface NgssmDataSourceValue<TData = any, TParameter = any> {
+export interface NgssmDataSourceValue<TData = unknown, TParameter = unknown> {
   status: NgssmDataSourceValueStatus;
   value?: TData;
   parameter?: TParameter;
   lastLoadingDate?: DateTime;
   dataLifetimeInSeconds?: number;
-  additionalProperties: { [key: string]: NgssmDataSourceAdditionalPropertyValue };
+  additionalProperties: Record<string, NgssmDataSourceAdditionalPropertyValue>;
   parameterIsValid?: boolean;
 
   // Parameter has been updated but not value

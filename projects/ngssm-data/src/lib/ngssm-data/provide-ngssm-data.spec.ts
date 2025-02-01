@@ -2,7 +2,7 @@ import { ApplicationInitStatus } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 
-import { State, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
 import { NgssmDataStateSpecification } from './state';
@@ -31,10 +31,10 @@ describe('provideNgssmData', () => {
     });
 
     it(`should dispatch an action of type ${NgssmDataActionType.registerDataSources} when some data sources are defined`, async () => {
-      const firstSourceLoading: NgssmDataLoading = (state: State): Observable<string[]> => {
+      const firstSourceLoading: NgssmDataLoading = (): Observable<string[]> => {
         return of([]);
       };
-      const secondSourceLoading: NgssmDataLoading = (state: State): Observable<string[]> => {
+      const secondSourceLoading: NgssmDataLoading = (): Observable<string[]> => {
         return of([]);
       };
       await TestBed.configureTestingModule({

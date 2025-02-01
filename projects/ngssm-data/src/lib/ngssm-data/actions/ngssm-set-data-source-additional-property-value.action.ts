@@ -2,7 +2,7 @@ import { NgssmDataSourceValueAction } from './ngssm-data-source-value.action';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataActionType } from './ngssm-data-action-type';
 
-export class NgssmSetDataSourceAdditionalPropertyValueAction<TProperty = any> extends NgssmDataSourceValueAction {
+export class NgssmSetDataSourceAdditionalPropertyValueAction<TProperty = unknown> extends NgssmDataSourceValueAction {
   constructor(
     key: string,
     public readonly property: string,

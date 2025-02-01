@@ -19,6 +19,10 @@ export class EditedTodoItemSubmissionEffect implements Effect {
 
   public processAction(store: Store, state: State, action: Action): void {
     const todoItem = selectTodoState(state).todoItemEditor.todoItem;
+    if (!todoItem) {
+      return;
+    }
+
     const id = selectTodoState(state).todoItemEditor.todoItemId;
     console.log('CALLED', todoItem, id);
     if (id === undefined) {

@@ -39,7 +39,7 @@ describe('NgssmAutoReloadComponent', () => {
     await selector.open();
     const labels: string[] = [];
     const options = await selector.getOptions();
-    for (let option of options) {
+    for (const option of options) {
       const text = await option.getText();
       labels.push(text);
     }

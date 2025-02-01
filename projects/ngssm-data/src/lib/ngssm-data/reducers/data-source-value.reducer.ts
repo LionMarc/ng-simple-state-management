@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { DateTime } from 'luxon';
+import update from 'immutability-helper';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
@@ -15,7 +16,7 @@ import {
   NgssmSetDataSourceValueAction,
   NgssmUpdateDataSourceParameterAction
 } from '../actions';
-import { selectNgssmDataState, updateNgssmDataState } from '../state';
+import { selectNgssmDataSourceValue, selectNgssmDataState, updateNgssmDataState } from '../state';
 import { NgssmDataSourceValueStatus } from '../model';
 
 @Injectable()
@@ -168,10 +169,16 @@ export class DataSourceValueReducer implements Reducer {
 
       case NgssmDataActionType.updateDataSourceParameter: {
         const ngssmUpdateDataSourceParameterAction = action as NgssmUpdateDataSourceParameterAction;
+        const newParameter = update<object, never>(
+          selectNgssmDataSourceValue(state, ngssmUpdateDataSourceParameterAction.key)?.parameter as object,
+          {
+            $merge: ngssmUpdateDataSourceParameterAction.parameter
+          }
+        );
         return updateNgssmDataState(state, {
           dataSourceValues: {
             [ngssmUpdateDataSourceParameterAction.key]: {
-              parameter: { $merge: ngssmUpdateDataSourceParameterAction.parameter },
+              parameter: { $set: newParameter },
               valueOutdated: { $set: true }
             }
           }

@@ -23,8 +23,8 @@ export class DataSourcesRegistrationReducer implements Reducer {
     switch (action.type) {
       case NgssmDataActionType.registerDataSources: {
         const registerDataSourcesAction = action as NgssmRegisterDataSourcesAction;
-        const dataSourceValues: { [key: string]: NgssmDataSourceValue } = {};
-        const dataSources: { [key: string]: NgssmDataSource } = {};
+        const dataSourceValues: Record<string, NgssmDataSourceValue> = {};
+        const dataSources: Record<string, NgssmDataSource> = {};
         registerDataSourcesAction.dataSources.forEach((dataSource) => {
           if (selectNgssmDataState(state).dataSources[dataSource.key]) {
             return;
