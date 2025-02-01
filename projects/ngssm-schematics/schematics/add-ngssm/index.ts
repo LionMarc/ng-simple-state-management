@@ -58,10 +58,10 @@ function updateStylePreprocessorOptions(): Rule {
     const path = 'angular.json';
     context.logger.log('info', `Updating ${path} with stylePreprocessorOptions`);
     if (tree.exists(path)) {
-      var currentAngularJson = tree.read(path)!.toString('utf-8');
-      var json = JSON.parse(currentAngularJson);
+      const currentAngularJson = tree.read(path)!.toString('utf-8');
+      const json = JSON.parse(currentAngularJson);
       Object.keys(json['projects']).forEach((key) => {
-        var buildOptions = json['projects'][key]['architect']['build']['options'];
+        const buildOptions = json['projects'][key]['architect']['build']['options'];
         if (buildOptions['stylePreprocessorOptions']) {
           if (buildOptions['stylePreprocessorOptions']['includePaths']) {
             if (!buildOptions['stylePreprocessorOptions']['includePaths'].includes('./node_modules')) {
@@ -93,6 +93,7 @@ export default function (): Rule {
       installDependencies(),
       updateStyles(),
       updateStylePreprocessorOptions(),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (__: Tree, ___: SchematicContext) => context.logger.info('✔️ ngssm installed and configured')
     ]);
   };

@@ -9,6 +9,6 @@ export class DisplayNotificationAction implements Action {
   constructor(
     public readonly notificationType: ShellNotificationType,
     public readonly title: string,
-    public readonly details?: any
+    public readonly details?: unknown
   ) {}
 }

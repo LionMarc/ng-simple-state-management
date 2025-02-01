@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { NgssmLoadDataSourceValueAction } from 'ngssm-data';
-import { Effect, Store, State, Action, Logger } from 'ngssm-store';
+import { Effect, Store, State, Logger } from 'ngssm-store';
 
 import { TodoActionType } from '../actions';
 import { todoItemsKey } from '../model';
@@ -17,7 +17,7 @@ export class EditedTodoItemSubmissionEffect implements Effect {
     private logger: Logger
   ) {}
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(store: Store, state: State): void {
     const todoItem = selectTodoState(state).todoItemEditor.todoItem;
     if (!todoItem) {
       return;

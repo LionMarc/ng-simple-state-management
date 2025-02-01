@@ -10,7 +10,7 @@ import { NgssmTreeNode, selectNgssmTreeState } from 'ngssm-tree';
 import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
 
 @Component({
-  selector: 'app-tree-demo-results-viewer',
+  selector: 'ngssm-tree-demo-results-viewer',
   imports: [CommonModule, AgGridModule, NgssmAgGridDirective, NgssmAgGridThemeDirective],
   templateUrl: './tree-demo-results-viewer.component.html',
   styleUrls: ['./tree-demo-results-viewer.component.scss'],

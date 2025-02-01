@@ -14,7 +14,7 @@ import { NgssmAceEditorApi, NgssmAceEditorComponent, NgssmAceEditorMode } from '
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
-  selector: 'app-ace-editor-demo',
+  selector: 'ngssm-ace-editor-demo',
   imports: [
     CommonModule,
     ReactiveFormsModule,

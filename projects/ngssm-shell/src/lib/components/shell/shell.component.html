@@ -5,7 +5,7 @@
                 <button mat-icon-button (click)="toggleNavigationBarState()">
                     <mat-icon class="fa-solid fa-bars"></mat-icon>
                 </button>
-                <img [src]="config.logo" *ngIf="config.logo" class="ngssm-shell-header-logo" />
+                <img [src]="config.logo" *ngIf="config.logo" class="ngssm-shell-header-logo" alt="logo" />
                 <span class="ngssm-shell-header-title" *ngIf="config.applicationTitle">
                     {{config.applicationTitle}}
                 </span>

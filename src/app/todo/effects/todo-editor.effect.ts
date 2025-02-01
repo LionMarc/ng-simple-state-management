@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { LoadRemoteDataAction, RemoteCallError } from 'ngssm-remote-data';
 
 import { Effect, Store, State, Action } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';

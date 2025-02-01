@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { SidenavConfig } from './sidenav-config';
 
 /**
@@ -23,5 +24,5 @@ export interface ShellConfig {
   displayFooterNotificationsButton?: boolean;
 
   /** List of components or html to display in the footer */
-  footerComponents?: any[];
+  footerComponents?: (string | Type<unknown>)[];
 }

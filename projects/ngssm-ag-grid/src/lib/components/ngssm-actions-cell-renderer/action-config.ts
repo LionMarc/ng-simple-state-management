@@ -1,15 +1,11 @@
 import { ICellRendererParams } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 
-export interface ActionDisabledFunc<TData = any, TValue = any> {
-  (params: ICellRendererParams<TData, TValue>): boolean;
-}
+export type ActionDisabledFunc<TData = unknown, TValue = unknown> = (params: ICellRendererParams<TData, TValue>) => boolean;
 
-export interface ActionHiddenFunc<TData = any, TValue = any> {
-  (params: ICellRendererParams<TData, TValue>): boolean;
-}
+export type ActionHiddenFunc<TData = unknown, TValue = unknown> = (params: ICellRendererParams<TData, TValue>) => boolean;
 
-export interface ActionConfig<TData = any, TValue = any> {
+export interface ActionConfig<TData = unknown, TValue = unknown> {
   cssClass: string;
 
   // ThemePalette (primary, accent, warn) => by default 'primary'

@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
-  selector: 'app-demo2',
+  selector: 'ngssm-demo2',
   imports: [CommonModule],
   templateUrl: './demo2.component.html',
   styleUrls: ['./demo2.component.scss'],

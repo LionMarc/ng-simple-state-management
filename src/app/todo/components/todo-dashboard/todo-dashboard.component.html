@@ -14,7 +14,7 @@
   <mat-card-content class="flex-row-stretch fxFlex">
     <div class="flex-column-stretch fxFlex">
       @for (todoItem of todoItems(); track todoItem.id) {
-        <app-todo-item [todoId]="todoItem.id ?? -1"> </app-todo-item>
+        <ngssm-todo-item [todoId]="todoItem.id ?? -1"> </ngssm-todo-item>
       }
     </div>
 

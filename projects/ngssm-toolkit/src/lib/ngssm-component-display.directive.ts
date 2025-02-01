@@ -12,7 +12,7 @@ export class NgssmComponentDisplayDirective {
 
   constructor(private viewContainerRef: ViewContainerRef) {}
 
-  @Input() public set ngssmComponentDisplay(value: Type<unknown>) {
+  @Input() public set ngssmComponentDisplay(value: Type<unknown> | null | undefined) {
     this.componentRef = undefined;
     this.viewContainerRef.clear();
     if (value) {

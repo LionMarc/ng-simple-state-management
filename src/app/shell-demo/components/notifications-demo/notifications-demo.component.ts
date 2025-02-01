@@ -12,7 +12,7 @@ import { DisplayNotificationAction, ShellNotificationType } from 'ngssm-shell';
 import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
-  selector: 'app-notifications-demo',
+  selector: 'ngssm-notifications-demo',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -48,11 +48,16 @@ export class NotificationsDemoComponent extends NgSsmComponent {
   }
 
   public displayNotification(): void {
-    let detailsObject: any;
+    let detailsObject: unknown;
     if (this.details) {
       detailsObject = JSON.parse(this.details);
     }
 
-    this.dispatchAction(new DisplayNotificationAction(this.typeControl.value as any, this.titleControl.value as any, detailsObject));
+    const title = this.titleControl.value;
+    const type = this.typeControl.value;
+    if (type && title){
+      this.dispatchAction(new DisplayNotificationAction(type, title, detailsObject));
+    }
+    
   }
 }

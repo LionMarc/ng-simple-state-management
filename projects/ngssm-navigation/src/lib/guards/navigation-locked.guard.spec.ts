@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { State, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
 
 import { NavigationStateSpecification, updateNavigationState } from '../state';
 import { NavigationLockedGuard } from './navigation-locked.guard';

@@ -81,8 +81,8 @@ function updateAngularJson(): Rule {
     const path = 'angular.json';
     context.logger.log('info', `Updating ${path} with schematics settings`);
     if (tree.exists(path)) {
-      var currentAngularJson = tree.read(path)!.toString('utf-8');
-      var json = JSON.parse(currentAngularJson);
+      const currentAngularJson = tree.read(path)!.toString('utf-8');
+      const json = JSON.parse(currentAngularJson);
       json['schematics'] = {
         '@angular-eslint/schematics:application': {
           setParserOptionsProject: true
@@ -110,6 +110,7 @@ export default function (): Rule {
       updateEslintRc(),
       createPrettierRc(),
       updateAngularJson(),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (__: Tree, ___: SchematicContext) => context.logger.info('✔️ Eslint and prettier installed and configured')
     ]);
   };

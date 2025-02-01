@@ -55,6 +55,7 @@ export default function (): Rule {
       addDependencies(),
       installDependencies(),
       updateStyles(),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (__: Tree, ___: SchematicContext) => context.logger.info('✔️ @fortawesome/fontawesome-free installed and configured')
     ]);
   };

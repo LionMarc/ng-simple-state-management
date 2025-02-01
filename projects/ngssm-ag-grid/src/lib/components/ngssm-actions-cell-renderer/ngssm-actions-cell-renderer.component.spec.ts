@@ -51,7 +51,7 @@ describe('NgssmActionsCellRendererComponent', () => {
       ]
     };
 
-    component.agInit(cellRendererParams as any);
+    component.agInit(cellRendererParams as unknown as ICellRendererParams);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -70,7 +70,7 @@ describe('NgssmActionsCellRendererComponent', () => {
         actions: [
           {
             cssClass: 'fa-solid fa-pen-to-square',
-            isDisabled: (params: ICellRendererParams<TestingData, TestingData>) => (params.data?.value ?? -1) < 0
+            isDisabled: (params: ICellRendererParams<TestingData, unknown>) => (params.data?.value ?? -1) < 0
           }
         ]
       };
@@ -82,7 +82,7 @@ describe('NgssmActionsCellRendererComponent', () => {
         data: {
           value: -6
         }
-      } as any);
+      } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -98,7 +98,7 @@ describe('NgssmActionsCellRendererComponent', () => {
         data: {
           value: 6
         }
-      } as any);
+      } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -128,7 +128,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       component.agInit({
         ...cellRendererParams
-      } as any);
+      } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -165,7 +165,7 @@ describe('NgssmActionsCellRendererComponent', () => {
         actions: [
           {
             cssClass: 'fa-solid fa-pen-to-square',
-            isHidden: (params: ICellRendererParams<TestingData, TestingData>) => (params.data?.value ?? -1) < 0
+            isHidden: (params: ICellRendererParams<TestingData, unknown>) => (params.data?.value ?? -1) < 0
           }
         ]
       };
@@ -177,7 +177,7 @@ describe('NgssmActionsCellRendererComponent', () => {
         data: {
           value: -6
         }
-      } as any);
+      } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -193,7 +193,7 @@ describe('NgssmActionsCellRendererComponent', () => {
         data: {
           value: 6
         }
-      } as any);
+      } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -223,7 +223,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       component.agInit({
         ...cellRendererParams
-      } as any);
+      } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
       await fixture.whenStable();

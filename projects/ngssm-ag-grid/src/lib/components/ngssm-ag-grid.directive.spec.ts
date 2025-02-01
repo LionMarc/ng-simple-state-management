@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import 'ag-grid-enterprise';
-import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import { GetRowIdParams, GridOptions } from 'ag-grid-community';
 
 import { Store } from 'ngssm-store';
@@ -37,7 +37,7 @@ interface Item {
       }
     `
   ],
-  standalone: false
+  imports: [AgGridAngular, NgssmAgGridDirective]
 })
 class TestingComponent {
   public readonly gridOptions: GridOptions = {
@@ -100,7 +100,7 @@ class TestingComponent {
       }
     `
   ],
-  standalone: false
+  imports: [AgGridAngular, NgssmAgGridDirective]
 })
 class TestingWithConfigComponent {
   public readonly gridOptions: GridOptions = {
@@ -178,8 +178,8 @@ describe('NgssmAgGridDirective', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [AgGridModule, NgssmAgGridDirective],
-        declarations: [TestingComponent],
+        imports: [TestingComponent],
+        declarations: [],
         providers: [{ provide: Store, useValue: store }]
       }).compileComponents();
 
@@ -333,8 +333,8 @@ describe('NgssmAgGridDirective', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [AgGridModule, NgssmAgGridDirective],
-        declarations: [TestingWithConfigComponent],
+        imports: [TestingWithConfigComponent],
+        declarations: [],
         providers: [{ provide: Store, useValue: store }]
       }).compileComponents();
 

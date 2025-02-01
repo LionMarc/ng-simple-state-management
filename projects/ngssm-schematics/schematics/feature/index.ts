@@ -3,6 +3,7 @@ import { strings, normalize } from '@angular-devkit/core';
 import { FeatureOptions } from './feature-options';
 
 export default function (options: FeatureOptions): Rule {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return async (_: Tree, __: SchematicContext) => {
     const modulePath = options.path + '/' + strings.dasherize(options.name);
     const templateSource = apply(url('./files'), [

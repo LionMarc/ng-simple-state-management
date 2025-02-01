@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy, Injectable } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Injectable, Type } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -21,10 +21,10 @@ import {
   NgssmHelpComponent
 } from 'ngssm-toolkit';
 
-import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 import { Demo1Component } from '../demo1/demo1.component';
 import { Demo2Component } from '../demo2/demo2.component';
 import { ToolkitDemoActionType } from '../../actions';
+import { OverlayDemoComponent } from '../overlay-demo/overlay-demo.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class TestingFilePickerInitialization {
 }
 
 @Component({
-  selector: 'app-toolkit-demo',
+  selector: 'ngssm-toolkit-demo',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -47,11 +47,9 @@ export class TestingFilePickerInitialization {
     MatSelectModule,
     NgssmFilePickerComponent,
     NgssmRegexEditorToggleComponent,
-    OverlayDemoComponent,
     NgssmComponentDisplayDirective,
     NgssmHelpComponent,
-    Demo1Component,
-    Demo2Component
+    OverlayDemoComponent
   ],
   templateUrl: './toolkit-demo.component.html',
   styleUrls: ['./toolkit-demo.component.scss'],
@@ -64,11 +62,11 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
   public readonly filePickerDisabledControl = new FormControl<boolean>(false);
   public readonly regexControl = new FormControl<string | null>(null);
-  public readonly componentList: { label: string; component: any }[] = [
+  public readonly componentList: { label: string; component: Type<unknown> }[] = [
     { label: 'Component 1', component: Demo1Component },
     { label: 'Component 2', component: Demo2Component }
   ];
-  public readonly componentDisplayControl = new FormControl<any>(Demo1Component);
+  public readonly componentDisplayControl = new FormControl<Type<unknown>>(Demo1Component);
   public readonly commentControl = new FormControl<string | null>(null);
 
   public readonly helpTesting = `

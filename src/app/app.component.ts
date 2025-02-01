@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -10,13 +10,13 @@ import { NgSsmComponent, Store } from 'ngssm-store';
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ngssm-root',
   imports: [CommonModule, MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends NgSsmComponent {
-  private readonly footerComponents: any[] = [
+  private readonly footerComponents: (string | Type<unknown>)[] = [
     '<div class="footer-message">Demo application</div>',
     '<div class="footer-message">Another message</div>',
     '<div class="footer-message">And another one</div>',

@@ -39,11 +39,12 @@ export class NavigationBarReducer implements Reducer {
           navigationBarOpen: { $set: false }
         });
 
-      case ShellActionType.lockNavigationBar:
+      case ShellActionType.lockNavigationBar: {
         const lockNavigationBarAction = action as LockNavigationBarAction;
         return updateShellState(state, {
           navigationBarLockStatus: { $set: lockNavigationBarAction.lockStatus }
         });
+      }
     }
 
     return state;

@@ -10,7 +10,7 @@ export abstract class NgssmBaseCellEditor extends NgSsmComponent implements ICel
     super(store);
   }
 
-  public agInit(params: ICellEditorParams<any, any, any>): void {
+  public agInit(params: ICellEditorParams): void {
     this.params = params;
   }
 

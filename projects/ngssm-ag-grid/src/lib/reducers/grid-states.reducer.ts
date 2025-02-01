@@ -11,7 +11,7 @@ export class GridStatesReducer implements Reducer {
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
-      case AgGridActionType.registerAgGridState:
+      case AgGridActionType.registerAgGridState: {
         const registerAgGridStateAction = action as RegisterAgGridStateAction;
         return updateAgGridState(state, {
           gridStates: {
@@ -23,6 +23,7 @@ export class GridStatesReducer implements Reducer {
             }
           }
         });
+      }
     }
 
     return state;

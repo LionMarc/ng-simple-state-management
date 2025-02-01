@@ -8,7 +8,7 @@ export interface Filter {
   type: FilterType;
   field?: string;
   operator?: string;
-  value?: any;
+  value?: unknown;
   children?: Filter[];
 }
 

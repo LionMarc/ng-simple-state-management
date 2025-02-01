@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, ViewContainerRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ViewContainerRef, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -20,10 +20,10 @@ export class WrapperComponent extends NgSsmComponent {
     super(store);
   }
 
-  @Input() public set item(value: any) {
+  @Input() public set item(value: string | Type<unknown> | undefined) {
     if (typeof value === 'string') {
       this._innerHtml$.next(value);
-    } else if (!!value) {
+    } else if (value) {
       this.viewContainerRef.clear();
       this.viewContainerRef.createComponent(value);
     }

@@ -24,11 +24,11 @@ import { NgssmDataReloadButtonComponent, NgssmDataSourceValueStatus, selectNgssm
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
-import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { provideFeatureState } from '../../feature-state-provider';
+import { TodoItemComponent } from '../todo-item/todo-item.component';
 
 @Component({
-  selector: 'app-todo-dashboard',
+  selector: 'ngssm-todo-dashboard',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -99,7 +99,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
             {
               cssClass: 'fa-solid fa-comment',
               color: 'accent',
-              click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
+              click: () => {
                 this.router.navigate(['tree-demo']);
               },
               tooltip: 'To test ag-grid 31.0.2 => optimization by execution outside ng zone'
