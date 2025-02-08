@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BehaviorSubject } from 'rxjs';
 
-import { GetRowIdParams, GridOptions, ICellRendererParams, MenuItemDef, ValueGetterParams } from 'ag-grid-community';
+import { DefaultMenuItem, GetRowIdParams, GridOptions, ICellRendererParams, MenuItemDef, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { createSignal, NgSsmComponent, Store } from 'ngssm-store';
@@ -141,7 +141,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
     canSaveOnDiskColumnsState: true,
     getContextMenuItems: (params) => {
       console.log('CALLED', params);
-      const menuItems: (string | MenuItemDef)[] = [...(params.defaultItems ?? [])];
+      const menuItems: (DefaultMenuItem | MenuItemDef)[] = [...(params.defaultItems ?? [])];
       const exportMenuItem: MenuItemDef = {
         name: 'Export',
         icon: '<span class="ag-icon ag-icon-save"></span>',

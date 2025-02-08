@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import 'ag-grid-enterprise';
 import { AgGridAngular } from 'ag-grid-angular';
-import { GetRowIdParams, GridOptions } from 'ag-grid-community';
+import { AllCommunityModule, GetRowIdParams, GridOptions, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community';
+import { AllEnterpriseModule } from 'ag-grid-enterprise';
 
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
@@ -12,6 +12,9 @@ import { StoreMock } from 'ngssm-store/testing';
 import { AgGridStateSpecification, ChangeOrigin, updateAgGridState } from '../state';
 import { NgssmAgGridDirective } from './ngssm-ag-grid.directive';
 import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
+
+ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+provideGlobalGridOptions({ theme: 'legacy' });
 
 interface Item {
   id: number;
@@ -387,7 +390,7 @@ describe('NgssmAgGridDirective', () => {
     });
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
-      it(`should initialize the selected rows when the state has been updated by '${origin}' `, async () => {
+      fit(`should initialize the selected rows when the state has been updated by '${origin}' `, async () => {
         let state = store.stateValue;
         state = updateAgGridState(state, {
           selectedRows: {

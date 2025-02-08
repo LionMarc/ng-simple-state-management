@@ -1,10 +1,10 @@
-import { Directive, Input, OnDestroy } from '@angular/core';
+import { Directive, inject, Input, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Subject, take, takeUntil } from 'rxjs';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community';
+import { DefaultMenuItem, GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community';
 
-import { Store } from 'ngssm-store';
+import { Logger, Store } from 'ngssm-store';
 
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction, RegisterSelectedRowsAction } from '../actions';
 import { ChangeOrigin, selectAgGridState } from '../state';
@@ -15,6 +15,7 @@ import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
   standalone: true
 })
 export class NgssmAgGridDirective implements OnDestroy {
+  private readonly logger = inject(Logger);
   private readonly unsubsribeAll$ = new Subject<void>();
   private readonly _config$ = new BehaviorSubject<NgssmAgGridConfig>({
     gridId: ''
@@ -126,11 +127,12 @@ export class NgssmAgGridDirective implements OnDestroy {
     });
   }
 
-  private getContextMenuItems(params: GetContextMenuItemsParams): (string | MenuItemDef)[] {
-    const menuItems: (string | MenuItemDef)[] = [];
+  private getContextMenuItems(params: GetContextMenuItemsParams): (DefaultMenuItem | MenuItemDef)[] {
+    this.logger.information('[NgssmAgGridDirective] Generating the context menu...');
+    const menuItems: (DefaultMenuItem | MenuItemDef)[] = [];
     const getContextMenuItems = this._config$.getValue().getContextMenuItems;
     if (getContextMenuItems) {
-      menuItems.push(...getContextMenuItems(params));
+      menuItems.push(...(getContextMenuItems(params) as (DefaultMenuItem | MenuItemDef)[]));
     } else {
       menuItems.push(...(params.defaultItems ?? []));
     }
@@ -138,7 +140,7 @@ export class NgssmAgGridDirective implements OnDestroy {
     if (this._config$.getValue().canSaveOnDiskColumnsState === true) {
       menuItems.push(
         ...[
-          'separator',
+          'separator' as DefaultMenuItem,
           {
             name: 'Save columns state',
             action: () =>
