@@ -1,22 +1,28 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { StoreMock } from 'ngssm-store/testing';
+import { ACTION_DISPATCHER } from 'ngssm-store';
 
 import { NgssmScopedDataSourceDirective } from './ngssm-scoped-data-source.directive';
 import { NgssmDataActionType, NgssmUnregisterDataSourceAction } from '../actions';
-import { Store } from 'ngssm-store';
 
 describe('NgssmScopedDataSourceDirective', () => {
   let store: StoreMock;
-  let storeSpy:jasmine.Spy;
+  let storeSpy: jasmine.Spy;
+  let directive: NgssmScopedDataSourceDirective;
 
   beforeEach(() => {
     store = new StoreMock({});
     storeSpy = spyOn(store, 'dispatchAction');
+    TestBed.configureTestingModule({
+      providers: [{ provide: ACTION_DISPATCHER, useValue: store }, NgssmScopedDataSourceDirective]
+    });
+
+    directive = TestBed.inject(NgssmScopedDataSourceDirective);
   });
 
   it('should register the source when created', () => {
-    const directive = new NgssmScopedDataSourceDirective(store as unknown as Store);
     directive.ngssmScopedDataSource = {
       key: 'test',
       dataLoadingFunc: () => of([])
@@ -27,7 +33,6 @@ describe('NgssmScopedDataSourceDirective', () => {
   });
 
   it('should unregister the source when deleted', () => {
-    const directive = new NgssmScopedDataSourceDirective(store as unknown as Store);
     directive.ngssmScopedDataSource = {
       key: 'test',
       dataLoadingFunc: () => of([])

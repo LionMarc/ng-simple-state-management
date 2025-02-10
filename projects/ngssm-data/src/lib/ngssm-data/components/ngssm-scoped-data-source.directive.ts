@@ -1,6 +1,6 @@
-import { Directive, Input, OnDestroy } from '@angular/core';
+import { Directive, inject, Input, OnDestroy } from '@angular/core';
 
-import { Store } from 'ngssm-store';
+import { ACTION_DISPATCHER, ActionDispatcher } from 'ngssm-store';
 
 import { NgssmDataSource } from '../model';
 import { NgssmRegisterDataSourceAction, NgssmUnregisterDataSourceAction } from '../actions';
@@ -10,22 +10,21 @@ import { NgssmRegisterDataSourceAction, NgssmUnregisterDataSourceAction } from '
   standalone: true
 })
 export class NgssmScopedDataSourceDirective implements OnDestroy {
+  private readonly actionDispatcher: ActionDispatcher = inject(ACTION_DISPATCHER);
   private _dataSource: NgssmDataSource | undefined;
-
-  constructor(private store: Store) {}
 
   @Input() set ngssmScopedDataSource(value: NgssmDataSource) {
     if (this._dataSource) {
       throw new Error('Data source is already set.');
     }
     this._dataSource = value;
-    this.store.dispatchAction(new NgssmRegisterDataSourceAction(this._dataSource));
+    this.actionDispatcher.dispatchAction(new NgssmRegisterDataSourceAction(this._dataSource));
   }
 
   public ngOnDestroy(): void {
     const key = this._dataSource?.key;
     if (key) {
-      this.store.dispatchAction(new NgssmUnregisterDataSourceAction(key));
+      this.actionDispatcher.dispatchAction(new NgssmUnregisterDataSourceAction(key));
     }
   }
 }

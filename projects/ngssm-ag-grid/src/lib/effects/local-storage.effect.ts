@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Store, State, Action, Logger } from 'ngssm-store';
+import { Effect, State, Action, Logger, ActionDispatcher } from 'ngssm-store';
 
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction } from '../actions';
 import { ChangeOrigin, selectAgGridState } from '../state';
@@ -11,7 +11,7 @@ export class LocalStorageEffect implements Effect {
 
   constructor(private logger: Logger) {}
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const agGridAction = action as AgGridAction;
 
     switch (action.type) {
@@ -31,7 +31,7 @@ export class LocalStorageEffect implements Effect {
           try {
             const columnsState = JSON.parse(stored);
             if (Array.isArray(columnsState)) {
-              store.dispatchAction(new RegisterAgGridStateAction(agGridAction.gridId, ChangeOrigin.other, columnsState));
+              actiondispatcher.dispatchAction(new RegisterAgGridStateAction(agGridAction.gridId, ChangeOrigin.other, columnsState));
             } else {
               this.logger.error(`Wrong columns state config for grid '${agGridAction.gridId}'`, stored);
             }

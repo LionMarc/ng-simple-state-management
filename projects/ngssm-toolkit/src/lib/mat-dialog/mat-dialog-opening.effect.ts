@@ -1,7 +1,7 @@
 import { EnvironmentInjector, Inject, Injectable, Optional, runInInjectionContext } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Effect, Store, State, Action } from 'ngssm-store';
+import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
 
 import { NGSSM_MAT_DIALOG_CONFIG, NgssmMatDialogConfig } from './ngssm-mat-dialog-config';
 
@@ -29,7 +29,7 @@ export class MatDialogOpeningEffect implements Effect {
     }));
   }
 
-  public processAction(_store: Store, state: State, action: Action): void {
+  public processAction(actionDispatcher: ActionDispatcher, state: State, action: Action): void {
     this.processActionAsClosingOne(action);
     this.processActionAsOpeningOne(state, action);
   }

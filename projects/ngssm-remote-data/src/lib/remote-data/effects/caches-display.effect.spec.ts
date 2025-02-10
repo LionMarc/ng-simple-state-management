@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { StoreMock } from 'ngssm-store/testing';
-import { Store } from 'ngssm-store';
 
 import { RemoteDataActionType } from '../actions';
 import { NgssmCachesComponent } from '../components';
@@ -39,7 +38,7 @@ describe('CachesDisplayEffect', () => {
   });
 
   it(`should display the NgssmCachesComponent dialog when processing action of type '${RemoteDataActionType.displayCaches}'`, () => {
-    effect.processAction(store as unknown as Store, store.stateValue, { type: RemoteDataActionType.displayCaches });
+    effect.processAction(store, store.stateValue, { type: RemoteDataActionType.displayCaches });
 
     expect(matDialog.open).toHaveBeenCalledWith(NgssmCachesComponent, {
       disableClose: true
@@ -47,11 +46,11 @@ describe('CachesDisplayEffect', () => {
   });
 
   it(`should close the NgssmCachesComponent dialog when processing action of type '${RemoteDataActionType.closeCachesComponent}'`, () => {
-    effect.processAction(store as unknown as Store, store.stateValue, { type: RemoteDataActionType.displayCaches });
+    effect.processAction(store, store.stateValue, { type: RemoteDataActionType.displayCaches });
 
     spyOn(dialog, 'close');
 
-    effect.processAction(store as unknown as Store, store.stateValue, { type: RemoteDataActionType.closeCachesComponent });
+    effect.processAction(store, store.stateValue, { type: RemoteDataActionType.closeCachesComponent });
 
     expect(dialog.close).toHaveBeenCalled();
   });

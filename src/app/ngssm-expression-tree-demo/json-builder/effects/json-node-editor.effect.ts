@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Effect, Store, State, Action } from 'ngssm-store';
+import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
 import { NgssmAddExpressionTreeNodeAction } from 'ngssm-tree';
 
 import { JsonBuilderActionType, SubmitJsonNodeAction } from '../actions';
@@ -21,7 +21,7 @@ export class JsonNodeEditorEffect implements Effect {
 
   constructor(private matDialog: MatDialog) {}
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {
       case JsonBuilderActionType.newProperty: {
         this.dialog = this.matDialog.open(JsonNodeEditorComponent, {
@@ -43,7 +43,7 @@ export class JsonNodeEditorEffect implements Effect {
         if (editor.treeId) {
           const submitJsonNodeAction = action as SubmitJsonNodeAction;
           const nextNodeId = selectJsonBuilderState(state).nextNodeId;
-          store.dispatchAction(
+          actiondispatcher.dispatchAction(
             new NgssmAddExpressionTreeNodeAction(editor.treeId, {
               id: nextNodeId.toString(),
               parentId: editor.nodeId,
@@ -55,7 +55,7 @@ export class JsonNodeEditorEffect implements Effect {
             })
           );
 
-          store.dispatchActionType(JsonBuilderActionType.incrementNextNodeId);
+          actiondispatcher.dispatchActionType(JsonBuilderActionType.incrementNextNodeId);
           this.closeDialog();
         }
 

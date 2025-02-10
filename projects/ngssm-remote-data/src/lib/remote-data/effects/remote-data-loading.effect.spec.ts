@@ -6,7 +6,6 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { Observable } from 'rxjs';
 
 import { StoreMock } from 'ngssm-store/testing';
-import { Store } from 'ngssm-store';
 
 import { RemoteDataLoadingEffect } from './remote-data-loading.effect';
 import { DataStatus, NGSSM_REMOTE_DATA_PROVIDER, RemoteDataProvider, provideRemoteDataFunc } from '../model';
@@ -77,7 +76,7 @@ describe('RemoteDataLoadingEffect', () => {
       spyOn(store, 'dispatchAction');
 
       effect.processAction(
-        store as unknown as Store,
+        store,
         store.stateValue,
         new LoadRemoteDataAction(remoteDataKeyForFunc, { forceReload: true })
       );
@@ -108,7 +107,7 @@ describe('RemoteDataLoadingEffect', () => {
     it(`should call the function associated to the remote data`, () => {
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(store as unknown as Store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForClass, { forceReload: true }));
+      effect.processAction(store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForClass, { forceReload: true }));
 
       const req = httpTestingController.expectOne('/testing-class');
 

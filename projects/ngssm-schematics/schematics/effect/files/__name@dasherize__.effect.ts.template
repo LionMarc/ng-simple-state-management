@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Store, State, Action } from 'ngssm-store';
+import { Effect, ActionDispatcher, State, Action } from 'ngssm-store';
 
 @Injectable()
 export class <%= classify(name) %>Effect implements Effect {
   public readonly processedActions: string[] = [];
 
-  public processAction(store: Store, state: State, action: Action): void {}
+  public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {}
 }

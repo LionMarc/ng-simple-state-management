@@ -14,3 +14,4 @@ export * from './lib/logging';
 export * from './lib/actions';
 export * from './lib/provide-ngssm-store';
 export * from './lib/signal-helpers';
+export * from './lib/action-dispatcher';

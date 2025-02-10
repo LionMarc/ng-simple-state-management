@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
@@ -123,6 +122,7 @@ describe('MatDialogOpeningEffect', () => {
     effect = TestBed.inject(MatDialogOpeningEffect);
     matDialog = TestBed.inject(MatDialog);
     dialog = new MatDialogRefMock();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     spyOn(matDialog, 'open').and.returnValue(dialog as any);
     spyOn(dialog, 'close');
     functionCalled = false;
@@ -143,7 +143,7 @@ describe('MatDialogOpeningEffect', () => {
 
   describe(`one action to close`, () => {
     it(`should open the dialog when calling the action type '${TestingActionType.openAction}'`, () => {
-      effect.processAction(store as any, store.stateValue, { type: TestingActionType.openAction });
+      effect.processAction(store, store.stateValue, { type: TestingActionType.openAction });
 
       expect(matDialog.open).toHaveBeenCalledWith(DialogDemoComponent, {
         disableClose: true,
@@ -153,9 +153,9 @@ describe('MatDialogOpeningEffect', () => {
     });
 
     it(`should close the dialog when calling the action type '${TestingActionType.closeAction}'`, () => {
-      effect.processAction(store as any, store.stateValue, { type: TestingActionType.openAction });
+      effect.processAction(store, store.stateValue, { type: TestingActionType.openAction });
 
-      effect.processAction(store as any, store.stateValue, { type: TestingActionType.closeAction });
+      effect.processAction(store, store.stateValue, { type: TestingActionType.closeAction });
 
       expect(dialog.close).toHaveBeenCalled();
     });
@@ -163,7 +163,7 @@ describe('MatDialogOpeningEffect', () => {
 
   describe(`multiple actions to close`, () => {
     it(`should open the editor when calling the action type '${TestingActionType.edit}'`, () => {
-      effect.processAction(store as any, store.stateValue, { type: TestingActionType.edit });
+      effect.processAction(store, store.stateValue, { type: TestingActionType.edit });
 
       expect(matDialog.open).toHaveBeenCalledWith(EditorComponent, {
         disableClose: true,
@@ -174,9 +174,9 @@ describe('MatDialogOpeningEffect', () => {
 
     [TestingActionType.cancelEdition, TestingActionType.submit].forEach((actionType) => {
       it(`should close the editor when calling the action type '${actionType}'`, () => {
-        effect.processAction(store as any, store.stateValue, { type: TestingActionType.edit });
+        effect.processAction(store, store.stateValue, { type: TestingActionType.edit });
 
-        effect.processAction(store as any, store.stateValue, { type: actionType });
+        effect.processAction(store, store.stateValue, { type: actionType });
 
         expect(dialog.close).toHaveBeenCalled();
       });
@@ -185,7 +185,7 @@ describe('MatDialogOpeningEffect', () => {
 
   describe(`with function to execute before opening dialog`, () => {
     it(`should open the dialog when calling the action type '${TestingActionType.withfunction}'`, () => {
-      effect.processAction(store as any, store.stateValue, { type: TestingActionType.withfunction });
+      effect.processAction(store, store.stateValue, { type: TestingActionType.withfunction });
 
       expect(functionCalled).toBeTruthy();
       expect(store.dispatchActionType).toHaveBeenCalledWith('TESTING');
@@ -200,9 +200,9 @@ describe('MatDialogOpeningEffect', () => {
   describe('one action to close multiple dialogs', () => {
     [TestingActionType.open1toCloseMultipleDialogs, TestingActionType.open2toCloseMultipleDialogs].forEach((open) => {
       it(`should close the dialog open with '${open}' when calling the action type '${TestingActionType.toCloseMultipleDialogs}'`, () => {
-        effect.processAction(store as any, store.stateValue, { type: open });
+        effect.processAction(store, store.stateValue, { type: open });
 
-        effect.processAction(store as any, store.stateValue, { type: TestingActionType.toCloseMultipleDialogs });
+        effect.processAction(store, store.stateValue, { type: TestingActionType.toCloseMultipleDialogs });
 
         expect(dialog.close).toHaveBeenCalled();
       });

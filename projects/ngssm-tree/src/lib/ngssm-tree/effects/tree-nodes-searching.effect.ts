@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DataStatus } from 'ngssm-remote-data';
-import { Effect, Store, State, Action, Logger } from 'ngssm-store';
+import { Effect, State, Action, Logger, ActionDispatcher } from 'ngssm-store';
 import { defaultRegexEditorValidator } from 'ngssm-toolkit';
 
 import { LoadChildrenOfNodeAction, NgssmTreeActionType, RegisterPartialSearchResultsAction } from '../actions';
@@ -27,7 +27,7 @@ export class TreeNodesSearchingEffect implements Effect {
     private logger: Logger
   ) {}
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {
       case NgssmTreeActionType.displaySearchDialog: {
         this.dialog = this.matDialog.open(NgssmTreeSearchDialogComponent, {
@@ -64,7 +64,7 @@ export class TreeNodesSearchingEffect implements Effect {
         }
 
         if (currentNode.node.isExpandable && currentNode.status !== DataStatus.loaded && currentNode.status !== DataStatus.loading) {
-          store.dispatchAction(new LoadChildrenOfNodeAction(searchState.treeId, currentNode.node.nodeId));
+          actiondispatcher.dispatchAction(new LoadChildrenOfNodeAction(searchState.treeId, currentNode.node.nodeId));
           return;
         }
 
@@ -82,7 +82,7 @@ export class TreeNodesSearchingEffect implements Effect {
           }
         });
 
-        store.dispatchAction(new RegisterPartialSearchResultsAction(matching, toProcess));
+        actiondispatcher.dispatchAction(new RegisterPartialSearchResultsAction(matching, toProcess));
 
         break;
       }
