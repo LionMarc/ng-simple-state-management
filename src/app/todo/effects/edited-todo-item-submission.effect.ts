@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { NgssmLoadDataSourceValueAction } from 'ngssm-data';
-import { Effect, Store, State, Logger } from 'ngssm-store';
+import { Effect, State, Logger, ActionDispatcher } from 'ngssm-store';
 
 import { TodoActionType } from '../actions';
 import { todoItemsKey } from '../model';
@@ -17,7 +17,7 @@ export class EditedTodoItemSubmissionEffect implements Effect {
     private logger: Logger
   ) {}
 
-  public processAction(store: Store, state: State): void {
+  public processAction(actiondispatcher: ActionDispatcher, state: State): void {
     const todoItem = selectTodoState(state).todoItemEditor.todoItem;
     if (!todoItem) {
       return;
@@ -29,8 +29,8 @@ export class EditedTodoItemSubmissionEffect implements Effect {
       this.todoItemsService.createTodoItem(todoItem).subscribe({
         next: () => {
           this.logger.information('To-Do created.');
-          store.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
-          store.dispatchActionType(TodoActionType.closeTodoItemEditor);
+          actiondispatcher.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
+          actiondispatcher.dispatchActionType(TodoActionType.closeTodoItemEditor);
         },
         error: (error) => {
           this.logger.error('Unable to create the To-Do', error);
@@ -41,8 +41,8 @@ export class EditedTodoItemSubmissionEffect implements Effect {
       this.todoItemsService.updateTodoItem(id, todoItem).subscribe({
         next: () => {
           this.logger.information('To-Do updated.');
-          store.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
-          store.dispatchActionType(TodoActionType.closeTodoItemEditor);
+          actiondispatcher.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
+          actiondispatcher.dispatchActionType(TodoActionType.closeTodoItemEditor);
         },
         error: (error) => {
           this.logger.error('Unable to update the To-Do', error);

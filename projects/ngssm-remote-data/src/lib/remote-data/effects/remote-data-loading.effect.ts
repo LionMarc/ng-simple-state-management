@@ -1,6 +1,6 @@
 import { EnvironmentInjector, Inject, Injectable, Optional, runInInjectionContext } from '@angular/core';
 
-import { Effect, Store, State, Action } from 'ngssm-store';
+import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
 
 import { LoadRemoteDataAction, RegisterLoadedRemoteDataAction, RemoteDataActionType } from '../actions';
@@ -21,7 +21,7 @@ export class RemoteDataLoadingEffect implements Effect {
     this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));
   }
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const loadRemoteDataAction = action as LoadRemoteDataAction;
     const item = selectRemoteDataState(state)[loadRemoteDataAction.remoteDataKey];
     const provider = this.remoteDataProvidersPerKey.get(loadRemoteDataAction.remoteDataKey);
@@ -33,9 +33,9 @@ export class RemoteDataLoadingEffect implements Effect {
     runInInjectionContext(this.injector, () => {
       provider.get(item.getterParams).subscribe({
         next: (value) => {
-          store.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.loaded, value));
+          actiondispatcher.dispatchAction(new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.loaded, value));
           if (item.getterParams?.callbackAction) {
-            store.dispatchActionType(item.getterParams.callbackAction);
+            actiondispatcher.dispatchActionType(item.getterParams.callbackAction);
           }
         },
         error: (error) => {
@@ -44,7 +44,7 @@ export class RemoteDataLoadingEffect implements Effect {
             this.notifierService.notifyError(item.getterParams.errorNotificationMessage(error?.error));
           }
 
-          store.dispatchAction(
+          actiondispatcher.dispatchAction(
             new RegisterLoadedRemoteDataAction(loadRemoteDataAction.remoteDataKey, DataStatus.error, undefined, error?.error)
           );
         }

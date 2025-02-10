@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Effect, Store, State, Action } from 'ngssm-store';
+import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
 
 import { TodoActionType } from '../actions';
@@ -26,7 +26,7 @@ export class TodoEditorEffect implements Effect {
     private notifier: NgssmNotifierService
   ) {}
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {
       case TodoActionType.addTodoItem:
         this.dialog = this.matDialog.open(TodoItemEditorComponent, {
@@ -41,7 +41,7 @@ export class TodoEditorEffect implements Effect {
         });
 
         // To test error notification
-        store.dispatchAction(
+        actiondispatcher.dispatchAction(
           new NgssmLoadDataSourceValueAction(todoItemKey, {
             forceReload: true,
             parameter: {
@@ -50,7 +50,7 @@ export class TodoEditorEffect implements Effect {
           })
         );
 
-        store.dispatchAction(
+        actiondispatcher.dispatchAction(
           new NgssmLoadDataSourceValueAction(todoItemKey, {
             forceReload: true,
             parameter: {

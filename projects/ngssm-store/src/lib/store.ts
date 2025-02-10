@@ -10,6 +10,7 @@ import { NGSSM_REDUCER, Reducer } from './reducer';
 import { Effect, NGSSM_EFFECT } from './effect';
 import { NGSSM_STATE_INITIALIZER, StateInitializer } from './state-initializer';
 import { Logger } from './logging';
+import { ActionDispatcher } from './action-dispatcher';
 
 const featureStateSpecifications: FeatureStateSpecification[] = [];
 export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
@@ -22,7 +23,7 @@ export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
 @Injectable({
   providedIn: 'root'
 })
-export class Store {
+export class Store implements ActionDispatcher {
   private readonly _state$ = new BehaviorSubject<State>({});
   private readonly actionQueue: Action[] = [];
   private readonly reducersPerActionType = new Map<string, Reducer[]>();

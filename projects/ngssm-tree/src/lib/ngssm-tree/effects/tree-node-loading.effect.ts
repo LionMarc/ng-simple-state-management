@@ -1,7 +1,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 
 import { DataStatus } from 'ngssm-remote-data';
-import { Effect, Store, State, Action, Logger } from 'ngssm-store';
+import { Effect, State, Action, Logger, ActionDispatcher } from 'ngssm-store';
 
 import { NgssmTreeActionType, RegisterNodesAction, TreeNodeAction } from '../actions';
 import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE } from '../model';
@@ -20,7 +20,7 @@ export class TreeNodeLoadingEffect implements Effect {
     private logger: Logger
   ) {}
 
-  public processAction(store: Store, state: State, action: Action): void {
+  public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const treeNodeAction = action as TreeNodeAction;
     if (!selectNgssmTreeState(state).trees[treeNodeAction.treeId]) {
       this.logger.error(`Trying to process action for tree not initialized: ${treeNodeAction.treeId}.`);
@@ -41,10 +41,10 @@ export class TreeNodeLoadingEffect implements Effect {
 
     dataService.load(treeNodeAction.treeId, treeNodeAction.nodeId).subscribe({
       next: (value) =>
-        store.dispatchAction(new RegisterNodesAction(DataStatus.loaded, treeNodeAction.treeId, treeNodeAction.nodeId, value)),
+        actiondispatcher.dispatchAction(new RegisterNodesAction(DataStatus.loaded, treeNodeAction.treeId, treeNodeAction.nodeId, value)),
       error: (error) => {
         this.logger.error(`Unable to load children nodes for tree '${treeNodeAction.treeId}' and node '${treeNodeAction.nodeId}'`, error);
-        store.dispatchAction(new RegisterNodesAction(DataStatus.error, treeNodeAction.treeId, treeNodeAction.nodeId));
+        actiondispatcher.dispatchAction(new RegisterNodesAction(DataStatus.error, treeNodeAction.treeId, treeNodeAction.nodeId));
       }
     });
   }

@@ -2,11 +2,11 @@ import { EnvironmentProviders, InjectionToken, Type, makeEnvironmentProviders } 
 
 import { Action } from './action';
 import { State } from './state';
-import { Store } from './store';
+import { ActionDispatcher } from './action-dispatcher';
 
 export interface Effect {
   processedActions: string[];
-  processAction(store: Store, state: State, action: Action): void;
+  processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void;
   isFunc?: boolean;
 }
 

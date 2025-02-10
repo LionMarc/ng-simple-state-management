@@ -1,9 +1,9 @@
 import { signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { Action, State } from 'ngssm-store';
+import { Action, ActionDispatcher, State } from 'ngssm-store';
 
-export class StoreMock {
+export class StoreMock implements ActionDispatcher{
   private _stateValue: State = {};
   public state$ = new BehaviorSubject<State>(this._stateValue);
   public state = signal<State>(this._stateValue);
