@@ -192,7 +192,8 @@
             "lintFilePatterns": [
               "projects/ngssm-toolkit/**/*.ts",
               "projects/ngssm-toolkit/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-toolkit/eslint.config.js"
           }
         }
       }
@@ -232,7 +233,8 @@
             "lintFilePatterns": [
               "projects/ngssm-store/**/*.ts",
               "projects/ngssm-store/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-store/eslint.config.js"
           }
         }
       }
@@ -272,7 +274,8 @@
             "lintFilePatterns": [
               "projects/ngssm-schematics/**/*.ts",
               "projects/ngssm-schematics/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-schematics/eslint.config.js"
           }
         }
       }
@@ -325,7 +328,8 @@
             "lintFilePatterns": [
               "projects/ngssm-remote-data/**/*.ts",
               "projects/ngssm-remote-data/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-remote-data/eslint.config.js"
           }
         }
       }
@@ -365,7 +369,8 @@
             "lintFilePatterns": [
               "projects/ngssm-navigation/**/*.ts",
               "projects/ngssm-navigation/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-navigation/eslint.config.js"
           }
         }
       }
@@ -415,7 +420,8 @@
             "lintFilePatterns": [
               "projects/ngssm-ag-grid/**/*.ts",
               "projects/ngssm-ag-grid/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-ag-grid/eslint.config.js"
           }
         }
       }
@@ -468,7 +474,8 @@
             "lintFilePatterns": [
               "projects/ngssm-shell/**/*.ts",
               "projects/ngssm-shell/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-shell/eslint.config.js"
           }
         }
       }
@@ -508,7 +515,8 @@
             "lintFilePatterns": [
               "projects/ngssm-ace-editor/**/*.ts",
               "projects/ngssm-ace-editor/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-ace-editor/eslint.config.js"
           }
         }
       }
@@ -564,7 +572,8 @@
             "lintFilePatterns": [
               "projects/ngssm-tree/**/*.ts",
               "projects/ngssm-tree/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-tree/eslint.config.js"
           }
         }
       }
@@ -615,7 +624,8 @@
             "lintFilePatterns": [
               "projects/ngssm-data/**/*.ts",
               "projects/ngssm-data/**/*.html"
-            ]
+            ],
+            "eslintConfig": "projects/ngssm-data/eslint.config.js"
           }
         }
       }
