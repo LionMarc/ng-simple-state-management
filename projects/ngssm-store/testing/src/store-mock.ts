@@ -3,10 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Action, ActionDispatcher, State } from 'ngssm-store';
 
-export class StoreMock implements ActionDispatcher{
+export class StoreMock implements ActionDispatcher {
   private _stateValue: State = {};
   public state$ = new BehaviorSubject<State>(this._stateValue);
   public state = signal<State>(this._stateValue);
+  public logsEnabled = false;
 
   constructor(initialState: State) {
     this.stateValue = initialState;
@@ -23,10 +24,14 @@ export class StoreMock implements ActionDispatcher{
   }
 
   public dispatchAction(action: Action): void {
-    console.log('[StoreMock - dispatchAction]', action);
+    if (this.logsEnabled) {
+      console.log('[StoreMock - dispatchAction]', action);
+    }
   }
 
   public dispatchActionType(type: string): void {
-    console.log('[StoreMock - dispatchActionType]', type);
+    if (this.logsEnabled) {
+      console.log('[StoreMock - dispatchActionType]', type);
+    }
   }
 }
