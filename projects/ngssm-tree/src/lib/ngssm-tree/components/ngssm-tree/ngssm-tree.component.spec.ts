@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { animationFrameScheduler, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { DataStatus } from 'ngssm-remote-data';
 import { Store } from 'ngssm-store';
@@ -42,7 +42,7 @@ function finishInit(fixture: ComponentFixture<any>) {
   flush();
 
   // Flush the initial fake scroll event.
-  animationFrameScheduler.flush();
+  tick(16); // flush animation frame
   flush();
   fixture.detectChanges();
 }
