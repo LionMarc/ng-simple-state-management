@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
+import { AllCommunityModule, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community';
+import { AllEnterpriseModule } from 'ag-grid-enterprise';
 
 import { NgssmAgGridThemeDirective } from './ngssm-ag-grid-theme.directive';
 
+ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
+provideGlobalGridOptions({ theme: 'legacy' });
+
 @Component({
-  imports: [CommonModule, AgGridModule, NgssmAgGridThemeDirective],
+  imports: [CommonModule, AgGridAngular, NgssmAgGridThemeDirective],
   template: ` <ag-grid-angular ngssmAgGridTheme> </ag-grid-angular> `,
   styles: [
     `
