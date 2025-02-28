@@ -38,6 +38,9 @@
       "ngssm-shell": [
         "dist/ngssm-shell"
       ],
+      "ngssm-smusdi": [
+        "./dist/ngssm-smusdi"
+      ],
       "ngssm-store": [
         "dist/ngssm-store"
       ],

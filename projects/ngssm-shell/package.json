@@ -1,7 +1,7 @@
 {
   "name": "ngssm-shell",
   "version": "0.0.1",
-  "description": "NgSsm - A complete sheel with header, footer, side navigation...",
+  "description": "NgSsm - A complete shell with header, footer, side navigation...",
   "author": "Lion Marc",
   "license": "MIT",
   "peerDependencies": {

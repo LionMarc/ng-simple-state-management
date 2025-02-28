@@ -1,0 +1,22 @@
+{
+  "name": "ngssm-smusdi",
+  "version": "0.0.1",
+  "description": "NgSsm - Helpers when using smusdi services.",
+  "author": "Lion Marc",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "ngssm-store": ">=18.0.0",
+    "ngssm-data": ">=18.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LionMarc/ng-simple-state-management",
+    "directory": "projects/ngssm-smusdi"
+  }
+}
