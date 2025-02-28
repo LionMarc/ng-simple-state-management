@@ -5,7 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavigationActionType } from 'ngssm-navigation';
 import { NgssmCachesDisplayButtonComponent } from 'ngssm-remote-data';
 import { LockNavigationBarAction, LockStatus, ShellActionType, ShellComponent, ShellConfig } from 'ngssm-shell';
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, NgSsmComponent, Store } from 'ngssm-store';
+import { selectNgssmDataSourceValue } from 'ngssm-data';
+import { ServiceInfo, serviceInfoKey } from 'ngssm-smusdi';
 
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 
@@ -22,6 +24,10 @@ export class AppComponent extends NgSsmComponent {
     '<div class="footer-message">And another one</div>',
     TodoFooterComponent
   ];
+
+  public readonly serviceInfo = createSignal<ServiceInfo | undefined>(
+    (s) => selectNgssmDataSourceValue<ServiceInfo>(s, serviceInfoKey)?.value
+  );
 
   public readonly shellConfig: ShellConfig = {
     logo: './assets/logo.png',

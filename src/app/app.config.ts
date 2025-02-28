@@ -20,6 +20,7 @@ import { provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
 import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
 import { provideNgssmData } from 'ngssm-data';
+import { provideNgssmSmusdi } from 'ngssm-smusdi';
 
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
 import { provideRemoteDataDemo } from './remote-data-demo/public-api';
@@ -102,6 +103,7 @@ export const appConfig: ApplicationConfig = {
     provideToolkitDemo(),
     provideNgssmDataDemo(),
     provideTodo(),
-    provideNgssmFeatureStateDemo()
+    provideNgssmFeatureStateDemo(),
+    provideNgssmSmusdi('http://localhost:5100/info')
   ]
 };
