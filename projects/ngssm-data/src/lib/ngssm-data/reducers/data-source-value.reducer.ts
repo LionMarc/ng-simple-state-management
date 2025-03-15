@@ -241,15 +241,6 @@ export class DataSourceValueReducer implements Reducer {
 
       case NgssmDataActionType.setDataSourceAdditionalPropertyValue: {
         const ngssmSetDataSourceAdditionalPropertyValueAction = action as NgssmSetDataSourceAdditionalPropertyValueAction;
-        const dataSourcePropertyValue =
-          selectNgssmDataState(state).dataSourceValues[ngssmSetDataSourceAdditionalPropertyValueAction.key]?.additionalProperties[
-            ngssmSetDataSourceAdditionalPropertyValueAction.property
-          ];
-
-        if (!dataSourcePropertyValue) {
-          break;
-        }
-
         return updateNgssmDataState(state, {
           dataSourceValues: {
             [ngssmSetDataSourceAdditionalPropertyValueAction.key]: {
@@ -257,7 +248,8 @@ export class DataSourceValueReducer implements Reducer {
                 [ngssmSetDataSourceAdditionalPropertyValueAction.property]: {
                   $set: {
                     status: ngssmSetDataSourceAdditionalPropertyValueAction.status,
-                    value: ngssmSetDataSourceAdditionalPropertyValueAction.value
+                    value: ngssmSetDataSourceAdditionalPropertyValueAction.value,
+                    lastLoadingDate: DateTime.now()
                   }
                 }
               }
