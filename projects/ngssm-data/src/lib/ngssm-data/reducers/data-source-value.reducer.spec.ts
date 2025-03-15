@@ -8,6 +8,7 @@ import {
   NgssmDataActionType,
   NgssmLoadDataSourceAdditionalPropertyValueAction,
   NgssmLoadDataSourceValueAction,
+  NgssmSetDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceParameterValidityAction,
   NgssmSetDataSourceValueAction,
@@ -662,6 +663,80 @@ describe('DataSourceValueReducer', () => {
         testing: {
           status: NgssmDataSourceValueStatus.loading,
           value: 'testing'
+        }
+      });
+    });
+  });
+
+  describe('when processing action of type NgssmDataActionType.setDataSourceAdditionalPropertyValue', () => {
+    it(`should update the state with the value set in action when additional property exists in state`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {
+                testing: {
+                  status: NgssmDataSourceValueStatus.loaded,
+                  value: {
+                    label: 'for testing'
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const now = DateTime.now();
+      spyOn(DateTime, 'now').and.returnValue(now);
+
+      const action = new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers', 'testing', NgssmDataSourceValueStatus.loaded, {
+        title: 'to test update'
+      });
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+        testing: {
+          status: NgssmDataSourceValueStatus.loaded,
+          value: {
+             title: 'to test update'
+          },
+          lastLoadingDate: now
+        }
+      });
+    });
+
+    it(`should update the state with the value set in action when additional property does not exist in state`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {
+              }
+            }
+          }
+        }
+      });
+
+      const now = DateTime.now();
+      spyOn(DateTime, 'now').and.returnValue(now);
+
+      const action = new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers', 'testing', NgssmDataSourceValueStatus.loaded, {
+        title: 'to test update'
+      });
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+        testing: {
+          status: NgssmDataSourceValueStatus.loaded,
+          value: {
+             title: 'to test update'
+          },
+          lastLoadingDate: now
         }
       });
     });
