@@ -18,7 +18,6 @@ import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree }
 import { provideNgssmNavigation } from 'ngssm-navigation';
 import { provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
-import { provideNgssmServiceInfo } from 'ngssm-remote-data/service-info';
 import { provideNgssmData } from 'ngssm-data';
 import { provideNgssmSmusdi } from 'ngssm-smusdi';
 
@@ -93,7 +92,6 @@ export const appConfig: ApplicationConfig = {
     provideNgssmRemoteCall(),
     provideNgssmExpressionTree(),
     provideNgssmVisibility(),
-    provideNgssmServiceInfo(),
     provideNgssmMatDialog(),
     provideNgssmData(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
