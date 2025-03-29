@@ -12,6 +12,8 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { createSignal, NgSsmComponent, Store } from 'ngssm-store';
 import {
+  ActionConfirmationPopupComponent,
+  ActionConfirmationPopupParameter,
   getColDefForEditableColumn,
   getColDefWithNoPadding,
   getNgssmActionsCellColDef,
@@ -92,9 +94,20 @@ export class TodoDashboardComponent extends NgSsmComponent {
               cssClass: 'fa-solid fa-trash-can',
               color: 'accent',
               isHidden: this._deleteHidden$,
-              click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
-                console.log('Column delete called.', params);
-              }
+              popupComponent: ActionConfirmationPopupComponent,
+              popupParameter: {
+                color: 'warn',
+                messageBuilder: (params: ICellRendererParams<TodoItem, TodoItem>) => {
+                  return `Are you sure you want to delete "${params.data?.title}"?`;
+                },
+                cancelButtonLabel: 'No',
+                confirmButtonLabel: 'Yes, delete it!',
+                confirmAction: (params: ICellRendererParams<TodoItem, TodoItem>) => {
+                  if (params.data?.id) {
+                    console.log('Deleting item with ID:', params.data.id);
+                  }
+                }
+              } as ActionConfirmationPopupParameter,
             },
             {
               cssClass: 'fa-solid fa-comment',

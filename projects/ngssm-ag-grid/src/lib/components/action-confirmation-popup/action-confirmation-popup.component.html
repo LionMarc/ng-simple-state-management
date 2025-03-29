@@ -1,0 +1,10 @@
+<mat-card class="fxFlex flex-column-stretch">
+  <mat-card-header>
+    <mat-card-title>{{ message() }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions class="flex-row-center">
+    <span class="fxFlex"></span>
+    <button mat-button (click)="closePopup()">{{ cancelButtonLabel() }}</button>
+    <button mat-raised-button [color]="color()" (click)="executeAction()">{{ confirmButtonLabel() }}</button>
+  </mat-card-actions>
+</mat-card>
