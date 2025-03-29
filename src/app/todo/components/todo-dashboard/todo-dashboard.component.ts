@@ -26,6 +26,7 @@ import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { provideFeatureState } from '../../feature-state-provider';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { ActionConfirmationPopupComponent, ActionConfirmationPopupParameter } from '../action-confirmation-popup/action-confirmation-popup.component';
 
 @Component({
   selector: 'ngssm-todo-dashboard',
@@ -92,9 +93,20 @@ export class TodoDashboardComponent extends NgSsmComponent {
               cssClass: 'fa-solid fa-trash-can',
               color: 'accent',
               isHidden: this._deleteHidden$,
-              click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
-                console.log('Column delete called.', params);
-              }
+              popupComponent: ActionConfirmationPopupComponent,
+              popupParameter: {
+                color: 'warn',
+                messageBuilder: (params: ICellRendererParams<TodoItem, TodoItem>) => {
+                  return `Are you sure you want to delete "${params.data?.title}"?`;
+                },
+                cancelButtonLabel: 'No',
+                confirmButtonLabel: 'Yes, delete it!',
+                confirmAction: (params: ICellRendererParams<TodoItem, TodoItem>) => {
+                  if (params.data?.id) {
+                    console.log('Deleting item with ID:', params.data.id);
+                  }
+                }
+              } as ActionConfirmationPopupParameter,
             },
             {
               cssClass: 'fa-solid fa-comment',
