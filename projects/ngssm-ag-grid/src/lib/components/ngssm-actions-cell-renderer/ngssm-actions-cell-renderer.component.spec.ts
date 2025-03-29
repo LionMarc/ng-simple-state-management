@@ -1,10 +1,12 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ICellRendererParams } from 'ag-grid-community';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { BehaviorSubject } from 'rxjs';
+
+import { ICellRendererParams } from 'ag-grid-community';
 
 import { NgssmActionsCellRendererParams } from './ngssm-actions-cell-renderer-params';
 import { NgssmActionsCellRendererComponent } from './ngssm-actions-cell-renderer.component';
@@ -18,11 +20,11 @@ describe('NgssmActionsCellRendererComponent', () => {
   let fixture: ComponentFixture<NgssmActionsCellRendererComponent>;
   let loader: HarnessLoader;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [NgssmActionsCellRendererComponent],
-      teardown: { destroyAfterEach: false }
-    }).compileComponents();
+      teardown: { destroyAfterEach: true }
+    });
 
     fixture = TestBed.createComponent(NgssmActionsCellRendererComponent);
     component = fixture.componentInstance;
@@ -36,7 +38,7 @@ describe('NgssmActionsCellRendererComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should render a button per defined action`, async () => {
+  it(`should render a button per defined action`, () => {
     const cellRendererParams: NgssmActionsCellRendererParams = {
       actions: [
         {
@@ -54,7 +56,6 @@ describe('NgssmActionsCellRendererComponent', () => {
     component.agInit(cellRendererParams as unknown as ICellRendererParams);
 
     fixture.detectChanges();
-    await fixture.whenStable();
 
     const buttons = fixture.debugElement.queryAll(By.css('.ngssm-actions-cell-button'));
     expect(buttons.length).toEqual(3);
@@ -85,7 +86,6 @@ describe('NgssmActionsCellRendererComponent', () => {
       } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
-      await fixture.whenStable();
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
@@ -101,7 +101,6 @@ describe('NgssmActionsCellRendererComponent', () => {
       } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
-      await fixture.whenStable();
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
@@ -116,7 +115,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
     const testingDisabled$ = new BehaviorSubject<boolean>(false);
 
-    beforeEach(async () => {
+    beforeEach(() => {
       cellRendererParams = {
         actions: [
           {
@@ -131,13 +130,11 @@ describe('NgssmActionsCellRendererComponent', () => {
       } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
-      await fixture.whenStable();
     });
 
     it(`should set button as disabled when observable value is true`, async () => {
       testingDisabled$.next(true);
       fixture.detectChanges();
-      await fixture.whenStable();
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
@@ -147,7 +144,49 @@ describe('NgssmActionsCellRendererComponent', () => {
     it(`should not set button as disabled when observable value is false`, async () => {
       testingDisabled$.next(false);
       fixture.detectChanges();
-      await fixture.whenStable();
+
+      const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
+
+      expect(await element.isDisabled()).toBeFalse();
+    });
+  });
+
+  describe(`when using a signal for disabled status`, () => {
+    let cellRendererParams: NgssmActionsCellRendererParams<TestingData> = {
+      actions: []
+    };
+
+    const testingDisabled = signal(false);
+
+    beforeEach(() => {
+      cellRendererParams = {
+        actions: [
+          {
+            cssClass: 'fa-solid fa-pen-to-square',
+            isDisabled: testingDisabled
+          }
+        ]
+      };
+
+      component.agInit({
+        ...cellRendererParams
+      } as unknown as ICellRendererParams);
+
+      fixture.detectChanges();
+    });
+
+    it(`should set button as disabled when observable value is true`, async () => {
+      testingDisabled.set(true);
+      fixture.detectChanges();
+
+      const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
+
+      expect(await element.isDisabled()).toBeTrue();
+    });
+
+    it(`should not set button as disabled when observable value is false`, async () => {
+      testingDisabled.set(false);
+      fixture.detectChanges();
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
@@ -171,7 +210,7 @@ describe('NgssmActionsCellRendererComponent', () => {
       };
     });
 
-    it(`should not display button when value is negative`, async () => {
+    it(`should not display button when value is negative`, () => {
       component.agInit({
         ...cellRendererParams,
         data: {
@@ -180,14 +219,13 @@ describe('NgssmActionsCellRendererComponent', () => {
       } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
-      await fixture.whenStable();
 
       const element = fixture.debugElement.query(By.css('#action_0'));
 
       expect(element).toBeFalsy();
     });
 
-    it(`should display button when value is positive`, async () => {
+    it(`should display button when value is positive`, () => {
       component.agInit({
         ...cellRendererParams,
         data: {
@@ -196,7 +234,6 @@ describe('NgssmActionsCellRendererComponent', () => {
       } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
-      await fixture.whenStable();
 
       const element = fixture.debugElement.query(By.css('#action_0'));
 
@@ -211,7 +248,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
     const testingHidden$ = new BehaviorSubject<boolean>(false);
 
-    beforeEach(async () => {
+    beforeEach(() => {
       cellRendererParams = {
         actions: [
           {
@@ -226,23 +263,63 @@ describe('NgssmActionsCellRendererComponent', () => {
       } as unknown as ICellRendererParams);
 
       fixture.detectChanges();
-      await fixture.whenStable();
     });
 
-    it(`should not display button when observable value is true`, async () => {
+    it(`should not display button when observable value is true`, () => {
       testingHidden$.next(true);
       fixture.detectChanges();
-      await fixture.whenStable();
 
       const element = fixture.debugElement.query(By.css('#action_0'));
 
       expect(element).toBeFalsy();
     });
 
-    it(`should display button when observable value is false`, async () => {
+    it(`should display button when observable value is false`, () => {
       testingHidden$.next(false);
       fixture.detectChanges();
-      await fixture.whenStable();
+
+      const element = fixture.debugElement.query(By.css('#action_0'));
+
+      expect(element).toBeTruthy();
+    });
+  });
+
+  describe(`when using a signal for hidden status`, () => {
+    let cellRendererParams: NgssmActionsCellRendererParams<TestingData> = {
+      actions: []
+    };
+
+    const testingHidden = signal<boolean>(false);
+
+    beforeEach(() => {
+      cellRendererParams = {
+        actions: [
+          {
+            cssClass: 'fa-solid fa-pen-to-square',
+            isHidden: testingHidden
+          }
+        ]
+      };
+
+      component.agInit({
+        ...cellRendererParams
+      } as unknown as ICellRendererParams);
+
+      fixture.detectChanges();
+    });
+
+    it(`should not display button when observable value is true`, () => {
+      testingHidden.set(true);
+      fixture.detectChanges();
+
+      const element = fixture.debugElement.query(By.css('#action_0'));
+
+      expect(element).toBeFalsy();
+    });
+
+    it(`should display button when observable value is false`, () => {
+      testingHidden.set(false);
+      fixture.detectChanges();
 
       const element = fixture.debugElement.query(By.css('#action_0'));
 

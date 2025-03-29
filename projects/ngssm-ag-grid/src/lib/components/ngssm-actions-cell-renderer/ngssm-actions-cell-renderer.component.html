@@ -1,10 +1,16 @@
 <div class="ngssm-actions-cell">
-    <div *ngFor="let actionButton of actionButtons$ | async; let index=index">
-        <button mat-icon-button class="ngssm-actions-cell-button" [color]="actionButton.color" id="action_{{index}}"
-            [disabled]="actionButton.disabled$ | async" (click)="executeAction(actionButton)"
-            [matTooltip]="actionButton.tooltip" *ngIf="(actionButton.hidden$ | async) === false">
-            <mat-icon [class]="actionButton.cssClass"></mat-icon>
-        </button>
-    </div>
-
+  @for (actionButton of actionButtons(); track actionButton; let idx = $index) {
+    @if (!actionButton.isHidden()) {
+      <button
+        mat-icon-button
+        class="ngssm-actions-cell-button"
+        [color]="actionButton.color"
+        id="action_{{ idx }}"
+        [disabled]="actionButton.isDisabled()"
+        (click)="executeAction(actionButton)"
+        [matTooltip]="actionButton.tooltip">
+        <mat-icon [class]="actionButton.cssClass"></mat-icon>
+      </button>
+    }
+  }
 </div>
