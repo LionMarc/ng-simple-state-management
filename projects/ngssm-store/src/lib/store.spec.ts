@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { fakeAsync, tick } from '@angular/core/testing';
+import { effect, EnvironmentInjector } from '@angular/core';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import update from 'immutability-helper';
 
@@ -9,17 +10,19 @@ import { Store } from './store';
 import { Reducer } from './reducer';
 import { Effect } from './effect';
 import { Logger } from './logging';
+import { Action } from './action';
 
 describe('Store', () => {
   let logger: Logger;
   let store: Store;
 
   beforeEach(() => {
-    logger = new Logger();
+    TestBed.configureTestingModule({});
+    logger = TestBed.inject(Logger);
   });
 
   it('should store the dispatched action in the queue before processing it in the next iteration', fakeAsync(() => {
-    store = new Store(logger, [], [], [], {} as any);
+    store = new Store(logger, [], [], [], TestBed.inject(EnvironmentInjector));
 
     store.dispatchAction({ type: 'testing' });
     expect((store as any).actionQueue.length).toEqual(1);
@@ -49,7 +52,7 @@ describe('Store', () => {
         })
     };
 
-    store = new Store(logger, [], [], [first, second], {} as any);
+    store = new Store(logger, [], [], [first, second], TestBed.inject(EnvironmentInjector));
 
     expect(store.state()).toEqual({
       first: {
@@ -79,7 +82,7 @@ describe('Store', () => {
     spyOn(second, 'updateState').and.callThrough();
     spyOn(third, 'updateState').and.callThrough();
 
-    store = new Store(logger, [first, second, third], [], [], {} as any);
+    store = new Store(logger, [first, second, third], [], [], TestBed.inject(EnvironmentInjector));
 
     store.dispatchActionType('createTodo');
     tick();
@@ -91,6 +94,36 @@ describe('Store', () => {
     expect(store.state()).toEqual({
       first: { message: 'called' },
       third: { message: 'called' }
+    });
+  }));
+
+  it('should notify the processed action', fakeAsync(() => {
+    const first: Reducer = {
+      processedActions: ['createTodo'],
+      updateState: (state: State) => update(state, { first: { $set: { message: 'called' } } })
+    };
+
+    spyOn(first, 'updateState').and.callThrough();
+
+    store = new Store(logger, [first], [], [], TestBed.inject(EnvironmentInjector));
+
+    let lastAction: Action | undefined = undefined;
+    let stateAfterAction: State | undefined = undefined;
+    TestBed.runInInjectionContext(() => {
+      effect(() => {
+        lastAction = store.processedAction();
+        stateAfterAction = store.state();
+      });
+    });
+
+    store.dispatchActionType('createTodo');
+    tick();
+
+    expect(first.updateState).toHaveBeenCalled();
+
+    expect(lastAction as unknown).toEqual({ type: 'createTodo' });
+    expect(stateAfterAction as unknown).toEqual({
+      first: { message: 'called' }
     });
   }));
 
@@ -118,7 +151,7 @@ describe('Store', () => {
     spyOn(second, 'processAction').and.callThrough();
     spyOn(third, 'processAction').and.callThrough();
 
-    store = new Store(logger, [], [first, second, third], [], {} as any);
+    store = new Store(logger, [], [first, second, third], [], TestBed.inject(EnvironmentInjector));
 
     store.dispatchActionType('createTodo');
     tick();
