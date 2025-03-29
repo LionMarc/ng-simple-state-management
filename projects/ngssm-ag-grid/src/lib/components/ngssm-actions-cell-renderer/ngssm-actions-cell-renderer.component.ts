@@ -88,6 +88,7 @@ import {
   runInInjectionContext,
   isSignal
 } from '@angular/core';
+import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIconButton } from '@angular/material/button';
@@ -97,8 +98,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
+
 import { NgssmActionsCellRendererParams } from './ngssm-actions-cell-renderer-params';
-import { ActionConfig } from './action-config';
+import { ActionConfig, ActionPopupComponent } from './action-config';
 
 interface ActionButton {
   cssClass: string;
@@ -110,13 +113,15 @@ interface ActionButton {
   actionConfig: ActionConfig;
 
   tooltip: string;
+
+  popupRendered: WritableSignal<boolean>;
+  popupAction?: NgssmComponentAction;
 }
 
 @Component({
   selector: 'ngssm-actions-cell-renderer',
-  imports: [MatIconButton, MatIcon, MatTooltip],
+  imports: [MatIconButton, MatIcon, MatTooltip, CdkOverlayOrigin, CdkConnectedOverlay, NgssmComponentDisplayDirective],
   templateUrl: './ngssm-actions-cell-renderer.component.html',
-  styleUrls: ['./ngssm-actions-cell-renderer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmActionsCellRendererComponent implements ICellRendererAngularComp {
@@ -160,8 +165,14 @@ export class NgssmActionsCellRendererComponent implements ICellRendererAngularCo
           isDisabled: signal(false),
           isHidden: signal(false),
           actionConfig: a,
-          tooltip: a.tooltip ?? ''
+          tooltip: a.tooltip ?? '',
+          popupRendered: signal(false)
         };
+
+        if (a.popupComponent) {
+          actionButton.popupAction = ((component: ActionPopupComponent) =>
+            this.setupPopupComponent(component, actionButton)) as NgssmComponentAction;
+        }
 
         this.setUpActionSignal(actionButton, a, rendererParams, 'isDisabled');
         this.setUpActionSignal(actionButton, a, rendererParams, 'isHidden');
@@ -188,5 +199,9 @@ export class NgssmActionsCellRendererComponent implements ICellRendererAngularCo
     } else if (isObservable(input)) {
       actionButton[signalName] = toSignal(input, { initialValue: false });
     }
+  }
+
+  private setupPopupComponent(component: ActionPopupComponent, action: ActionButton): void {
+    component?.init?.(action.popupRendered, this.cellParams as unknown as ICellRendererParams, action.actionConfig.popupParameter);
   }
 }
