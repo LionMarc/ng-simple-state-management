@@ -5,6 +5,7 @@ import { provideReducer } from 'ngssm-store';
 
 import { isNavigationUnLocked } from './guards';
 import { NavigationReducer } from './reducers/navigation.reducer';
+import { routingEffectInitializer } from './routing';
 
 const initializeNavigation = () => {
   inject(Router).config.forEach((route) => {
@@ -13,5 +14,9 @@ const initializeNavigation = () => {
 };
 
 export const provideNgssmNavigation = (): EnvironmentProviders => {
-  return makeEnvironmentProviders([provideReducer(NavigationReducer), provideAppInitializer(initializeNavigation)]);
+  return makeEnvironmentProviders([
+    provideReducer(NavigationReducer),
+    provideAppInitializer(initializeNavigation),
+    provideAppInitializer(routingEffectInitializer)
+  ]);
 };
