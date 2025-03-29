@@ -1,16 +1,38 @@
 <div class="ngssm-actions-cell">
   @for (actionButton of actionButtons(); track actionButton; let idx = $index) {
     @if (!actionButton.isHidden()) {
-      <button
-        mat-icon-button
-        class="ngssm-actions-cell-button"
-        [color]="actionButton.color"
-        id="action_{{ idx }}"
-        [disabled]="actionButton.isDisabled()"
-        (click)="executeAction(actionButton)"
-        [matTooltip]="actionButton.tooltip">
-        <mat-icon [class]="actionButton.cssClass"></mat-icon>
-      </button>
+      @if (actionButton.actionConfig.popupComponent) {
+        <button
+          mat-icon-button
+          class="ngssm-actions-cell-button"
+          [color]="actionButton.color"
+          id="action_{{ idx }}"
+          [disabled]="actionButton.isDisabled()"
+          [matTooltip]="actionButton.tooltip"
+          cdkOverlayOrigin
+          #trigger="cdkOverlayOrigin"
+          (click)="actionButton.popupRendered.set(true)">
+          <mat-icon [class]="actionButton.cssClass"></mat-icon>
+        </button>
+        <ng-template
+          cdkConnectedOverlay
+          [cdkConnectedOverlayHasBackdrop]="true"
+          [cdkConnectedOverlayOrigin]="trigger"
+          [cdkConnectedOverlayOpen]="actionButton.popupRendered()">
+          <div [ngssmComponentDisplay]="actionButton.actionConfig.popupComponent" [ngssmComponentAction]="actionButton.popupAction"></div>
+        </ng-template>
+      } @else {
+        <button
+          mat-icon-button
+          class="ngssm-actions-cell-button"
+          [color]="actionButton.color"
+          id="action_{{ idx }}"
+          [disabled]="actionButton.isDisabled()"
+          (click)="executeAction(actionButton)"
+          [matTooltip]="actionButton.tooltip">
+          <mat-icon [class]="actionButton.cssClass"></mat-icon>
+        </button>
+      }
     }
   }
 </div>
