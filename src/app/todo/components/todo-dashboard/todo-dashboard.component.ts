@@ -12,6 +12,8 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { createSignal, NgSsmComponent, Store } from 'ngssm-store';
 import {
+  ActionConfirmationPopupComponent,
+  ActionConfirmationPopupParameter,
   getColDefForEditableColumn,
   getColDefWithNoPadding,
   getNgssmActionsCellColDef,
@@ -26,7 +28,6 @@ import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction, TodoActionType } from '../../actions';
 import { provideFeatureState } from '../../feature-state-provider';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { ActionConfirmationPopupComponent, ActionConfirmationPopupParameter } from '../action-confirmation-popup/action-confirmation-popup.component';
 
 @Component({
   selector: 'ngssm-todo-dashboard',
