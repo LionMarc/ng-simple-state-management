@@ -56,7 +56,7 @@ export class Store implements ActionDispatcher {
   private readonly _stateSignal = signal<State>({});
 
   // The most recently action processed by reducers, managed as an Angular signal.
-  private readonly _processedAction = signal<Action>({} as Action);
+  private readonly _processedAction = signal<Action>({ type: '' });
 
   /**
    * Initializes the `Store` with reducers, effects, and state initializers.

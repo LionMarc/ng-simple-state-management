@@ -8,6 +8,7 @@ export class StoreMock implements ActionDispatcher {
   public state$ = new BehaviorSubject<State>(this._stateValue);
   public state = signal<State>(this._stateValue);
   public logsEnabled = false;
+  public processedAction = signal<Action>({ type: '' });
 
   constructor(initialState: State) {
     this.stateValue = initialState;
