@@ -1,23 +1,24 @@
 import { ApplicationInitStatus } from '@angular/core';
 import { Router } from '@angular/router';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 
 import { provideConsoleAppender, State, Store } from 'ngssm-store';
 
 import { provideNgssmNavigation } from './provide-ngssm-navigation';
+import { StoreMock } from 'ngssm-store/testing';
 
 describe('provideNgssmNavigation', () => {
   let router: Router;
-  let store: Store;
+  let store: StoreMock;
 
   beforeEach(async () => {
+    store = new StoreMock({});
     TestBed.configureTestingModule({
-      providers: [provideNgssmNavigation(), provideConsoleAppender('test')]
+      providers: [provideNgssmNavigation(), provideConsoleAppender('test'), { provide: Store, useValue: store }]
     });
 
     await TestBed.inject(ApplicationInitStatus).donePromise;
     router = TestBed.inject(Router);
-    store = TestBed.inject(Store);
   });
 
   describe(`routing effect`, () => {
@@ -30,9 +31,7 @@ describe('provideNgssmNavigation', () => {
         }
       };
 
-      store.dispatchAction(action);
-
-      tick(100);
+      store.processedAction.set(action);
 
       TestBed.flushEffects();
 
@@ -48,9 +47,7 @@ describe('provideNgssmNavigation', () => {
         }
       };
 
-      store.dispatchAction(action);
-
-      tick(100);
+      store.processedAction.set(action);
 
       TestBed.flushEffects();
 
