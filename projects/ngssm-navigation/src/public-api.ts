@@ -7,3 +7,4 @@ export * from './lib/state';
 export * from './lib/guards';
 export * from './lib/actions';
 export * from './lib/model';
+export * from './lib/routing';
