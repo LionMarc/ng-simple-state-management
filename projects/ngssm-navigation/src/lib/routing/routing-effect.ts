@@ -15,7 +15,12 @@ export const routingEffectInitializer = async () => {
     const routingAction = action as RoutingAction;
     if (routingAction.navigate) {
       logger.information(`[Routing Effect] Processing action ${action.type}`);
-      untracked(() => routingAction.navigate?.(store.state(), router));
+      try {
+        untracked(() => routingAction.navigate?.(store.state(), router));
+        logger.information(`[Routing Effect] Successfully navigated for action ${action.type}`);
+      } catch (error) {
+        logger.error(`[Routing Effect] Error while processing action ${action.type}: ${error}`);
+      }
     }
   });
 
