@@ -18,7 +18,7 @@ import { NgssmDataStateSpecification, updateNgssmDataState } from '../../state';
 import { NgssmDataSourceValueStatus } from '../../model';
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../../actions';
 
-fdescribe('NgssmDataReloadButtonComponent', () => {
+describe('NgssmDataReloadButtonComponent', () => {
   let component: NgssmDataReloadButtonComponent;
   let fixture: ComponentFixture<NgssmDataReloadButtonComponent>;
   let store: StoreMock;
