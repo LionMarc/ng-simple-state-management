@@ -5,10 +5,18 @@ import { State, Store } from 'ngssm-store';
 import { NgssmLoadDataSourceValueAction } from '../actions';
 
 // Type definition for a function that loads data
-export type NgssmDataLoading<TData = unknown, TParameter = unknown> = (state: State, parameter?: TParameter) => Observable<TData>;
+export type NgssmDataLoading<TData = unknown, TParameter = unknown> = (
+  state: State,
+  dataSourceKey: string,
+  parameter?: TParameter
+) => Observable<TData>;
 
 // Type definition for a function that loads additional properties
-export type NgssmAdditionalPropertyLoading<TData = unknown> = (state: State, additionalProperty: string) => Observable<TData>;
+export type NgssmAdditionalPropertyLoading<TData = unknown> = (
+  state: State,
+  dataSourceKey: string,
+  additionalProperty: string
+) => Observable<TData>;
 
 // Interface defining the structure of a data source
 export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditionProperty = unknown> {
@@ -25,10 +33,10 @@ export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA
 
 // Optional parameters when registering a data source
 export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditionProperty = unknown> {
-  dataLifetimeInSeconds?: number, // Optional data lifetime
-  initialParameter?: TParameter, // Optional initial parameter
-  initialParameterInvalid?: boolean, // Optional flag for invalid initial parameter
-  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionProperty> // Optional function to load additional properties
+  dataLifetimeInSeconds?: number; // Optional data lifetime
+  initialParameter?: TParameter; // Optional initial parameter
+  initialParameterInvalid?: boolean; // Optional flag for invalid initial parameter
+  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionProperty>; // Optional function to load additional properties
 }
 
 // Function to provide a data source as an environment provider
@@ -45,7 +53,7 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
           key,
           dataLifetimeInSeconds: options?.dataLifetimeInSeconds,
           dataLoadingFunc: loadingFunc,
-          additionalPropertyLoadingFunc: options?.additionalPropertyLoadingFunc,
+          additionalPropertyLoadingFunc: options?.additionalPropertyLoadingFunc
         };
 
         if (options?.initialParameter) {

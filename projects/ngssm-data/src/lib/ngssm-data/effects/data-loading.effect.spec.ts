@@ -16,7 +16,6 @@ import {
 import { NgssmDataStateSpecification, updateNgssmDataState } from '../state';
 import { NgssmDataSourceValueStatus } from '../model';
 
-
 describe('DataLoadingEffect', () => {
   let effect: DataLoadingEffect;
   let logger: Logger;
@@ -42,7 +41,7 @@ describe('DataLoadingEffect', () => {
 
   const dataProvidersLoadingFunc = jasmine.createSpy(undefined, () => of(['test'])).and.callThrough();
   const dataProvidersAdditionalPropertyLoadingFunc = jasmine
-    .createSpy(undefined, (state: State, property: string) => of({ label: property }))
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => of({ label: property, dataSourceKey }))
     .and.callThrough();
   const dataProvidersLoadingFailsFunc = jasmine
     .createSpy(undefined, () => of(['test']))
@@ -52,7 +51,7 @@ describe('DataLoadingEffect', () => {
       }))
     );
   const dataProvidersAdditionalPropertyLoadingFailsFunc = jasmine
-    .createSpy(undefined, (state: State, property: string) => of({ label: property }))
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => of({ label: property }))
     .and.returnValue(
       throwError(() => ({
         title: 'bad call'
@@ -65,9 +64,9 @@ describe('DataLoadingEffect', () => {
     })
     .and.callThrough();
   const managersAdditionalPropertyLoadingFunc = jasmine
-    .createSpy(undefined, (state: State, property: string) => {
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => {
       const store = inject(Store);
-      return of({ state: store.state()['testing'], label: property });
+      return of({ state: store.state()['testing'], label: property, key: dataSourceKey });
     })
     .and.callThrough();
   const managersLoadingFailsFunc = jasmine
@@ -80,7 +79,7 @@ describe('DataLoadingEffect', () => {
       }))
     );
   const managersAdditionalPropertyLoadingFailsFunc = jasmine
-    .createSpy(undefined, (state: State, property: string) => {
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => {
       const store = inject(Store);
       return throwError(() => ({
         title: 'bad call',
@@ -298,7 +297,7 @@ describe('DataLoadingEffect', () => {
 
         effect.processAction(store, store.stateValue, action);
 
-        expect(dataProvidersAdditionalPropertyLoadingFunc).toHaveBeenCalledWith(jasmine.any(Object), 'my-prop');
+        expect(dataProvidersAdditionalPropertyLoadingFunc).toHaveBeenCalledWith(jasmine.any(Object), 'data-providers', 'my-prop');
       });
 
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceAdditionalPropertyValue}' with status '${NgssmDataSourceValueStatus.loaded}' when loading succeeds`, () => {
@@ -308,7 +307,8 @@ describe('DataLoadingEffect', () => {
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers', 'my-prop', NgssmDataSourceValueStatus.loaded, {
-            label: 'my-prop'
+            label: 'my-prop',
+            dataSourceKey: 'data-providers'
           })
         );
       });
@@ -343,7 +343,8 @@ describe('DataLoadingEffect', () => {
             state: {
               description: 'test'
             },
-            label: 'my-prop'
+            label: 'my-prop',
+            key: 'managers'
           })
         );
       });

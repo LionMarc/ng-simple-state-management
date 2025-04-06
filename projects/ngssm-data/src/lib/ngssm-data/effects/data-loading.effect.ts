@@ -44,7 +44,7 @@ export class DataLoadingEffect implements Effect {
         }
 
         runInInjectionContext(this.injector, () => {
-          dataSource.dataLoadingFunc(state, dataSourceValue.parameter).subscribe({
+          dataSource.dataLoadingFunc(state, key, dataSourceValue.parameter).subscribe({
             next: (value) => actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.loaded, value)),
             error: (error) => {
               this.logger.error(`Unable to load data for '${key}'`, error);
@@ -67,7 +67,7 @@ export class DataLoadingEffect implements Effect {
         }
 
         runInInjectionContext(this.injector, () => {
-          dataSource.additionalPropertyLoadingFunc?.(state, property).subscribe({
+          dataSource.additionalPropertyLoadingFunc?.(state, key, property).subscribe({
             next: (value) =>
               actiondispatcher.dispatchAction(
                 new NgssmSetDataSourceAdditionalPropertyValueAction(key, property, NgssmDataSourceValueStatus.loaded, value)

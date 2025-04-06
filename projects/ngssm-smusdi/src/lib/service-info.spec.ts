@@ -17,7 +17,7 @@ describe('ServiceInfo', () => {
     });
 
     it(`should make a GET request to the url set as parameter`, () => {
-      const observable = TestBed.runInInjectionContext(() => serviceInfoLoader({}, 'my-service'));
+      const observable = TestBed.runInInjectionContext(() => serviceInfoLoader({}, 'dataSourceKey-for-testing', 'my-service'));
       observable.subscribe((v) => {
         expect(v).toEqual({ serviceName: 'my-service', serviceVersion: '1.0.0', environment: 'dev' });
       });
