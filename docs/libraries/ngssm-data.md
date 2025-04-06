@@ -30,12 +30,12 @@ A data source is defined as:
 classDiagram
     class NgssmDataLoading~TData, TParameter~{
         <<interface>>
-        loadData(state:State, parameter?: TParameter = undefined): Observable<TData>
+        loadData(state:State, dataSourceKey: string, parameter?: TParameter = undefined): Observable<TData>
     }
 
     class NgssmAdditionalPropertyLoading~TData~{
         <<interface>>
-        loadData(state:State, additionalProperty:string): Observable<TData>
+        loadData(state:State, dataSourceKey: string, additionalProperty:string): Observable<TData>
     }
 
     class NgssmDataSource~TData, TParameter~{

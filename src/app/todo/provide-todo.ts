@@ -31,7 +31,7 @@ export const provideTodo = (): EnvironmentProviders => {
     ),
     provideNgssmDataSource(
       todoItemKey,
-      (state: State, parameter?: number) => {
+      (state: State, dataSourceKey, parameter?: number) => {
         if (!parameter) {
           throw new Error('Invalid todo item id.');
         }

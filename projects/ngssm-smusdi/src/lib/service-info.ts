@@ -22,7 +22,7 @@ export interface ServiceInfo {
   serviceUrl?: string;
 }
 
-export const serviceInfoLoader: NgssmDataLoading<ServiceInfo, string> = (_: State, parameter?: string) => {
+export const serviceInfoLoader: NgssmDataLoading<ServiceInfo, string> = (_: State, dataSourceKey, parameter?: string) => {
   const httpClient = inject(HttpClient);
   return httpClient.get<ServiceInfo>(parameter ?? '');
 };
