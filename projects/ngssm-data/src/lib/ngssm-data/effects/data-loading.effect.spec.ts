@@ -41,7 +41,7 @@ describe('DataLoadingEffect', () => {
 
   const dataProvidersLoadingFunc = jasmine.createSpy(undefined, () => of(['test'])).and.callThrough();
   const dataProvidersAdditionalPropertyLoadingFunc = jasmine
-    .createSpy(undefined, (state: State, datasourceKey, property: string) => of({ label: property, datasourceKey }))
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => of({ label: property, dataSourceKey }))
     .and.callThrough();
   const dataProvidersLoadingFailsFunc = jasmine
     .createSpy(undefined, () => of(['test']))
@@ -51,7 +51,7 @@ describe('DataLoadingEffect', () => {
       }))
     );
   const dataProvidersAdditionalPropertyLoadingFailsFunc = jasmine
-    .createSpy(undefined, (state: State, datasourceKey, property: string) => of({ label: property }))
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => of({ label: property }))
     .and.returnValue(
       throwError(() => ({
         title: 'bad call'
@@ -64,9 +64,9 @@ describe('DataLoadingEffect', () => {
     })
     .and.callThrough();
   const managersAdditionalPropertyLoadingFunc = jasmine
-    .createSpy(undefined, (state: State, datasourceKey, property: string) => {
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => {
       const store = inject(Store);
-      return of({ state: store.state()['testing'], label: property, key: datasourceKey });
+      return of({ state: store.state()['testing'], label: property, key: dataSourceKey });
     })
     .and.callThrough();
   const managersLoadingFailsFunc = jasmine
@@ -79,7 +79,7 @@ describe('DataLoadingEffect', () => {
       }))
     );
   const managersAdditionalPropertyLoadingFailsFunc = jasmine
-    .createSpy(undefined, (state: State, datasourceKey, property: string) => {
+    .createSpy(undefined, (state: State, dataSourceKey, property: string) => {
       const store = inject(Store);
       return throwError(() => ({
         title: 'bad call',
@@ -308,7 +308,7 @@ describe('DataLoadingEffect', () => {
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers', 'my-prop', NgssmDataSourceValueStatus.loaded, {
             label: 'my-prop',
-            datasourceKey: 'data-providers'
+            dataSourceKey: 'data-providers'
           })
         );
       });
