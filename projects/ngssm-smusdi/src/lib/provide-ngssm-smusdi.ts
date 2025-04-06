@@ -13,7 +13,7 @@ const loadServiceInfoAtStartup = async () => {
 
 export const provideNgssmSmusdi = (infoUrl = '../info'): EnvironmentProviders => {
   return makeEnvironmentProviders([
-    provideNgssmDataSource(serviceInfoKey, serviceInfoLoader, 600, infoUrl),
+    provideNgssmDataSource(serviceInfoKey, serviceInfoLoader, { dataLifetimeInSeconds: 600, initialParameter: infoUrl }),
     provideAppInitializer(loadServiceInfoAtStartup)
   ]);
 };

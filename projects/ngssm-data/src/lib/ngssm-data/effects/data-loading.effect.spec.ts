@@ -1,7 +1,8 @@
+import { inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 
-import { Logger, State } from 'ngssm-store';
+import { Logger, State, Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
 import { DataLoadingEffect } from './data-loading.effect';
@@ -15,6 +16,7 @@ import {
 import { NgssmDataStateSpecification, updateNgssmDataState } from '../state';
 import { NgssmDataSourceValueStatus } from '../model';
 
+
 describe('DataLoadingEffect', () => {
   let effect: DataLoadingEffect;
   let logger: Logger;
@@ -22,12 +24,15 @@ describe('DataLoadingEffect', () => {
 
   beforeEach(() => {
     store = new StoreMock({
+      testing: {
+        description: 'test'
+      },
       [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
     });
     spyOn(store, 'dispatchAction');
     TestBed.configureTestingModule({
       imports: [],
-      providers: [DataLoadingEffect]
+      providers: [DataLoadingEffect, { provide: Store, useValue: store }]
     });
     effect = TestBed.inject(DataLoadingEffect);
     logger = TestBed.inject(Logger);
@@ -35,9 +40,9 @@ describe('DataLoadingEffect', () => {
     spyOn(logger, 'information');
   });
 
-  const dataProvidersLoadingFunc = jasmine
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-    .createSpy(undefined, (state: State, parameter: any, prperty?: string) => of(['test']))
+  const dataProvidersLoadingFunc = jasmine.createSpy(undefined, () => of(['test'])).and.callThrough();
+  const dataProvidersAdditionalPropertyLoadingFunc = jasmine
+    .createSpy(undefined, (state: State, property: string) => of({ label: property }))
     .and.callThrough();
   const dataProvidersLoadingFailsFunc = jasmine
     .createSpy(undefined, () => of(['test']))
@@ -46,9 +51,23 @@ describe('DataLoadingEffect', () => {
         title: 'bad call'
       }))
     );
+  const dataProvidersAdditionalPropertyLoadingFailsFunc = jasmine
+    .createSpy(undefined, (state: State, property: string) => of({ label: property }))
+    .and.returnValue(
+      throwError(() => ({
+        title: 'bad call'
+      }))
+    );
   const managersLoadingFunc = jasmine
     .createSpy(undefined, () => {
-      return of(['main']);
+      const store = inject(Store);
+      return of([store.state()['testing']]);
+    })
+    .and.callThrough();
+  const managersAdditionalPropertyLoadingFunc = jasmine
+    .createSpy(undefined, (state: State, property: string) => {
+      const store = inject(Store);
+      return of({ state: store.state()['testing'], label: property });
     })
     .and.callThrough();
   const managersLoadingFailsFunc = jasmine
@@ -60,6 +79,16 @@ describe('DataLoadingEffect', () => {
         title: 'bad call'
       }))
     );
+  const managersAdditionalPropertyLoadingFailsFunc = jasmine
+    .createSpy(undefined, (state: State, property: string) => {
+      const store = inject(Store);
+      return throwError(() => ({
+        title: 'bad call',
+        property,
+        state: store.state()['testing']
+      }));
+    })
+    .and.callThrough();
   beforeEach(() => {
     const state = updateNgssmDataState(store.stateValue, {
       dataSources: {
@@ -72,25 +101,29 @@ describe('DataLoadingEffect', () => {
         ['data-providers']: {
           $set: {
             key: 'data-providers',
-            dataLoadingFunc: dataProvidersLoadingFunc
+            dataLoadingFunc: dataProvidersLoadingFunc,
+            additionalPropertyLoadingFunc: dataProvidersAdditionalPropertyLoadingFunc
           }
         },
         ['data-providers-ko']: {
           $set: {
             key: 'data-providers',
-            dataLoadingFunc: dataProvidersLoadingFailsFunc
+            dataLoadingFunc: dataProvidersLoadingFailsFunc,
+            additionalPropertyLoadingFunc: dataProvidersAdditionalPropertyLoadingFailsFunc
           }
         },
         ['managers']: {
           $set: {
             key: 'managers',
-            dataLoadingFunc: managersLoadingFunc
+            dataLoadingFunc: managersLoadingFunc,
+            additionalPropertyLoadingFunc: managersAdditionalPropertyLoadingFunc
           }
         },
         ['managers-ko']: {
           $set: {
             key: 'managers',
-            dataLoadingFunc: managersLoadingFailsFunc
+            dataLoadingFunc: managersLoadingFailsFunc,
+            additionalPropertyLoadingFunc: managersAdditionalPropertyLoadingFailsFunc
           }
         }
       },
@@ -220,7 +253,11 @@ describe('DataLoadingEffect', () => {
         effect.processAction(store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceValueAction('managers', NgssmDataSourceValueStatus.loaded, ['main'])
+          new NgssmSetDataSourceValueAction('managers', NgssmDataSourceValueStatus.loaded, [
+            {
+              description: 'test'
+            }
+          ])
         );
       });
 
@@ -261,7 +298,7 @@ describe('DataLoadingEffect', () => {
 
         effect.processAction(store, store.stateValue, action);
 
-        expect(dataProvidersLoadingFunc).toHaveBeenCalledWith(jasmine.any(Object), undefined, 'my-prop');
+        expect(dataProvidersAdditionalPropertyLoadingFunc).toHaveBeenCalledWith(jasmine.any(Object), 'my-prop');
       });
 
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceAdditionalPropertyValue}' with status '${NgssmDataSourceValueStatus.loaded}' when loading succeeds`, () => {
@@ -270,7 +307,9 @@ describe('DataLoadingEffect', () => {
         effect.processAction(store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers', 'my-prop', NgssmDataSourceValueStatus.loaded, ['test'])
+          new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers', 'my-prop', NgssmDataSourceValueStatus.loaded, {
+            label: 'my-prop'
+          })
         );
       });
 
@@ -291,7 +330,7 @@ describe('DataLoadingEffect', () => {
 
         effect.processAction(store, store.stateValue, action);
 
-        expect(managersLoadingFunc).toHaveBeenCalled();
+        expect(managersAdditionalPropertyLoadingFunc).toHaveBeenCalled();
       });
 
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceAdditionalPropertyValue}' with status '${NgssmDataSourceValueStatus.loaded}' when loading succeeds`, () => {
@@ -300,7 +339,12 @@ describe('DataLoadingEffect', () => {
         effect.processAction(store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceAdditionalPropertyValueAction('managers', 'my-prop', NgssmDataSourceValueStatus.loaded, ['main'])
+          new NgssmSetDataSourceAdditionalPropertyValueAction('managers', 'my-prop', NgssmDataSourceValueStatus.loaded, {
+            state: {
+              description: 'test'
+            },
+            label: 'my-prop'
+          })
         );
       });
 
