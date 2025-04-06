@@ -27,7 +27,7 @@ export const provideTodo = (): EnvironmentProviders => {
         const service = inject(TodoItemsService);
         return service.get();
       },
-      600
+      { dataLifetimeInSeconds: 600 }
     ),
     provideNgssmDataSource(
       todoItemKey,
@@ -48,7 +48,7 @@ export const provideTodo = (): EnvironmentProviders => {
           error: { type: 'https://tools.ietf.org/html/rfc7231#section-6.5.4', title: 'Not Found', status: 404 }
         }));
       },
-      600
+      { dataLifetimeInSeconds: 600 }
     ),
     provideReducer(TodoItemEditorReducer),
     provideEffects(EditedTodoItemSubmissionEffect, TodoEditorEffect),

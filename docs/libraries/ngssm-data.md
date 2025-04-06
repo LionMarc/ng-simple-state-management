@@ -30,8 +30,14 @@ A data source is defined as:
 classDiagram
     class NgssmDataLoading~TData, TParameter~{
         <<interface>>
-        loadData(state:State, parameter?: TParameter = undefined, additionalProperty?:string = undefined): Observable<TData>
+        loadData(state:State, parameter?: TParameter = undefined): Observable<TData>
     }
+
+    class NgssmAdditionalPropertyLoading~TData~{
+        <<interface>>
+        loadData(state:State, additionalProperty:string): Observable<TData>
+    }
+
     class NgssmDataSource~TData, TParameter~{
         <<interface>>
         key: string
@@ -39,6 +45,7 @@ classDiagram
     }
 
     NgssmDataSource --> NgssmDataLoading
+    NgssmDataSource --> "0,1" NgssmAdditionalPropertyLoading
 ```
 
 - **key**: unique identifer of the data source;
@@ -48,14 +55,14 @@ classDiagram
 The data source must be registered with the function _provideNgssmDataSource_.
 
 ```javascript
-const dataLoader:NgssmDataLoading<string[], number> = (state:State, parameter?:number, additionalProperty?:string) : Observable<string[]> => {
+const dataLoader:NgssmDataLoading<string[], number> = (state:State, parameter?:number) : Observable<string[]> => {
     const query = selectMyQuery(state);
     return inject(HttpClient).post<string[]>(`${baseUrl}/${parameter}`, query);
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideNgssmDataSource('doc:example:data', dataLoader, 6000);
+    provideNgssmDataSource('doc:example:data', dataLoader, {dataLifetimeInSeconds: 6000});
   ]
 };
 ```

@@ -67,7 +67,7 @@ export class DataLoadingEffect implements Effect {
         }
 
         runInInjectionContext(this.injector, () => {
-          dataSource.dataLoadingFunc(state, dataSourceValue.parameter, property).subscribe({
+          dataSource.additionalPropertyLoadingFunc?.(state, property).subscribe({
             next: (value) =>
               actiondispatcher.dispatchAction(
                 new NgssmSetDataSourceAdditionalPropertyValueAction(key, property, NgssmDataSourceValueStatus.loaded, value)

@@ -40,7 +40,7 @@ describe('provideNgssmData', () => {
       await TestBed.configureTestingModule({
         providers: [
           { provide: Store, useValue: store },
-          provideNgssmDataSource('first', firstSourceLoading, 560),
+          provideNgssmDataSource('first', firstSourceLoading, { dataLifetimeInSeconds: 560 }),
           provideNgssmDataSource('second', secondSourceLoading),
           provideNgssmData()
         ]
@@ -56,12 +56,14 @@ describe('provideNgssmData', () => {
             {
               key: 'first',
               dataLifetimeInSeconds: 560,
-              dataLoadingFunc: jasmine.any(Function)
+              dataLoadingFunc: jasmine.any(Function),
+              additionalPropertyLoadingFunc: undefined
             },
             {
               key: 'second',
               dataLifetimeInSeconds: undefined,
-              dataLoadingFunc: jasmine.any(Function)
+              dataLoadingFunc: jasmine.any(Function),
+              additionalPropertyLoadingFunc: undefined
             }
           ]
         })

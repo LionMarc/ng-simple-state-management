@@ -3,5 +3,5 @@ import { provideNgssmDataSource } from 'ngssm-data';
 import { teamsKey, teamsLoader } from './model';
 
 export const provideNgssmDataDemo = (): EnvironmentProviders => {
-  return makeEnvironmentProviders([provideNgssmDataSource(teamsKey, teamsLoader, 60)]);
+  return makeEnvironmentProviders([provideNgssmDataSource(teamsKey, teamsLoader, { dataLifetimeInSeconds: 60})]);
 };
