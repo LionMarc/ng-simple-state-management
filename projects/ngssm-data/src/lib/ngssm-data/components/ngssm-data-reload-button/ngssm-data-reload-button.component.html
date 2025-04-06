@@ -1,5 +1,5 @@
 <div class="flex-row-center">
-  @if (buttonLabel()) {
+  @if (label(); as buttonLabel) {
     <button
       mat-stroked-button
       [color]="color()"
@@ -11,12 +11,12 @@
         @if (loadInProgress()) {
           <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
         } @else {
-          <mat-icon [ngClass]="icon()"></mat-icon>
+          <mat-icon [ngClass]="buttonIcon()"></mat-icon>
         }
 
         <span style="width:0.5rem"></span>
 
-        {{ buttonLabel() }}
+        {{ buttonLabel }}
       </div>
     </button>
   } @else {
@@ -30,12 +30,12 @@
       @if (loadInProgress()) {
         <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
       } @else {
-        <mat-icon [ngClass]="icon()"></mat-icon>
+        <mat-icon [ngClass]="buttonIcon()"></mat-icon>
       }
     </button>
   }
 
-  @if (withAutoReload()) {
+  @if (autoReloadEnabled()) {
     <ngssm-auto-reload class="with-margin-left-8" [autoReloadAction]="reloadAction"></ngssm-auto-reload>
   }
 </div>
