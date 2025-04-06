@@ -59,7 +59,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     });
 
     it(`should render a fa-magnifying-glass when input property buttonIcon is set to fa-magnifying-glass`, async () => {
-      component.buttonIcon = 'fa-solid fa-magnifying-glass';
+      fixture.componentRef.setInput('buttonIcon', 'fa-solid fa-magnifying-glass');
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -76,7 +76,7 @@ describe('NgssmDataReloadButtonComponent', () => {
 
     describe('when autoReloadEnabled is set to true', () => {
       beforeEach(async () => {
-        component.autoReloadEnabled = true;
+        fixture.componentRef.setInput('autoReloadEnabled', true);
         fixture.detectChanges();
         await fixture.whenStable();
       });
@@ -87,7 +87,7 @@ describe('NgssmDataReloadButtonComponent', () => {
       });
 
       it(`should not render an auto reload component when autoReloadEnabled is reset to false`, async () => {
-        component.autoReloadEnabled = false;
+        fixture.componentRef.setInput('autoReloadEnabled', false);
         fixture.detectChanges();
         await fixture.whenStable();
 
@@ -101,7 +101,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     const dataSourceKey = 'my-first-source';
 
     beforeEach(async () => {
-      component.dataSourceKeys = [dataSourceKey];
+      fixture.componentRef.setInput('dataSourceKeys', [dataSourceKey]);
       fixture.detectChanges();
       await fixture.whenStable();
     });
@@ -167,7 +167,7 @@ describe('NgssmDataReloadButtonComponent', () => {
           });
 
           it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' with keepAdditionalProperties to true when clicking on button`, async () => {
-            component.keepAdditionalProperties = true;
+            fixture.componentRef.setInput('keepAdditionalProperties', true);
             const element = await loader.getHarness(MatButtonHarness);
 
             await element.click();
@@ -179,7 +179,7 @@ describe('NgssmDataReloadButtonComponent', () => {
 
           describe(`when auto reload is active`, () => {
             beforeEach(async () => {
-              component.autoReloadEnabled = true;
+              fixture.componentRef.setInput('autoReloadEnabled', true);
               fixture.detectChanges();
               await fixture.whenStable();
             });
@@ -304,7 +304,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     const secondSource = 'second-source';
 
     beforeEach(async () => {
-      component.dataSourceKeys = [firstSource, secondSource];
+      fixture.componentRef.setInput('dataSourceKeys', [firstSource, secondSource]);
       fixture.detectChanges();
     });
 
@@ -421,7 +421,7 @@ describe('NgssmDataReloadButtonComponent', () => {
 
   describe('rendering label', () => {
     it('should render the label when it is set', async () => {
-      component.label = 'Reload data';
+      fixture.componentRef.setInput('label', 'Reload data');
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -432,7 +432,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     });
 
     it('should render a mat-icon-button when label is not set', async () => {
-      component.label = undefined;
+      fixture.componentRef.setInput('label', undefined);
       fixture.detectChanges();
       await fixture.whenStable();
 
