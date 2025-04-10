@@ -5,7 +5,8 @@ export class NgssmLoadDataSourceAdditionalPropertyValueAction extends NgssmDataS
   constructor(
     key: string,
     public readonly property: string,
-    public readonly forceReload?: boolean
+    public readonly forceReload?: boolean,
+    public readonly postLoadingAction?: () => void
   ) {
     super(NgssmDataActionType.loadDataSourceAdditionalPropertyValue, key);
   }

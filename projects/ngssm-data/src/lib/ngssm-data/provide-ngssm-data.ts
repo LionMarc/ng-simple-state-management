@@ -6,6 +6,7 @@ import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
 import { DataSourceValueReducer, DataSourcesRegistrationReducer } from './reducers';
 import { DataLoadingEffect } from './effects';
 import { NgssmRegisterDataSourcesAction } from './actions';
+import { postLoadingActionExecutorInitializer } from './post-loading-action-executor';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export const provideNgssmData = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
     provideAppInitializer(initDataSourceValues),
     provideReducers(DataSourcesRegistrationReducer, DataSourceValueReducer),
-    provideEffects(DataLoadingEffect)
+    provideEffects(DataLoadingEffect),
+    provideAppInitializer(postLoadingActionExecutorInitializer)
   ]);
 };

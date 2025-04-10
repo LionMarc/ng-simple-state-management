@@ -1,4 +1,4 @@
-import { EnvironmentInjector, Injectable, runInInjectionContext } from '@angular/core';
+import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
 
 import { Effect, State, Action, Logger, ActionDispatcher } from 'ngssm-store';
 
@@ -14,15 +14,13 @@ import { NgssmDataSourceValueStatus } from '../model';
 
 @Injectable()
 export class DataLoadingEffect implements Effect {
+  private readonly injector = inject(EnvironmentInjector);
+  private readonly logger = inject(Logger);
+
   public readonly processedActions: string[] = [
     NgssmDataActionType.loadDataSourceValue,
     NgssmDataActionType.loadDataSourceAdditionalPropertyValue
   ];
-
-  constructor(
-    private logger: Logger,
-    private injector: EnvironmentInjector
-  ) {}
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const key = (action as NgssmDataSourceValueAction).key;
@@ -45,7 +43,8 @@ export class DataLoadingEffect implements Effect {
 
         runInInjectionContext(this.injector, () => {
           dataSource.dataLoadingFunc(state, key, dataSourceValue.parameter).subscribe({
-            next: (value) => actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.loaded, value)),
+            next: (value) =>
+              actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.loaded, value)),
             error: (error) => {
               this.logger.error(`Unable to load data for '${key}'`, error);
               actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.error));
@@ -70,11 +69,19 @@ export class DataLoadingEffect implements Effect {
           dataSource.additionalPropertyLoadingFunc?.(state, key, property).subscribe({
             next: (value) =>
               actiondispatcher.dispatchAction(
-                new NgssmSetDataSourceAdditionalPropertyValueAction(key, property, NgssmDataSourceValueStatus.loaded, value)
+                new NgssmSetDataSourceAdditionalPropertyValueAction(
+                  key,
+                  property,
+                  NgssmDataSourceValueStatus.loaded,
+                  value,
+                  ngssmLoadDataSourceAdditionalPropertyValueAction.postLoadingAction
+                )
               ),
             error: (error) => {
               this.logger.error(`Unable to load data for '${key}' and property '${property}'`, error);
-              actiondispatcher.dispatchAction(new NgssmSetDataSourceAdditionalPropertyValueAction(key, property, NgssmDataSourceValueStatus.error));
+              actiondispatcher.dispatchAction(
+                new NgssmSetDataSourceAdditionalPropertyValueAction(key, property, NgssmDataSourceValueStatus.error)
+              );
             }
           });
         });
