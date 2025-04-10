@@ -7,7 +7,8 @@ export class NgssmSetDataSourceAdditionalPropertyValueAction<TProperty = unknown
     key: string,
     public readonly property: string,
     public readonly status: NgssmDataSourceValueStatus,
-    public readonly value?: TProperty
+    public readonly value?: TProperty,
+    public readonly postLoadingAction?: () => void
   ) {
     super(NgssmDataActionType.setDataSourceAdditionalPropertyValue, key);
   }
