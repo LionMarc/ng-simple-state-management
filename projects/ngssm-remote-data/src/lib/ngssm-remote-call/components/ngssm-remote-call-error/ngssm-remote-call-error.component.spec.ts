@@ -13,24 +13,22 @@ import { NgssmRemoteCallStateSpecification, updateNgssmRemoteCallState } from '.
 import { RemoteCallStatus } from '../../model';
 
 describe('NgssmRemoteCallErrorComponent', () => {
-  let component: NgssmRemoteCallErrorComponent;
   let fixture: ComponentFixture<NgssmRemoteCallErrorComponent>;
   let store: StoreMock;
   let loader: HarnessLoader;
   const remoteCallId = 'testing';
 
-  beforeEach(async () => {
+  beforeEach(() => {
     store = new StoreMock({
       [NgssmRemoteCallStateSpecification.featureStateKey]: NgssmRemoteCallStateSpecification.initialState
     });
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       imports: [NgssmRemoteCallErrorComponent],
       providers: [{ provide: Store, useValue: store }],
       teardown: { destroyAfterEach: false }
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(NgssmRemoteCallErrorComponent);
-    component = fixture.componentInstance;
     fixture.nativeElement.style['min-height'] = '200px';
     loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
@@ -43,14 +41,13 @@ describe('NgssmRemoteCallErrorComponent', () => {
   });
 
   describe(`when a remote call id is set`, () => {
-    beforeEach(async () => {
-      component.remoteCallId = remoteCallId;
+    beforeEach(() => {
+      fixture.componentRef.setInput('remoteCallId', remoteCallId);
       fixture.detectChanges();
-      await fixture.whenStable();
     });
 
     [RemoteCallStatus.done, RemoteCallStatus.inProgress, RemoteCallStatus.none].forEach((status) => {
-      it(`should not render the error container when status is '${status}'`, async () => {
+      it(`should not render the error container when status is '${status}'`, () => {
         const state = updateNgssmRemoteCallState(store.stateValue, {
           remoteCalls: {
             [remoteCallId]: {
@@ -66,7 +63,6 @@ describe('NgssmRemoteCallErrorComponent', () => {
         });
         store.stateValue = state;
         fixture.detectChanges();
-        await fixture.whenStable();
 
         const element = fixture.debugElement.query(By.css('.ngssm-remote-call-error-container'));
 
@@ -75,7 +71,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
     });
 
     describe(`when remote call status is '${RemoteCallStatus.ko}'`, () => {
-      beforeEach(async () => {
+      beforeEach(() => {
         const state = updateNgssmRemoteCallState(store.stateValue, {
           remoteCalls: {
             [remoteCallId]: {
@@ -87,7 +83,6 @@ describe('NgssmRemoteCallErrorComponent', () => {
         });
         store.stateValue = state;
         fixture.detectChanges();
-        await fixture.whenStable();
       });
 
       it(`should render the error container`, () => {
@@ -102,7 +97,6 @@ describe('NgssmRemoteCallErrorComponent', () => {
         await element.click();
 
         fixture.detectChanges();
-        await fixture.whenStable();
 
         const container = fixture.debugElement.query(By.css('.ngssm-remote-call-error-container'));
 
@@ -110,7 +104,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
       });
 
       describe(`when message is provided in remote call`, () => {
-        beforeEach(async () => {
+        beforeEach(() => {
           const state = updateNgssmRemoteCallState(store.stateValue, {
             remoteCalls: {
               [remoteCallId]: {
@@ -120,7 +114,6 @@ describe('NgssmRemoteCallErrorComponent', () => {
           });
           store.stateValue = state;
           fixture.detectChanges();
-          await fixture.whenStable();
         });
 
         it(`should render the message when no detailed error is provided`, () => {
@@ -129,7 +122,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
           expect(element?.nativeElement.innerHTML).toContain('Testing error message');
         });
 
-        it(`should render the message when detailed error is provided`, async () => {
+        it(`should render the message when detailed error is provided`, () => {
           const state = updateNgssmRemoteCallState(store.stateValue, {
             remoteCalls: {
               [remoteCallId]: {
@@ -143,7 +136,6 @@ describe('NgssmRemoteCallErrorComponent', () => {
           });
           store.stateValue = state;
           fixture.detectChanges();
-          await fixture.whenStable();
 
           const element = fixture.debugElement.query(By.css('.ngssm-remote-call-error-container'));
 
@@ -152,7 +144,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
       });
 
       describe(`when no message is provided in remote call`, () => {
-        it(`should render the detailed error when it is provided`, async () => {
+        it(`should render the detailed error when it is provided`, () => {
           const state = updateNgssmRemoteCallState(store.stateValue, {
             remoteCalls: {
               [remoteCallId]: {
@@ -166,7 +158,6 @@ describe('NgssmRemoteCallErrorComponent', () => {
           });
           store.stateValue = state;
           fixture.detectChanges();
-          await fixture.whenStable();
 
           const element = fixture.debugElement.query(By.css('.ngssm-remote-call-error-container'));
 

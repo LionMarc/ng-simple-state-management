@@ -1,14 +1,19 @@
 import { ComponentType, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
-import { ElementRef, Injectable, OnDestroy, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ElementRef, inject, Injectable, OnDestroy, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
+import { Logger } from 'ngssm-store';
 
 import { NgssmMessageOverlayComponent } from './ngssm-message-overlay.component';
 import { NgssmOverlay } from './ngssm-overlay';
 
 @Injectable()
 export class NgssmOverlayBuilder implements OnDestroy {
+  private static nextId = 1;
+  private readonly logger = inject(Logger);
   private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
+  private id = NgssmOverlayBuilder.nextId++;
 
   private overlayRef: OverlayRef;
 
@@ -21,6 +26,7 @@ export class NgssmOverlayBuilder implements OnDestroy {
     private viewContainerRef: ViewContainerRef,
     renderer: Renderer2
   ) {
+    this.logger.information(`[NgssmOverlayBuilder] Creating overlay ${this.id}`);
     renderer.setStyle(this.elementRef.nativeElement, 'position', 'relative');
     this.ngssmOverlay.setContainerRef(this.elementRef);
 
@@ -31,6 +37,7 @@ export class NgssmOverlayBuilder implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.logger.information(`[NgssmOverlayBuilder] Destroying overlay ${this.id}`);
     this.overlayRef.detach();
   }
 

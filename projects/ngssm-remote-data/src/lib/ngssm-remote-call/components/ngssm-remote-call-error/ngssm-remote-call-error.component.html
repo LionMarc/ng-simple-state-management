@@ -1,7 +1,9 @@
-<div *ngIf="errorContainerRendered() === true" class="ngssm-remote-call-error-container">
-    {{errorDescription()}}
+@if (errorContainerRendered()) {
+  <div class="ngssm-remote-call-error-container">
+    {{ errorDescription() }}
 
-    <button mat-icon-button color="warn" class="ngssm-remote-call-error-close-button" (click)="hideComponent()">
-        <mat-icon class="fa-solid fa-square-xmark"></mat-icon>
+    <button mat-icon-button color="warn" class="ngssm-remote-call-error-close-button" (click)="errorContainerRendered.set(false)">
+      <mat-icon class="fa-solid fa-square-xmark"></mat-icon>
     </button>
-</div>
+  </div>
+}

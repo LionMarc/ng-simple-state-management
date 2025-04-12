@@ -1,46 +1,41 @@
-import { Directive, Input } from '@angular/core';
-import { combineLatest, Subscription } from 'rxjs';
+import { Directive, effect, inject, input } from '@angular/core';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal } from 'ngssm-store';
 import { NgssmOverlay, NgssmOverlayBuilder } from 'ngssm-toolkit';
 
 import { DataStatus } from '../model';
-import { selectRemoteData } from '../state';
+import { selectRemoteDataState } from '../state';
 
 @Directive({
   selector: '[ngssmRemoteDataOverlay]',
   standalone: true,
   providers: [NgssmOverlayBuilder, NgssmOverlay]
 })
-export class NgssmRemoteDataOverlayDirective extends NgSsmComponent {
-  private subscription: Subscription | undefined;
+export class NgssmRemoteDataOverlayDirective {
+  private readonly overlyBuilder = inject(NgssmOverlayBuilder);
+  private readonly remoteDataState = createSignal((state) => selectRemoteDataState(state));
+
   private isDisplayed = false;
 
-  constructor(
-    store: Store,
-    private overlyBuilder: NgssmOverlayBuilder
-  ) {
-    super(store);
-    this.unsubscribeAll$.subscribe(() => this.overlyBuilder.hideOverlay());
-  }
+  public readonly keys = input.required<string[]>({
+    alias: 'ngssmRemoteDataOverlay'
+  });
 
-  @Input() set ngssmRemoteDataOverlay(values: string[]) {
-    this.subscription?.unsubscribe();
-    this.subscription = undefined;
-    if (values.length > 0) {
-      this.subscription = combineLatest(values.map((v) => this.watch((s) => selectRemoteData(s, v)))).subscribe((v) => {
-        if (v.map((w) => w?.status).includes(DataStatus.loading)) {
-          if (!this.isDisplayed) {
-            this.overlyBuilder.showOverlay();
-            this.isDisplayed = true;
-          }
-        } else {
-          if (this.isDisplayed) {
-            this.overlyBuilder.hideOverlay();
-            this.isDisplayed = false;
-          }
+  constructor() {
+    effect(() => {
+      const remoteDataKeys = this.keys();
+      const state = this.remoteDataState();
+      if (remoteDataKeys.findIndex((r) => state[r]?.status === DataStatus.loading) !== -1) {
+        if (!this.isDisplayed) {
+          this.overlyBuilder.showOverlay();
+          this.isDisplayed = true;
         }
-      });
-    }
+      } else {
+        if (this.isDisplayed) {
+          this.overlyBuilder.hideOverlay();
+          this.isDisplayed = false;
+        }
+      }
+    });
   }
 }

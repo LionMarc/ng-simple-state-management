@@ -1,32 +1,27 @@
-import { Directive, Input } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Directive, effect, inject, input } from '@angular/core';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal } from 'ngssm-store';
 import { NgssmOverlay, NgssmOverlayBuilder } from 'ngssm-toolkit';
 
 import { RemoteCallStatus } from '../model';
-import { selectRemoteCall } from '../state';
+import { selectNgssmRemoteCallState } from '../state';
 
 @Directive({
   selector: '[ngssmRemoteCall]',
   standalone: true,
   providers: [NgssmOverlayBuilder, NgssmOverlay]
 })
-export class NgssmRemoteCallDirective extends NgSsmComponent {
-  private subscription: Subscription | undefined;
+export class NgssmRemoteCallDirective {
+  private readonly overlyBuilder = inject(NgssmOverlayBuilder);
+  private readonly remoteCalls = createSignal((state) => selectNgssmRemoteCallState(state).remoteCalls);
 
-  constructor(
-    store: Store,
-    private overlyBuilder: NgssmOverlayBuilder
-  ) {
-    super(store);
-    this.unsubscribeAll$.subscribe(() => this.overlyBuilder.hideOverlay());
-  }
+  public readonly ngssmRemoteCall = input.required<string>();
 
-  @Input('ngssmRemoteCall') set remoteCallId(value: string) {
-    this.subscription?.unsubscribe();
-    this.subscription = this.watch((s) => selectRemoteCall(s, value)).subscribe((value) => {
-      if (value.status === RemoteCallStatus.inProgress) {
+  constructor() {
+    effect(() => {
+      const id = this.ngssmRemoteCall();
+      const remoteCall = this.remoteCalls()[id];
+      if (remoteCall?.status === RemoteCallStatus.inProgress) {
         this.overlyBuilder.showOverlay();
       } else {
         this.overlyBuilder.hideOverlay();

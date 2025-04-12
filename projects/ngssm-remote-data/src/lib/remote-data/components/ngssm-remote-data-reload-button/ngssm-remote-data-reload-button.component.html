@@ -1,5 +1,13 @@
-<button mat-icon-button color="primary" (click)="reload()" [matTooltip]="tooltipMessage()"
-    [disabled]="disabled() === true" id="reloadButton" >
-    <mat-icon class="fa-solid fa-rotate-right" *ngIf="inLoadingStatus() === false"></mat-icon>
-    <mat-spinner [diameter]="24" *ngIf="inLoadingStatus() === true" id="loadingSpinner"></mat-spinner>
+<button
+  mat-icon-button
+  color="primary"
+  (click)="reload()"
+  [matTooltip]="tooltipMessage()"
+  [disabled]="disabled() === true"
+  id="reloadButton">
+  @if (inLoadingStatus()) {
+    <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
+  } @else {
+    <mat-icon class="fa-solid fa-rotate-right"></mat-icon>
+  }
 </button>
