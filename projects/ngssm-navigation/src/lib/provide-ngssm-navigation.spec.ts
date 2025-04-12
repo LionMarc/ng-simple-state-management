@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { fakeAsync, TestBed } from '@angular/core/testing';
 
 import { provideConsoleAppender, State, Store } from 'ngssm-store';
+import { StoreMock } from 'ngssm-store/testing';
 
 import { provideNgssmNavigation } from './provide-ngssm-navigation';
-import { StoreMock } from 'ngssm-store/testing';
 
 describe('provideNgssmNavigation', () => {
   let router: Router;
