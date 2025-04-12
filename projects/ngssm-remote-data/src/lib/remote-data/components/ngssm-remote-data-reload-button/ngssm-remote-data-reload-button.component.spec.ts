@@ -49,7 +49,7 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
     const remoteDataKey = 'remote';
 
     beforeEach(async () => {
-      component.remoteDataKeys = [remoteDataKey];
+      fixture.componentRef.setInput('remoteDataKeys', [remoteDataKey]);
       fixture.detectChanges();
       await fixture.whenStable();
     });
@@ -102,7 +102,7 @@ describe('NgssmRemoteDataReloadButtonComponent', () => {
 
           it(`should dispatch 'action-01' and 'action-02' when those actions are registered and when clicking on button`, async () => {
             spyOn(store, 'dispatchActionType');
-            component.actionTypes = ['action-01', 'action-02'];
+            fixture.componentRef.setInput('actionTypes', ['action-01', 'action-02']);
             const element = await loader.getHarness(MatButtonHarness);
 
             await element.click();

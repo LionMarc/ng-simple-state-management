@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy, Input, HostBinding, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, input, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Subject, switchMap } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal } from 'ngssm-store';
 
 import { selectNgssmRemoteCallState } from '../../state';
 import { RemoteCallStatus } from '../../model';
@@ -13,21 +12,23 @@ import { RemoteCallStatus } from '../../model';
   selector: 'ngssm-remote-call-error',
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './ngssm-remote-call-error.component.html',
-  styleUrls: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'ngssm-remote-call-error'
+  }
 })
-export class NgssmRemoteCallErrorComponent extends NgSsmComponent {
-  private readonly _remoteCallId$ = new Subject<string>();
+export class NgssmRemoteCallErrorComponent {
+  private readonly remoteCalls = createSignal((state) => selectNgssmRemoteCallState(state).remoteCalls);
+
+  public readonly remoteCallId = input<string>('');
 
   public readonly errorContainerRendered = signal<boolean>(false);
   public readonly errorDescription = signal<string>('');
 
-  @HostBinding('class') public hostCssClasses = 'ngssm-remote-call-error';
-
-  constructor(store: Store) {
-    super(store);
-
-    this._remoteCallId$.pipe(switchMap((v) => this.watch((s) => selectNgssmRemoteCallState(s).remoteCalls[v]))).subscribe((remoteCall) => {
+  constructor() {
+    effect(() => {
+      const id = this.remoteCallId();
+      const remoteCall = this.remoteCalls()[id];
       this.errorContainerRendered.set(remoteCall?.status === RemoteCallStatus.ko);
       const description: string =
         remoteCall?.status !== RemoteCallStatus.ko
@@ -39,13 +40,5 @@ export class NgssmRemoteCallErrorComponent extends NgSsmComponent {
               : 'No error description provided!';
       this.errorDescription.set(description);
     });
-  }
-
-  @Input() public set remoteCallId(value: string) {
-    this._remoteCallId$.next(value);
-  }
-
-  public hideComponent(): void {
-    this.errorContainerRendered.set(false);
   }
 }

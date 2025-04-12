@@ -20,7 +20,7 @@ export interface RemoteDataLoadingGuardParameters {
   providedIn: 'root'
 })
 export class RemoteDataLoadingGuard {
-  constructor(private store: Store) {}
+  private readonly store = inject(Store);
 
   public canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const parameters = route.data as RemoteDataLoadingGuardParameters;

@@ -1,45 +1,58 @@
 <h1 mat-dialog-title>List of caches</h1>
 <mat-dialog-content class="flex-column-stretch fxFlex">
-    <mat-table [dataSource]="caches$" class="fxFlex">
-        <ng-container matColumnDef="actions">
-            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <button mat-icon-button [disabled]="element.value.status === dataStatus.loading" (click)="reloadCache(element)" color="primary" id="reload_{{element.key}}">
-                    <mat-icon class="fa-solid fa-rotate-right"></mat-icon>
-                </button>
-            </mat-cell>
-        </ng-container>
+  <mat-table [dataSource]="caches()" class="fxFlex">
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [disabled]="element.value.status === dataStatus.loading"
+          (click)="reloadCache(element)"
+          color="primary"
+          id="reload_{{ element.key }}">
+          <mat-icon class="fa-solid fa-rotate-right"></mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
 
-        <ng-container matColumnDef="key">
-            <mat-header-cell *matHeaderCellDef> Key </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.key}} </mat-cell>
-        </ng-container>
+    <ng-container matColumnDef="key">
+      <mat-header-cell *matHeaderCellDef> Key </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.key }} </mat-cell>
+    </ng-container>
 
-        <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-            <mat-cell *matCellDef="let element">
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        @switch (element.value.status) {
+          @case (dataStatus.none) {
+            <mat-icon class="fa-solid fa-minus"></mat-icon>
+          }
+          @case (dataStatus.loaded) {
+            <mat-icon class="fa-solid fa-check" color="primary"></mat-icon>
+          }
+          @case (dataStatus.error) {
+            <mat-icon class="fa-solid fa-xmark" color="warn"></mat-icon>
+          }
+          @case (dataStatus.notFound) {
+            <mat-icon class="fa-solid fa-xmark" color="warn"></mat-icon>
+          }
+          @case (dataStatus.loading) {
+            <mat-spinner [diameter]="20"></mat-spinner>
+          }
+        }
+      </mat-cell>
+    </ng-container>
 
-                <div [ngSwitch]="element.value.status">
-                    <mat-icon *ngSwitchCase="dataStatus.none" class="fa-solid fa-minus"></mat-icon>
-                    <mat-icon *ngSwitchCase="dataStatus.loaded" class="fa-solid fa-check" color="primary"></mat-icon>
-                    <mat-icon *ngSwitchCase="dataStatus.error" class="fa-solid fa-xmark" color="warn"></mat-icon>
-                    <mat-icon *ngSwitchCase="dataStatus.notFound" class="fa-solid fa-xmark" color="warn"></mat-icon>
-                    <mat-spinner [diameter]="20" *ngSwitchCase="dataStatus.loading"></mat-spinner>
-                </div>
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef> Timestamp </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.value.timestamp }} </mat-cell>
+    </ng-container>
 
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="timestamp">
-            <mat-header-cell *matHeaderCellDef> Timestamp </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.value.timestamp}} </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="['actions', 'status', 'key', 'timestamp']; sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: ['actions', 'status', 'key', 'timestamp']"></mat-row>
-    </mat-table>
+    <mat-header-row *matHeaderRowDef="['actions', 'status', 'key', 'timestamp']; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['actions', 'status', 'key', 'timestamp']"></mat-row>
+  </mat-table>
 </mat-dialog-content>
 <mat-dialog-actions class="flex-row-center">
-    <span class="fxFlex"></span>
-    <button mat-button (click)="close()" id="closeButton">Close</button>
+  <span class="fxFlex"></span>
+  <button mat-button (click)="close()" id="closeButton">Close</button>
 </mat-dialog-actions>
