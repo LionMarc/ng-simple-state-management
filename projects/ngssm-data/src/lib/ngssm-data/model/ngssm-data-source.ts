@@ -25,7 +25,8 @@ export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditio
   dataLoadingFunc: NgssmDataLoading<TData, TParameter>; // Function to load data
   additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionProperty>; // Optional function to load additional properties
   initialParameter?: TParameter; // Optional initial parameter for the data source
-  initialParameterInvalid?: boolean; // Flag indicating if the initial parameter is invalid
+  initialParameterInvalid?: boolean; // Flag indicating if the initial parameter is invalid,
+  linkedToDataSource?: string; // If target data source valued is updated, a reload is made for this data source.
 }
 
 // Injection token for registering data sources
