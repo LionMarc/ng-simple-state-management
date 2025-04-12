@@ -34,6 +34,12 @@ jobs:
         reporter: java-junit
         fail-on-error: true
 
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.4.5
+      with:
+        reports: coverage/**/cobertura-coverage.xml
+        targetdir: coveragereport
+
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
