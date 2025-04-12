@@ -6,8 +6,7 @@ import { NgssmDataSourceValueStatus } from '../model';
 import { selectNgssmDataSourceValue } from '../state';
 
 @Pipe({
-  name: 'isNgssmDataSourceValueStatus',
-  standalone: true
+  name: 'isNgssmDataSourceValueStatus'
 })
 export class IsNgssmDataSourceValueStatusPipe implements PipeTransform {
   public transform(value: State, ...args: string[]): boolean {
