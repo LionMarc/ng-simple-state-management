@@ -1,1 +1,1 @@
-export * from './navigation-locked.guard';
+export * from './navigation-guards';

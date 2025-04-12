@@ -9,7 +9,7 @@ import { routingEffectInitializer } from './routing';
 
 const initializeNavigation = () => {
   inject(Router).config.forEach((route) => {
-    route.canDeactivate = [() => isNavigationUnLocked(), ...(route.canDeactivate ?? [])];
+    route.canDeactivate = [isNavigationUnLocked, ...(route.canDeactivate ?? [])];
   });
 };
 
