@@ -1,33 +1,27 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, input, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 import { getNgssmDataSourceValueAutoReloadTypes, NgssmDataSourceValueAutoReloadType } from '../../model';
 
 @Component({
   selector: 'ngssm-auto-reload',
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption],
   templateUrl: './ngssm-auto-reload.component.html',
-  styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmAutoReloadComponent extends NgSsmComponent {
+export class NgssmAutoReloadComponent implements OnDestroy {
   private timerId: number | undefined;
+
+  public readonly autoReloadAction = input<() => void>(() => {
+    // nothing by default
+  });
 
   public readonly reloadTypes = getNgssmDataSourceValueAutoReloadTypes();
   public readonly reloadTypeControl = new FormControl<NgssmDataSourceValueAutoReloadType>('Off');
 
-  @Input() autoReloadAction: () => void = () => {
-    // nothing by default
-  };
-
-  constructor(store: Store) {
-    super(store);
-
+  constructor() {
     this.reloadTypeControl.valueChanges.subscribe((v) => {
       if (v === 'Off' && this.timerId) {
         clearInterval(this.timerId);
@@ -46,14 +40,14 @@ export class NgssmAutoReloadComponent extends NgSsmComponent {
           break;
       }
 
-      this.timerId = setInterval(this.autoReloadAction, period) as unknown as number;
+      this.timerId = setInterval(this.autoReloadAction(), period) as unknown as number;
     });
+  }
 
-    this.unsubscribeAll$.subscribe(() => {
-      if (this.timerId) {
-        clearInterval(this.timerId);
-        this.timerId = undefined;
-      }
-    });
+  public ngOnDestroy(): void {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+      this.timerId = undefined;
+    }
   }
 }

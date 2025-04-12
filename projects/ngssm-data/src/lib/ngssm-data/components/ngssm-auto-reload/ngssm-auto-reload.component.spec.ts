@@ -51,7 +51,7 @@ describe('NgssmAutoReloadComponent', () => {
 
   it(`should execute the callback when auto reload is not off`, fakeAsync(async () => {
     let called = false;
-    component.autoReloadAction = () => (called = true);
+    fixture.componentRef.setInput('autoReloadAction', () => (called = true));
     const selector = await loader.getHarness(MatSelectHarness);
     await selector.open();
     await selector.clickOptions({ text: 'Every minute' });
