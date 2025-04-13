@@ -1,15 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import { NgssmAceEditorComponent, NgssmAceEditorMode } from 'ngssm-ace-editor';
 
 import { selectShellState } from '../../state';
-import { ShellNotification, ShellNotificationType } from '../../model';
+import { ShellNotificationType } from '../../model';
 import { DisplayNotificationDetailsAction, ShellActionType } from '../../actions';
 import { ShellNotificationComponent } from '../shell-notification/shell-notification.component';
 
@@ -20,51 +19,39 @@ import { ShellNotificationComponent } from '../shell-notification/shell-notifica
   styleUrls: ['./shell-notifications.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShellNotificationsComponent extends NgSsmComponent {
-  private readonly _notificationSelected$ = new BehaviorSubject<boolean>(false);
-  private readonly _notifications$ = new BehaviorSubject<ShellNotification[]>([]);
-  private readonly _details$ = new BehaviorSubject<string>('');
+export class ShellNotificationsComponent {
+  private readonly store = inject(Store);
+  private readonly selectedNotificaitonIndex = createSignal(
+    (state) => selectShellState(state).shellNotifications.selectedNotificaitonIndex
+  );
+
+  public readonly notificationSelected = signal<boolean>(false);
+  public readonly notifications = createSignal((state) => selectShellState(state).shellNotifications.notifications);
+  public readonly details = signal<string>('');
 
   public readonly shellNotificationType = ShellNotificationType;
   public readonly ngssmAceEditorMode = NgssmAceEditorMode;
 
-  constructor(store: Store) {
-    super(store);
-
-    this.watch((s) => selectShellState(s).shellNotifications.notifications).subscribe((values) => this._notifications$.next(values ?? []));
-
-    combineLatest([
-      this.watch((s) => selectShellState(s).shellNotifications.notifications),
-      this.watch((s) => selectShellState(s).shellNotifications.selectedNotificaitonIndex)
-    ]).subscribe((values) => {
-      const id = values[1] ?? -1;
-      this._notificationSelected$.next(id !== -1);
-      const details = (values[0] ?? [])[id]?.details;
+  constructor() {
+    effect(() => {
+      const items = this.notifications();
+      const index = this.selectedNotificaitonIndex();
+      const id = index ?? -1;
+      this.notificationSelected.set(id !== -1);
+      const details = items[id]?.details;
       if (details) {
-        this._details$.next(JSON.stringify(details, null, 2));
+        this.details.set(JSON.stringify(details, null, 2));
       } else {
-        this._details$.next('');
+        this.details.set('');
       }
     });
   }
 
-  public get notificationSelected$(): Observable<boolean> {
-    return this._notificationSelected$.asObservable();
-  }
-
-  public get notifications$(): Observable<ShellNotification[]> {
-    return this._notifications$.asObservable();
-  }
-
-  public get details$(): Observable<string> {
-    return this._details$.asObservable();
-  }
-
   public closeDetailsPanel(): void {
-    this.dispatchAction(new DisplayNotificationDetailsAction(undefined));
+    this.store.dispatchAction(new DisplayNotificationDetailsAction(undefined));
   }
 
   public clearAll(): void {
-    this.dispatchActionType(ShellActionType.clearAllNotifications);
+    this.store.dispatchActionType(ShellActionType.clearAllNotifications);
   }
 }

@@ -1,42 +1,84 @@
-<div class="ngssm-sidenav-main-container" *ngIf="(sidenavConfig$ | async) as config">
-    <div class="ngssm-sidenav-title" *ngIf="config.title">{{config.title}}</div>
-    <mat-divider *ngIf="config.title"></mat-divider>
-    <ng-container *ngFor="let section of config.sections;let last = last;" class="ngssm-sidenav-section-container">
+@if (config(); as sidenavConfig) {
+  <div class="ngssm-sidenav-main-container">
+    @if (sidenavConfig.title) {
+      <div class="ngssm-sidenav-title">{{ sidenavConfig.title }}</div>
+      <mat-divider></mat-divider>
+    }
+
+    @for (section of sidenavConfig.sections; track section; let last = $last) {
+      <ng-container class="ngssm-sidenav-section-container">
         <div class="ngssm-sidenav-section-item-container">
-            <div *ngIf="!section.route" class="ngssm-sidenav-section-item">
-                <span *ngIf="section.icon" [innerHTML]="section.icon" class="ngssm-sidenav-item-icon"></span>
-                {{section.label}}
-                <ngssm-wrapper *ngIf="section.component" [item]="section.component"></ngssm-wrapper>
-            </div>
+          @if (!section.route) {
+            <div class="ngssm-sidenav-section-item">
+              @if (section.icon) {
+                <span [innerHTML]="section.icon" class="ngssm-sidenav-item-icon"></span>
+              }
 
-            <a [routerLink]="section.route" routerLinkActive="ngssm-sidenav-active-link"
-                [routerLinkActiveOptions]="{exact:section.linkActiveOnlyIfExact === true}" *ngIf="section.route"
+              {{ section.label }}
+              @if (section.component) {
+                <ngssm-wrapper [item]="section.component"></ngssm-wrapper>
+              }
+            </div>
+          } @else {
+            <a
+              [routerLink]="section.route"
+              routerLinkActive="ngssm-sidenav-active-link"
+              [routerLinkActiveOptions]="{ exact: section.linkActiveOnlyIfExact === true }"
+              class="ngssm-sidenav-section-item">
+              <div>
+                @if (section.icon) {
+                  <span [innerHTML]="section.icon" class="ngssm-sidenav-item-icon"></span>
+                }
+
+                {{ section.label }}
+
+                @if (section.component) {
+                  <ngssm-wrapper [item]="section.component"></ngssm-wrapper>
+                }
+              </div>
+            </a>
+          }
+        </div>
+        @for (item of section.items; track item) {
+          <div class="ngssm-sidenav-item-container">
+            @if (!item.route) {
+              <div class="ngssm-sidenav-section-item">
+                @if (item.icon) {
+                  <span [innerHTML]="item.icon" class="ngssm-sidenav-item-icon"></span>
+                }
+
+                {{ item.label }}
+
+                @if (item.component) {
+                  <ngssm-wrapper [item]="item.component"></ngssm-wrapper>
+                }
+              </div>
+            } @else {
+              <a
+                [routerLink]="item.route"
+                routerLinkActive="ngssm-sidenav-active-link"
+                [routerLinkActiveOptions]="{ exact: item.linkActiveOnlyIfExact === true }"
                 class="ngssm-sidenav-section-item">
                 <div>
-                    <span *ngIf="section.icon" [innerHTML]="section.icon" class="ngssm-sidenav-item-icon"></span>
-                    {{section.label}}
-                    <ngssm-wrapper *ngIf="section.component" [item]="section.component"></ngssm-wrapper>
-                </div>
-            </a>
-        </div>
-        <div *ngFor="let item of section.items" class="ngssm-sidenav-item-container">
-            <div *ngIf="!item.route" class="ngssm-sidenav-section-item">
-                <span *ngIf="item.icon" [innerHTML]="item.icon" class="ngssm-sidenav-item-icon"></span>
-                {{item.label}}
-                <ngssm-wrapper *ngIf="item.component" [item]="item.component"></ngssm-wrapper>
-            </div>
+                  @if (item.icon) {
+                    <span [innerHTML]="item.icon" class="ngssm-sidenav-item-icon"></span>
+                  }
 
-            <a [routerLink]="item.route" routerLinkActive="ngssm-sidenav-active-link"
-                [routerLinkActiveOptions]="{exact:item.linkActiveOnlyIfExact === true}" *ngIf="item.route"
-                class="ngssm-sidenav-section-item">
-                <div>
-                    <span *ngIf="item.icon" [innerHTML]="item.icon" class="ngssm-sidenav-item-icon"></span>
-                    {{item.label}}
-                    <ngssm-wrapper *ngIf="item.component" [item]="item.component"></ngssm-wrapper>
-                </div>
-            </a>
-        </div>
+                  {{ item.label }}
 
-        <mat-divider *ngIf="!last"></mat-divider>
-    </ng-container>
-</div>
+                  @if (item.component) {
+                    <ngssm-wrapper [item]="item.component"></ngssm-wrapper>
+                  }
+                </div>
+              </a>
+            }
+          </div>
+        }
+
+        @if (!last) {
+          <mat-divider></mat-divider>
+        }
+      </ng-container>
+    }
+  </div>
+}

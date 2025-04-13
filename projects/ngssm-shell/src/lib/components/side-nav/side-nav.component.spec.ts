@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { SideNavComponent } from './side-nav.component';
 
 describe('SideNavComponent', () => {
-  let component: SideNavComponent;
   let fixture: ComponentFixture<SideNavComponent>;
 
   beforeEach(async () => {
@@ -13,15 +12,14 @@ describe('SideNavComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(SideNavComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   describe('Given a title is set in the sidenav config', () => {
     beforeEach(() => {
-      component.config = {
+      fixture.componentRef.setInput('config', {
         title: 'Menu Title'
-      };
+      });
     });
 
     describe('When I display the sidenav', () => {
@@ -40,7 +38,7 @@ describe('SideNavComponent', () => {
 
   describe('Given sections with no children and no route are set in the sidenav config', () => {
     beforeEach(() => {
-      component.config = {
+      fixture.componentRef.setInput('config', {
         sections: [
           {
             label: 'Section 1'
@@ -49,7 +47,7 @@ describe('SideNavComponent', () => {
             label: 'Section 2'
           }
         ]
-      };
+      });
     });
 
     describe('When I display the sidenav', () => {
@@ -69,14 +67,14 @@ describe('SideNavComponent', () => {
 
   describe('Given a section with an icon set in the sidenav config', () => {
     beforeEach(() => {
-      component.config = {
+      fixture.componentRef.setInput('config', {
         sections: [
           {
             label: 'Section 1',
             icon: '<i class="fa-solid fa-house"></i>'
           }
         ]
-      };
+      });
     });
 
     describe('When I display the sidenav', () => {

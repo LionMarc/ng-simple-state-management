@@ -1,47 +1,54 @@
-<div class="ngssm-shell-container" *ngIf="(shellConfig$ | async) as config; else noShellConfig">
+@if (shellConfig(); as config) {
+  <div class="ngssm-shell-container">
     <mat-sidenav-container>
-        <mat-sidenav-content>
-            <mat-toolbar class="ngssm-shell-header">
-                <button mat-icon-button (click)="toggleNavigationBarState()">
-                    <mat-icon class="fa-solid fa-bars"></mat-icon>
-                </button>
-                <img [src]="config.logo" *ngIf="config.logo" class="ngssm-shell-header-logo" alt="logo" />
-                <span class="ngssm-shell-header-title" *ngIf="config.applicationTitle">
-                    {{config.applicationTitle}}
-                </span>
-                <ng-content></ng-content>
-            </mat-toolbar>
+      <mat-sidenav-content>
+        <mat-toolbar class="ngssm-shell-header">
+          <button mat-icon-button (click)="toggleNavigationBarState()">
+            <mat-icon class="fa-solid fa-bars"></mat-icon>
+          </button>
+          @if (config.logo) {
+            <img [src]="config.logo" class="ngssm-shell-header-logo" alt="logo" />
+          }
 
-            <mat-sidenav-container>
-                <mat-sidenav mode="side" [opened]="(navigationBarOpen$ | async)===true"
-                    class="ngssm-shell-navigation-bar">
-                    <ngssm-side-nav [config]="config.sidenavConfig"></ngssm-side-nav>
-                </mat-sidenav>
-                <mat-sidenav-content class="ngssm-shell-content">
-                    <router-outlet></router-outlet>
-                </mat-sidenav-content>
-            </mat-sidenav-container>
-        </mat-sidenav-content>
+          @if (config.applicationTitle) {
+            <span class="ngssm-shell-header-title">
+              {{ config.applicationTitle }}
+            </span>
+          }
 
-        <mat-sidenav mode="over" opened="false" #rightSidebar position="end" class="ngssm-shell-messages-bar">
-            <ngssm-shell-notifications class="ngssm-shell-notifications"></ngssm-shell-notifications>
-        </mat-sidenav>
+          <ng-content></ng-content>
+        </mat-toolbar>
+
+        <mat-sidenav-container>
+          <mat-sidenav mode="side" [opened]="navigationBarRendered()" class="ngssm-shell-navigation-bar">
+            <ngssm-side-nav [config]="config.sidenavConfig"></ngssm-side-nav>
+          </mat-sidenav>
+          <mat-sidenav-content class="ngssm-shell-content">
+            <router-outlet></router-outlet>
+          </mat-sidenav-content>
+        </mat-sidenav-container>
+      </mat-sidenav-content>
+
+      <mat-sidenav mode="over" opened="false" #rightSidebar position="end" class="ngssm-shell-messages-bar">
+        <ngssm-shell-notifications class="ngssm-shell-notifications"></ngssm-shell-notifications>
+      </mat-sidenav>
     </mat-sidenav-container>
-    <mat-toolbar class="ngssm-shell-footer" *ngIf="config.displayFooter === true">
+    @if (config.displayFooter) {
+      <mat-toolbar class="ngssm-shell-footer">
         <ngssm-wrapper *ngFor="let component of config.footerComponents" [item]="component"></ngssm-wrapper>
         <span class="ngssm-fxFlex"></span>
-        <button mat-icon-button (click)="rightSidebar.toggle()" *ngIf="config.displayFooterNotificationsButton">
-            <mat-icon class="fa-regular fa-message" [matBadge]="notificationsCount$ | async"
-                *ngIf="(notificationsCount$ | async) ?? 0 > 0">
-            </mat-icon>
-            <mat-icon class="fa-regular fa-message" *ngIf="(notificationsCount$ | async) === 0">
-            </mat-icon>
-        </button>
-    </mat-toolbar>
-</div>
-
-<ng-template #noShellConfig>
-    <div class="ngssm-shell-no-config">
-        Please, provide a config for the shell.
-    </div>
-</ng-template>
+        @if (config.displayFooterNotificationsButton) {
+          <button mat-icon-button (click)="rightSidebar.toggle()">
+            @if (notificationsCount() > 0) {
+              <mat-icon class="fa-regular fa-message" [matBadge]="notificationsCount()"> </mat-icon>
+            } @else {
+              <mat-icon class="fa-regular fa-message"> </mat-icon>
+            }
+          </button>
+        }
+      </mat-toolbar>
+    }
+  </div>
+} @else {
+  <div class="ngssm-shell-no-config">Please, provide a config for the shell.</div>
+}

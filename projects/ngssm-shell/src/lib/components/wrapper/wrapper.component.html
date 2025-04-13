@@ -1,1 +1,3 @@
-<span *ngIf="(innerHtml$ | async) as innerHtml" [innerHTML]="innerHtml"></span>
+@if (innerHtml(); as content) {
+  <span [innerHTML]="content"></span>
+}

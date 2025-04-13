@@ -42,7 +42,8 @@ describe('WrapperComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [UndefinedComponent]
+        imports: [UndefinedComponent],
+        teardown: { destroyAfterEach: false }
       }).compileComponents();
 
       fixture = TestBed.createComponent(UndefinedComponent);
@@ -52,7 +53,7 @@ describe('WrapperComponent', () => {
     describe('When I display the component in the wrapper', () => {
       it('Then nothing is displayed', () => {
         const content = fixture.debugElement.query(By.css('ngssm-wrapper')).nativeElement;
-        expect(content?.innerHTML).toEqual('<!--bindings={}-->');
+        expect(content?.innerHTML).toEqual('<!--container-->');
       });
     });
   });

@@ -1,8 +1,5 @@
-import { Component, ChangeDetectionStrategy, Input, ViewContainerRef, Type } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewContainerRef, Type, inject, signal, input, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
   selector: 'ngssm-wrapper',
@@ -10,26 +7,22 @@ import { NgSsmComponent, Store } from 'ngssm-store';
   templateUrl: './wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WrapperComponent extends NgSsmComponent {
-  private readonly _innerHtml$ = new BehaviorSubject<string | undefined>(undefined);
+export class WrapperComponent {
+  private readonly viewContainerRef = inject(ViewContainerRef);
 
-  constructor(
-    store: Store,
-    private viewContainerRef: ViewContainerRef
-  ) {
-    super(store);
-  }
+  public readonly item = input<string | Type<unknown> | undefined>();
 
-  @Input() public set item(value: string | Type<unknown> | undefined) {
-    if (typeof value === 'string') {
-      this._innerHtml$.next(value);
-    } else if (value) {
-      this.viewContainerRef.clear();
-      this.viewContainerRef.createComponent(value);
-    }
-  }
+  public readonly innerHtml = signal<string | undefined>(undefined);
 
-  public get innerHtml$(): Observable<string | undefined> {
-    return this._innerHtml$.asObservable();
+  constructor() {
+    effect(() => {
+      const inputItem = this.item();
+      if (typeof inputItem === 'string') {
+        this.innerHtml.set(inputItem);
+      } else if (inputItem) {
+        this.viewContainerRef.clear();
+        this.viewContainerRef.createComponent(inputItem);
+      }
+    });
   }
 }
