@@ -1,6 +1,7 @@
-<mat-button-toggle-group [multiple]="true" [hideMultipleSelectionIndicator]="hideMultipleSelectionIndicator">
-    <mat-button-toggle *ngFor="let item of items" [toggleElementVisibility]="item.key"
-        [checked]="store.state() | isElementVisible:item.key" [id]="item.key">
-        {{item.label}}
+<mat-button-toggle-group [multiple]="true" [hideMultipleSelectionIndicator]="hideMultipleSelectionIndicator()">
+  @for (item of items(); track item.key) {
+    <mat-button-toggle [toggleElementVisibility]="item.key" [checked]="store.state() | isElementVisible: item.key" [id]="item.key">
+      {{ item.label }}
     </mat-button-toggle>
+  }
 </mat-button-toggle-group>

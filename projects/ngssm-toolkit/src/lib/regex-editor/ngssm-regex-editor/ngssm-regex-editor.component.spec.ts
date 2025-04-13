@@ -17,7 +17,7 @@ describe('NgssmRegexEditorComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [NgssmRegexEditorComponent, NoopAnimationsModule],
-        teardown: { destroyAfterEach: false }
+        teardown: { destroyAfterEach: true }
       }).compileComponents();
 
       fixture = TestBed.createComponent(NgssmRegexEditorComponent);

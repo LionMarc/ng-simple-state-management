@@ -31,7 +31,7 @@ describe('VisibilityToggleGroupComponent', () => {
     fixture.nativeElement.style['min-height'] = '300px';
     loader = TestbedHarnessEnvironment.loader(fixture);
     component = fixture.componentInstance;
-    component.items = [
+    fixture.componentRef.setInput('items', [
       {
         label: 'Left',
         key: 'left-value'
@@ -40,7 +40,7 @@ describe('VisibilityToggleGroupComponent', () => {
         label: 'Right',
         key: 'right-value'
       }
-    ];
+    ]);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -69,8 +69,8 @@ describe('VisibilityToggleGroupComponent', () => {
     expect(check).toBeTruthy();
   });
 
-  it(`should not render a check indicator when hideMultipleSelectionIndicator is true and itme is selected`, async () => {
-    component.hideMultipleSelectionIndicator = true;
+  it(`should not render a check indicator when hideMultipleSelectionIndicator is true and item is selected`, async () => {
+    fixture.componentRef.setInput('hideMultipleSelectionIndicator', true);
     fixture.detectChanges();
     await fixture.whenStable();
     const element = await loader.getHarness(MatButtonToggleHarness.with({ selector: '#left-value' }));
