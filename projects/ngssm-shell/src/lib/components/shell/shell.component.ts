@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -6,9 +6,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 
 import { LockStatus, ShellConfig } from '../../model';
 import { selectShellState } from '../../state';
@@ -32,58 +31,40 @@ import { WrapperComponent } from '../wrapper/wrapper.component';
     WrapperComponent
   ],
   templateUrl: './shell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'ngssm-shell'
+  }
 })
-export class ShellComponent extends NgSsmComponent {
-  private readonly _shellConfig$ = new BehaviorSubject<ShellConfig | undefined>(undefined);
-  private readonly _navigationBarOpen$ = new BehaviorSubject<boolean>(true);
+export class ShellComponent {
+  private readonly store = inject(Store);
+  private readonly navigationBarOpen = createSignal((state) => selectShellState(state).navigationBarOpen);
+  private readonly navigationBarLockStatus = createSignal((state) => selectShellState(state).navigationBarLockStatus);
 
-  @HostBinding('class') class = 'ngssm-shell';
+  public readonly shellConfig = input<ShellConfig>();
 
-  constructor(store: Store) {
-    super(store);
+  public readonly notificationsCount = createSignal((state) => selectShellState(state).shellNotifications.notifications.length);
+  public readonly navigationBarRendered = computed(() => {
+    let isOpen = false;
 
-    combineLatest([
-      this.watch((s) => selectShellState(s).navigationBarOpen),
-      this.watch((s) => selectShellState(s).navigationBarLockStatus)
-    ]).subscribe((values) => {
-      let isOpen = false;
+    switch (this.navigationBarLockStatus()) {
+      case LockStatus.lockedClosed:
+        isOpen = false;
+        break;
 
-      switch (values[1]) {
-        case LockStatus.lockedClosed:
-          isOpen = false;
-          break;
+      case LockStatus.lockedOpen:
+        isOpen = true;
+        break;
 
-        case LockStatus.lockedOpen:
-          isOpen = true;
-          break;
+      default:
+        isOpen = this.navigationBarOpen();
+        break;
+    }
 
-        default:
-          isOpen = values[0];
-          break;
-      }
-
-      this._navigationBarOpen$.next(isOpen);
-    });
-  }
-
-  @Input() public set shellConfig(value: ShellConfig) {
-    this._shellConfig$.next(value);
-  }
-
-  public get navigationBarOpen$(): Observable<boolean> {
-    return this._navigationBarOpen$.asObservable();
-  }
-
-  public get shellConfig$(): Observable<ShellConfig | undefined> {
-    return this._shellConfig$.asObservable();
-  }
-
-  public get notificationsCount$(): Observable<number> {
-    return this.watch((s) => selectShellState(s).shellNotifications.notifications.length);
-  }
+    return isOpen;
+  });
 
   public toggleNavigationBarState(): void {
-    this.dispatchActionType(ShellActionType.toggleNavigationBarState);
+    this.store.dispatchActionType(ShellActionType.toggleNavigationBarState);
   }
 }

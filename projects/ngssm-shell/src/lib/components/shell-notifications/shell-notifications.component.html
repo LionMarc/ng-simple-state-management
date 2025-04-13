@@ -1,37 +1,34 @@
-<mat-card appearance="outlined" class="flex-column-stretch fxFlex"
-    *ngIf="(notificationSelected$ | async) === false; else notificationDetails">
+@if (!notificationSelected()) {
+  <mat-card appearance="outlined" class="flex-column-stretch fxFlex">
     <mat-card-header>
-        <mat-card-title class="flex-row-center">
-            Notifications
-            <span class="fxFlex"></span>
-            <button mat-stroked-button color="primary" [disabled]="(notifications$ | async)?.length === 0"
-                (click)="clearAll()">
-                Clear all
-            </button>
-        </mat-card-title>
+      <mat-card-title class="flex-row-center">
+        Notifications
+        <span class="fxFlex"></span>
+        <button mat-stroked-button color="primary" [disabled]="notifications().length === 0" (click)="clearAll()">
+          Clear all
+        </button>
+      </mat-card-title>
     </mat-card-header>
 
     <mat-card-content class="notifications-container flex-column-stretch fxFlex">
-        <ngssm-shell-notification *ngFor="let notification of notifications$ | async;let index=index"
-            [shellNotificationIndex]="index" [displayDetailsButton]="true">
-        </ngssm-shell-notification>
+      @for (notification of notifications(); track notification; let index = $index) {
+        <ngssm-shell-notification [shellNotificationIndex]="index" [displayDetailsButton]="true"> </ngssm-shell-notification>
+      }
     </mat-card-content>
-</mat-card>
+  </mat-card>
+} @else {
+  <mat-card appearance="outlined" class="flex-column-stretch fxFlex">
+    <mat-card-header>
+      <mat-card-title class="flex-row-center">
+        Notification details
+        <span class="fxFlex"></span>
+        <button mat-icon-button (click)="closeDetailsPanel()">
+          <mat-icon class="fa-solid fa-rectangle-xmark"></mat-icon>
+        </button>
+      </mat-card-title>
+    </mat-card-header>
 
-<ng-template #notificationDetails>
-    <mat-card appearance="outlined" class="flex-column-stretch fxFlex">
-        <mat-card-header>
-            <mat-card-title class="flex-row-center">
-                Notification details
-                <span class="fxFlex"></span>
-                <button mat-icon-button (click)="closeDetailsPanel()">
-                    <mat-icon class="fa-solid fa-rectangle-xmark"></mat-icon>
-                </button>
-            </mat-card-title>
-        </mat-card-header>
-
-        <ngssm-ace-editor class="fxFlex" [readonly]="true" [content]="(details$ | async) ?? ''"
-            [editorMode]="ngssmAceEditorMode.json">
-        </ngssm-ace-editor>
-    </mat-card>
-</ng-template>
+    <ngssm-ace-editor class="fxFlex" [readonly]="true" [content]="details()" [editorMode]="ngssmAceEditorMode.json">
+    </ngssm-ace-editor>
+  </mat-card>
+}
