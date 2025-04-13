@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 
 import { NodeData } from '../../model';
 import { selectNgssmTreeState } from '../../state';
@@ -17,22 +16,27 @@ import { SelectNodeAction } from '../../actions';
   styleUrls: ['./ngssm-breadcrumb.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmBreadcrumbComponent extends NgSsmComponent {
-  private readonly _treeId$ = new BehaviorSubject<string | undefined>(undefined);
-  private readonly _nodes$ = new BehaviorSubject<NodeData[]>([]);
+export class NgssmBreadcrumbComponent {
+  private readonly store = inject(Store);
+  private readonly treeState = createSignal((state) => selectNgssmTreeState(state));
 
-  constructor(store: Store) {
-    super(store);
+  public readonly treeId = input<string | undefined>(undefined);
 
-    combineLatest([this._treeId$, this.watch((s) => selectNgssmTreeState(s))]).subscribe((values) => {
-      if (!values[0]) {
-        this._nodes$.next([]);
+  public readonly nodes = signal<NodeData[]>([]);
+
+  constructor() {
+    effect(() => {
+      const currentTreeId = this.treeId();
+      if (!currentTreeId) {
+        this.nodes.set([]);
         return;
       }
 
-      const tree = values[1]?.trees[values[0]];
+      const state = this.treeState();
+
+      const tree = state?.trees[currentTreeId];
       if (!tree) {
-        this._nodes$.next([]);
+        this.nodes.set([]);
         return;
       }
 
@@ -48,22 +52,14 @@ export class NgssmBreadcrumbComponent extends NgSsmComponent {
         path.push(tree.nodes[0]?.node);
       }
 
-      this._nodes$.next(path);
+      this.nodes.set(path);
     });
   }
 
-  @Input() public set treeId(value: string) {
-    this._treeId$.next(value);
-  }
-
-  public get nodes$(): Observable<NodeData[]> {
-    return this._nodes$.asObservable();
-  }
-
   public selectNode(node: NodeData): void {
-    const treeId = this._treeId$.getValue();
+    const treeId = this.treeId();
     if (treeId) {
-      this.dispatchAction(new SelectNodeAction(treeId, node.nodeId));
+      this.store.dispatchAction(new SelectNodeAction(treeId, node.nodeId));
     }
   }
 }

@@ -1,14 +1,13 @@
-import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, inject, input, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, Observable, Subscription, takeUntil } from 'rxjs';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 
-import { NgssmExpressionTree, NgssmExpressionTreeConfig, NgssmExpressionTreeNode } from '../../model';
+import { NgssmExpressionTreeConfig, NgssmExpressionTreeNode } from '../../model';
 import { selectNgssmExpressionTreeState } from '../../state';
 import { NgssmCollapseExpressionTreeNodeAction, NgssmExpandExpressionTreeNodeAction } from '../../actions';
 import { NgssmExpressionTreeNodeComponent } from '../ngssm-expression-tree-node/ngssm-expression-tree-node.component';
@@ -19,9 +18,10 @@ import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tre
   imports: [
     CommonModule,
     ScrollingModule,
-    MatCardModule,
-    MatDividerModule,
-    MatIconModule,
+    MatCard,
+    MatCardContent,
+    MatDivider,
+    MatIcon,
     NgssmExpressionTreeNodeComponent,
     NgssmExpressionTreeNodeDetailsComponent
   ],
@@ -29,91 +29,80 @@ import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tre
   styleUrls: ['./ngssm-expression-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmExpressionTreeComponent<T = unknown> extends NgSsmComponent {
-  private readonly _tree$ = new BehaviorSubject<NgssmExpressionTree | undefined>(undefined);
-  private readonly _displayedNodes$ = new BehaviorSubject<NgssmExpressionTreeNode[]>([]);
-  private readonly _treeConfig$ = new BehaviorSubject<NgssmExpressionTreeConfig<T> | undefined>(undefined);
+export class NgssmExpressionTreeComponent<T = unknown> {
+  private readonly store = inject(Store);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-  private _treeSubscription?: Subscription;
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
 
-  constructor(
-    store: Store,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    super(store);
+  public readonly treeConfig = input<NgssmExpressionTreeConfig<T> | null | undefined, NgssmExpressionTreeConfig<T> | null | undefined>(
+    undefined,
+    {
+      transform: (value) => {
+        if (!value) {
+          return value;
+        }
 
-    this._tree$.pipe(takeUntil(this.unsubscribeAll$)).subscribe((tree) => {
-      const displayedNodes: NgssmExpressionTreeNode[] = [];
+        const config: NgssmExpressionTreeConfig<T> = {
+          ...value
+        };
+        if (!config.getNodeLabel) {
+          config.getNodeLabel = (node) => node.data.id;
+        }
+
+        if (!config.expandIconClass) {
+          config.expandIconClass = 'fa-solid fa-chevron-right';
+        }
+
+        if (!config.collapseIconClass) {
+          config.collapseIconClass = 'fa-solid fa-chevron-down';
+        }
+
+        return config;
+      }
+    }
+  );
+  public readonly displayedNodes = signal<NgssmExpressionTreeNode[]>([]);
+
+  constructor() {
+    effect(() => {
+      const config = this.treeConfig();
+      if (!config) {
+        this.displayedNodes.set([]);
+        return;
+      }
+
+      const nodes: NgssmExpressionTreeNode[] = [];
       const collapsedNodes = new Set<string>();
-      (tree?.nodes ?? []).forEach((node) => {
+      (this.trees()[config.treeId]?.nodes ?? []).forEach((node) => {
         if (node.data.isExpandable === true && node.isExpanded === false) {
           collapsedNodes.add(node.data.id);
         }
 
         if (!node.data.parentId || node.path.findIndex((p) => collapsedNodes.has(p)) === -1) {
-          displayedNodes.push(node);
+          nodes.push(node);
         }
       });
 
-      this._displayedNodes$.next(displayedNodes);
+      this.displayedNodes.set(nodes);
     });
-  }
-
-  @Input() public set treeConfig(value: NgssmExpressionTreeConfig<T> | null | undefined) {
-    this._treeSubscription?.unsubscribe();
-    if (!value) {
-      this._treeConfig$.next(undefined);
-      return;
-    }
-
-    const config: NgssmExpressionTreeConfig<T> = {
-      ...value
-    };
-    if (!config.getNodeLabel) {
-      config.getNodeLabel = (node) => node.data.id;
-    }
-
-    if (!config.expandIconClass) {
-      config.expandIconClass = 'fa-solid fa-chevron-right';
-    }
-
-    if (!config.collapseIconClass) {
-      config.collapseIconClass = 'fa-solid fa-chevron-down';
-    }
-
-    this._treeConfig$.next(config);
-    this._treeSubscription = this.watch((s) => selectNgssmExpressionTreeState(s).trees[value.treeId]).subscribe((tree) =>
-      this._tree$.next(tree)
-    );
-  }
-
-  public get treeConfig$(): Observable<NgssmExpressionTreeConfig<T> | undefined> {
-    return this._treeConfig$.asObservable();
-  }
-
-  public get displayedNodes$(): Observable<NgssmExpressionTreeNode[]> {
-    return this._displayedNodes$.asObservable();
   }
 
   public getItemId(_: number, node: NgssmExpressionTreeNode): string {
     return node.data.id;
   }
 
-  public getDefaultPadding(): number {
-    return this._treeConfig$.getValue()?.nodePadding ?? 20;
-  }
-
   public expand(node: NgssmExpressionTreeNode): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
+    const treeId = this.treeConfig()?.treeId;
     if (treeId) {
-      this.dispatchAction(new NgssmExpandExpressionTreeNodeAction(treeId, node.data.id));
+      this.store.dispatchAction(new NgssmExpandExpressionTreeNodeAction(treeId, node.data.id));
     }
   }
 
   public collapse(node: NgssmExpressionTreeNode): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
+    const treeId = this.treeConfig()?.treeId;
     if (treeId) {
-      this.dispatchAction(new NgssmCollapseExpressionTreeNodeAction(treeId, node.data.id));
+      this.store.dispatchAction(new NgssmCollapseExpressionTreeNodeAction(treeId, node.data.id));
     }
   }
 
