@@ -1,13 +1,12 @@
-<button mat-icon-button color="primary" [matMenuTriggerFor]="help" id="helpButton">
-    <mat-icon class="fa-solid fa-circle-question"></mat-icon>
+<button mat-icon-button color="primary" [matMenuTriggerFor]="helpMenu" id="helpButton">
+  <mat-icon class="fa-solid fa-circle-question"></mat-icon>
 </button>
-<mat-menu #help="matMenu">
-    <div class="ngssm-help-panel" *ngIf="(help$ | async) === undefined;else withInnerHTML">
-        <ng-content></ng-content>
+<mat-menu #helpMenu="matMenu">
+  @if (help(); as content) {
+    <div class="ngssm-help-panel" [innerHTML]="content"></div>
+  } @else {
+    <div class="ngssm-help-panel">
+      <ng-content></ng-content>
     </div>
+  }
 </mat-menu>
-
-<ng-template #withInnerHTML>
-    <div class="ngssm-help-panel" [innerHTML]="help$ | async">
-    </div>
-</ng-template>

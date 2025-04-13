@@ -1,12 +1,18 @@
-<div class="file-picker-container" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
-    (dragleave)="onDragLeave($event)" [ngClass]="{'picker-disabled': disabled}">
-    <input type="file" class="hidden" #fileInput (change)="onFileSelected()">
-    <div *ngIf="empty === false" class="flex-column-stretch">
-        <div class="file-picker-file-name">
-            {{value?.name}}
-        </div>
-        <div class="file-picker-file-information" *ngIf="(displayDetails$ | async) === true">
-            {{value?.size | ngssmFileSize}}, last modified on {{lastModificationDate}}
-        </div>
+<div
+  class="file-picker-container"
+  (drop)="onDrop($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  [ngClass]="{ 'picker-disabled': disabled }">
+  <input type="file" class="hidden" #fileInput (change)="onFileSelected()" />
+  @if (!empty) {
+    <div class="flex-column-stretch">
+      <div class="file-picker-file-name">
+        {{ value?.name }}
+      </div>
+      @if (displayDetails()) {
+        <div class="file-picker-file-information">{{ value?.size | ngssmFileSize }}, last modified on {{ lastModificationDate }}</div>
+      }
     </div>
+  }
 </div>

@@ -1,9 +1,9 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostBinding, Input, OnDestroy, Optional, Self, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, input, Input, OnDestroy, Optional, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { NgssmFileSizePipe } from './ngssm-file-size.pipe';
 
@@ -21,11 +21,11 @@ export const noop = () => {
 export class NgssmFilePickerComponent implements MatFormFieldControl<File>, ControlValueAccessor, OnDestroy {
   private static nextId = 0;
 
-  private readonly _displayDetails$ = new BehaviorSubject<boolean>(true);
-
   private onChangeCallback: (_: unknown) => void = noop;
   private _required = false;
   private _disabled = false;
+
+  public readonly displayDetails = input(true);
 
   @ViewChild('fileInput', { static: true }) fileInput: ElementRef | undefined;
 
@@ -86,15 +86,6 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
     }
 
     return '';
-  }
-
-  public get displayDetails$(): Observable<boolean> {
-    return this._displayDetails$.asObservable();
-  }
-
-  @Input()
-  public set displayDetails(value: boolean) {
-    this._displayDetails$.next(value);
   }
 
   public setDescribedByIds(): void {
