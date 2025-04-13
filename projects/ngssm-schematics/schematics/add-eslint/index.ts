@@ -3,7 +3,7 @@ import { addPackageJsonDependency, NodeDependencyType, NodeDependency } from '@s
 
 function addEslint(): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const dependencies: NodeDependency[] = [{ type: NodeDependencyType.Dev, version: '^8.57.0', name: 'eslint' }];
+    const dependencies: NodeDependency[] = [{ type: NodeDependencyType.Dev, version: '^19.3.0', name: 'angular-eslint' }];
 
     dependencies.forEach((dependency) => {
       addPackageJsonDependency(host, dependency);
@@ -19,10 +19,9 @@ function addPrettierDependencies(): Rule {
     const dependencies: NodeDependency[] = [
       { type: NodeDependencyType.Dev, version: '^3.0.0', name: 'prettier' },
       { type: NodeDependencyType.Dev, version: '^16.0.0', name: 'prettier-eslint' },
-      { type: NodeDependencyType.Dev, version: '^9.0.0', name: 'eslint-config-prettier' },
+      { type: NodeDependencyType.Dev, version: '^10.0.0', name: 'eslint-config-prettier' },
       { type: NodeDependencyType.Dev, version: '^5.0.0', name: 'eslint-plugin-prettier' },
-      { type: NodeDependencyType.Dev, version: '^2.0.0', name: 'eslint-plugin-deprecation' },
-      { type: NodeDependencyType.Dev, version: '^3.0.0', name: 'eslint-plugin-unused-imports' }
+      { type: NodeDependencyType.Dev, version: '^4.0.0', name: 'eslint-plugin-unused-imports' }
     ];
 
     dependencies.forEach((dependency) => {
@@ -31,28 +30,6 @@ function addPrettierDependencies(): Rule {
     });
 
     return host;
-  };
-}
-
-function updateEslintRc(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const path = '.eslintrc.json';
-    context.logger.log('info', `Updating ${path}`);
-    if (tree.exists(path)) {
-      const content = tree.read(path);
-      const config = JSON.parse(content?.toString() ?? '{}');
-      context.logger.log('info', `Updating ${path}`, config);
-      config.plugins = ['deprecation', 'unused-imports'];
-      config.overrides[0]['parserOptions'] = {
-        project: ['tsconfig.json', 'tsconfig.(app|spec).json']
-      };
-      config.overrides[0].rules['deprecation/deprecation'] = 'error';
-      config.overrides[0].rules['unused-imports/no-unused-imports'] = 'warn';
-      config.overrides[0].extends.push('plugin:prettier/recommended');
-      tree.overwrite(path, JSON.stringify(config, null, 2));
-    }
-
-    return tree;
   };
 }
 
@@ -89,6 +66,11 @@ function updateAngularJson(): Rule {
         },
         '@angular-eslint/schematics:library': {
           setParserOptionsProject: true
+        },
+        "@schematics/angular": {
+          "component": {
+            "changeDetection": "OnPush"
+          }
         }
       };
 
@@ -107,7 +89,6 @@ export default function (): Rule {
       addEslint(),
       externalSchematic('@angular-eslint/schematics', 'ng-add', {}),
       addPrettierDependencies(),
-      updateEslintRc(),
       createPrettierRc(),
       updateAngularJson(),
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
