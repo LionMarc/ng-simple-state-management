@@ -5,8 +5,8 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 function addDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
-      { type: NodeDependencyType.Default, version: '^18.1.0', name: 'ngssm-toolkit' },
-      { type: NodeDependencyType.Default, version: '^18.&.0', name: 'ngssm-store' },
+      { type: NodeDependencyType.Default, version: '^19.0.0', name: 'ngssm-toolkit' },
+      { type: NodeDependencyType.Default, version: '^19.0.0', name: 'ngssm-store' },
       { type: NodeDependencyType.Default, version: '^3.1.1', name: 'immutability-helper' }
     ];
 
