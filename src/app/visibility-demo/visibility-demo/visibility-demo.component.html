@@ -1,57 +1,59 @@
 <mat-card class="flex-column-stretch fxFlex">
-    <mat-card-header>
-        <mat-card-title>
-            Visibility demo
+  <mat-card-header>
+    <mat-card-title> Visibility demo </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="flex-row-stretch fxFlex">
+    <mat-card class="flex-column-stretch">
+      <div class="flex-row-stretch fxFlex">
+        <div class="sidebar-menu flex-column-stretch">
+          <mat-icon
+            class="fa-regular fa-folder-open"
+            [toggleElementVisibility]="'explorer'"
+            [class.selected]="store.state() | isElementVisible: 'explorer'"></mat-icon>
+          <mat-icon
+            class="fa-solid fa-magnifying-glass"
+            [toggleElementVisibility]="'search'"
+            [class.selected]="store.state() | isElementVisible: 'search'"></mat-icon>
+          <mat-icon
+            class="fa-solid fa-bug"
+            [toggleElementVisibility]="'bugs'"
+            [class.selected]="store.state() | isElementVisible: 'bugs'"></mat-icon>
+        </div>
+        @if (store.state() | isElementVisible: 'explorer') {
+          <mat-card class="sidebar-item-container"> EXPLORER </mat-card>
+        }
+
+        @if (store.state() | isElementVisible: 'search') {
+          <mat-card class="sidebar-item-container"> SEARCH </mat-card>
+        }
+
+        @if (store.state() | isElementVisible: 'bugs') {
+          <mat-card class="sidebar-item-container"> BUGS </mat-card>
+        }
+      </div>
+    </mat-card>
+    <mat-card class="flex-column-stretch fxFlex">
+      <mat-card-header>
+        <mat-card-title class="flex-row-center">
+          <button mat-stroked-button color="primary" [showElement]="'centerPart'">Show center</button>
+          <button mat-stroked-button color="primary" [hideElement]="'centerPart'" class="with-margin-left-12">Hide center</button>
+          <span class="fxFlex"></span>
+          <ngssm-visibility-toggle-group [items]="visibilityItems" class="visibility-selector"> </ngssm-visibility-toggle-group>
         </mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="flex-row-stretch fxFlex">
-        <mat-card class="flex-column-stretch">
-            <div class="flex-row-stretch fxFlex">
-                <div class="sidebar-menu flex-column-stretch">
-                    <mat-icon class="fa-regular fa-folder-open" [toggleElementVisibility]="'explorer'"
-                        [class.selected]="store.state() | isElementVisible:'explorer'"></mat-icon>
-                    <mat-icon class="fa-solid fa-magnifying-glass" [toggleElementVisibility]="'search'"
-                        [class.selected]="store.state() | isElementVisible:'search'"></mat-icon>
-                    <mat-icon class="fa-solid fa-bug" [toggleElementVisibility]="'bugs'"
-                        [class.selected]="store.state() | isElementVisible:'bugs'"></mat-icon>
-                </div>
-                <mat-card class="sidebar-item-container" *ngIf="store.state() | isElementVisible:'explorer'">
-                    EXPLORER
-                </mat-card>
-                <mat-card class="sidebar-item-container" *ngIf="store.state() | isElementVisible:'search'">
-                    SEARCH
-                </mat-card>
-                <mat-card class="sidebar-item-container" *ngIf="store.state() | isElementVisible:'bugs'">
-                    BUGS
-                </mat-card>
-            </div>
-        </mat-card>
-        <mat-card class="flex-column-stretch fxFlex">
-            <mat-card-header>
-                <mat-card-title class="flex-row-center">
-                    <button mat-stroked-button color="primary" [showElement]="'centerPart'">
-                        Show center
-                    </button>
-                    <button mat-stroked-button color="primary" [hideElement]="'centerPart'" class="with-margin-left-12">
-                        Hide center
-                    </button>
-                    <span class="fxFlex"></span>
-                    <ngssm-visibility-toggle-group [items]="visibilityItems"
-                        class="visibility-selector">
-                    </ngssm-visibility-toggle-group>
-                </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="flex-row-stretch fxFlex">
-                <mat-card class="fxFlex left-container" *ngIf="store.state() | isElementVisible:'leftPart'">
-                    LEFT
-                </mat-card>
-                <mat-card class="fxFlex center-container" *ngIf="store.state() | isElementVisible:'centerPart'">
-                    CENTER
-                </mat-card>
-                <mat-card class="fxFlex right-container" *ngIf="store.state() | isElementVisible:'rightPart'">
-                    RIGHT
-                </mat-card>
-            </mat-card-content>
-        </mat-card>
-    </mat-card-content>
+      </mat-card-header>
+      <mat-card-content class="flex-row-stretch fxFlex">
+        @if (store.state() | isElementVisible: 'leftPart') {
+          <mat-card class="fxFlex left-container"> LEFT </mat-card>
+        }
+
+        @if (store.state() | isElementVisible: 'centerPart') {
+          <mat-card class="fxFlex center-container"> CENTER </mat-card>
+        }
+
+        @if (store.state() | isElementVisible: 'rightPart') {
+          <mat-card class="fxFlex right-container"> RIGHT </mat-card>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
 </mat-card>

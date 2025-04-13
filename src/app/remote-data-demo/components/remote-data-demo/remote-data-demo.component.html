@@ -1,88 +1,80 @@
 <mat-card class="flex-column-stretch fxFlex">
-    <mat-card-header>
-        <mat-card-title>Ngssm Remote Data Demo</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="flex-row-stretch fxFlex">
-        <mat-card class="flex-column-stretch fxFlex with-margin-left-12">
-            <mat-card-header>
-                <mat-card-title>
-                    Remote Data Overlay Directive Demo
-                </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="flex-column-stretch fxFlex">
-                <mat-card class="flex-column-stretch">
-                    <mat-card-content class="flex-row-center">
-                        <mat-form-field class="with-margin-right-12">
-                            <mat-label>Select key</mat-label>
-                            <mat-select [formControl]="keyControl">
-                                <mat-option *ngFor="let key of dataStatusKeys" [value]="key">
-                                    {{key}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="with-margin-right-12">
-                            <mat-label>Select status</mat-label>
-                            <mat-select [formControl]="dataStatusControl">
-                                <mat-option *ngFor="let status of dataStatusList" [value]="status">
-                                    {{status}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <button mat-button (click)="updateStatus()">
-                            Update status
-                        </button>
-                    </mat-card-content>
-                </mat-card>
-                <mat-card class="flex-column-stretch fxflex with-margin-top-8 fxFlex">
-                    <mat-card-header>
-                        <mat-card-title>Component using directive</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteDataOverlay]="dataStatusKeys">
-                        <p>Custom Content</p>
-                        <p *ngFor="let status of statuses$ | async">
-                            {{status}}
-                        </p>
-                    </mat-card-content>
-                </mat-card>
-            </mat-card-content>
+  <mat-card-header>
+    <mat-card-title>Ngssm Remote Data Demo</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="flex-row-stretch fxFlex">
+    <mat-card class="flex-column-stretch fxFlex with-margin-left-12">
+      <mat-card-header>
+        <mat-card-title> Remote Data Overlay Directive Demo </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="flex-column-stretch fxFlex">
+        <mat-card class="flex-column-stretch">
+          <mat-card-content class="flex-row-center">
+            <mat-form-field class="with-margin-right-12">
+              <mat-label>Select key</mat-label>
+              <mat-select [formControl]="keyControl">
+                @for (key of dataStatusKeys; track key) {
+                  <mat-option [value]="key">
+                    {{ key }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="with-margin-right-12">
+              <mat-label>Select status</mat-label>
+              <mat-select [formControl]="dataStatusControl">
+                @for (status of dataStatusList; track status) {
+                  <mat-option [value]="status">
+                    {{ status }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-button (click)="updateStatus()">Update status</button>
+          </mat-card-content>
         </mat-card>
-        <mat-card class="flex-column-stretch fxFlex with-margin-left-12">
-            <mat-card-header>
-                <mat-card-title>
-                    Remote Call Demo
-                </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="flex-column-stretch fxFlex">
-                <mat-card class="flex-column-stretch">
-                    <mat-card-content class="flex-row-center">
-                        <button mat-button (click)="startCall()">
-                            Start call
-                        </button>
-
-                        <button mat-button (click)="endCallWithSuccess()" class="width-margin-left-12">
-                            End call with success
-                        </button>
-
-                        <button mat-button (click)="endCallWithError()" class="width-margin-left-12">
-                            End call with detailed error
-                        </button>
-
-                        <button mat-button (click)="endCallWithErrorMessage()" class="width-margin-left-12">
-                            End call with error message
-                        </button>
-                    </mat-card-content>
-                </mat-card>
-                <mat-card class="flex-column-stretch fxflex with-margin-top-8 fxFlex">
-                    <mat-card-header>
-                        <mat-card-title>Component using remote call directive</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteCall]="'demo'">
-                        <ngssm-remote-call-error [remoteCallId]="'demo'"></ngssm-remote-call-error>
-                        <p>Custom Content</p>
-                        {{ remoteCall$ | async | json}}
-                    </mat-card-content>
-                </mat-card>
-            </mat-card-content>
+        <mat-card class="flex-column-stretch fxflex with-margin-top-8 fxFlex">
+          <mat-card-header>
+            <mat-card-title>Component using directive</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteDataOverlay]="dataStatusKeys">
+            <p>Custom Content</p>
+            @for (status of statuses$ | async; track status) {
+              <p>
+                {{ status }}
+              </p>
+            }
+          </mat-card-content>
         </mat-card>
-    </mat-card-content>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="flex-column-stretch fxFlex with-margin-left-12">
+      <mat-card-header>
+        <mat-card-title> Remote Call Demo </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="flex-column-stretch fxFlex">
+        <mat-card class="flex-column-stretch">
+          <mat-card-content class="flex-row-center">
+            <button mat-button (click)="startCall()">Start call</button>
+
+            <button mat-button (click)="endCallWithSuccess()" class="width-margin-left-12">End call with success</button>
+
+            <button mat-button (click)="endCallWithError()" class="width-margin-left-12">End call with detailed error</button>
+
+            <button mat-button (click)="endCallWithErrorMessage()" class="width-margin-left-12">End call with error message</button>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="flex-column-stretch fxflex with-margin-top-8 fxFlex">
+          <mat-card-header>
+            <mat-card-title>Component using remote call directive</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteCall]="'demo'">
+            <ngssm-remote-call-error [remoteCallId]="'demo'"></ngssm-remote-call-error>
+            <p>Custom Content</p>
+            {{ remoteCall$ | async | json }}
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
 </mat-card>
