@@ -1,49 +1,54 @@
-<div class="ngssm-expression-tree-node-icon" *ngIf="(nodeCssIcon$ | async) !== undefined" id="treeNodeIcon">
-  <mat-icon class="{{ nodeCssIcon$ | async }}"></mat-icon>
-</div>
+@if (nodeCssIcon(); as css) {
+  <div class="ngssm-expression-tree-node-icon" id="treeNodeIcon">
+    <mat-icon class="{{ css }}"></mat-icon>
+  </div>
+}
 
 <div
   class="ngssm-expression-tree-node-label"
   [matMenuTriggerFor]="contextMenu"
-  [class.ngssm-expression-tree-node-to-cut]="(cutAndPaste$ | async)?.isPartOfCut === true"
+  [class.ngssm-expression-tree-node-to-cut]="cutAndPaste().isPartOfCut === true"
   id="treeNodeLabel">
-  {{ nodeLabel$ | async }}
+  {{ nodeLabel() }}
 </div>
 
-<div class="ngssm-expression-tree-node-description" [innerHTML]="nodeDescription$ | async"></div>
+<div class="ngssm-expression-tree-node-description" [innerHTML]="nodeDescription()"></div>
 
-@let component = componentToDisplay$ | async;
+@let component = componentToDisplay();
 @if (component) {
   <div
     class="ngssm-expression-tree-node-description-component"
     [ngssmComponentDisplay]="component"
-    [ngssmComponentAction]="componentAction$ | async"></div>
+    [ngssmComponentAction]="componentAction()"></div>
 }
 
 <mat-menu #contextMenu="matMenu" [class]="'ngssm-expression-tree-popup-menu'">
-  <div class="flex-column-stretch" *ngIf="treeConfig?.displayCutAndPasteMenus === true && (cutAndPaste$ | async) as cutAndPasteSetup">
-    <button
-      mat-menu-item
-      (click)="cut()"
-      *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === false"
-      [disabled]="cutAndPasteSetup.canCut !== true">
-      <mat-icon class="fa-solid fa-scissors"></mat-icon>
-      <span>Cut</span>
-    </button>
-    <button mat-menu-item *ngIf="cutAndPasteSetup.isCutAndPasteInProgress === true" (click)="cancelCut()">
-      <mat-icon class="fa-solid fa-slash"></mat-icon>
-      <span>Cancel cut</span>
-    </button>
-    <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteInside !== true" (click)="paste('Inside')">
-      <mat-icon class="fa-solid fa-paste"></mat-icon>
-      <span>Paste inside</span>
-    </button>
-    <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteAfter !== true" (click)="paste('After')">
-      <mat-icon class="fa-solid fa-paste"></mat-icon>
-      <span>Paste after</span>
-    </button>
-    <mat-divider></mat-divider>
-  </div>
+  @let cutAndPasteSetup = cutAndPaste();
+  @if (treeConfig()?.displayCutAndPasteMenus === true && cutAndPasteSetup) {
+    <div class="flex-column-stretch">
+      @if (cutAndPasteSetup.isCutAndPasteInProgress === false) {
+        <button mat-menu-item (click)="cut()" [disabled]="cutAndPasteSetup.canCut !== true">
+          <mat-icon class="fa-solid fa-scissors"></mat-icon>
+          <span>Cut</span>
+        </button>
+      } @else {
+        <button mat-menu-item (click)="cancelCut()">
+          <mat-icon class="fa-solid fa-slash"></mat-icon>
+          <span>Cancel cut</span>
+        </button>
+      }
+
+      <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteInside !== true" (click)="paste('Inside')">
+        <mat-icon class="fa-solid fa-paste"></mat-icon>
+        <span>Paste inside</span>
+      </button>
+      <button mat-menu-item [disabled]="cutAndPasteSetup.canPasteAfter !== true" (click)="paste('After')">
+        <mat-icon class="fa-solid fa-paste"></mat-icon>
+        <span>Paste after</span>
+      </button>
+      <mat-divider></mat-divider>
+    </div>
+  }
 
   <button mat-menu-item (click)="expandAll()">
     <mat-icon class="fa-solid fa-up-right-and-down-left-from-center"></mat-icon>

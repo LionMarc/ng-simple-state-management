@@ -1,15 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  ViewContainerRef,
-  AfterViewInit,
-  Inject,
-  Optional,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewContainerRef, ChangeDetectorRef, inject, viewChild, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -17,9 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BehaviorSubject, Observable, take } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import { defaultRegexEditorValidator } from 'ngssm-toolkit';
 
 import { selectNgssmTreeState } from '../../state';
@@ -30,6 +20,7 @@ import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../
   selector: 'ngssm-ngssm-tree-search-dialog',
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -43,84 +34,68 @@ import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../
   styleUrls: ['./ngssm-tree-search-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmTreeSearchDialogComponent extends NgSsmComponent implements AfterViewInit {
-  private readonly _currentSearchedPath$ = new BehaviorSubject<string>('');
+export class NgssmTreeSearchDialogComponent {
+  private readonly store = inject(Store);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly dataServices: NgssmTreeDataService[] = inject(NGSSM_TREE_DATA_SERVICE, {
+    optional: true
+  }) as unknown as NgssmTreeDataService[];
+
+  public readonly resultsViewerContainer = viewChild('resultsViewerContainer', { read: ViewContainerRef });
 
   public readonly searchStatus = SearchStatus;
+  public readonly searchRootPath = createSignal((state) => selectNgssmTreeState(state).treeNodesSearch.rootSearchPath ?? '');
+  public readonly currentSearchedPath = createSignal((state) => selectNgssmTreeState(state).treeNodesSearch.toProcess[0]?.fullPath ?? '');
+  public readonly currentSearchStatus = createSignal((state) => selectNgssmTreeState(state).treeNodesSearch.searchStatus);
 
-  public readonly searchRootPathControl = new FormControl<string | undefined>(undefined);
   public readonly searchPatternControl = new FormControl<string | undefined>(undefined, [
     Validators.required,
     (c) => this.validatedRegex(c)
   ]);
 
-  @ViewChild('resultsViewerContainer', { read: ViewContainerRef }) public resultsViewerContainer: ViewContainerRef | undefined;
-
-  constructor(
-    store: Store,
-    @Inject(NGSSM_TREE_DATA_SERVICE) @Optional() private dataServices: NgssmTreeDataService[],
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    super(store);
-
-    this.watch((s) => selectNgssmTreeState(s).treeNodesSearch.rootSearchPath)
-      .pipe(take(1))
-      .subscribe((v) => this.searchRootPathControl.setValue(v));
-
-    this.watch((s) => selectNgssmTreeState(s).treeNodesSearch.toProcess[0]).subscribe((node) => {
-      if (node) {
-        this._currentSearchedPath$.next(node.fullPath);
-      } else {
-        this._currentSearchedPath$.next('');
+  constructor() {
+    const effectRef = effect(() => {
+      const container = this.resultsViewerContainer();
+      if (!container) {
+        return;
       }
+
+      const treeState = selectNgssmTreeState(this.store.state());
+      const treeId = treeState.treeNodesSearch.treeId;
+      if (!treeId) {
+        return;
+      }
+
+      const treeType = treeState.trees[treeId]?.type;
+      if (!treeType) {
+        return;
+      }
+
+      const dataService = this.dataServices.find((d) => d.treeType === treeType);
+      if (!dataService?.searchResultViewer) {
+        return;
+      }
+
+      this.resultsViewerContainer()?.createComponent(dataService.searchResultViewer);
+      this.changeDetectorRef.markForCheck();
+
+      effectRef.destroy();
     });
   }
 
-  public get searchStatus$(): Observable<SearchStatus> {
-    return this.watch((s) => selectNgssmTreeState(s).treeNodesSearch.searchStatus);
-  }
-
-  public get currentSearchedPath$(): Observable<string> {
-    return this._currentSearchedPath$.asObservable();
-  }
-
-  public ngAfterViewInit(): void {
-    this.watch((s) => selectNgssmTreeState(s))
-      .pipe(take(1))
-      .subscribe((state) => {
-        const treeId = state.treeNodesSearch.treeId;
-        if (!treeId) {
-          return;
-        }
-
-        const treeType = state.trees[treeId]?.type;
-        if (!treeType) {
-          return;
-        }
-
-        const dataService = this.dataServices.find((d) => d.treeType === treeType);
-        if (!dataService?.searchResultViewer) {
-          return;
-        }
-
-        this.resultsViewerContainer?.createComponent(dataService.searchResultViewer);
-        this.changeDetectorRef.markForCheck();
-      });
-  }
-
   public close(): void {
-    this.dispatchActionType(NgssmTreeActionType.closeSearchDialog);
+    this.store.dispatchActionType(NgssmTreeActionType.closeSearchDialog);
   }
 
   public search(): void {
     const searchPattern = this.searchPatternControl.value;
     if (searchPattern) {
-      this.dispatchAction(new SearchTreeNodesAction(searchPattern));
+      this.store.dispatchAction(new SearchTreeNodesAction(searchPattern));
     }
   }
 
   public abort(): void {
-    this.dispatchActionType(NgssmTreeActionType.abortTreeNodesSearch);
+    this.store.dispatchActionType(NgssmTreeActionType.abortTreeNodesSearch);
   }
 
   private validatedRegex(control: AbstractControl): ValidationErrors | null {

@@ -1,11 +1,14 @@
 <div class="flex-row-center">
-    <mat-icon class="fa-solid fa-folder-tree" color="primary"></mat-icon>
-    <span *ngFor="let node of nodes$ | async; last as last" class="flex-row-center">
+  <mat-icon class="fa-solid fa-folder-tree" color="primary"></mat-icon>
+  @for (node of nodes(); track node; let last = $last) {
+    <span class="flex-row-center">
+      <button mat-button [disabled]="last" (click)="selectNode(node)">
+        {{ node.label }}
+      </button>
 
-        <button mat-button [disabled]="last" (click)="selectNode(node)">
-            {{node.label}}
-        </button>
-
-        <div class="ngssm-breadcrumb-separator" *ngIf="!last">/</div>
+      @if (!last) {
+        <div class="ngssm-breadcrumb-separator">/</div>
+      }
     </span>
+  }
 </div>

@@ -1,8 +1,6 @@
-import { Component, ChangeDetectionStrategy, Input, ElementRef, Output, EventEmitter, Type } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, Type, input, output, inject, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable, Subject, combineLatest, take } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
 import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '../../model';
@@ -14,64 +12,30 @@ import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '.
   styleUrls: ['./ngssm-expression-tree-node-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmExpressionTreeNodeDetailsComponent extends NgSsmComponent {
-  private readonly _nodeId$ = new Subject<string>();
-  private readonly _treeConfig$ = new Subject<NgssmExpressionTreeConfig>();
-  private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | undefined>(undefined);
-  private readonly _componentToDisplay$ = new BehaviorSubject<Type<unknown> | undefined>(undefined);
+export class NgssmExpressionTreeNodeDetailsComponent {
+  private readonly elementRef = inject(ElementRef);
 
-  private initialized = false;
+  public readonly nodeId = input<string | null | undefined>();
+  public readonly treeConfig = input<NgssmExpressionTreeConfig | null | undefined>();
+  public readonly heightChanged = output<number>();
 
-  @Output() public heightChanged: EventEmitter<number> = new EventEmitter<number>();
+  public readonly componentAction = signal<NgssmComponentAction | undefined>(undefined);
+  public readonly componentToDisplay = signal<Type<unknown> | undefined>(undefined);
 
-  constructor(
-    store: Store,
-    private elementRef: ElementRef
-  ) {
-    super(store);
+  constructor() {
+    effect(() => {
+      const currentNodeId = this.nodeId();
+      const currentConfig = this.treeConfig();
 
-    combineLatest([this._nodeId$, this._treeConfig$])
-      .pipe(take(1))
-      .subscribe((values) => {
-        this.initialized = true;
+      if (!currentNodeId || !currentConfig) {
+        return;
+      }
 
-        this._componentAction$.next((c: unknown) => (c as NgssmExpressionTreeCustomComponent).setup(values[1].treeId, values[0]));
-        this._componentToDisplay$.next(values[1].nodeDetailComponent);
-        setTimeout(() => {
-          this.heightChanged.emit(this.elementRef?.nativeElement.getBoundingClientRect().height ?? 0);
-        });
+      this.componentAction.set((c: unknown) => (c as NgssmExpressionTreeCustomComponent).setup(currentConfig.treeId, currentNodeId));
+      this.componentToDisplay.set(currentConfig.nodeDetailComponent);
+      setTimeout(() => {
+        this.heightChanged.emit(this.elementRef?.nativeElement.getBoundingClientRect().height ?? 0);
       });
-  }
-
-  @Input() public set nodeId(value: string | null | undefined) {
-    if (!value) {
-      return;
-    }
-
-    if (this.initialized) {
-      throw new Error('Component NgssmExpressionTreeNodeDetailsComponent is already initialized.');
-    }
-
-    this._nodeId$.next(value);
-  }
-
-  @Input() public set treeConfig(value: NgssmExpressionTreeConfig | null | undefined) {
-    if (!value) {
-      return;
-    }
-
-    if (this.initialized) {
-      throw new Error('Component NgssmExpressionTreeNodeDetailsComponent is already initialized.');
-    }
-
-    this._treeConfig$.next(value);
-  }
-
-  public get componentAction$(): Observable<NgssmComponentAction | undefined> {
-    return this._componentAction$.asObservable();
-  }
-
-  public get componentToDisplay$(): Observable<Type<unknown> | undefined> {
-    return this._componentToDisplay$.asObservable();
+    });
   }
 }

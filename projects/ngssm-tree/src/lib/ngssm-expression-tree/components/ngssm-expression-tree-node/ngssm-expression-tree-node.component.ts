@@ -1,14 +1,13 @@
-import { Component, ChangeDetectionStrategy, Input, Type } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Type, inject, input, signal, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
-import { BehaviorSubject, Observable, combineLatest, filter, switchMap, takeUntil } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
-import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent, CutAndPasteTarget } from '../../model';
+import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent, CutAndPasteTarget, NgssmExpressionTree } from '../../model';
 import { selectNgssmExpressionTreeState } from '../../state';
 import {
   NgssmCancelCutExpressionTreeNodeAction,
@@ -41,148 +40,112 @@ const getDefaultCutAndPaste = (): CutAndPaste => ({
   styleUrls: ['./ngssm-expression-tree-node.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmExpressionTreeNodeComponent extends NgSsmComponent {
-  private readonly _nodeId$ = new BehaviorSubject<string | undefined>(undefined);
-  private readonly _treeConfig$ = new BehaviorSubject<NgssmExpressionTreeConfig | undefined>(undefined);
-  private readonly _nodeLabel$ = new BehaviorSubject<string>('');
-  private readonly _nodeCssIcon$ = new BehaviorSubject<string | undefined>(undefined);
-  private readonly _nodeDescription$ = new BehaviorSubject<string | undefined>(undefined);
-  private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | undefined>(undefined);
-  private readonly _componentToDisplay$ = new BehaviorSubject<Type<unknown> | undefined>(undefined);
-  private readonly _cutAndPaste$ = new BehaviorSubject<CutAndPaste>(getDefaultCutAndPaste());
+export class NgssmExpressionTreeNodeComponent {
+  private readonly store = inject(Store);
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
+  private readonly tree = signal<NgssmExpressionTree | undefined>(undefined);
 
-  constructor(store: Store) {
-    super(store);
+  public readonly nodeId = input<string | null | undefined>();
+  public readonly treeConfig = input<NgssmExpressionTreeConfig | null | undefined>(undefined);
 
-    combineLatest([this._nodeId$, this._treeConfig$])
-      .pipe(
-        filter((v) => v[0] !== undefined && v[1] !== undefined),
-        takeUntil(this.unsubscribeAll$),
-        switchMap((v) =>
-          combineLatest([
-            this.watch((s) => selectNgssmExpressionTreeState(s).trees[v[1]?.treeId ?? 'unknown']?.data[v[0] ?? 'unknown']),
-            this.watch((s) => selectNgssmExpressionTreeState(s).trees[v[1]?.treeId ?? 'unknown']?.nodes),
-            this.watch((s) => selectNgssmExpressionTreeState(s).trees[v[1]?.treeId ?? 'unknown']?.nodeCut)
-          ])
-        ),
-        takeUntil(this.unsubscribeAll$)
-      )
-      .subscribe((values) => {
-        const node = (values[1] ?? []).find((v) => v.data.id === this._nodeId$.getValue());
-        const treeConfig = this._treeConfig$.getValue();
-        const nodeValue = values[0];
-        const cutAndPaste: CutAndPaste = getDefaultCutAndPaste();
-        if (node && treeConfig && nodeValue) {
-          this._nodeLabel$.next(treeConfig.getNodeLabel?.(node, nodeValue) ?? '');
-          this._nodeCssIcon$.next(treeConfig.getNodeCssIcon?.(node, nodeValue) ?? undefined);
-          this._nodeDescription$.next(treeConfig.getNodeDescription?.(node, nodeValue));
-          cutAndPaste.canCut = treeConfig.canCut?.(node) ?? true;
+  public readonly nodeLabel = signal<string>('');
+  public readonly nodeCssIcon = signal<string | undefined>(undefined);
+  public readonly nodeDescription = signal<string | undefined>(undefined);
+  public readonly cutAndPaste = signal<CutAndPaste>(getDefaultCutAndPaste());
+  public readonly componentAction = signal<NgssmComponentAction | undefined>(undefined);
+  public readonly componentToDisplay = signal<Type<unknown> | undefined>(undefined);
 
-          if (values[2]) {
-            cutAndPaste.isPartOfCut = values[2].data.id === node.data.id || node.path.includes(values[2].data.id);
+  constructor() {
+    effect(() => {
+      const currentNodeId = this.nodeId();
+      const config = this.treeConfig();
+      if (!currentNodeId || !config) {
+        this.tree.set(undefined);
+        return;
+      }
 
-            if (!cutAndPaste.isPartOfCut) {
-              cutAndPaste.canPasteInside = treeConfig.canPaste?.(values[2], node, 'Inside') ?? false;
-              cutAndPaste.canPasteAfter = treeConfig.canPaste?.(values[2], node, 'After') ?? false;
-            }
+      this.tree.set(this.trees()[config.treeId]);
+    });
+
+    effect(() => {
+      const currentNodeId = this.nodeId();
+      const config = this.treeConfig();
+      if (!currentNodeId || !config) {
+        return;
+      }
+
+      this.componentAction.set((c: unknown) => (c as NgssmExpressionTreeCustomComponent).setup(config.treeId, currentNodeId));
+      this.componentToDisplay.set(config.nodeDescriptionComponent);
+    });
+
+    effect(() => {
+      const currentTree = this.tree();
+      const currentNodeId = untracked(() => this.nodeId());
+      const currentConfig = untracked(() => this.treeConfig());
+      if (!currentNodeId || !currentTree || !currentConfig) {
+        return;
+      }
+
+      const node = currentTree.nodes.find((v) => v.data.id === currentNodeId);
+      const nodeValue = currentTree.data[currentNodeId];
+      const cutAndPaste: CutAndPaste = getDefaultCutAndPaste();
+      const nodeCut = currentTree.nodeCut;
+      if (node && currentConfig && nodeValue) {
+        this.nodeLabel.set(currentConfig.getNodeLabel?.(node, nodeValue) ?? '');
+        this.nodeCssIcon.set(currentConfig.getNodeCssIcon?.(node, nodeValue) ?? undefined);
+        this.nodeDescription.set(currentConfig.getNodeDescription?.(node, nodeValue));
+        cutAndPaste.canCut = currentConfig.canCut?.(node) ?? true;
+
+        if (nodeCut) {
+          cutAndPaste.isPartOfCut = nodeCut.data.id === node.data.id || node.path.includes(nodeCut.data.id);
+
+          if (!cutAndPaste.isPartOfCut) {
+            cutAndPaste.canPasteInside = currentConfig.canPaste?.(nodeCut, node, 'Inside') ?? false;
+            cutAndPaste.canPasteAfter = currentConfig.canPaste?.(nodeCut, node, 'After') ?? false;
           }
         }
+      }
 
-        cutAndPaste.isCutAndPasteInProgress = !!values[2];
+      cutAndPaste.isCutAndPasteInProgress = !!nodeCut;
 
-        this._cutAndPaste$.next(cutAndPaste);
-      });
-
-    combineLatest([this._nodeId$, this._treeConfig$])
-      .pipe(takeUntil(this.unsubscribeAll$))
-      .subscribe((values) => {
-        const treeConfig = values[1];
-        const nodeId = values[0];
-        if (treeConfig && nodeId) {
-          this._componentAction$.next((c: unknown) => (c as NgssmExpressionTreeCustomComponent).setup(treeConfig.treeId, nodeId));
-          this._componentToDisplay$.next(treeConfig.nodeDescriptionComponent);
-        }
-      });
-  }
-
-  @Input() public set nodeId(value: string | null | undefined) {
-    if (!value) {
-      return;
-    }
-
-    this._nodeId$.next(value);
-  }
-
-  @Input() public set treeConfig(value: NgssmExpressionTreeConfig | null | undefined) {
-    if (!value) {
-      return;
-    }
-
-    this._treeConfig$.next(value);
-  }
-
-  public get treeConfig(): NgssmExpressionTreeConfig | null | undefined {
-    return this._treeConfig$.getValue();
-  }
-
-  public get nodeLabel$(): Observable<string> {
-    return this._nodeLabel$.asObservable();
-  }
-
-  public get nodeCssIcon$(): Observable<string | undefined> {
-    return this._nodeCssIcon$.asObservable();
-  }
-
-  public get nodeDescription$(): Observable<string | undefined> {
-    return this._nodeDescription$.asObservable();
-  }
-
-  public get componentAction$(): Observable<NgssmComponentAction | undefined> {
-    return this._componentAction$.asObservable();
-  }
-
-  public get componentToDisplay$(): Observable<Type<unknown> | undefined> {
-    return this._componentToDisplay$.asObservable();
-  }
-
-  public get cutAndPaste$(): Observable<CutAndPaste> {
-    return this._cutAndPaste$.asObservable();
+      this.cutAndPaste.set(cutAndPaste);
+    });
   }
 
   public expandAll(): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
+    const treeId = this.treeConfig()?.treeId;
     if (treeId) {
-      this.dispatchAction(new NgssmExpandAllExpressionTreeNodesAction(treeId));
+      this.store.dispatchAction(new NgssmExpandAllExpressionTreeNodesAction(treeId));
     }
   }
 
   public collapseAll(): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
+    const treeId = this.treeConfig()?.treeId;
     if (treeId) {
-      this.dispatchAction(new NgssmCollapseAllExpressionTreeNodesAction(treeId));
+      this.store.dispatchAction(new NgssmCollapseAllExpressionTreeNodesAction(treeId));
     }
   }
 
   public cut(): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
-    const nodeId = this._nodeId$.getValue();
+    const treeId = this.treeConfig()?.treeId;
+    const nodeId = this.nodeId();
     if (treeId && nodeId) {
-      this.dispatchAction(new NgssmCutExpressionTreeNodeAction(treeId, nodeId));
+      this.store.dispatchAction(new NgssmCutExpressionTreeNodeAction(treeId, nodeId));
     }
   }
 
   public cancelCut(): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
+    const treeId = this.treeConfig()?.treeId;
     if (treeId) {
-      this.dispatchAction(new NgssmCancelCutExpressionTreeNodeAction(treeId));
+      this.store.dispatchAction(new NgssmCancelCutExpressionTreeNodeAction(treeId));
     }
   }
 
   public paste(target: CutAndPasteTarget): void {
-    const treeId = this._treeConfig$.getValue()?.treeId;
-    const nodeId = this._nodeId$.getValue();
+    const treeId = this.treeConfig()?.treeId;
+    const nodeId = this.nodeId();
     if (treeId && nodeId) {
-      this.dispatchAction(new NgssmPasteExpressionTreeNodeAction(treeId, nodeId, target));
+      this.store.dispatchAction(new NgssmPasteExpressionTreeNodeAction(treeId, nodeId, target));
     }
   }
 }
