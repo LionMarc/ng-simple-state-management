@@ -42,5 +42,7 @@ nav:
     - state.md
   - Libraries:
     - libraries/ngssm-store-caching.md
-    - libraries/ngssm-data.md
+    - ngssm-data:
+      - libraries/ngssm-data.md
+      - libraries/ngssm-data-simple-use-case.md
     - libraries/ngssm-toolkit.md

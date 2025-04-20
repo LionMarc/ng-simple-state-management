@@ -1,0 +1,11 @@
+<mat-card class="fxFlex flex-column-stretch">
+  <mat-card-header>
+    <mat-card-title class="flex-row-center">
+      Alert rules
+      <ngssm-data-reload-button [dataSourceKeys]="[alertRulesSource.key]"></ngssm-data-reload-button>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="fxFlex flex-column-stretch">
+    <ag-grid-angular [gridOptions]="gridOptions" [rowData]="alertRulesSource.value()" ngssmAgGridTheme class="fxFlex"> </ag-grid-angular>
+  </mat-card-content>
+</mat-card>

@@ -3,6 +3,7 @@
     <button
       mat-stroked-button
       [color]="color()"
+      class="mat-{{color()}}"
       (click)="reload()"
       [matTooltip]="tooltipMessage()"
       [disabled]="buttonDisabled() === true"
@@ -11,10 +12,10 @@
         @if (loadInProgress()) {
           <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
         } @else {
-          <mat-icon [ngClass]="buttonIcon()"></mat-icon>
+          <mat-icon [ngClass]="buttonIcon()" [color]="color()"></mat-icon>
         }
 
-        <span style="width:0.5rem"></span>
+        <span style="width: 0.5rem"></span>
 
         {{ buttonLabel }}
       </div>
@@ -23,6 +24,7 @@
     <button
       mat-icon-button
       [color]="color()"
+      class="mat-{{color()}}"
       (click)="reload()"
       [matTooltip]="tooltipMessage()"
       [disabled]="buttonDisabled() === true"
@@ -30,7 +32,7 @@
       @if (loadInProgress()) {
         <mat-spinner [diameter]="24" id="loadingSpinner"></mat-spinner>
       } @else {
-        <mat-icon [ngClass]="buttonIcon()"></mat-icon>
+        <mat-icon [ngClass]="buttonIcon()" [color]="color()"></mat-icon>
       }
     </button>
   }
