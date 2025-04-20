@@ -1,10 +1,10 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, effect, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { provideNgssmStore, provideConsoleAppender } from 'ngssm-store';
+import { provideNgssmStore, provideConsoleAppender, Store, Logger } from 'ngssm-store';
 import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import {
@@ -48,6 +48,22 @@ const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
   }
 
   return defaultRegexEditorValidator;
+};
+
+export const actionEffectInitializer = async () => {
+  const store = inject(Store);
+  const logger = inject(Logger);
+
+  store.useMacroTasks = true;
+  store.processedAction$.subscribe((action) => logger.debug(`[Store] Action ${action.type} received as observable`));
+
+  effect(() => {
+    const action = store.processedAction();
+
+    logger.debug(`[Store] Action ${action.type} received as signal`);
+  });
+
+  return true;
 };
 
 export const appConfig: ApplicationConfig = {
@@ -102,6 +118,7 @@ export const appConfig: ApplicationConfig = {
     provideNgssmDataDemo(),
     provideTodo(),
     provideNgssmFeatureStateDemo(),
-    provideNgssmSmusdi('http://localhost:5100/info')
+    provideNgssmSmusdi('http://localhost:5100/info'),
+    provideAppInitializer(actionEffectInitializer)
   ]
 };

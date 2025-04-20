@@ -58,6 +58,14 @@ export class Store implements ActionDispatcher {
   // The most recently action processed by reducers, managed as an Angular signal.
   private readonly _processedAction = signal<Action>({ type: '' });
 
+  // The most recently action processed by reducers, managed as an observable.
+  private readonly _processedAction$ = new BehaviorSubject<Action>({ type: '' });
+
+  // If true, an action is processed in a macro-task by using setTimoeout. Otherwise, Promise.resolve() is used
+  // When using micro task, an issue can occur with angular root effects that want to process state or action signals.
+  // They can be executed after a list of actions is processed. In that case, some actions are never processed by the effects.
+  public useMacroTasks = true;
+
   /**
    * Initializes the `Store` with reducers, effects, and state initializers.
    * Also sets up the initial state and registers reducers and effects.
@@ -118,6 +126,15 @@ export class Store implements ActionDispatcher {
   }
 
   /**
+   * Returns the most recently action processed by reducers as an observale.
+   * Useful for accessing the last processed action in a reactive manner.
+   * This signal is updated before processing the effects.
+   */
+  public get processedAction$(): Observable<Action> {
+    return this._processedAction$.asObservable();
+  }
+
+  /**
    * Returns the current state as an Angular signal.
    * Useful for signal-based reactivity in Angular components.
    */
@@ -134,7 +151,8 @@ export class Store implements ActionDispatcher {
   public dispatchAction(action: Action): void {
     this.actionQueue.push(action);
     this.logger.debug(`Action of type '${action.type}' added to the queue => ${this.actionQueue.length} pending actions`, action);
-    Promise.resolve().then(() => this.processNextAction());
+
+    this.addTaskForNextAction();
   }
 
   /**
@@ -182,8 +200,8 @@ export class Store implements ActionDispatcher {
     } finally {
       this.logger.information(`[processNextAction] action '${nextAction.type} processed.`, nextAction);
 
-      // Process the next action asynchronously.
-      Promise.resolve().then(() => this.processNextAction());
+      // Process the next action asynchronously
+      this.addTaskForNextAction();
     }
   }
 
@@ -207,7 +225,9 @@ export class Store implements ActionDispatcher {
 
       return updatedState;
     } finally {
-      this._processedAction.set(nextAction); // Update the processed action signal.
+      this.logger.debug(`[Store] Notify action ${nextAction.type} as processed`);
+      this._processedAction.set(nextAction);
+      this._processedAction$.next(nextAction);
     }
   }
 
@@ -253,5 +273,13 @@ export class Store implements ActionDispatcher {
         storedProcessors.push(processor);
       });
     });
+  }
+
+  private addTaskForNextAction(): void {
+    if (this.useMacroTasks) {
+      setTimeout(() => this.processNextAction());
+    } else {
+      Promise.resolve().then(() => this.processNextAction());
+    }
   }
 }
