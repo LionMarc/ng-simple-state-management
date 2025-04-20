@@ -1,4 +1,4 @@
-# ngssm-data
+# Overview
 
 This library provides states, components and helpers to simplify management of data loaded from remote services or computed from any source.
 

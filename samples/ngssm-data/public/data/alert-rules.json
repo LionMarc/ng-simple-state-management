@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "title": "Parsing errors",
+        "level": "Error"
+    },
+    {
+        "id": 456,
+        "title": "Processing done",
+        "level": "Info"
+    }
+]
