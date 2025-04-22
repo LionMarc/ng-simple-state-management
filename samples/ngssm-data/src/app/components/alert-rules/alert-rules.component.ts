@@ -18,7 +18,8 @@ import { AlertRule, alertRulesKey } from '../../model';
 })
 export class AlertRulesComponent {
   public readonly alertRulesSource = dataSourceToSignal<AlertRule[]>(alertRulesKey, {
-    type: 'value'
+    type: 'value',
+    defaultValue: []
   });
 
   public readonly gridOptions: GridOptions = {

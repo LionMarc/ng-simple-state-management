@@ -22,6 +22,6 @@
 
 === "ts"
 
-    ```typescript hl_lines="20-22" linenums="1"
+    ```typescript hl_lines="20-23" linenums="1"
     --8<-- "samples/ngssm-data/src/app/components/alert-rules/alert-rules.component.ts"
     ```

@@ -9,25 +9,30 @@ export interface NgssmDataSourceSignal<T = unknown> {
 
 export type NgssmDataSourceSignalType = 'value' | 'status';
 
-export interface NgssmDataSourceSignalOptions {
-  type: NgssmDataSourceSignalType;
+export interface NgssmDataSourceSignalOptions<T = unknown> {
+  type?: NgssmDataSourceSignalType;
+  defaultValue?: T;
 }
 
-export const dataSourceToSignal = <T = unknown>(key: string, options?: NgssmDataSourceSignalOptions): NgssmDataSourceSignal<T> => {
+export const dataSourceToSignal = <T = unknown>(key: string, options?: NgssmDataSourceSignalOptions<T>): NgssmDataSourceSignal<T> => {
   const store = inject(Store);
 
   const usedOptions = options ?? { type: 'value' };
+  if (!usedOptions.type) {
+    usedOptions.type = 'value'
+  }
+
   switch (usedOptions.type) {
     case 'status':
       return {
         key,
-        value: computed(() => selectNgssmDataSourceValue(store.state(), key)?.status) as Signal<T>
+        value: computed(() => selectNgssmDataSourceValue(store.state(), key)?.status ?? options?.defaultValue) as Signal<T>
       };
 
     case 'value':
       return {
         key,
-        value: computed(() => selectNgssmDataSourceValue<T>(store.state(), key)?.value) as Signal<T>
+        value: computed(() => selectNgssmDataSourceValue<T>(store.state(), key)?.value ?? options?.defaultValue) as Signal<T>
       };
   }
 };

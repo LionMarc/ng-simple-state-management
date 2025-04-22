@@ -19,7 +19,7 @@ import { NgssmDataSourceValueStatus } from './model';
 })
 class TestingComponent {
   public readonly status = dataSourceToSignal<NgssmDataSourceValueStatus>('data-labels', { type: 'status' });
-  public readonly labels = dataSourceToSignal<string[]>('data-labels');
+  public readonly labels = dataSourceToSignal<string[]>('data-labels', { defaultValue: ['one', 'two'] });
 }
 
 describe('DataSourceSignal', () => {
@@ -54,6 +54,25 @@ describe('DataSourceSignal', () => {
       fixture = TestBed.createComponent(TestingComponent);
       fixture.nativeElement.style['min-height'] = '200px';
       fixture.detectChanges();
+    });
+
+    it(`should render the default list when stored value is undefined`, () => {
+      const state = updateNgssmDataState(store.stateValue, {
+        dataSourceValues: {
+          'data-labels': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {},
+              value: undefined
+            }
+          }
+        }
+      });
+      store.stateValue = state;
+      fixture.detectChanges();
+
+      const divs = fixture.debugElement.queryAll(By.css('div')).map((d) => d.nativeElement.innerHTML);
+      expect(divs).toEqual(['one', 'two']);
     });
 
     it(`should render the list of labels`, () => {
