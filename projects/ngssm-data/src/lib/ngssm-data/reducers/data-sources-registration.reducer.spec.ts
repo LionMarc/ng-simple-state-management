@@ -250,6 +250,18 @@ describe('DataSourcesRegistrationReducer', () => {
         }
       });
     });
+
+    it(`should store in state the linked source if set in action`, () => {
+      const action = new NgssmRegisterDataSourceAction({
+        key: 'uploaded-files',
+        linkedToDataSource: 'another-one',
+        dataLoadingFunc: () => of([])
+      });
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSources['uploaded-files'].linkedToDataSource).toEqual('another-one');
+    });
   });
 
   describe(`when processing action of type '${NgssmDataActionType.unregisterDataSource}'`, () => {

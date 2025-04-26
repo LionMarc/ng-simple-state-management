@@ -37,7 +37,8 @@ export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditionPr
   dataLifetimeInSeconds?: number; // Optional data lifetime
   initialParameter?: TParameter; // Optional initial parameter
   initialParameterInvalid?: boolean; // Optional flag for invalid initial parameter
-  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionProperty>; // Optional function to load additional properties
+  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionProperty>; // Optional function to load additional properties,
+  linkedToDataSource?: string; // If target data source valued is updated, a reload is made for this data source.
 }
 
 // Function to provide a data source as an environment provider
@@ -63,6 +64,10 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
 
         if (options?.initialParameterInvalid) {
           dataSource.initialParameterInvalid = options?.initialParameterInvalid;
+        }
+
+        if (options?.linkedToDataSource) {
+          dataSource.linkedToDataSource = options?.linkedToDataSource;
         }
 
         return dataSource;
