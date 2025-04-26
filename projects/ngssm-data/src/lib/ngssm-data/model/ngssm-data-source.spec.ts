@@ -1,10 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { ApplicationInitStatus } from '@angular/core';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
-import { ngssmLoadDataSourceValue } from './ngssm-data-source';
+import { NgssmDataLoading, ngssmLoadDataSourceValue, provideNgssmDataSource } from './ngssm-data-source';
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
+import { provideNgssmData } from '../provide-ngssm-data';
+import { selectNgssmDataState } from '../state';
 
 describe('NgssmDataSource', () => {
   describe('ngssmLoadDataSourceValue', () => {
@@ -31,5 +35,24 @@ describe('NgssmDataSource', () => {
         expect(storeMock.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('testing', { forceReload }));
       });
     });
+  });
+
+  describe('provideNgssmDataSource', () => {
+    const loader: NgssmDataLoading = () => of([5]);
+
+    it(`should register a data source linked to another one`, fakeAsync(async () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideNgssmData(),
+          provideNgssmDataSource('testing', loader, { linkedToDataSource: 'another-one' })
+        ]
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+      flush();
+
+      const state = TestBed.inject(Store).state();
+      expect(selectNgssmDataState(state).dataSources['testing'].linkedToDataSource).toBe('another-one');
+    }));
   });
 });
