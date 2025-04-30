@@ -33,8 +33,8 @@ function updateStyles(): Rule {
     if (tree.exists(path)) {
       const content = tree.read(path)?.toString() ?? '';
       const insertion = `
-@import "ngssm-toolkit/styles/ngssm.scss";
-@import "ngssm-toolkit/styles/material.scss";
+@use "ngssm-toolkit/styles/ngssm.scss" as ngssm-styles;
+@use "ngssm-toolkit/styles/material.scss" as ngssm-material-styles;
 `;
 
       if (content.includes(insertion)) {
@@ -42,7 +42,7 @@ function updateStyles(): Rule {
       }
 
       const recorder = tree.beginUpdate(path);
-      recorder.insertLeft(content.length, insertion);
+      recorder.insertLeft(0, insertion);
       tree.commitUpdate(recorder);
       context.logger.info(`✔️ File ${path} updated`);
     } else {
