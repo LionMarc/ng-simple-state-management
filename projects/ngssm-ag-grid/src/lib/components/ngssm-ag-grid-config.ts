@@ -1,4 +1,15 @@
-import { GetContextMenuItems } from 'ag-grid-community';
+import { AgPublicEventType, GetContextMenuItems } from 'ag-grid-community';
+
+/**
+ * List of default ag-grid events listened by the directive to update the stored state.
+ */
+export const defaultAgGridColumnsEvents:AgPublicEventType[] =[
+  'sortChanged',
+  'filterChanged',
+  'columnPinned',
+  'columnResized',
+  'displayedColumnsChanged'
+]
 
 /**
  * Configuration parameters of the {@link NgssmAgGridDirective} directive to apply on a
@@ -29,4 +40,10 @@ export interface NgssmAgGridConfig {
    * Used to override default context menu items.
    */
   getContextMenuItems?: GetContextMenuItems;
+
+  /**
+   * Defines the list of ag-grid events listened to by the directive to update the state of stored columns.
+   * By default: defaultAgGridColumnsEvents
+   */
+  listenedColumnsEvents?: AgPublicEventType[];
 }
