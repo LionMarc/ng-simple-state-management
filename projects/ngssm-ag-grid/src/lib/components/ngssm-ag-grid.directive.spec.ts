@@ -191,7 +191,7 @@ describe('NgssmAgGridDirective', () => {
       });
     });
 
-    const createCompoenent = () => {
+    const createComponent = () => {
       fixture = TestBed.createComponent(TestingComponent);
       fixture.nativeElement.style['height'] = '400px';
       fixture.nativeElement.style['width'] = '600px';
@@ -200,14 +200,14 @@ describe('NgssmAgGridDirective', () => {
     };
 
     it('should create an instance', () => {
-      createCompoenent();
+      createComponent();
       const directive = fixture.debugElement.queryAll(By.directive(NgssmAgGridDirective))[0].injector.get(NgssmAgGridDirective);
       expect(directive).toBeTruthy();
     });
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
       it(`should initialize the grid column state when the state has been updated by '${origin}' `, fakeAsync(() => {
-        createCompoenent();
+        createComponent();
 
         let state = store.stateValue;
         state = updateAgGridState(state, {
@@ -234,6 +234,7 @@ describe('NgssmAgGridDirective', () => {
 
         fixture.detectChanges();
         tick(500);
+        fixture.detectChanges();
         flushMicrotasks();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
@@ -244,11 +245,8 @@ describe('NgssmAgGridDirective', () => {
     });
 
     describe('when state has been already initialized', () => {
-      const initializeStateAndComponent = () => {
-        createCompoenent();
-
-        let state = store.stateValue;
-        state = updateAgGridState(state, {
+      const initializeStateAndComponent = async () => {
+        const state = updateAgGridState(store.stateValue, {
           gridStates: {
             items: {
               $set: {
@@ -269,8 +267,12 @@ describe('NgssmAgGridDirective', () => {
           }
         });
         store.stateValue = state;
+
+        createComponent();
+
         fixture.detectChanges();
         tick(500);
+        fixture.detectChanges();
         flushMicrotasks();
       };
 
@@ -399,6 +401,7 @@ describe('NgssmAgGridDirective', () => {
 
         fixture.detectChanges();
         tick(500);
+        fixture.detectChanges();
         flushMicrotasks();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
@@ -430,6 +433,7 @@ describe('NgssmAgGridDirective', () => {
         fixture.detectChanges();
         tick(500);
         flushMicrotasks();
+        fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
@@ -477,6 +481,7 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
         fixture.detectChanges();
         tick(500);
+        fixture.detectChanges();
         flushMicrotasks();
       };
 
