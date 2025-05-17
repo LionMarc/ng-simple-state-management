@@ -27,6 +27,7 @@ export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditio
   initialParameter?: TParameter; // Optional initial parameter for the data source
   initialParameterInvalid?: boolean; // Flag indicating if the initial parameter is invalid,
   linkedToDataSource?: string; // If target data source valued is updated, a reload is made for this data source.
+  linkedDataSources?: string[]; // If current source is updated, all the linked data sources are reladed.
 }
 
 // Injection token for registering data sources
@@ -39,6 +40,7 @@ export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditionPr
   initialParameterInvalid?: boolean; // Optional flag for invalid initial parameter
   additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionProperty>; // Optional function to load additional properties,
   linkedToDataSource?: string; // If target data source valued is updated, a reload is made for this data source.
+  linkedDataSources?: string[]; // If current source is updated, all the linked data sources are reladed.
 }
 
 // Function to provide a data source as an environment provider
@@ -68,6 +70,10 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
 
         if (options?.linkedToDataSource) {
           dataSource.linkedToDataSource = options?.linkedToDataSource;
+        }
+
+        if (options?.linkedDataSources) {
+          dataSource.linkedDataSources = options?.linkedDataSources;
         }
 
         return dataSource;

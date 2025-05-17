@@ -17,8 +17,14 @@ export const dataSourcesLinkerInitializer = async () => {
 
     const setDataSourceValueAction = action as NgssmSetDataSourceValueAction;
     const state = selectNgssmDataState(untracked<State>(() => store.state())).dataSources;
+
+    const linkedKeys = new Set(state[setDataSourceValueAction.key]?.linkedDataSources ?? []);
     for (const linkedKey of Object.keys(state).filter((key) => state[key].linkedToDataSource === setDataSourceValueAction.key)) {
       logger.information(`Force reload of data source'${linkedKey}' linked to '${setDataSourceValueAction.key}'`);
+      linkedKeys.add(linkedKey);
+    }
+
+    for (const linkedKey of linkedKeys) {
       store.dispatchAction(
         new NgssmLoadDataSourceValueAction(linkedKey, {
           forceReload: true

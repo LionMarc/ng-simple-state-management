@@ -42,10 +42,7 @@ describe('NgssmDataSource', () => {
 
     it(`should register a data source linked to another one`, fakeAsync(async () => {
       TestBed.configureTestingModule({
-        providers: [
-          provideNgssmData(),
-          provideNgssmDataSource('testing', loader, { linkedToDataSource: 'another-one' })
-        ]
+        providers: [provideNgssmData(), provideNgssmDataSource('testing', loader, { linkedToDataSource: 'another-one' })]
       });
 
       await TestBed.inject(ApplicationInitStatus).donePromise;
@@ -53,6 +50,18 @@ describe('NgssmDataSource', () => {
 
       const state = TestBed.inject(Store).state();
       expect(selectNgssmDataState(state).dataSources['testing'].linkedToDataSource).toBe('another-one');
+    }));
+
+    it(`should register linked data sources`, fakeAsync(async () => {
+      TestBed.configureTestingModule({
+        providers: [provideNgssmData(), provideNgssmDataSource('testing', loader, { linkedDataSources: ['another-one'] })]
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+      flush();
+
+      const state = TestBed.inject(Store).state();
+      expect(selectNgssmDataState(state).dataSources['testing'].linkedDataSources).toEqual(['another-one']);
     }));
   });
 });
