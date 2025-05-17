@@ -37,11 +37,6 @@
             "factory": "./feature-state/index#featureState",
             "schema": "./feature-state/schema.json"
         },
-        "component": {
-            "description": "Generate a component.",
-            "factory": "./component/index#component",
-            "schema": "./component/schema.json"
-        },
         "reducer": {
             "description": "Generate a reducer.",
             "factory": "./reducer/index#reducer",

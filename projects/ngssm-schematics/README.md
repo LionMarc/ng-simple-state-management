@@ -99,7 +99,6 @@ Add *@angular/material* to the project.
 | Schematic | Description |
 |---|---|
 | feature-state | Allow creating a state associated to a user feature |
-| component | Creation of a component which derives from **NgSsmComponent** |
 | action | Creation of an action which implements **Action** |
 | reducer | Creation of a reducer which implements **Reducer** |
 | effect | Creation of an effect which implements **Effect** |
