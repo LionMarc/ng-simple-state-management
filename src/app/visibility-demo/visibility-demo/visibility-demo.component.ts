@@ -1,17 +1,18 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
 import {
   DefineElementsGroupAction,
   HideElementDirective,
   IsElementVisiblePipe,
   ShowElementDirective,
   ToggleElementVisibilityDirective,
-  VisibilityToggleGroupComponent
+  VisibilityToggleGroupComponent,
+  isElementVisible
 } from 'ngssm-store/visibility';
 
 @Component({
@@ -31,15 +32,19 @@ import {
   styleUrls: ['./visibility-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VisibilityDemoComponent extends NgSsmComponent {
+export class VisibilityDemoComponent {
+  protected store = inject(Store);
+
+  public readonly explorerVisible = isElementVisible('explorer');
+  public readonly searchVisible = isElementVisible('search');
+  public readonly bugsVisible = isElementVisible('bugs');
+
   public readonly visibilityItems: { key: string; label: string }[] = [
     { key: 'leftPart', label: 'Left' },
     { key: 'centerPart', label: 'Center' },
     { key: 'rightPart', label: 'Right' }
   ];
-  constructor(store: Store) {
-    super(store);
-
-    this.dispatchAction(new DefineElementsGroupAction(['explorer', 'search', 'bugs']));
+  constructor() {
+    this.store.dispatchAction(new DefineElementsGroupAction(['explorer', 'search', 'bugs']));
   }
 }

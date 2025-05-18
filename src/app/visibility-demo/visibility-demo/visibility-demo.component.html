@@ -8,26 +8,26 @@
         <div class="sidebar-menu flex-column-stretch">
           <mat-icon
             class="fa-regular fa-folder-open"
-            [toggleElementVisibility]="'explorer'"
-            [class.selected]="store.state() | isElementVisible: 'explorer'"></mat-icon>
+            [toggleElementVisibility]="explorerVisible.key"
+            [class.selected]="explorerVisible.visible()"></mat-icon>
           <mat-icon
             class="fa-solid fa-magnifying-glass"
-            [toggleElementVisibility]="'search'"
-            [class.selected]="store.state() | isElementVisible: 'search'"></mat-icon>
+            [toggleElementVisibility]="searchVisible.key"
+            [class.selected]="searchVisible.visible()"></mat-icon>
           <mat-icon
             class="fa-solid fa-bug"
-            [toggleElementVisibility]="'bugs'"
-            [class.selected]="store.state() | isElementVisible: 'bugs'"></mat-icon>
+            [toggleElementVisibility]="bugsVisible.key"
+            [class.selected]="bugsVisible.visible()"></mat-icon>
         </div>
-        @if (store.state() | isElementVisible: 'explorer') {
+        @if (explorerVisible.visible()) {
           <mat-card class="sidebar-item-container"> EXPLORER </mat-card>
         }
 
-        @if (store.state() | isElementVisible: 'search') {
+        @if (searchVisible.visible()) {
           <mat-card class="sidebar-item-container"> SEARCH </mat-card>
         }
 
-        @if (store.state() | isElementVisible: 'bugs') {
+        @if (bugsVisible.visible()) {
           <mat-card class="sidebar-item-container"> BUGS </mat-card>
         }
       </div>
