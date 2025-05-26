@@ -101,7 +101,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
 import { NgssmActionsCellRendererParams } from './ngssm-actions-cell-renderer-params';
-import { ActionConfig, ActionPopupComponent } from './action-config';
+import { ActionConfig, ActionDisabledFunc, ActionHiddenFunc, ActionPopupComponent } from './action-config';
 
 interface ActionButton {
   cssClass: string;
@@ -109,6 +109,9 @@ interface ActionButton {
 
   isDisabled: WritableSignal<boolean> | Signal<boolean>;
   isHidden: WritableSignal<boolean> | Signal<boolean>;
+
+  isDisabledInputAFunction: boolean;
+  isHiddenInputAFunction: boolean;
 
   actionConfig: ActionConfig;
 
@@ -138,12 +141,12 @@ export class NgssmActionsCellRendererComponent implements ICellRendererAngularCo
   public refresh(params: ICellRendererParams): boolean {
     this.cellParams = params;
     this.actionButtons().forEach((a) => {
-      if (a.actionConfig.isDisabled instanceof Function) {
-        (a.isDisabled as WritableSignal<boolean>).set(a.actionConfig.isDisabled(params));
+      if (a.isDisabledInputAFunction) {
+        (a.isDisabled as WritableSignal<boolean>).set((a.actionConfig.isDisabled as ActionDisabledFunc)(params));
       }
 
-      if (a.actionConfig.isHidden instanceof Function) {
-        (a.isHidden as WritableSignal<boolean>).set(a.actionConfig.isHidden(params));
+      if (a.isHiddenInputAFunction) {
+        (a.isHidden as WritableSignal<boolean>).set((a.actionConfig.isHidden as ActionHiddenFunc)(params));
       }
     });
     return true;
@@ -163,7 +166,9 @@ export class NgssmActionsCellRendererComponent implements ICellRendererAngularCo
           cssClass: a.cssClass,
           color: a.color ?? 'primary',
           isDisabled: signal(false),
+          isDisabledInputAFunction: false,
           isHidden: signal(false),
+          isHiddenInputAFunction: false,
           actionConfig: a,
           tooltip: a.tooltip ?? '',
           popupRendered: signal(false)
@@ -196,6 +201,7 @@ export class NgssmActionsCellRendererComponent implements ICellRendererAngularCo
       actionButton[signalName] = input as Signal<boolean>;
     } else if (input instanceof Function) {
       (actionButton[signalName] as WritableSignal<boolean>).set(input(rendererParams as unknown as ICellRendererParams));
+      actionButton[`${signalName}InputAFunction`] = true;
     } else if (isObservable(input)) {
       actionButton[signalName] = toSignal(input, { initialValue: false });
     }
