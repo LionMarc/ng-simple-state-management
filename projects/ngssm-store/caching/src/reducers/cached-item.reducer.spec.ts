@@ -30,73 +30,37 @@ describe('CachedItemReducer', () => {
 
   describe(`when processing action of type '${NgssmCachingActionType.setCachedItem}'`, () => {
     it(`should add key if key does not exist`, () => {
-      const action = new SetCachedItemAction('testing', { status: CachedItemStatus.set, item: 'stringContent' });
+      const action = new SetCachedItemAction('testing', 'stringContent', CachedItemStatus.set);
 
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
         status: CachedItemStatus.set,
-        item: 'stringContent'
+        item: 'stringContent',
+        error: undefined
       });
     });
 
-    describe(`when key exists`, () => {
-      beforeEach(() => {
-        state = updateNgssmCachingState(state, {
-          caches: {
-            ['testing']: {
-              $set: {
-                status: CachedItemStatus.loading,
-                item: 'waiting' as never
-              }
+    it(`should replace key value if key does exist`, () => {
+      state = updateNgssmCachingState(state, {
+        caches: {
+          ['testing']: {
+            $set: {
+              status: CachedItemStatus.loading,
+              item: 'waiting' as never
             }
           }
-        });
+        }
       });
 
-      it(`should update the status if only the status is specified`, () => {
-        const action = new SetCachedItemAction('testing', { status: CachedItemStatus.set });
+      const action = new SetCachedItemAction('testing', 'stringContent', CachedItemStatus.error, 'something went wrong');
 
-        const updatedState = reducer.updateState(state, action);
+      const updatedState = reducer.updateState(state, action);
 
-        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
-          status: CachedItemStatus.set,
-          item: 'waiting'
-        });
-      });
-
-      it(`should update the item if only the item is specified`, () => {
-        const action = new SetCachedItemAction('testing', { item: 'nothing for now' });
-
-        const updatedState = reducer.updateState(state, action);
-
-        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
-          status: CachedItemStatus.loading,
-          item: 'nothing for now'
-        });
-      });
-
-      it(`should update the error if only the error is specified`, () => {
-        const action = new SetCachedItemAction('testing', { error: 'unexpected error' });
-
-        const updatedState = reducer.updateState(state, action);
-
-        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
-          status: CachedItemStatus.loading,
-          item: 'waiting',
-          error: 'unexpected error'
-        });
-      });
-
-      it(`should update the cached item`, () => {
-        const action = new SetCachedItemAction('testing', { status: CachedItemStatus.error, item: 'done with error' });
-
-        const updatedState = reducer.updateState(state, action);
-
-        expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
-          status: CachedItemStatus.error,
-          item: 'done with error'
-        });
+      expect(selectNgssmCachedItem(updatedState, 'testing')).toEqual({
+        status: CachedItemStatus.error,
+        item: 'stringContent',
+        error: 'something went wrong'
       });
     });
   });
