@@ -4,7 +4,6 @@ import { Reducer, State, Action } from 'ngssm-store';
 
 import { NgssmCachingActionType, SetCachedItemAction, UnsetCachedItemAction } from '../actions';
 import { selectNgssmCachedItem, updateNgssmCachingState } from '../state';
-import { CachedItem, CachedItemStatus } from '../model';
 
 @Injectable()
 export class CachedItemReducer implements Reducer {
@@ -14,21 +13,16 @@ export class CachedItemReducer implements Reducer {
     switch (action.type) {
       case NgssmCachingActionType.setCachedItem: {
         const setCachedItemAction = action as SetCachedItemAction;
-        if (selectNgssmCachedItem(state, setCachedItemAction.cachedItemKey) === undefined) {
-          const cachedItem: CachedItem = {
-            status: CachedItemStatus.notSet,
-            ...setCachedItemAction.cachedItem
-          };
-          return updateNgssmCachingState(state, {
-            caches: {
-              [setCachedItemAction.cachedItemKey]: { $set: cachedItem }
-            }
-          });
-        }
 
         return updateNgssmCachingState(state, {
           caches: {
-            [setCachedItemAction.cachedItemKey]: { $merge: setCachedItemAction.cachedItem }
+            [setCachedItemAction.cachedItemKey]: {
+              $set: {
+                status: setCachedItemAction.status,
+                error: setCachedItemAction.error,
+                item: setCachedItemAction.cachedItem
+              }
+            }
           }
         });
       }
