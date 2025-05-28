@@ -35,7 +35,10 @@
     </mat-sidenav-container>
     @if (config.displayFooter) {
       <mat-toolbar class="ngssm-shell-footer">
-        <ngssm-wrapper *ngFor="let component of config.footerComponents" [item]="component"></ngssm-wrapper>
+        @for (component of config.footerComponents; track component) {
+          <ngssm-wrapper [item]="component"></ngssm-wrapper>
+        }
+
         <span class="ngssm-fxFlex"></span>
         @if (config.displayFooterNotificationsButton) {
           <button mat-icon-button (click)="rightSidebar.toggle()">
