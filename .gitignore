@@ -74,3 +74,4 @@ _ReSharper*/
 .vs/
 /src/assets/dotnet/dotnet-tools
 /.nx/
+/report/
