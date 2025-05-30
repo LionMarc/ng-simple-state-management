@@ -17,7 +17,7 @@ describe('provideNgssmSmusdi', () => {
       providers: [provideNgssmSmusdi('my-service'), { provide: Store, useValue: store }]
     });
 
-    await TestBed.get(ApplicationInitStatus).donePromise;
+    await TestBed.inject(ApplicationInitStatus).donePromise;
   });
 
   it(`should dispatch an action to load the service info`, () => {

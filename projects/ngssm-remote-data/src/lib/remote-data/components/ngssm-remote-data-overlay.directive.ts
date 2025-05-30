@@ -1,15 +1,16 @@
 import { Directive, effect, inject, input } from '@angular/core';
 
 import { createSignal } from 'ngssm-store';
-import { NgssmOverlay, NgssmOverlayBuilder } from 'ngssm-toolkit';
+import { NgssmOverlayBuilder, NgssmOverlayContainer } from 'ngssm-toolkit';
 
 import { DataStatus } from '../model';
 import { selectRemoteDataState } from '../state';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Directive({
   selector: '[ngssmRemoteDataOverlay]',
   standalone: true,
-  providers: [NgssmOverlayBuilder, NgssmOverlay]
+  providers: [NgssmOverlayBuilder, { provide: OverlayContainer, useClass: NgssmOverlayContainer }]
 })
 export class NgssmRemoteDataOverlayDirective {
   private readonly overlyBuilder = inject(NgssmOverlayBuilder);

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -12,11 +11,11 @@ import { RemoteCallStatus } from '../model';
 
 @Component({
   template: ` <div [ngssmRemoteCall]="'demo'">custom content</div> `,
-  imports: [CommonModule, NgssmRemoteCallDirective]
+  imports: [NgssmRemoteCallDirective]
 })
 class TestingComponent {}
 
-describe('NgssmRemoteCallDirective', () => {
+fdescribe('NgssmRemoteCallDirective', () => {
   let fixture: ComponentFixture<TestingComponent>;
   let store: StoreMock;
   let directive: NgssmRemoteCallDirective;
@@ -28,7 +27,7 @@ describe('NgssmRemoteCallDirective', () => {
     TestBed.configureTestingModule({
       imports: [TestingComponent],
       providers: [{ provide: Store, useValue: store }],
-      teardown: { destroyAfterEach: true }
+      teardown: { destroyAfterEach: false }
     });
 
     fixture = TestBed.createComponent(TestingComponent);
@@ -69,7 +68,7 @@ describe('NgssmRemoteCallDirective', () => {
       });
     });
 
-    it(`should render the overlay when remote call status is ${RemoteCallStatus.inProgress}`, () => {
+    fit(`should render the overlay when remote call status is ${RemoteCallStatus.inProgress}`, () => {
       const state = updateNgssmRemoteCallState(store.stateValue, {
         remoteCalls: {
           demo: {

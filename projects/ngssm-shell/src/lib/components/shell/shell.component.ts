@@ -45,7 +45,7 @@ export class ShellComponent {
 
   public readonly notificationsCount = createSignal((state) => selectShellState(state).shellNotifications.notifications.length);
   public readonly navigationBarRendered = computed(() => {
-    let isOpen = false;
+    let isOpen: boolean;
 
     switch (this.navigationBarLockStatus()) {
       case LockStatus.lockedClosed:

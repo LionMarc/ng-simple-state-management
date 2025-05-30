@@ -1,17 +1,32 @@
-import { ComponentType, OverlayRef } from '@angular/cdk/overlay';
+import {
+  ComponentType,
+  createOverlayRef,
+  createRepositionScrollStrategy,
+  Overlay,
+  OverlayContainer,
+  OverlayRef
+} from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
-import { ElementRef, inject, Injectable, OnDestroy, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ElementRef, inject, Injectable, Injector, OnDestroy, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { Logger } from 'ngssm-store';
 
 import { NgssmMessageOverlayComponent } from './ngssm-message-overlay.component';
-import { NgssmOverlay } from './ngssm-overlay';
+import { NgssmOverlayContainer } from './ngssm-overlay-container';
 
 @Injectable()
 export class NgssmOverlayBuilder implements OnDestroy {
   private static nextId = 1;
+
   private readonly logger = inject(Logger);
+  private readonly overlayContainer = inject(OverlayContainer);
+  private readonly injector = inject(Injector);
+  private readonly elementRef = inject(ElementRef);
+  private readonly overlay = inject(Overlay);
+  private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly renderer = inject(Renderer2);
+
   private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
   private id = NgssmOverlayBuilder.nextId++;
 
@@ -20,18 +35,14 @@ export class NgssmOverlayBuilder implements OnDestroy {
   public overLayTemplate: TemplateRef<unknown> | undefined;
   public overlayComponent: ComponentType<unknown> | undefined;
 
-  constructor(
-    private elementRef: ElementRef,
-    private ngssmOverlay: NgssmOverlay,
-    private viewContainerRef: ViewContainerRef,
-    renderer: Renderer2
-  ) {
+  constructor() {
     this.logger.information(`[NgssmOverlayBuilder] Creating overlay ${this.id}`);
-    renderer.setStyle(this.elementRef.nativeElement, 'position', 'relative');
-    this.ngssmOverlay.setContainerRef(this.elementRef);
+    this.renderer.setStyle(this.elementRef.nativeElement, 'position', 'relative');
+    (this.overlayContainer as NgssmOverlayContainer).setContainerRef(this.elementRef);
 
-    this.overlayRef = this.ngssmOverlay.create({
-      positionStrategy: this.ngssmOverlay.position().global().centerHorizontally().centerVertically(),
+    this.overlayRef = createOverlayRef(this.injector, {
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+      scrollStrategy: createRepositionScrollStrategy(this.injector),
       hasBackdrop: true
     });
   }
@@ -54,7 +65,7 @@ export class NgssmOverlayBuilder implements OnDestroy {
         (ref.instance as NgssmMessageOverlayComponent).message$ = this._overlayMessage$.asObservable();
       }
     } else {
-      const ref = this.overlayRef.attach(new ComponentPortal(NgssmMessageOverlayComponent));
+      const ref = this.overlayRef.attach(new ComponentPortal(NgssmMessageOverlayComponent, this.viewContainerRef));
       ref.instance.message$ = this._overlayMessage$.asObservable();
     }
   }

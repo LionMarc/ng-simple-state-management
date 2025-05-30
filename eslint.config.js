@@ -10,6 +10,7 @@ module.exports = tseslint.config(
     processor: angular.processInlineTemplates,
     rules: {
       curly: 'error',
+      'no-useless-assignment': 'error',
       '@angular-eslint/directive-selector': [
         'error',
         {
