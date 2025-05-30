@@ -1,15 +1,14 @@
-import { Component, ChangeDetectionStrategy, Input, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { combineLatest, Subject } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
+import { dataSourceToSignal } from 'ngssm-data';
 
 import { TodoItem, todoItemsKey } from '../../model';
 import { EditTodoItemAction } from '../../actions';
-import { selectNgssmDataSourceValue } from 'ngssm-data';
 
 @Component({
   selector: 'ngssm-todo-item',
@@ -18,26 +17,18 @@ import { selectNgssmDataSourceValue } from 'ngssm-data';
   styleUrls: ['./todo-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TodoItemComponent extends NgSsmComponent {
-  private readonly _todoItemId$ = new Subject<number>();
-  public readonly todoItem = signal<TodoItem | undefined>(undefined);
+export class TodoItemComponent {
+  private readonly store = inject(Store);
 
-  constructor(store: Store) {
-    super(store);
+  private readonly todoItems = dataSourceToSignal<TodoItem[]>(todoItemsKey, { defaultValue: [] });
 
-    combineLatest([this._todoItemId$, this.watch((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value)]).subscribe(
-      (values) => {
-        this.todoItem.set((values[1] ?? []).find((t: TodoItem) => t.id === values[0]));
-      }
-    );
-  }
+  public readonly todoId = input<number>(0);
 
-  @Input()
-  public set todoId(value: number) {
-    this._todoItemId$.next(value);
-  }
+  public readonly todoItem = computed<TodoItem | undefined>(() => {
+    return this.todoItems.value().find((t) => t.id === this.todoId());
+  });
 
   public editTodoItem(id: number): void {
-    this.dispatchAction(new EditTodoItemAction(id));
+    this.store.dispatchAction(new EditTodoItemAction(id));
   }
 }

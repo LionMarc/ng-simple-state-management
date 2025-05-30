@@ -19,12 +19,12 @@ describe('NgssmConfirmationDialogComponent', () => {
     submitButtonColor: 'warn'
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [NgssmConfirmationDialogComponent],
       providers: [{ provide: MAT_DIALOG_DATA, useValue: config }],
-      teardown: { destroyAfterEach: false }
-    }).compileComponents();
+      teardown: { destroyAfterEach: true }
+    });
 
     fixture = TestBed.createComponent(NgssmConfirmationDialogComponent);
     component = fixture.componentInstance;

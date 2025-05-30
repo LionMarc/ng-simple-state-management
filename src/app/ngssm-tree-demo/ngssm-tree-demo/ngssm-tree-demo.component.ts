@@ -1,13 +1,12 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 
 import { AgGridModule } from 'ag-grid-angular';
 import { CellClickedEvent, GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import {
   NgssmBreadcrumbComponent,
   NgssmTreeComponent,
@@ -35,8 +34,20 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
   styleUrls: ['./ngssm-tree-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmTreeDemoComponent extends NgSsmComponent {
-  private readonly _selectedNodeChildren$ = new BehaviorSubject<NgssmTreeNode[]>([]);
+export class NgssmTreeDemoComponent {
+  private readonly store = inject(Store);
+  
+  private readonly nodes = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.nodes);
+  private readonly selecteNode = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.selectedNode);
+
+  public readonly selectedNodeChildren = computed<NgssmTreeNode[]>(() => {
+    const selected = this.selecteNode();
+    if (!selected) {
+      return [];
+    }
+
+    return (this.nodes() ?? []).filter((v) => v.node.parentNodeId === selected).map((v) => v);
+  });
 
   public readonly treeConfig: NgssmTreeConfig = {
     treeId: 'demo',
@@ -69,7 +80,7 @@ export class NgssmTreeDemoComponent extends NgSsmComponent {
         onCellClicked: (event: CellClickedEvent<NgssmTreeNode>) => {
           const nodeId = event.data?.node.nodeId;
           if (nodeId) {
-            this.dispatchAction(new SelectNodeAction('demo', nodeId));
+            this.store.dispatchAction(new SelectNodeAction('demo', nodeId));
           }
         }
       },
@@ -100,24 +111,4 @@ export class NgssmTreeDemoComponent extends NgSsmComponent {
     keepSelection: false,
     canSaveOnDiskColumnsState: true
   };
-
-  constructor(store: Store) {
-    super(store);
-
-    combineLatest([
-      this.watch((s) => selectNgssmTreeState(s).trees['demo']?.nodes),
-      this.watch((s) => selectNgssmTreeState(s).trees['demo']?.selectedNode)
-    ]).subscribe((values) => {
-      if (!values[1]) {
-        this._selectedNodeChildren$.next([]);
-        return;
-      }
-
-      this._selectedNodeChildren$.next((values[0] ?? []).filter((v) => v.node.parentNodeId === values[1]).map((v) => v));
-    });
-  }
-
-  public get selectedNodeChildren$(): Observable<NgssmTreeNode[]> {
-    return this._selectedNodeChildren$.asObservable();
-  }
 }

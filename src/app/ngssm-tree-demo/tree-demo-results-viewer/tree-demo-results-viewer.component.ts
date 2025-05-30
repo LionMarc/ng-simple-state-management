@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, combineLatest, Observable, take } from 'rxjs';
 
 import { GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import { NgssmTreeNode, selectNgssmTreeState } from 'ngssm-tree';
 import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } from 'ngssm-ag-grid';
 
@@ -16,8 +15,21 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
   styleUrls: ['./tree-demo-results-viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TreeDemoResultsViewerComponent extends NgSsmComponent {
-  private readonly _nodes$ = new BehaviorSubject<NgssmTreeNode[]>([]);
+export class TreeDemoResultsViewerComponent {
+  private readonly store = inject(Store);
+
+  private readonly treeId = signal<string | undefined>(undefined);
+  private readonly trees = createSignal((state) => selectNgssmTreeState(state).trees);
+  private readonly matchingNodes = createSignal((state) => selectNgssmTreeState(state).treeNodesSearch.matchingNodes);
+
+  public readonly nodes = computed<NgssmTreeNode[]>(() => {
+    const currentTreeId = this.treeId();
+    if (!currentTreeId) {
+      return [];
+    }
+
+    return (this.trees()[currentTreeId]?.nodes ?? []).filter((n) => (this.matchingNodes() ?? []).includes(n.node.nodeId));
+  });
 
   public readonly gridOptions: GridOptions = {
     defaultColDef: {
@@ -53,28 +65,8 @@ export class TreeDemoResultsViewerComponent extends NgSsmComponent {
     canSaveOnDiskColumnsState: true
   };
 
-  constructor(store: Store) {
-    super(store);
-
-    this.watch((s) => selectNgssmTreeState(s))
-      .pipe(take(1))
-      .subscribe((value) => {
-        const treeId = value.treeNodesSearch.treeId;
-        if (!treeId) {
-          return;
-        }
-
-        combineLatest([
-          this.watch((s) => selectNgssmTreeState(s).trees[treeId]),
-          this.watch((s) => selectNgssmTreeState(s).treeNodesSearch.matchingNodes)
-        ]).subscribe((values) => {
-          const nodes = (values[0]?.nodes ?? []).filter((n) => (values[1] ?? []).includes(n.node.nodeId));
-          this._nodes$.next(nodes);
-        });
-      });
-  }
-
-  public get nodes$(): Observable<NgssmTreeNode[]> {
-    return this._nodes$.asObservable();
+  constructor() {
+    const treeState = selectNgssmTreeState(this.store.state());
+    this.treeId.set(treeState.treeNodesSearch.treeId);
   }
 }

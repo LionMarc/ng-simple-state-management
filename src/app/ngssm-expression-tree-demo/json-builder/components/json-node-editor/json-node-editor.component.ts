@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
 
 import { JsonBuilderActionType, SubmitJsonNodeAction } from '../../actions';
 import { JsonNodeType, getJsonNodeTypes } from '../../model';
@@ -19,7 +19,9 @@ import { JsonNodeType, getJsonNodeTypes } from '../../model';
   styleUrls: ['./json-node-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JsonNodeEditorComponent extends NgSsmComponent {
+export class JsonNodeEditorComponent {
+  private readonly store = inject(Store);
+
   public readonly jsonNodeTypes = getJsonNodeTypes();
 
   public readonly jsonNodeTypeControl = new FormControl<JsonNodeType | undefined>(undefined, Validators.required);
@@ -33,19 +35,15 @@ export class JsonNodeEditorComponent extends NgSsmComponent {
     name: this.jsonNodeNameControl
   });
 
-  constructor(store: Store) {
-    super(store);
-  }
-
   public close(): void {
-    this.dispatchActionType(JsonBuilderActionType.closeJsonNodeEditor);
+    this.store.dispatchActionType(JsonBuilderActionType.closeJsonNodeEditor);
   }
 
   public submit(): void {
     const type = this.jsonNodeTypeControl.value;
     const name = this.jsonNodeNameControl.value;
     if (type && name) {
-      this.dispatchAction(new SubmitJsonNodeAction(type, name));
+      this.store.dispatchAction(new SubmitJsonNodeAction(type, name));
     }
   }
 }

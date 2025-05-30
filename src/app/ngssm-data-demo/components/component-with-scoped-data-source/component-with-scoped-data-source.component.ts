@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmDataSource, NgssmScopedDataSourceDirective } from 'ngssm-data';
 
 @Component({
@@ -12,14 +11,10 @@ import { NgssmDataSource, NgssmScopedDataSourceDirective } from 'ngssm-data';
   styleUrls: ['./component-with-scoped-data-source.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentWithScopedDataSourceComponent extends NgSsmComponent {
+export class ComponentWithScopedDataSourceComponent {
   private static nextId = 1;
   public readonly dataSource: NgssmDataSource<string[], unknown> = {
     key: `scoped-${ComponentWithScopedDataSourceComponent.nextId++}`,
     dataLoadingFunc: () => of([])
   };
-
-  constructor(store: Store) {
-    super(store);
-  }
 }

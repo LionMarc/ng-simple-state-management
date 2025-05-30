@@ -4,7 +4,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
 import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 @Component({
@@ -14,13 +13,9 @@ import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
   styleUrls: ['./overlay-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OverlayDemoComponent extends NgSsmComponent {
+export class OverlayDemoComponent {
   public readonly rightControl = new FormControl(false);
   public readonly centerControl = new FormControl(false);
   public readonly leftControl = new FormControl(false);
   public readonly mainControl = new FormControl(false);
-
-  constructor(store: Store) {
-    super(store);
-  }
 }

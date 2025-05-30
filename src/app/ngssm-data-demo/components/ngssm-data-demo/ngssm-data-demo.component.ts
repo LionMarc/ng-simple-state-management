@@ -1,16 +1,16 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import {
   IsNgssmDataSourceValueStatusPipe,
   NgssmRegisterDataSourcesAction,
   NgssmLoadDataSourceValueAction,
-  selectNgssmDataSourceValue,
-  NgssmDataReloadButtonComponent
+  NgssmDataReloadButtonComponent,
+  dataSourceToSignal
 } from 'ngssm-data';
 import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 import { NgssmAceEditorComponent } from 'ngssm-ace-editor';
@@ -35,33 +35,27 @@ import { ComponentWithScopedDataSourceComponent } from '../component-with-scoped
   styleUrls: ['./ngssm-data-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmDataDemoComponent extends NgSsmComponent {
+export class NgssmDataDemoComponent {
+  protected readonly store = inject(Store);
+
   public readonly teamsKey = teamsKey;
   public readonly playersKey = playersKey;
 
-  public readonly teamsSourceValue = signal<unknown>({});
-  public readonly playersSourceValue = signal<unknown>({});
+  public readonly teamsSourceValue = dataSourceToSignal<unknown>(teamsKey, { defaultValue: {} });
+  public readonly playersSourceValue = dataSourceToSignal<unknown>(playersKey, { defaultValue: {} });
   public readonly componentWithScopedDatasourceRendered = signal<boolean>(false);
-  public readonly state = signal<string>('{}');
-
-  constructor(store: Store) {
-    super(store);
-
-    this.watch((s) => selectNgssmDataSourceValue(s, teamsKey)).subscribe((v) => this.teamsSourceValue.set(v));
-    this.watch((s) => selectNgssmDataSourceValue(s, playersKey)).subscribe((v) => this.playersSourceValue.set(v));
-    this.watch((s) => s).subscribe((s) => this.state.set(JSON.stringify(s, undefined, 4)));
-  }
+  public readonly state = createSignal<string>(state => JSON.stringify(state, undefined, 4));
 
   public reloadTeams(): void {
-    this.dispatchAction(new NgssmLoadDataSourceValueAction(teamsKey, { forceReload: true }));
+    this.store.dispatchAction(new NgssmLoadDataSourceValueAction(teamsKey, { forceReload: true }));
   }
 
   public reloadPlayers(): void {
-    this.dispatchAction(new NgssmLoadDataSourceValueAction(playersKey, { forceReload: true }));
+    this.store.dispatchAction(new NgssmLoadDataSourceValueAction(playersKey, { forceReload: true }));
   }
 
   public registerPlayers(): void {
-    this.dispatchAction(
+    this.store.dispatchAction(
       new NgssmRegisterDataSourcesAction([
         {
           key: playersKey,

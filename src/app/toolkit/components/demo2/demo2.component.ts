@@ -1,8 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
   selector: 'ngssm-demo2',
@@ -11,18 +8,6 @@ import { NgSsmComponent, Store } from 'ngssm-store';
   styleUrls: ['./demo2.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Demo2Component extends NgSsmComponent {
-  private readonly _comment$ = new BehaviorSubject<string>('');
-
-  constructor(store: Store) {
-    super(store);
-  }
-
-  public get comment$(): Observable<string> {
-    return this._comment$.asObservable();
-  }
-
-  public setComment(value: string): void {
-    this._comment$.next(value);
-  }
+export class Demo2Component {
+  public readonly comment = input<string>('');
 }

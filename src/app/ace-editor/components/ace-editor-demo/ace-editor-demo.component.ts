@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { NgssmAceEditorApi, NgssmAceEditorComponent, NgssmAceEditorMode } from 'ngssm-ace-editor';
-import { NgSsmComponent, Store } from 'ngssm-store';
 
 @Component({
   selector: 'ngssm-ace-editor-demo',
@@ -31,7 +30,7 @@ import { NgSsmComponent, Store } from 'ngssm-store';
   styleUrls: ['./ace-editor-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AceEditorDemoComponent extends NgSsmComponent {
+export class AceEditorDemoComponent {
   private readonly _updatedContent$ = new BehaviorSubject<string>('');
   private readonly _isValid$ = new BehaviorSubject<boolean>(true);
   private readonly _isReady$ = new BehaviorSubject<boolean>(false);
@@ -47,10 +46,6 @@ export class AceEditorDemoComponent extends NgSsmComponent {
   public readonly modeControl = new FormControl(NgssmAceEditorMode.text);
   public readonly contentControl = new FormControl('testing initial content');
   public readonly commentPatternControl = new FormControl(undefined, Validators.required);
-
-  constructor(store: Store) {
-    super(store);
-  }
 
   public get updatedContent$(): Observable<string> {
     return this._updatedContent$.asObservable();

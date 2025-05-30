@@ -1,16 +1,15 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { BehaviorSubject } from 'rxjs';
 
 import { DefaultMenuItem, GetRowIdParams, GridOptions, ICellRendererParams, MenuItemDef, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 
-import { createSignal, NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import {
   ActionConfirmationPopupComponent,
   ActionConfirmationPopupParameter,
@@ -49,10 +48,15 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideFeatureState('todo-dashboard', {})]
 })
-export class TodoDashboardComponent extends NgSsmComponent {
-  private readonly _deleteHidden$ = new BehaviorSubject<boolean>(false);
+export class TodoDashboardComponent {
+  private readonly store = inject(Store);
+  private readonly router = inject(Router);
 
-  public readonly waitingOverlayRendered = signal<boolean>(false);
+  private readonly deleteHidden = signal<boolean>(false);
+
+  public readonly waitingOverlayRendered = createSignal<boolean>(
+    (state) => selectNgssmDataSourceValue<TodoItem[]>(state, todoItemsKey)?.status === NgssmDataSourceValueStatus.loading
+  );
   public readonly todoItems = createSignal<TodoItem[]>((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value ?? []);
   public readonly allowRestoringGridControl = new FormControl(true);
   public readonly gridOptions: GridOptions = {
@@ -76,7 +80,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
               isDisabled: (params: ICellRendererParams<TodoItem, TodoItem>) => (params.data?.id ?? -1) < 2,
               click: (params: ICellRendererParams<TodoItem, TodoItem>) => {
                 if (params.data?.id) {
-                  this.dispatchAction(new EditTodoItemAction(params.data.id));
+                  this.store.dispatchAction(new EditTodoItemAction(params.data.id));
                 }
               },
               tooltip: 'Edit to-do'
@@ -93,7 +97,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
             {
               cssClass: 'fa-solid fa-trash-can',
               color: 'accent',
-              isHidden: this._deleteHidden$,
+              isHidden: this.deleteHidden,
               popupComponent: ActionConfirmationPopupComponent,
               popupParameter: {
                 color: 'warn',
@@ -107,7 +111,7 @@ export class TodoDashboardComponent extends NgSsmComponent {
                     console.log('Deleting item with ID:', params.data.id);
                   }
                 }
-              } as ActionConfirmationPopupParameter,
+              } as ActionConfirmationPopupParameter
             },
             {
               cssClass: 'fa-solid fa-comment',
@@ -180,26 +184,17 @@ export class TodoDashboardComponent extends NgSsmComponent {
     }
   };
 
-  constructor(
-    store: Store,
-    private router: Router
-  ) {
-    super(store);
-
+  constructor() {
     console.log('CALLED ctor of dashboard');
 
     this.allowRestoringGridControl.valueChanges.subscribe((value) => {
       this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskColumnsState: value ?? true };
     });
 
-    this.deleteHiddenControl.valueChanges.subscribe((v) => this._deleteHidden$.next(v ?? false));
-
-    this.watch((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.status).subscribe((s) =>
-      this.waitingOverlayRendered.set(s === NgssmDataSourceValueStatus.loading)
-    );
+    this.deleteHiddenControl.valueChanges.subscribe((v) => this.deleteHidden.set(v ?? false));
   }
 
   public addTodo(): void {
-    this.dispatchActionType(TodoActionType.addTodoItem);
+    this.store.dispatchActionType(TodoActionType.addTodoItem);
   }
 }

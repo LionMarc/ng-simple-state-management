@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { NgssmAceEditorComponent, NgssmAceEditorMode } from 'ngssm-ace-editor';
 import { DisplayNotificationAction, ShellNotificationType } from 'ngssm-shell';
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
 
 @Component({
   selector: 'ngssm-notifications-demo',
@@ -27,7 +27,9 @@ import { NgSsmComponent, Store } from 'ngssm-store';
   styleUrls: ['./notifications-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotificationsDemoComponent extends NgSsmComponent {
+export class NotificationsDemoComponent {
+  private readonly store = inject(Store);
+
   private details: string | undefined;
 
   public readonly ngssmAceEditorMode = NgssmAceEditorMode;
@@ -38,10 +40,6 @@ export class NotificationsDemoComponent extends NgSsmComponent {
     type: this.typeControl,
     title: this.titleControl
   });
-
-  constructor(store: Store) {
-    super(store);
-  }
 
   public onContentChanged(event: string): void {
     this.details = event;
@@ -55,9 +53,8 @@ export class NotificationsDemoComponent extends NgSsmComponent {
 
     const title = this.titleControl.value;
     const type = this.typeControl.value;
-    if (type && title){
-      this.dispatchAction(new DisplayNotificationAction(type, title, detailsObject));
+    if (type && title) {
+      this.store.dispatchAction(new DisplayNotificationAction(type, title, detailsObject));
     }
-    
   }
 }

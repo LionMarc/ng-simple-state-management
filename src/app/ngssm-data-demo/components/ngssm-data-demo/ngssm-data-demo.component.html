@@ -1,81 +1,76 @@
 <div class="fxFlex flex-row-stretch">
+  <div class="fxFlex flex-column-stretch">
+    <mat-card class="fxFlex flex-column-stretch subcard">
+      <mat-card-header>
+        <mat-card-title class="flex-row-center">
+          Data source registered at startup
 
-    <div class="fxFlex flex-column-stretch">
+          @if (store.state() | isNgssmDataSourceValueStatus: teamsKey : 'loading') {
+            <mat-spinner [diameter]="24"></mat-spinner>
+          }
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content
+        class="flex-column-stretch fxFlex"
+        [ngssmDisplayOverlay]="store.state() | isNgssmDataSourceValueStatus: teamsKey : 'loading'">
+        <div class="flex-row-center">
+          <ngssm-data-reload-button [dataSourceKeys]="[teamsKey]"></ngssm-data-reload-button>
+        </div>
+        <div class="flex-row-center">
+          Reload all: <ngssm-data-reload-button [dataSourceKeys]="[teamsKey, playersKey]"></ngssm-data-reload-button>
+        </div>
 
+        {{ teamsSourceValue.value() | json }}
+      </mat-card-content>
+    </mat-card>
 
-        <mat-card class="fxFlex flex-column-stretch subcard">
-            <mat-card-header>
-                <mat-card-title class="flex-row-center">
-                    Data source registered at startup
+    <mat-card class="fxFlex flex-column-stretch subcard">
+      <mat-card-header>
+        <mat-card-title class="flex-row-center">
+          Data source not registered at startup
 
-                    @if(store.state() | isNgssmDataSourceValueStatus:teamsKey:'loading') {
-                    <mat-spinner [diameter]="24"></mat-spinner>
-                    }
+          @if (store.state() | isNgssmDataSourceValueStatus: playersKey : 'loading') {
+            <mat-spinner [diameter]="24"></mat-spinner>
+          } @else if (store.state() | isNgssmDataSourceValueStatus: playersKey : 'error' : 'none') {
+            [No data]
+          } @else if (store.state() | isNgssmDataSourceValueStatus: playersKey : 'notRegistered') {
+            [Not registered]
+          }
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="flex-column-stretch fxFlex">
+        <div class="flex-row-center">
+          <ngssm-data-reload-button [dataSourceKeys]="[playersKey]"></ngssm-data-reload-button>
+          <button mat-stroked-button color="primary" (click)="registerPlayers()" class="with-margin-right-12">
+            Register players source
+          </button>
+        </div>
 
-                </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="flex-column-stretch fxFlex"
-                [ngssmDisplayOverlay]="store.state() | isNgssmDataSourceValueStatus:teamsKey:'loading'">
-                <div class="flex-row-center">
-                    <ngssm-data-reload-button [dataSourceKeys]="[teamsKey]"></ngssm-data-reload-button>
-                </div>
-                <div class="flex-row-center">
-                    Reload all: <ngssm-data-reload-button
-                        [dataSourceKeys]="[teamsKey, playersKey]"></ngssm-data-reload-button>
-                </div>
+        {{ playersSourceValue.value() | json }}
+      </mat-card-content>
+    </mat-card>
 
-                {{teamsSourceValue() | json}}
-            </mat-card-content>
-        </mat-card>
-
-        <mat-card class="fxFlex flex-column-stretch subcard">
-            <mat-card-header>
-                <mat-card-title class="flex-row-center">
-                    Data source not registered at startup
-
-                    @if(store.state() | isNgssmDataSourceValueStatus:playersKey:'loading') {
-                    <mat-spinner [diameter]="24"></mat-spinner>
-                    } @else if(store.state() | isNgssmDataSourceValueStatus:playersKey:'error':'none') {
-                    [No data]
-                    } @else if(store.state() | isNgssmDataSourceValueStatus:playersKey:'notRegistered') {
-                    [Not registered]
-                    }
-
-                </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="flex-column-stretch fxFlex">
-                <div class="flex-row-center">
-                    <ngssm-data-reload-button [dataSourceKeys]="[playersKey]"></ngssm-data-reload-button>
-                    <button mat-stroked-button color="primary" (click)="registerPlayers()" class="with-margin-right-12">
-                        Register players source
-                    </button>
-                </div>
-
-
-                {{playersSourceValue() | json}}
-            </mat-card-content>
-        </mat-card>
-
-        <mat-card class="fxFlex flex-column-stretch subcard">
-            <mat-card-header>
-                <mat-card-title>Component with scoped data source</mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="fxFlex flex-column-stretch">
-                <button mat-stroked-button color="primary"
-                    (click)="componentWithScopedDatasourceRendered.set(!componentWithScopedDatasourceRendered())">
-                    @if(componentWithScopedDatasourceRendered()) {
-                    Remove
-                    } @else {
-                    Display
-                    }
-                    component with scoped source
-                </button>
-                @if(componentWithScopedDatasourceRendered()) {
-                <ngssm-component-with-scoped-data-source class="fxFlex"></ngssm-component-with-scoped-data-source>
-                }
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <ngssm-ace-editor class="fxFlex" [content]="state()" [editorMode]="'ace/mode/json'" [readonly]="true">
-    </ngssm-ace-editor>
+    <mat-card class="fxFlex flex-column-stretch subcard">
+      <mat-card-header>
+        <mat-card-title>Component with scoped data source</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="fxFlex flex-column-stretch">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="componentWithScopedDatasourceRendered.set(!componentWithScopedDatasourceRendered())">
+          @if (componentWithScopedDatasourceRendered()) {
+            Remove
+          } @else {
+            Display
+          }
+          component with scoped source
+        </button>
+        @if (componentWithScopedDatasourceRendered()) {
+          <ngssm-component-with-scoped-data-source class="fxFlex"></ngssm-component-with-scoped-data-source>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ngssm-ace-editor class="fxFlex" [content]="state()" [editorMode]="'ace/mode/json'" [readonly]="true"> </ngssm-ace-editor>
 </div>

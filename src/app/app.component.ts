@@ -1,11 +1,11 @@
-import { Component, Type } from '@angular/core';
+import { Component, Type, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 import { NavigationActionType } from 'ngssm-navigation';
 import { NgssmCachesDisplayButtonComponent } from 'ngssm-remote-data';
 import { LockNavigationBarAction, LockStatus, ShellActionType, ShellComponent, ShellConfig } from 'ngssm-shell';
-import { createSignal, NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import { selectNgssmDataSourceValue } from 'ngssm-data';
 import { ServiceInfo, serviceInfoKey } from 'ngssm-smusdi';
 
@@ -17,7 +17,9 @@ import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent extends NgSsmComponent {
+export class AppComponent {
+  private readonly store = inject(Store);
+
   private readonly footerComponents: (string | Type<unknown>)[] = [
     '<div class="footer-message">Demo application</div>',
     '<div class="footer-message">Another message</div>',
@@ -126,27 +128,23 @@ export class AppComponent extends NgSsmComponent {
 
   public readonly lockStatus = LockStatus;
 
-  constructor(store: Store) {
-    super(store);
-  }
-
   public closeNavigationBar(): void {
-    this.dispatchActionType(ShellActionType.closeNavigationBar);
+    this.store.dispatchActionType(ShellActionType.closeNavigationBar);
   }
 
   public openNavigationBar(): void {
-    this.dispatchActionType(ShellActionType.openNavigationBar);
+    this.store.dispatchActionType(ShellActionType.openNavigationBar);
   }
 
   public lockNavigationBar(status: LockStatus): void {
-    this.dispatchAction(new LockNavigationBarAction(status));
+    this.store.dispatchAction(new LockNavigationBarAction(status));
   }
 
   public lockNavigation(isLocked: boolean): void {
     if (isLocked) {
-      this.dispatchActionType(NavigationActionType.lockNavigation);
+      this.store.dispatchActionType(NavigationActionType.lockNavigation);
     } else {
-      this.dispatchActionType(NavigationActionType.unLockNavigation);
+      this.store.dispatchActionType(NavigationActionType.unLockNavigation);
     }
   }
 }
