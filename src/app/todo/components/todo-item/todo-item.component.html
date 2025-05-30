@@ -1,15 +1,14 @@
 @let todoItemInstance = todoItem();
 @if (todoItemInstance) {
-<mat-card>
+  <mat-card>
     <mat-card-header>
-        <mat-card-title class="flex-row-center">
-            {{todoItemInstance.title}}
-            <span class="fxFlex"></span>
-            <button mat-icon-button color="primary" (click)="editTodoItem(todoItemInstance.id ?? -1)"
-                matTooltip="Edit To-Do">
-                <mat-icon class="fa-solid fa-pen-to-square"></mat-icon>
-            </button>
-        </mat-card-title>
+      <mat-card-title class="flex-row-center">
+        {{ todoItemInstance.title }}
+        <span class="fxFlex"></span>
+        <button mat-icon-button color="primary" (click)="editTodoItem(todoItemInstance.id ?? -1)" matTooltip="Edit To-Do">
+          <mat-icon class="fa-solid fa-pen-to-square"></mat-icon>
+        </button>
+      </mat-card-title>
     </mat-card-header>
-</mat-card>
+  </mat-card>
 }

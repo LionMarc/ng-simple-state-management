@@ -109,7 +109,7 @@
           <mat-label>Comment</mat-label>
           <input matInput [formControl]="commentControl" />
         </mat-form-field>
-        <div [ngssmComponentDisplay]="componentDisplayControl.value" [ngssmComponentAction]="componentAction$ | async"></div>
+        <div [ngssmComponentDisplay]="componentDisplayControl.value" [ngssmComponentAction]="componentAction()"></div>
       </mat-card-content>
     </mat-card>
 

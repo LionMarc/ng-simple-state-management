@@ -1,13 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {
-  FeatureStateSpecification,
-  NGSSM_COMPONENT_WITH_FEATURE_STATE,
-  NgSsmComponent,
-  ProvideNgssmFeatureStateDirective,
-  Store
-} from 'ngssm-store';
+import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE, ProvideNgssmFeatureStateDirective } from 'ngssm-store';
 
 @Component({
   selector: 'ngssm-component-with-feature-state',
@@ -24,12 +18,8 @@ import {
     }
   ]
 })
-export class ComponentWithFeatureStateComponent extends NgSsmComponent implements FeatureStateSpecification {
+export class ComponentWithFeatureStateComponent implements FeatureStateSpecification {
   private static nextId = 1;
-
-  constructor(store: Store) {
-    super(store);
-  }
 
   featureStateKey = `my-component-${ComponentWithFeatureStateComponent.nextId++}`;
   initialState = {

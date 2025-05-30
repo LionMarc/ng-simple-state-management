@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
 import {
   CutAndPasteTarget,
   NgssmExpressionTreeComponent,
@@ -27,7 +27,9 @@ import { Entry, databases } from '../database';
   styleUrls: ['./ngssm-expression-tree-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
+export class NgssmExpressionTreeDemoComponent {
+  private readonly store = inject(Store);
+
   public readonly treeConfig: NgssmExpressionTreeConfig<Filter> = {
     treeId: 'demo-expression-tree',
     disableVirtualization: true,
@@ -86,9 +88,7 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
     }
   };
 
-  constructor(store: Store) {
-    super(store);
-
+  constructor() {
     const nodes: NgssmNode<Filter>[] = [];
 
     let nextId = 1;
@@ -97,7 +97,7 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
     });
 
     setTimeout(() => {
-      this.dispatchAction(new NgssmInitExpressionTreeAction(demoTreeId, nodes));
+      this.store.dispatchAction(new NgssmInitExpressionTreeAction(demoTreeId, nodes));
     });
 
     nextId = 0;
@@ -135,6 +135,6 @@ export class NgssmExpressionTreeDemoComponent extends NgSsmComponent {
       });
     });
 
-    this.dispatchAction(new NgssmInitExpressionTreeAction(this.databaseTreeConfig.treeId, databaseNodes));
+    this.store.dispatchAction(new NgssmInitExpressionTreeAction(this.databaseTreeConfig.treeId, databaseNodes));
   }
 }

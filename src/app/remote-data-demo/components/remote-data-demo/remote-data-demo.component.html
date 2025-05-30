@@ -39,7 +39,7 @@
           </mat-card-header>
           <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteDataOverlay]="dataStatusKeys">
             <p>Custom Content</p>
-            @for (status of statuses$ | async; track status) {
+            @for (status of statuses(); track status) {
               <p>
                 {{ status }}
               </p>
@@ -71,7 +71,7 @@
           <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteCall]="'demo'">
             <ngssm-remote-call-error [remoteCallId]="'demo'"></ngssm-remote-call-error>
             <p>Custom Content</p>
-            {{ remoteCall$ | async | json }}
+            {{ remoteCall() | json }}
           </mat-card-content>
         </mat-card>
       </mat-card-content>

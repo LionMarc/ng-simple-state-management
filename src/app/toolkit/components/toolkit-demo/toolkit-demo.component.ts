@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy, Injectable, Type } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Injectable, Type, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,9 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, Observable } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { Store } from 'ngssm-store';
 import {
   NgssmFilePickerComponent,
   NgssmConfirmationDialogService,
@@ -55,8 +54,13 @@ export class TestingFilePickerInitialization {
   styleUrls: ['./toolkit-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToolkitDemoComponent extends NgSsmComponent {
-  private readonly _componentAction$ = new BehaviorSubject<NgssmComponentAction | null>(null);
+export class ToolkitDemoComponent {
+  private readonly store = inject(Store);
+  private readonly ngssmNotifierService = inject(NgssmNotifierService);
+  private readonly ngssmConfirmationDialogService = inject(NgssmConfirmationDialogService);
+  private readonly testingFilePickerInitialization = inject(TestingFilePickerInitialization);
+
+  public readonly componentAction = signal<NgssmComponentAction | null>(null);
 
   public readonly fileControl = new FormControl<File | undefined>(undefined, Validators.required);
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
@@ -73,14 +77,7 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   <p>Using Input as help setter</p>
   `;
 
-  constructor(
-    store: Store,
-    private ngssmNotifierService: NgssmNotifierService,
-    private ngssmConfirmationDialogService: NgssmConfirmationDialogService,
-    testingFilePickerInitialization: TestingFilePickerInitialization
-  ) {
-    super(store);
-
+  constructor() {
     this.filePickerDisabledControl.valueChanges.subscribe((v) => {
       if (v) {
         this.fileControl.disable();
@@ -91,21 +88,17 @@ export class ToolkitDemoComponent extends NgSsmComponent {
 
     this.commentControl.valueChanges.subscribe((value) => {
       if (!value) {
-        this._componentAction$.next(null);
+        this.componentAction.set(null);
       } else {
-        this._componentAction$.next((component) => (component as Demo1Component).setComment(value));
+        this.componentAction.set((component) => (component as Demo1Component).comment.set(value));
       }
     });
 
-    this.fileControl.setValue(testingFilePickerInitialization.file);
+    this.fileControl.setValue(this.testingFilePickerInitialization.file);
     this.fileControl.valueChanges.subscribe((f) => {
       console.log('FileControl has changed');
-      testingFilePickerInitialization.file = f ?? undefined;
+      this.testingFilePickerInitialization.file = f ?? undefined;
     });
-  }
-
-  public get componentAction$(): Observable<NgssmComponentAction | null> {
-    return this._componentAction$.asObservable();
   }
 
   public notifyError(message: string): void {
@@ -147,6 +140,6 @@ export class ToolkitDemoComponent extends NgSsmComponent {
   }
 
   public openDialogDemo(): void {
-    this.dispatchActionType(ToolkitDemoActionType.openDialogDemo);
+    this.store.dispatchActionType(ToolkitDemoActionType.openDialogDemo);
   }
 }

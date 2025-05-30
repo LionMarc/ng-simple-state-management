@@ -1,11 +1,15 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal } from 'ngssm-store';
 import { NgssmExpressionTreeCustomComponent, selectNgssmExpressionTreeState } from 'ngssm-tree';
 
 import { Filter } from '../filter';
-import { BehaviorSubject, Observable } from 'rxjs';
+
+interface Config {
+  nodeId: string;
+  treeId: string;
+}
 
 @Component({
   selector: 'ngssm-node-detail',
@@ -14,18 +18,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./node-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NodeDetailComponent extends NgSsmComponent implements NgssmExpressionTreeCustomComponent {
-  private readonly _node$ = new BehaviorSubject<Filter | null>(null);
+export class NodeDetailComponent implements NgssmExpressionTreeCustomComponent {
+  private readonly config = signal<Config | undefined>(undefined);
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
 
-  constructor(store: Store) {
-    super(store);
-  }
+  public readonly node = computed<Filter | null>(() => {
+    const currentConfig = this.config();
+    if (!currentConfig) {
+      return null;
+    }
 
-  public get node$(): Observable<Filter | null> {
-    return this._node$.asObservable();
-  }
+    return this.trees()[currentConfig.treeId].data[currentConfig.nodeId] as Filter;
+  });
 
   public setup(treeId: string, nodeId: string): void {
-    this.watch((s) => selectNgssmExpressionTreeState(s).trees[treeId].data[nodeId]).subscribe((v) => this._node$.next(v as Filter));
+    this.config.set({ nodeId, treeId });
   }
 }

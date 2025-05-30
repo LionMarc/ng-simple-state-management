@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, effect, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { take } from 'rxjs';
 
-import { NgSsmComponent, Store } from 'ngssm-store';
+import { createSignal, Store } from 'ngssm-store';
 import {
   CutAndPasteTarget,
   NgssmClearExpressionTreeAction,
@@ -26,7 +25,9 @@ import { JsonBuilderActionType } from '../../actions';
   styleUrls: ['./json-builder.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JsonBuilderComponent extends NgSsmComponent {
+export class JsonBuilderComponent implements OnDestroy {
+  private readonly store = inject(Store);
+
   public readonly treeConfig: NgssmExpressionTreeConfig<JsonNode> = {
     treeId: 'json-builder-demo',
     rowSize: 40,
@@ -40,37 +41,34 @@ export class JsonBuilderComponent extends NgSsmComponent {
     canPaste: (node: NgssmExpressionTreeNode<JsonNode>, targetNode: NgssmExpressionTreeNode<JsonNode>, target: CutAndPasteTarget) => true
   };
 
-  constructor(store: Store) {
-    super(store);
+  public readonly tree = createSignal<NgssmExpressionTree<JsonNode>>(
+    (state) => selectNgssmExpressionTreeState(state).trees[this.treeConfig.treeId] as NgssmExpressionTree<JsonNode>
+  );
 
-    this.watch((s) => selectJsonBuilderState(s).nextNodeId)
-      .pipe(take(1))
-      .subscribe((v) => {
-        this.dispatchAction(
-          new NgssmInitExpressionTreeAction<JsonNode>(this.treeConfig.treeId, [
-            {
-              id: `${v.toString()}`,
-              isExpandable: true,
-              data: { type: JsonNodeType.object }
-            }
-          ])
-        );
+  constructor() {
+    const nextNodeId = selectJsonBuilderState(this.store.state()).nextNodeId;
+    this.store.dispatchAction(
+      new NgssmInitExpressionTreeAction<JsonNode>(this.treeConfig.treeId, [
+        {
+          id: `${nextNodeId.toString()}`,
+          isExpandable: true,
+          data: { type: JsonNodeType.object }
+        }
+      ])
+    );
 
-        this.dispatchActionType(JsonBuilderActionType.incrementNextNodeId);
-      });
+    this.store.dispatchActionType(JsonBuilderActionType.incrementNextNodeId);
 
-    this.unsubscribeAll$.subscribe(() => this.dispatchAction(new NgssmClearExpressionTreeAction(this.treeConfig.treeId)));
-
-    this.watch((s) => selectNgssmExpressionTreeState(s).trees[this.treeConfig.treeId]).subscribe((value) => {
-      const tree = value as NgssmExpressionTree<JsonNode>;
-      if (!tree) {
+    effect(() => {
+      const currentTree = this.tree();
+      if (!currentTree) {
         return;
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = {};
 
-      tree.nodes.forEach((node) => {
+      currentTree.nodes.forEach((node) => {
         if (node.path.length === 0) {
           return;
         }
@@ -78,7 +76,7 @@ export class JsonBuilderComponent extends NgSsmComponent {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let item: any = result;
         node.path.forEach((id) => {
-          const name = tree.data[id].name;
+          const name = currentTree.data[id].name;
           if (name) {
             if (!item[name]) {
               item[name] = {};
@@ -88,7 +86,7 @@ export class JsonBuilderComponent extends NgSsmComponent {
           }
         });
 
-        const jsonNode = tree.data[node.data.id];
+        const jsonNode = currentTree.data[node.data.id];
         switch (jsonNode.type) {
           case JsonNodeType.object:
             item[jsonNode.name ?? node.data.id] = {};
@@ -102,5 +100,9 @@ export class JsonBuilderComponent extends NgSsmComponent {
 
       console.log('JSON BUILDER', result);
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.store.dispatchAction(new NgssmClearExpressionTreeAction(this.treeConfig.treeId));
   }
 }
