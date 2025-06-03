@@ -5,8 +5,8 @@
   "author": "Lion Marc",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": ">=18.0.0",
-    "@angular/core": ">=18.0.0",
+    "@angular/common": ">=20.0.0",
+    "@angular/core": ">=20.0.0",
     "ag-grid-angular": ">=31.0.0",
     "ag-grid-community": ">=31.0.0",
     "ngssm-store": ">=18.0.0"

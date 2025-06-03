@@ -5,8 +5,8 @@
   "author": "Lion Marc",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": ">=18.0.0",
-    "@angular/core": ">=18.0.0",
+    "@angular/common": ">=20.0.0",
+    "@angular/core": ">=20.0.0",
     "ngssm-toolkit": ">=18.0.0",
     "ngssm-store": ">=18.0.0",
     "ngssm-ace-editor": ">=18.0.0"
