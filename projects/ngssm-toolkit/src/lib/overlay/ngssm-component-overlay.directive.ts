@@ -2,13 +2,10 @@ import { Directive, inject, Input, TemplateRef } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
 
 import { NgssmOverlayBuilder } from './ngssm-overlay-builder';
-import { NgssmOverlayContainer } from './ngssm-overlay-container';
-
-import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Directive({
   selector: '[ngssmDisplayOverlay]',
-  providers: [NgssmOverlayBuilder, { provide: OverlayContainer, useClass: NgssmOverlayContainer }]
+  providers: [NgssmOverlayBuilder]
 })
 export class NgssmComponentOverlayDirective {
   private overlayBuilder = inject(NgssmOverlayBuilder);

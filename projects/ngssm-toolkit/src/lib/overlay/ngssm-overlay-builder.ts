@@ -7,7 +7,17 @@ import {
   OverlayRef
 } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
-import { ElementRef, inject, Injectable, Injector, OnDestroy, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  DestroyableInjector,
+  ElementRef,
+  inject,
+  Injectable,
+  Injector,
+  OnDestroy,
+  Renderer2,
+  TemplateRef,
+  ViewContainerRef
+} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { Logger } from 'ngssm-store';
@@ -20,12 +30,13 @@ export class NgssmOverlayBuilder implements OnDestroy {
   private static nextId = 1;
 
   private readonly logger = inject(Logger);
-  private readonly overlayContainer = inject(OverlayContainer);
   private readonly injector = inject(Injector);
   private readonly elementRef = inject(ElementRef);
   private readonly overlay = inject(Overlay);
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly renderer = inject(Renderer2);
+
+  private overlayInjector?: DestroyableInjector;
 
   private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
   private id = NgssmOverlayBuilder.nextId++;
@@ -38,9 +49,15 @@ export class NgssmOverlayBuilder implements OnDestroy {
   constructor() {
     this.logger.information(`[NgssmOverlayBuilder] Creating overlay ${this.id}`);
     this.renderer.setStyle(this.elementRef.nativeElement, 'position', 'relative');
-    (this.overlayContainer as NgssmOverlayContainer).setContainerRef(this.elementRef);
 
-    this.overlayRef = createOverlayRef(this.injector, {
+    this.overlayInjector = Injector.create({
+      providers: [{ provide: OverlayContainer, useClass: NgssmOverlayContainer }],
+      parent: this.injector
+    });
+    const overlayContainer = this.overlayInjector.get(OverlayContainer);
+    (overlayContainer as NgssmOverlayContainer).setContainerRef(this.elementRef);
+
+    this.overlayRef = createOverlayRef(this.overlayInjector, {
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
       scrollStrategy: createRepositionScrollStrategy(this.injector),
       hasBackdrop: true
@@ -50,6 +67,7 @@ export class NgssmOverlayBuilder implements OnDestroy {
   public ngOnDestroy(): void {
     this.logger.information(`[NgssmOverlayBuilder] Destroying overlay ${this.id}`);
     this.overlayRef.detach();
+    this.overlayInjector?.destroy();
   }
 
   public set overlayMessage(value: string) {
