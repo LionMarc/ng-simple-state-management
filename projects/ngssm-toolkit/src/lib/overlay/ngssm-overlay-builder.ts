@@ -36,8 +36,7 @@ export class NgssmOverlayBuilder implements OnDestroy {
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly renderer = inject(Renderer2);
 
-  private overlayInjector?: DestroyableInjector;
-
+  private readonly overlayInjector?: DestroyableInjector;
   private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
   private id = NgssmOverlayBuilder.nextId++;
 
