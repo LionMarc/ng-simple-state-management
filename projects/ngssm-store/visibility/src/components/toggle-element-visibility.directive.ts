@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, inject, Input } from '@angular/core';
 
 import { Store } from 'ngssm-store';
 
@@ -10,9 +10,9 @@ import { ToggleElementVisibilityAction } from '../actions';
   standalone: true
 })
 export class ToggleElementVisibilityDirective {
-  @Input('toggleElementVisibility') public key: string | undefined | null = '';
+  private readonly store = inject(Store);
 
-  constructor(private store: Store) {}
+  @Input('toggleElementVisibility') public key: string | undefined | null = '';
 
   @HostListener('click', ['$event'])
   public toggleElementvisibility(): void {

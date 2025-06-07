@@ -1,9 +1,11 @@
+import { TestBed } from '@angular/core/testing';
+
 import { Observable, of } from 'rxjs';
 
 import { State } from 'ngssm-store';
 
 import { LoadRemoteDataAction, RemoteDataActionType } from '../actions';
-import { DataStatus, RemoteDataProvider } from '../model';
+import { DataStatus, NGSSM_REMOTE_DATA_PROVIDER, RemoteDataProvider } from '../model';
 import { RemoteDataStateInitializer } from '../remote-data-state-initializer';
 import { RemoteDataStateSpecification, selectRemoteData, updateRemoteDataState } from '../state';
 import { RemoteDataReducer } from './remote-data.reducer';
@@ -27,8 +29,19 @@ describe('RemoteDataReducer', () => {
         get: (): Observable<number> => of(1)
       }
     ];
-    state = new RemoteDataStateInitializer(remoteDataProviders).initializeState(state);
-    reducer = new RemoteDataReducer(remoteDataProviders);
+    TestBed.configureTestingModule({
+      providers: [
+        RemoteDataStateInitializer,
+        RemoteDataReducer,
+        ...remoteDataProviders.map((r) => ({
+          provide: NGSSM_REMOTE_DATA_PROVIDER,
+          useValue: r,
+          multi: true
+        }))
+      ]
+    });
+    state = TestBed.inject(RemoteDataStateInitializer).initializeState(state);
+    reducer = TestBed.inject(RemoteDataReducer);
   });
 
   [RemoteDataActionType.loadRemoteData, RemoteDataActionType.registerLoadedRemoteData].forEach((actionType: string) => {
@@ -53,15 +66,7 @@ describe('RemoteDataReducer', () => {
     });
 
     it(`should return the input state when the provider associated to the key does not exist`, () => {
-      const action = new LoadRemoteDataAction('data001');
-      const remoteDataProviders: RemoteDataProvider[] = [
-        {
-          remoteDataKey: 'data002',
-          cacheDurationInSeconds: 100,
-          get: (): Observable<number> => of(1)
-        }
-      ];
-      reducer = new RemoteDataReducer(remoteDataProviders);
+      const action = new LoadRemoteDataAction('data003');
 
       const updatedState = reducer.updateState(state, action);
 

@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { ConsoleAppender } from './console-appender';
 import { Logger } from './logger';
 
@@ -6,8 +7,9 @@ describe('ConsoleAppender', () => {
   let logger: Logger;
 
   beforeEach(() => {
-    logger = new Logger();
-    appender = new ConsoleAppender(logger);
+    TestBed.configureTestingModule({});
+    logger = TestBed.inject(Logger);
+    appender = TestBed.inject(ConsoleAppender);
   });
 
   describe('when appender is started', () => {

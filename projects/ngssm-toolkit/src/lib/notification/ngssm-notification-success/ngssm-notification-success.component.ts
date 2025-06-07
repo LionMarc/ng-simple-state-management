@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,5 +11,5 @@ import { MatIconModule } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmNotificationSuccessComponent {
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public message: string) {}
+  public message: string = inject(MAT_SNACK_BAR_DATA);
 }

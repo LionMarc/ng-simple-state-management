@@ -1,4 +1,4 @@
-import { EnvironmentInjector, Inject, Injectable, Optional, runInInjectionContext } from '@angular/core';
+import { EnvironmentInjector, Injectable, runInInjectionContext, inject } from '@angular/core';
 
 import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
@@ -9,16 +9,18 @@ import { selectRemoteDataState } from '../state';
 
 @Injectable()
 export class RemoteDataLoadingEffect implements Effect {
+  private readonly remoteDataProviders: RemoteDataProvider[] | null = inject(NGSSM_REMOTE_DATA_PROVIDER, {
+    optional: true
+  }) as unknown as RemoteDataProvider[];
+  private readonly notifierService = inject(NgssmNotifierService);
+  private readonly injector = inject(EnvironmentInjector);
+
   private readonly remoteDataProvidersPerKey: Map<string, RemoteDataProvider>;
 
   public readonly processedActions: string[] = [RemoteDataActionType.loadRemoteData];
 
-  constructor(
-    @Inject(NGSSM_REMOTE_DATA_PROVIDER) @Optional() remoteDataProviders: RemoteDataProvider[],
-    private notifierService: NgssmNotifierService,
-    private injector: EnvironmentInjector
-  ) {
-    this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));
+  constructor() {
+    this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((this.remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));
   }
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {

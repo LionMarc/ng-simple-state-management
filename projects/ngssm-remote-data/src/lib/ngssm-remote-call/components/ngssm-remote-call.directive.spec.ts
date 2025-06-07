@@ -15,7 +15,7 @@ import { RemoteCallStatus } from '../model';
 })
 class TestingComponent {}
 
-fdescribe('NgssmRemoteCallDirective', () => {
+describe('NgssmRemoteCallDirective', () => {
   let fixture: ComponentFixture<TestingComponent>;
   let store: StoreMock;
   let directive: NgssmRemoteCallDirective;
@@ -68,7 +68,7 @@ fdescribe('NgssmRemoteCallDirective', () => {
       });
     });
 
-    fit(`should render the overlay when remote call status is ${RemoteCallStatus.inProgress}`, () => {
+    it(`should render the overlay when remote call status is ${RemoteCallStatus.inProgress}`, () => {
       const state = updateNgssmRemoteCallState(store.stateValue, {
         remoteCalls: {
           demo: {

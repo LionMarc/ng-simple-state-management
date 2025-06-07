@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
@@ -8,9 +8,13 @@ import { updateNgssmRemoteCallState } from '../state';
 
 @Injectable()
 export class RemoteCallReducer implements Reducer {
+  private readonly remoteCallConfigs: RemoteCallConfig[] | null = inject(NGSSM_REMOTE_CALL_CONFIG, {
+    optional: true
+  }) as unknown as RemoteCallConfig[];
+
   public readonly processedActions: string[] = [];
 
-  constructor(@Inject(NGSSM_REMOTE_CALL_CONFIG) @Optional() private remoteCallConfigs: RemoteCallConfig[]) {
+  constructor() {
     (this.remoteCallConfigs ?? []).forEach((c) => this.processedActions.push(...[...c.triggeredActionTypes, ...c.resultActionTypes]));
   }
 

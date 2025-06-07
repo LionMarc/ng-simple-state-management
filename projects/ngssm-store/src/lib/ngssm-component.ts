@@ -1,16 +1,15 @@
-import { Directive, OnDestroy } from '@angular/core';
+import { Directive, inject, OnDestroy } from '@angular/core';
 import { map, Observable, Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 
 import { Action } from './action';
 import { State } from './state';
 import { Store } from './store';
 
-@Directive({
-})
+@Directive({})
 export class NgSsmComponent implements OnDestroy {
-  private readonly _unsubscribeAll$ = new Subject<void>();
+  protected store = inject(Store);
 
-  constructor(protected store: Store) {}
+  private readonly _unsubscribeAll$ = new Subject<void>();
 
   protected get unsubscribeAll$(): Observable<void> {
     return this._unsubscribeAll$.asObservable();

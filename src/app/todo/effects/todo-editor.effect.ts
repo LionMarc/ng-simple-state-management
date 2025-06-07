@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
-import { NgssmNotifierService } from 'ngssm-toolkit';
 
 import { TodoActionType } from '../actions';
 import { TodoItemEditorComponent } from '../components/todo-item-editor/todo-item-editor.component';
@@ -12,6 +11,8 @@ import { NgssmLoadDataSourceValueAction } from 'ngssm-data';
 
 @Injectable()
 export class TodoEditorEffect implements Effect {
+  private readonly matDialog = inject(MatDialog);
+
   private dialog: MatDialogRef<TodoItemEditorComponent> | undefined;
 
   public readonly processedActions: string[] = [
@@ -20,11 +21,6 @@ export class TodoEditorEffect implements Effect {
     TodoActionType.editTodoItem,
     TodoActionType.todoItemLoaded
   ];
-
-  constructor(
-    private matDialog: MatDialog,
-    private notifier: NgssmNotifierService
-  ) {}
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

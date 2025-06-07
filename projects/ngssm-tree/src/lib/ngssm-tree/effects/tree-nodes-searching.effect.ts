@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { DataStatus } from 'ngssm-remote-data';
@@ -12,6 +12,9 @@ import { selectNgssmTreeNode, selectNgssmTreeNodeChildren, selectNgssmTreeState 
 
 @Injectable()
 export class TreeNodesSearchingEffect implements Effect {
+  private readonly matDialog = inject(MatDialog);
+  private readonly logger = inject(Logger);
+
   private dialog: MatDialogRef<NgssmTreeSearchDialogComponent> | undefined;
 
   public readonly processedActions: string[] = [
@@ -21,11 +24,6 @@ export class TreeNodesSearchingEffect implements Effect {
     NgssmTreeActionType.registerNodes,
     NgssmTreeActionType.registerPartialSearchResults
   ];
-
-  constructor(
-    private matDialog: MatDialog,
-    private logger: Logger
-  ) {}
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
@@ -11,6 +11,8 @@ import { JsonNodeType } from '../model';
 
 @Injectable()
 export class JsonNodeEditorEffect implements Effect {
+  private readonly matDialog = inject(MatDialog);
+
   private dialog: MatDialogRef<JsonNodeEditorComponent> | undefined;
 
   public readonly processedActions: string[] = [
@@ -18,8 +20,6 @@ export class JsonNodeEditorEffect implements Effect {
     JsonBuilderActionType.closeJsonNodeEditor,
     JsonBuilderActionType.submitJsonNode
   ];
-
-  constructor(private matDialog: MatDialog) {}
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

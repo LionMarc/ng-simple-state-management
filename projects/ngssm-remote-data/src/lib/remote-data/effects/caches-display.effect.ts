@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
@@ -7,11 +7,11 @@ import { NgssmCachesComponent } from '../components';
 
 @Injectable()
 export class CachesDisplayEffect implements Effect {
+  private readonly matDialog = inject(MatDialog);
+
   private dialog: MatDialogRef<NgssmCachesComponent> | undefined;
 
   public readonly processedActions: string[] = [RemoteDataActionType.displayCaches, RemoteDataActionType.closeCachesComponent];
-
-  constructor(private matDialog: MatDialog) {}
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

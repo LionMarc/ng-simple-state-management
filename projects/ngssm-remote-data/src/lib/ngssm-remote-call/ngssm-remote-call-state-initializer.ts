@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { State, StateInitializer } from 'ngssm-store';
 
@@ -7,7 +7,9 @@ import { updateNgssmRemoteCallState } from './state';
 
 @Injectable()
 export class NgssmRemoteCallStateInitializer implements StateInitializer {
-  constructor(@Inject(NGSSM_REMOTE_CALL_CONFIG) @Optional() private remoteCallConfigs: RemoteCallConfig[]) {}
+  private readonly remoteCallConfigs: RemoteCallConfig[] | null = inject(NGSSM_REMOTE_CALL_CONFIG, {
+    optional: true
+  }) as unknown as RemoteCallConfig[];
 
   public initializeState(state: State): State {
     const tempState = state;

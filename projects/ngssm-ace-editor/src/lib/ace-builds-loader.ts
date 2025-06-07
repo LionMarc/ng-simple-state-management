@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Inject, Injectable, DOCUMENT } from '@angular/core';
+import { Injectable, DOCUMENT, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Logger } from 'ngssm-store';
@@ -9,13 +7,11 @@ import { Logger } from 'ngssm-store';
   providedIn: 'root'
 })
 export class AceBuildsLoader {
+  private readonly document = inject(DOCUMENT);
+  private readonly logger = inject(Logger);
+
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _initialized = false;
-
-  constructor(
-    @Inject(DOCUMENT) private document: any,
-    private logger: Logger
-  ) {}
 
   public get loading$(): Observable<boolean> {
     return this._loading$.asObservable();
@@ -31,7 +27,9 @@ export class AceBuildsLoader {
     script.type = 'text/javascript';
     script.src = 'ace-builds/ace.js';
     script.onload = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).ace.config.set('basePath', 'ace-builds');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).ace.config.set('workerPath', 'ace-builds');
       this.logger.information(`[ace-editor] ace loaded.`);
       this._loading$.next(false);

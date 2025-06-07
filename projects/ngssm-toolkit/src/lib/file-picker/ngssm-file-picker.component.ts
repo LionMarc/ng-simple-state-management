@@ -1,6 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostBinding, input, Input, OnDestroy, Optional, Self, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, inject, input, Input, OnDestroy, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -21,6 +21,8 @@ export const noop = () => {
 export class NgssmFilePickerComponent implements MatFormFieldControl<File>, ControlValueAccessor, OnDestroy {
   private static nextId = 0;
 
+  public readonly ngControl: NgControl | null = inject(NgControl, { optional: true, self: true });
+
   private onChangeCallback: (_: unknown) => void = noop;
   private _required = false;
   private _disabled = false;
@@ -29,7 +31,7 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
 
   @ViewChild('fileInput', { static: true }) fileInput: ElementRef | undefined;
 
-  constructor(@Optional() @Self() public ngControl: NgControl) {
+  constructor() {
     // Replace the provider from above with this.
     if (this.ngControl != null) {
       // Setting the value accessor directly (instead of using
@@ -76,7 +78,7 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
   }
 
   public get errorState(): boolean {
-    return this.ngControl.invalid ?? false;
+    return this.ngControl?.invalid ?? false;
   }
 
   public get lastModificationDate(): string {

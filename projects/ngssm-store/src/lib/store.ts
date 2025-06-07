@@ -1,4 +1,4 @@
-import { EnvironmentInjector, Inject, Injectable, Optional, Signal, runInInjectionContext, signal } from '@angular/core';
+import { EnvironmentInjector, Injectable, Signal, inject, runInInjectionContext, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import update from 'immutability-helper';
@@ -40,6 +40,17 @@ export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
   providedIn: 'root'
 })
 export class Store implements ActionDispatcher {
+  // Logger service for debugging and monitoring.
+  private readonly logger = inject(Logger);
+  // Array of reducers to process state updates.
+  private readonly reducers: Reducer[] | null = inject(NGSSM_REDUCER, { optional: true }) as unknown as Reducer[];
+  //  Array of effects to handle side effects.
+  private readonly effects: Effect[] | null = inject(NGSSM_EFFECT, { optional: true }) as unknown as Effect[];
+  // Array of state initializers to set up the initial state.
+  private readonly initializers: StateInitializer[] = inject(NGSSM_STATE_INITIALIZER, { optional: true }) as unknown as StateInitializer[];
+  // Angular's `EnvironmentInjector` for running effects in the correct context.
+  private injector = inject(EnvironmentInjector);
+
   // The current state of the application, managed as a BehaviorSubject for RxJS compatibility.
   private readonly _state$ = new BehaviorSubject<State>({});
 
@@ -69,20 +80,8 @@ export class Store implements ActionDispatcher {
   /**
    * Initializes the `Store` with reducers, effects, and state initializers.
    * Also sets up the initial state and registers reducers and effects.
-   *
-   * @param logger - Logger service for debugging and monitoring.
-   * @param reducers - Array of reducers to process state updates.
-   * @param effects - Array of effects to handle side effects.
-   * @param initializers - Array of state initializers to set up the initial state.
-   * @param injector - Angular's `EnvironmentInjector` for running effects in the correct context.
    */
-  constructor(
-    private logger: Logger,
-    @Inject(NGSSM_REDUCER) @Optional() reducers: Reducer[],
-    @Inject(NGSSM_EFFECT) @Optional() effects: Effect[],
-    @Inject(NGSSM_STATE_INITIALIZER) @Optional() initializers: StateInitializer[],
-    private injector: EnvironmentInjector
-  ) {
+  constructor() {
     // Synchronize the RxJS state with the Angular signal state.
     this._state$.subscribe((value) => this._stateSignal.set(value));
 
@@ -93,7 +92,7 @@ export class Store implements ActionDispatcher {
     state = featureStateSpecifications.reduce((p, c) => update(p, { [c.featureStateKey]: { $set: c.initialState } }), state);
 
     // Apply state initializers.
-    (initializers ?? []).forEach((initializer) => {
+    (this.initializers ?? []).forEach((initializer) => {
       this.logger.information('[Store] ------> calling initializer', initializer);
       state = initializer.initializeState(state);
     });
@@ -102,10 +101,10 @@ export class Store implements ActionDispatcher {
     this._state$.next(state);
 
     // Register reducers and effects.
-    this.logger.information(`[Store] ---> initialization of ${(reducers ?? []).length} reducers...`);
-    this.initializeProcessors(reducers, this.reducersPerActionType, (r) => r.processedActions);
-    this.logger.information(`[Store] ---> initialization of ${(effects ?? []).length} effects...`);
-    this.initializeProcessors(effects, this.effectsPerActionType, (e) => e.processedActions);
+    this.logger.information(`[Store] ---> initialization of ${(this.reducers ?? []).length} reducers...`);
+    this.initializeProcessors(this.reducers ?? [], this.reducersPerActionType, (r) => r.processedActions);
+    this.logger.information(`[Store] ---> initialization of ${(this.effects ?? []).length} effects...`);
+    this.initializeProcessors(this.effects ?? [], this.effectsPerActionType, (e) => e.processedActions);
   }
 
   /**
@@ -259,11 +258,11 @@ export class Store implements ActionDispatcher {
    * @param getProcessedActions - A function to retrieve the action types processed by a processor.
    */
   private initializeProcessors<T>(
-    processors: T[] | undefined,
+    processors: T[],
     processorMap: Map<string, T[]>,
     getProcessedActions: (processor: T) => string[]
   ): void {
-    (processors ?? []).forEach((processor) => {
+    processors.forEach((processor) => {
       this.logger.information('[Store] ------> initialization of ', processor);
       getProcessedActions(processor).forEach((actionType) => {
         const storedProcessors = processorMap.get(actionType) ?? [];

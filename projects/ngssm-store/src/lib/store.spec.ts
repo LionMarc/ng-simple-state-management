@@ -1,28 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { effect, EnvironmentInjector } from '@angular/core';
+import { effect } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import update from 'immutability-helper';
 
 import { State } from './state';
-import { StateInitializer } from './state-initializer';
+import { NGSSM_STATE_INITIALIZER, StateInitializer } from './state-initializer';
 import { Store } from './store';
-import { Reducer } from './reducer';
-import { Effect } from './effect';
-import { Logger } from './logging';
+import { NGSSM_REDUCER, Reducer } from './reducer';
+import { Effect, NGSSM_EFFECT } from './effect';
 import { Action } from './action';
 
 describe('Store', () => {
-  let logger: Logger;
   let store: Store;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    logger = TestBed.inject(Logger);
-  });
-
   it('should store the dispatched action in the queue before processing it in the next iteration', fakeAsync(() => {
-    store = new Store(logger, [], [], [], TestBed.inject(EnvironmentInjector));
+    TestBed.configureTestingModule({});
+    store = TestBed.inject(Store);
 
     store.dispatchAction({ type: 'testing' });
     expect((store as any).actionQueue.length).toEqual(1);
@@ -52,7 +46,13 @@ describe('Store', () => {
         })
     };
 
-    store = new Store(logger, [], [], [first, second], TestBed.inject(EnvironmentInjector));
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: NGSSM_STATE_INITIALIZER, useValue: first, multi: true },
+        { provide: NGSSM_STATE_INITIALIZER, useValue: second, multi: true }
+      ]
+    });
+    store = TestBed.inject(Store);
 
     expect(store.state()).toEqual({
       first: {
@@ -82,7 +82,14 @@ describe('Store', () => {
     spyOn(second, 'updateState').and.callThrough();
     spyOn(third, 'updateState').and.callThrough();
 
-    store = new Store(logger, [first, second, third], [], [], TestBed.inject(EnvironmentInjector));
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: NGSSM_REDUCER, useValue: first, multi: true },
+        { provide: NGSSM_REDUCER, useValue: second, multi: true },
+        { provide: NGSSM_REDUCER, useValue: third, multi: true }
+      ]
+    });
+    store = TestBed.inject(Store);
 
     store.dispatchActionType('createTodo');
     tick();
@@ -105,7 +112,10 @@ describe('Store', () => {
 
     spyOn(first, 'updateState').and.callThrough();
 
-    store = new Store(logger, [first], [], [], TestBed.inject(EnvironmentInjector));
+    TestBed.configureTestingModule({
+      providers: [{ provide: NGSSM_REDUCER, useValue: first, multi: true }]
+    });
+    store = TestBed.inject(Store);
 
     let lastAction: Action | undefined = undefined;
     let stateAfterAction: State | undefined = undefined;
@@ -151,7 +161,14 @@ describe('Store', () => {
     spyOn(second, 'processAction').and.callThrough();
     spyOn(third, 'processAction').and.callThrough();
 
-    store = new Store(logger, [], [first, second, third], [], TestBed.inject(EnvironmentInjector));
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: NGSSM_EFFECT, useValue: first, multi: true },
+        { provide: NGSSM_EFFECT, useValue: second, multi: true },
+        { provide: NGSSM_EFFECT, useValue: third, multi: true }
+      ]
+    });
+    store = TestBed.inject(Store);
 
     store.dispatchActionType('createTodo');
     tick();

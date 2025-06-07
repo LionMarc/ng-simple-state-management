@@ -1,4 +1,4 @@
-import { Directive, Inject, OnDestroy } from '@angular/core';
+import { Directive, inject, OnDestroy } from '@angular/core';
 
 import { Store } from '../store';
 import { NgssmRegisterFeatureStateAction, NgssmUnregisterFeatureStateAction } from '../actions';
@@ -17,10 +17,10 @@ import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE } from '.
   standalone: true
 })
 export class ProvideNgssmFeatureStateDirective implements OnDestroy {
-  constructor(
-    @Inject(NGSSM_COMPONENT_WITH_FEATURE_STATE) private component: FeatureStateSpecification,
-    private store: Store
-  ) {
+  private readonly component: FeatureStateSpecification = inject(NGSSM_COMPONENT_WITH_FEATURE_STATE);
+  private store = inject(Store);
+
+  constructor() {
     this.store.dispatchAction(new NgssmRegisterFeatureStateAction(this.component.featureStateKey, this.component.initialState));
   }
 

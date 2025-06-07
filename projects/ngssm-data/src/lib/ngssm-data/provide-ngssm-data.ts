@@ -1,4 +1,4 @@
-import { EnvironmentProviders, Inject, Injectable, Optional, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
+import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
 
 import { Store, provideEffects, provideReducers } from 'ngssm-store';
 
@@ -9,17 +9,9 @@ import { NgssmRegisterDataSourcesAction } from './actions';
 import { postLoadingActionExecutorInitializer } from './post-loading-action-executor';
 import { dataSourcesLinkerInitializer } from './data-sources-linker';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class NgssmDataSourceCollection {
-  constructor(@Inject(NGSSM_DATA_SOURCE) @Optional() public dataSources: NgssmDataSource[]) {}
-}
-
 const initDataSourceValues = () => {
   const store = inject(Store);
-  const dataSourceCollection = inject(NgssmDataSourceCollection);
-  const dataSources = dataSourceCollection.dataSources ?? [];
+  const dataSources = (inject(NGSSM_DATA_SOURCE, { optional: true }) as unknown as NgssmDataSource[]) ?? [];
   if (dataSources.length > 0) {
     store.dispatchAction(new NgssmRegisterDataSourcesAction(dataSources));
   }

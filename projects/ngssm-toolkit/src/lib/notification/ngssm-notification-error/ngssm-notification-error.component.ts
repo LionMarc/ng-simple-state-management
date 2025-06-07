@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
@@ -11,5 +11,5 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmNotificationErrorComponent {
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public message: string) {}
+  public readonly message: string = inject(MAT_SNACK_BAR_DATA);
 }

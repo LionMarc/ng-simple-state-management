@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
@@ -8,20 +8,20 @@ import { updateNavigationState } from '../state';
 
 @Injectable()
 export class NavigationReducer implements Reducer {
+  private readonly configs: NavigationLockingConfig[] | null = inject(NGSSM_NAVIGATION_LOCKING_CONFIG, {
+    optional: true
+  }) as unknown as NavigationLockingConfig[];
+
   private readonly lockingActions: Set<string>;
   private readonly unlockingActions: Set<string>;
 
   public readonly processedActions: string[] = [];
 
-  constructor(
-    @Inject(NGSSM_NAVIGATION_LOCKING_CONFIG)
-    @Optional()
-    configs: NavigationLockingConfig[]
-  ) {
+  constructor() {
     this.lockingActions = new Set<string>([NavigationActionType.lockNavigation]);
     this.unlockingActions = new Set<string>([NavigationActionType.unLockNavigation]);
 
-    (configs ?? []).forEach((config) => {
+    (this.configs ?? []).forEach((config) => {
       (config.actionsLockingNavigation ?? []).forEach((command) => this.lockingActions.add(command));
       (config.actionsUnLockingNavigation ?? []).forEach((command) => this.unlockingActions.add(command));
     });

@@ -1,4 +1,4 @@
-import { EnvironmentInjector, Inject, Injectable, Optional, runInInjectionContext } from '@angular/core';
+import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Effect, State, Action, ActionDispatcher } from 'ngssm-store';
@@ -12,15 +12,15 @@ interface ExtendedConfig {
 
 @Injectable()
 export class MatDialogOpeningEffect implements Effect {
+  private configs: NgssmMatDialogConfig[] | null = inject(NGSSM_MAT_DIALOG_CONFIG, { optional: true }) as unknown as NgssmMatDialogConfig[];
+  private readonly matDialog = inject(MatDialog);
+  private readonly injector = inject(EnvironmentInjector);
+
   private readonly extendedConfigs: ExtendedConfig[];
 
   public readonly processedActions: string[] = [];
 
-  constructor(
-    @Inject(NGSSM_MAT_DIALOG_CONFIG) @Optional() private configs: NgssmMatDialogConfig[],
-    private matDialog: MatDialog,
-    private injector: EnvironmentInjector
-  ) {
+  constructor() {
     const allActions = (this.configs ?? []).flatMap((c) => [c.openingAction, ...c.closingActions]);
     const actions = new Set<string>(allActions);
     this.processedActions.push(...actions);

@@ -1,4 +1,4 @@
-import { ComponentRef, Directive, Input, Type, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Directive, inject, Input, Type, ViewContainerRef } from '@angular/core';
 
 export type NgssmComponentAction = (component: unknown) => void;
 
@@ -7,10 +7,10 @@ export type NgssmComponentAction = (component: unknown) => void;
   standalone: true
 })
 export class NgssmComponentDisplayDirective {
+  private readonly viewContainerRef = inject(ViewContainerRef);
+
   private componentRef?: ComponentRef<unknown>;
   private componentAction?: NgssmComponentAction | null;
-
-  constructor(private viewContainerRef: ViewContainerRef) {}
 
   @Input() public set ngssmComponentDisplay(value: Type<unknown> | null | undefined) {
     this.componentRef = undefined;

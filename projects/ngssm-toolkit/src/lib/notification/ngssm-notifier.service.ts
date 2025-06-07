@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { NgssmNotificationErrorComponent } from './ngssm-notification-error/ngssm-notification-error.component';
@@ -8,7 +8,7 @@ import { NgssmNotificationSuccessComponent } from './ngssm-notification-success/
   providedIn: 'root'
 })
 export class NgssmNotifierService {
-  constructor(private matSnackBar: MatSnackBar) {}
+  private readonly matSnackBar = inject(MatSnackBar);
 
   public notifyError(message: string): void {
     this.matSnackBar.openFromComponent(NgssmNotificationErrorComponent, {
