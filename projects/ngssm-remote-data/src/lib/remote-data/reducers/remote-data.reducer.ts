@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
@@ -8,12 +8,16 @@ import { selectRemoteDataState, updateRemoteDataState } from '../state';
 
 @Injectable()
 export class RemoteDataReducer implements Reducer {
+  private readonly remoteDataProviders: RemoteDataProvider[] | null = inject(NGSSM_REMOTE_DATA_PROVIDER, {
+    optional: true
+  }) as unknown as RemoteDataProvider[];
+
   private readonly remoteDataProvidersPerKey: Map<string, RemoteDataProvider>;
 
   public readonly processedActions: string[] = [RemoteDataActionType.loadRemoteData, RemoteDataActionType.registerLoadedRemoteData];
 
-  constructor(@Inject(NGSSM_REMOTE_DATA_PROVIDER) @Optional() remoteDataProviders: RemoteDataProvider[]) {
-    this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));
+  constructor() {
+    this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((this.remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));
   }
 
   public updateState(state: State, action: Action): State {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input, Inject, Optional } from '@angular/core';
+import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -30,6 +30,8 @@ import { defaultRegexEditorValidator, NGSSM_REGEX_EDITOR_VALIDATOR, RegexEditorV
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmRegexEditorComponent {
+  private readonly validator: RegexEditorValidator | null = inject(NGSSM_REGEX_EDITOR_VALIDATOR, { optional: true });
+
   private readonly regexValidator: RegexEditorValidator;
   private readonly _isRegexValid$ = new BehaviorSubject<boolean | null>(null);
 
@@ -38,8 +40,8 @@ export class NgssmRegexEditorComponent {
 
   @Output() closeEditor = new EventEmitter<string | undefined>();
 
-  constructor(@Inject(NGSSM_REGEX_EDITOR_VALIDATOR) @Optional() validator?: RegexEditorValidator) {
-    this.regexValidator = validator ?? defaultRegexEditorValidator;
+  constructor() {
+    this.regexValidator = this.validator ?? defaultRegexEditorValidator;
     this.regexControl = new FormControl<string | null>(null, [Validators.required, (c) => this.validatedRegex(c)]);
     combineLatest([this.regexControl.valueChanges, this.testStringControl.valueChanges, this.regexControl.statusChanges]).subscribe(
       (values) => {

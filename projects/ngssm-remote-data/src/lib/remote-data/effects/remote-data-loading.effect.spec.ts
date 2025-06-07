@@ -19,9 +19,8 @@ const remoteDataKeyForClass = 'remote-data-key-for-class';
   providedIn: 'root'
 })
 class RemoteDataTesting implements RemoteDataProvider {
+  private readonly httpClient = inject(HttpClient);
   public remoteDataKey: string = remoteDataKeyForClass;
-
-  constructor(private httpClient: HttpClient) {}
 
   public get(): Observable<string[]> {
     return this.httpClient.get<string[]>('/testing-class');
@@ -75,11 +74,7 @@ describe('RemoteDataLoadingEffect', () => {
     it(`should call the function associated to the remote data`, () => {
       spyOn(store, 'dispatchAction');
 
-      effect.processAction(
-        store,
-        store.stateValue,
-        new LoadRemoteDataAction(remoteDataKeyForFunc, { forceReload: true })
-      );
+      effect.processAction(store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForFunc, { forceReload: true }));
 
       const req = httpTestingController.expectOne('/testing-func');
 

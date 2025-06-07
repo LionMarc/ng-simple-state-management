@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Effect, State, Action, Logger, ActionDispatcher } from 'ngssm-store';
 
@@ -7,9 +7,9 @@ import { ChangeOrigin, selectAgGridState } from '../state';
 
 @Injectable()
 export class LocalStorageEffect implements Effect {
-  public readonly processedActions: string[] = [AgGridActionType.saveColumnsStateOnDisk, AgGridActionType.resetColumnsStateFromDisk];
+  private readonly logger = inject(Logger);
 
-  constructor(private logger: Logger) {}
+  public readonly processedActions: string[] = [AgGridActionType.saveColumnsStateOnDisk, AgGridActionType.resetColumnsStateFromDisk];
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const agGridAction = action as AgGridAction;

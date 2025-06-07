@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, filter, take } from 'rxjs';
 
@@ -16,6 +16,9 @@ import { NgssmAceEditorMode } from '../ngssm-ace-editor-mode';
   styleUrls: ['./ngssm-ace-editor.component.scss']
 })
 export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
+  private readonly aceBuildsLoader = inject(AceBuildsLoader);
+  private readonly zone = inject(NgZone);
+
   private initialContent = '';
   private initialReadonly = true;
   private initialEditorMode: string = NgssmAceEditorMode.text;
@@ -27,11 +30,6 @@ export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
   @Output() public editorReady = new EventEmitter<NgssmAceEditorApi>();
 
   public api: NgssmAceEditorApi | undefined;
-
-  constructor(
-    private aceBuildsLoader: AceBuildsLoader,
-    private zone: NgZone
-  ) {}
 
   public get loading$(): Observable<boolean> {
     return this.aceBuildsLoader.loading$;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Effect } from 'ngssm-store';
@@ -8,9 +8,9 @@ import { ShellNotificationPopupComponent } from '../components';
 
 @Injectable()
 export class NotificationShowingEffect implements Effect {
-  public readonly processedActions: string[] = [ShellActionType.displayNotification];
+  private readonly snackBar = inject(MatSnackBar);
 
-  constructor(private snackBar: MatSnackBar) {}
+  public readonly processedActions: string[] = [ShellActionType.displayNotification];
 
   public processAction(): void {
     this.snackBar.openFromComponent(ShellNotificationPopupComponent, {

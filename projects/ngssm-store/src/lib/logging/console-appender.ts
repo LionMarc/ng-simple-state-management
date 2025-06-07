@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { Logger } from './logger';
 import { LogLevel } from './log-level';
@@ -7,13 +7,13 @@ import { LogLevel } from './log-level';
   providedIn: 'root'
 })
 export class ConsoleAppender {
-  private readonly stopEvent$ = new Subject<boolean>();
+  private logger = inject(Logger);
 
-  constructor(private logger: Logger) {}
+  private readonly stopEvent$ = new Subject<boolean>();
 
   public start(contextName?: string): void {
     this.logger.logEvents$.pipe(takeUntil(this.stopEvent$)).subscribe((logEvent) => {
-      let logFunction: (...data:unknown[])=> void;
+      let logFunction: (...data: unknown[]) => void;
       switch (logEvent.level) {
         case LogLevel.error:
           logFunction = console.error;

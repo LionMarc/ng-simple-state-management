@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { NgssmConfirmationDialogComponent } from './ngssm-confirmation-dialog/ng
   providedIn: 'root'
 })
 export class NgssmConfirmationDialogService {
-  constructor(private matDialog: MatDialog) {}
+  private readonly matDialog = inject(MatDialog);
 
   public displayConfirmationDialog(config: NgssmConfirmationDialogConfig): Observable<string> {
     return this.matDialog

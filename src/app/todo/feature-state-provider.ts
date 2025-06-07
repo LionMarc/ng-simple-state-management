@@ -1,9 +1,11 @@
-import { Injectable, Provider } from '@angular/core';
+import { inject, Injectable, Provider } from '@angular/core';
 import { Logger } from 'ngssm-store';
 
 @Injectable()
 export class FeatureStateRegistrator {
-  constructor(private logger: Logger) {
+  private readonly logger = inject(Logger);
+
+  constructor() {
     console.log('CALLED - 1');
     this.logger.debug('CALLED');
   }
@@ -15,7 +17,7 @@ export const provideFeatureState = (featureStateKey: string, defaultValue: objec
   return {
     provide: FeatureStateRegistrator,
     multi: true,
-    useFactory: (logger: Logger) => new FeatureStateRegistrator(logger),
+    useFactory: () => new FeatureStateRegistrator(),
     deps: [Logger]
   };
 };

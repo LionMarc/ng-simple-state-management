@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { State, StateInitializer } from 'ngssm-store';
 
@@ -7,7 +7,9 @@ import { updateRemoteDataState } from './state';
 
 @Injectable()
 export class RemoteDataStateInitializer implements StateInitializer {
-  constructor(@Inject(NGSSM_REMOTE_DATA_PROVIDER) @Optional() private remoteDataProviders: RemoteDataProvider[]) {}
+  private readonly remoteDataProviders: RemoteDataProvider[] | null = inject(NGSSM_REMOTE_DATA_PROVIDER, {
+    optional: true
+  }) as unknown as RemoteDataProvider[];
 
   public initializeState(state: State): State {
     const tempState = state;

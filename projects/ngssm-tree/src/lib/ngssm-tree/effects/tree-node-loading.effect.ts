@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { DataStatus } from 'ngssm-remote-data';
 import { Effect, State, Action, Logger, ActionDispatcher } from 'ngssm-store';
@@ -9,16 +9,14 @@ import { selectNgssmTreeState } from '../state';
 
 @Injectable()
 export class TreeNodeLoadingEffect implements Effect {
+  private readonly dataServices: NgssmTreeDataService[] =
+    (inject(NGSSM_TREE_DATA_SERVICE, { optional: true }) as unknown as NgssmTreeDataService[]) ?? [];
+  private readonly logger = inject(Logger);
   public readonly processedActions: string[] = [
     NgssmTreeActionType.expandNode,
     NgssmTreeActionType.selectNode,
     NgssmTreeActionType.loadChildrenOfNode
   ];
-
-  constructor(
-    @Inject(NGSSM_TREE_DATA_SERVICE) @Optional() private dataServices: NgssmTreeDataService[],
-    private logger: Logger
-  ) {}
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const treeNodeAction = action as TreeNodeAction;

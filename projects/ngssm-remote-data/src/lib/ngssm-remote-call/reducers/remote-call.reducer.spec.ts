@@ -1,6 +1,8 @@
+import { TestBed } from '@angular/core/testing';
+
 import { State } from 'ngssm-store';
 
-import { RemoteCallConfig, RemoteCallStatus } from '../model';
+import { NGSSM_REMOTE_CALL_CONFIG, RemoteCallConfig, RemoteCallStatus } from '../model';
 import { NgssmRemoteCallStateSpecification, selectNgssmRemoteCallState, updateNgssmRemoteCallState } from '../state';
 import { RemoteCallReducer } from './remote-call.reducer';
 
@@ -16,7 +18,17 @@ describe('RemoteCallReducer', () => {
   ];
 
   beforeEach(() => {
-    reducer = new RemoteCallReducer(configs);
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: NGSSM_REMOTE_CALL_CONFIG,
+          useValue: configs[0],
+          multi: true
+        },
+        RemoteCallReducer
+      ]
+    });
+    reducer = TestBed.inject(RemoteCallReducer);
     state = {
       [NgssmRemoteCallStateSpecification.featureStateKey]: NgssmRemoteCallStateSpecification.initialState
     };

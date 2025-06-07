@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Store } from 'ngssm-store';
 import { InitNgssmTreeAction } from 'ngssm-tree';
@@ -7,7 +7,7 @@ import { InitNgssmTreeAction } from 'ngssm-tree';
   providedIn: 'root'
 })
 export class TreeInitGuard {
-  constructor(private store: Store) {}
+  private readonly store = inject(Store);
 
   public canActivate(): boolean {
     this.store.dispatchAction(
