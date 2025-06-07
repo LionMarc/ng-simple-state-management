@@ -4,3 +4,4 @@ export * from './state';
 export * from './model';
 export * from './components';
 export * from './data-source-signal';
+export * from './selectors';

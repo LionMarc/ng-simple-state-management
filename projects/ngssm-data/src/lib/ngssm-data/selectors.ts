@@ -1,7 +1,7 @@
 import { State } from 'ngssm-store';
 
-import { NgssmDataSourceAdditionalPropertyValue, NgssmDataSourceValue, NgssmDataSourceValueStatus } from '../model';
-import { selectNgssmDataState } from './ngssm-data.state';
+import { NgssmDataSourceAdditionalPropertyValue, NgssmDataSourceValue, NgssmDataSourceValueStatus } from './model';
+import { selectNgssmDataState } from './state/ngssm-data.state';
 
 export const selectNgssmDataSourceValue = <TDataType = unknown, TParameter = unknown>(
   state: State,
@@ -21,3 +21,11 @@ export const selectNgssmDataSourceAdditionalPropertyValue = <TProperty = unknown
     status: NgssmDataSourceValueStatus.notRegistered
   }) as NgssmDataSourceAdditionalPropertyValue<TProperty>;
 };
+
+/**
+ * Returns true if the specified data source is currently loading, false otherwise.
+ * @param state The global application state.
+ * @param dataSourceKey The unique key of the data source.
+ */
+export const isNgssmDataSourceLoading = (state: State, dataSourceKey: string): boolean =>
+  selectNgssmDataSourceValue(state, dataSourceKey)?.status === NgssmDataSourceValueStatus.loading;

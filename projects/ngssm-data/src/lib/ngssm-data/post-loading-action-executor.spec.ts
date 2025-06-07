@@ -6,9 +6,10 @@ import { Logger, provideNgssmFeatureState, Store } from 'ngssm-store';
 
 import { NgssmLoadDataSourceAdditionalPropertyValueAction, NgssmLoadDataSourceValueAction } from './actions';
 import { NgssmAdditionalPropertyLoading, NgssmDataLoading } from './model';
-import { NgssmDataStateSpecification, selectNgssmDataSourceAdditionalPropertyValue, selectNgssmDataSourceValue } from './state';
+import { NgssmDataStateSpecification } from './state';
 import { NgssmRegisterDataSourceAction } from './actions';
 import { provideNgssmData } from './provide-ngssm-data';
+import { selectNgssmDataSourceAdditionalPropertyValue, selectNgssmDataSourceValue } from './selectors';
 
 const dataSourceKey = 'data-source';
 const dataLoading: NgssmDataLoading<string> = () => {

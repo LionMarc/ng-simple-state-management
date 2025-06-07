@@ -7,8 +7,8 @@ import {
   NgssmLoadDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceAdditionalPropertyValueAction
 } from './actions';
-import { selectNgssmDataSourceAdditionalPropertyValue } from './state';
 import { NgssmDataSourceValueStatus } from './model';
+import { selectNgssmDataSourceAdditionalPropertyValue } from './selectors';
 
 export const postLoadingActionExecutorInitializer = async () => {
   const injector = inject(EnvironmentInjector);

@@ -1,6 +1,7 @@
 import { computed, inject, Signal } from '@angular/core';
 import { Store } from 'ngssm-store';
-import { selectNgssmDataSourceValue } from './state';
+
+import { selectNgssmDataSourceValue } from './selectors';
 
 export interface NgssmDataSourceSignal<T = unknown> {
   key: string;
@@ -19,7 +20,7 @@ export const dataSourceToSignal = <T = unknown>(key: string, options?: NgssmData
 
   const usedOptions = options ?? { type: 'value' };
   if (!usedOptions.type) {
-    usedOptions.type = 'value'
+    usedOptions.type = 'value';
   }
 
   switch (usedOptions.type) {
