@@ -16,8 +16,9 @@ import {
   NgssmSetDataSourceValueAction,
   NgssmUpdateDataSourceParameterAction
 } from '../actions';
-import { selectNgssmDataSourceValue, selectNgssmDataState, updateNgssmDataState } from '../state';
+import { selectNgssmDataState, updateNgssmDataState } from '../state';
 import { NgssmDataSourceValueStatus } from '../model';
+import { selectNgssmDataSourceValue } from '../selectors';
 
 @Injectable()
 export class DataSourceValueReducer implements Reducer {

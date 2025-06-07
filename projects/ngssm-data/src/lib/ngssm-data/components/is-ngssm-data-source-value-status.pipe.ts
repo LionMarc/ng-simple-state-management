@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { State } from 'ngssm-store';
 
 import { NgssmDataSourceValueStatus } from '../model';
-import { selectNgssmDataSourceValue } from '../state';
+import { selectNgssmDataSourceValue } from '../selectors';
 
 @Pipe({
   name: 'isNgssmDataSourceValueStatus'
