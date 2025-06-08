@@ -58,7 +58,7 @@ describe('postLoadingActionExecutorInitializer', () => {
 
     store.dispatchAction(action);
     flush();
-    TestBed.flushEffects();
+    TestBed.tick();
     flush();
 
     expect(value).toBe('data - test');
@@ -79,7 +79,7 @@ describe('postLoadingActionExecutorInitializer', () => {
 
     store.dispatchAction(action);
     flush();
-    TestBed.flushEffects();
+    TestBed.tick();
     flush();
 
     expect(value).toBe('data - test');
@@ -88,7 +88,7 @@ describe('postLoadingActionExecutorInitializer', () => {
     value = 'wrong value';
     store.dispatchAction(action);
     flush();
-    TestBed.flushEffects();
+    TestBed.tick();
     flush();
 
     expect(value).toBe('data - test');

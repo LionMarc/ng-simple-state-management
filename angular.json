@@ -204,7 +204,7 @@
       "projectType": "library",
       "root": "projects/ngssm-store",
       "sourceRoot": "projects/ngssm-store",
-      "prefix": "lib",
+      "prefix": "ngssm",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
@@ -583,7 +583,7 @@
     "ngssm-data": {
       "projectType": "library",
       "root": "projects/ngssm-data",
-      "sourceRoot": "projects/ngssm-data/src",
+      "sourceRoot": "projects/ngssm-data",
       "prefix": "ngssm",
       "architect": {
         "build": {
@@ -604,6 +604,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
+            "main": "projects/ngssm-data/test.ts",
             "tsConfig": "projects/ngssm-data/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
