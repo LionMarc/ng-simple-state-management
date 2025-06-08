@@ -380,7 +380,7 @@
     "ngssm-ag-grid": {
       "projectType": "library",
       "root": "projects/ngssm-ag-grid",
-      "sourceRoot": "projects/ngssm-ag-grid/src",
+      "sourceRoot": "projects/ngssm-ag-grid",
       "prefix": "lib",
       "architect": {
         "build": {
@@ -401,7 +401,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "main": "projects/ngssm-ag-grid/src/test.ts",
+            "main": "projects/ngssm-ag-grid/test.ts",
             "tsConfig": "projects/ngssm-ag-grid/tsconfig.spec.json",
             "karmaConfig": "projects/ngssm-ag-grid/karma.conf.js",
             "styles": [
