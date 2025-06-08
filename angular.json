@@ -285,7 +285,7 @@
     "ngssm-remote-data": {
       "projectType": "library",
       "root": "projects/ngssm-remote-data",
-      "sourceRoot": "projects/ngssm-remote-data/src",
+      "sourceRoot": "projects/ngssm-remote-data",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
@@ -311,7 +311,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "main": "projects/ngssm-remote-data/src/test.ts",
+            "main": "projects/ngssm-remote-data/test.ts",
             "tsConfig": "projects/ngssm-remote-data/tsconfig.spec.json",
             "karmaConfig": "projects/ngssm-remote-data/karma.conf.js",
             "styles": [
