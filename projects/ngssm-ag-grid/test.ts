@@ -3,7 +3,7 @@
 import 'zone.js';
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 
 import { ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community';
 import { AllEnterpriseModule } from 'ag-grid-enterprise';
@@ -12,7 +12,7 @@ import { AllEnterpriseModule } from 'ag-grid-enterprise';
 ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 // Mark all grids as using legacy themes
-provideGlobalGridOptions({ theme: "legacy"});
+provideGlobalGridOptions({ theme: 'legacy' });
 
 // First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), { teardown: { destroyAfterEach: false } });
+getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), { teardown: { destroyAfterEach: false } });
