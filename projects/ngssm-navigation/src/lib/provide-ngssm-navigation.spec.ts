@@ -33,7 +33,7 @@ describe('provideNgssmNavigation', () => {
 
       store.processedAction.set(action);
 
-      TestBed.flushEffects();
+      TestBed.tick();
 
       expect(router.navigate).toHaveBeenCalledWith(['test']);
     }));
@@ -49,7 +49,7 @@ describe('provideNgssmNavigation', () => {
 
       store.processedAction.set(action);
 
-      TestBed.flushEffects();
+      TestBed.tick();
 
       expect(router.navigate).not.toHaveBeenCalled();
     }));

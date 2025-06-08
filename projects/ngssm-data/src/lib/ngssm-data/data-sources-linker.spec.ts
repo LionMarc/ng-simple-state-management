@@ -49,7 +49,7 @@ describe('data-sources-linker', () => {
     spyOn(store, 'dispatchAction');
 
     store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
   });
@@ -91,7 +91,7 @@ describe('data-sources-linker', () => {
     spyOn(store, 'dispatchAction');
 
     store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(store.dispatchAction).toHaveBeenCalledTimes(2);
     expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
@@ -134,7 +134,7 @@ describe('data-sources-linker', () => {
     spyOn(store, 'dispatchAction');
 
     store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(store.dispatchAction).toHaveBeenCalledTimes(2);
     expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
@@ -185,7 +185,7 @@ describe('data-sources-linker', () => {
     spyOn(store, 'dispatchAction');
 
     store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-    TestBed.flushEffects();
+    TestBed.tick();
 
     expect(store.dispatchAction).toHaveBeenCalledTimes(3);
     expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
