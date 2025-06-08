@@ -2,7 +2,7 @@ import { State } from 'ngssm-store';
 
 import { selectRemoteData } from '../remote-data/state';
 import { DataStatus } from '../remote-data/model';
-import { selectRemoteCall } from '../ngssm-remote-call/state';
+import { selectRemoteCall } from '../ngssm-remote-call/selectors';
 import { RemoteCallStatus } from '../ngssm-remote-call/model';
 
 export const atLeastOneLoadingOrInProgress = (state: State, remoteDataKeys: string[], remoteCallIds: string[]): boolean => {
