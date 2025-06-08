@@ -35,11 +35,21 @@ describe('NgssmRemoteCallSetter', () => {
     expect(selectRemoteCall(store.state(), 'first')?.status).toEqual(RemoteCallStatus.inProgress);
   });
 
-  it(`should update the error of a data source`, () => {
+  it(`should update the error of a remote call`, () => {
     const setter = TestBed.inject(NgssmRemoteCallSetter);
     setter.setRemoteCallError('first', { title: 'testing error' });
 
     const store = TestBed.inject(Store);
     expect(selectRemoteCall(store.state(), 'first')?.error).toEqual({ title: 'testing error' });
+  });
+
+  it(`should update status and error of a remote call`, () => {
+    TestBed.inject(NgssmRemoteCallSetter)
+      .setRemoteCallError('first', { title: 'testing error' })
+      .setRemoteCallStatus('first', RemoteCallStatus.ko);
+
+    const store = TestBed.inject(Store);
+    expect(selectRemoteCall(store.state(), 'first')?.error).toEqual({ title: 'testing error' });
+    expect(selectRemoteCall(store.state(), 'first')?.status).toEqual(RemoteCallStatus.ko);
   });
 });

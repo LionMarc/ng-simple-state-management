@@ -26,7 +26,7 @@ describe('provideNgssmRemoteCallTesting', () => {
     expect(store.stateValue[NgssmRemoteCallStateSpecification.featureStateKey]).toBeTruthy();
   });
 
-  it(`should initlaize the ngssm remote calls in the mocked state`, () => {
+  it(`should initialize the ngssm remote calls in the mocked state`, () => {
     TestBed.configureTestingModule({
       providers: [
         provideNgssmStoreTesting(),
