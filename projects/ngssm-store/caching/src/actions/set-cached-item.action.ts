@@ -17,7 +17,7 @@ import { CachedItemStatus } from '../model';
  * @remarks
  * This action is dispatched to update the cache with a new or modified item, along with its status and any error information.
  */
-export class SetCachedItemAction<TData = never> implements Action {
+export class SetCachedItemAction<TData = unknown> implements Action {
   public readonly type: string = NgssmCachingActionType.setCachedItem;
 
   constructor(
