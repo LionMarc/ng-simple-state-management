@@ -58,6 +58,7 @@ export class NgssmAgGridDirective {
           state: gridState.columnsState,
           applyOrder: true
         });
+        this.agGridAngular.api.setFilterModel(gridState.filterModel);
       }
 
       if (this.config().keepSelection) {
@@ -91,6 +92,7 @@ export class NgssmAgGridDirective {
           state: gridState.columnsState,
           applyOrder: true
         });
+        this.agGridAngular.api.setFilterModel(gridState.filterModel);
       }
     });
 
@@ -130,7 +132,8 @@ export class NgssmAgGridDirective {
 
   private saveGridState(): void {
     const state = this.agGridAngular.api.getColumnState();
-    this.store.dispatchAction(new RegisterAgGridStateAction(this.config().gridId, ChangeOrigin.agGrid, state));
+    const filterModel = this.agGridAngular.api.getFilterModel();
+    this.store.dispatchAction(new RegisterAgGridStateAction(this.config().gridId, ChangeOrigin.agGrid, state, filterModel));
   }
 
   private processSelectionChanged(): void {
@@ -173,7 +176,10 @@ export class NgssmAgGridDirective {
           },
           {
             name: 'Reset columns state to default',
-            action: () => this.agGridAngular.api.resetColumnState(),
+            action: () => {
+              this.agGridAngular.api.resetColumnState();
+              this.agGridAngular.api.setFilterModel(null);
+            },
             icon: '<i class="fa-solid fa-clock-rotate-left"></i>'
           }
         ]

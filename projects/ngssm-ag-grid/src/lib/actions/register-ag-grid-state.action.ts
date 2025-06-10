@@ -1,4 +1,4 @@
-import { ColumnState } from 'ag-grid-community';
+import { ColumnState, FilterModel } from 'ag-grid-community';
 
 import { Action } from 'ngssm-store';
 
@@ -11,6 +11,7 @@ export class RegisterAgGridStateAction implements Action {
   constructor(
     public readonly gridId: string,
     public readonly origin: ChangeOrigin,
-    public readonly columnStates: ColumnState[]
+    public readonly columnStates: ColumnState[],
+    public readonly filterModel: FilterModel | null
   ) {}
 }

@@ -8,7 +8,8 @@ export const defaultAgGridColumnsEvents:AgPublicEventType[] =[
   'filterChanged',
   'columnPinned',
   'columnResized',
-  'displayedColumnsChanged'
+  'displayedColumnsChanged',
+  'filterChanged'
 ]
 
 /**

@@ -18,7 +18,8 @@ export class GridStatesReducer implements Reducer {
             [registerAgGridStateAction.gridId]: {
               $set: {
                 origin: registerAgGridStateAction.origin,
-                columnsState: registerAgGridStateAction.columnStates
+                columnsState: registerAgGridStateAction.columnStates,
+                filterModel: registerAgGridStateAction.filterModel
               }
             }
           }

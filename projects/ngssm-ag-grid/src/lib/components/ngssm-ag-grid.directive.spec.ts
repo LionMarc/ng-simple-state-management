@@ -225,7 +225,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'id'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           }
@@ -261,7 +262,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'id'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           }
@@ -294,7 +296,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'title'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           }
@@ -329,7 +332,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'title'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           }
@@ -392,7 +396,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'id'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           }
@@ -465,7 +470,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'id'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           },
@@ -503,7 +509,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'title'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           }
@@ -542,7 +549,8 @@ describe('NgssmAgGridDirective', () => {
                   {
                     colId: 'title'
                   }
-                ]
+                ],
+                filterModel: null
               }
             }
           }

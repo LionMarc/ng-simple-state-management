@@ -47,7 +47,8 @@ describe('LocalStorageEffect', () => {
           items: {
             $set: {
               origin: ChangeOrigin.other,
-              columnsState: [{ colId: 'id' }]
+              columnsState: [{ colId: 'id' }],
+              filterModel: null
             }
           }
         }
@@ -79,12 +80,18 @@ describe('LocalStorageEffect', () => {
     });
 
     it(`should dispatch a '${AgGridActionType.registerAgGridState}' action when data stored in localstorage is correct`, () => {
-      spyOn(window.localStorage, 'getItem').and.returnValue(`[{ "colId": "id" }]`);
+      spyOn(window.localStorage, 'getItem').and.callFake((key) => {
+        if (key.includes('_filters')) {
+          return '{}';
+        }
+        return `[{ "colId": "id" }]`;
+      });
+
       spyOn(store, 'dispatchAction');
 
       effect.processAction(store, store.stateValue, new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, 'items'));
 
-      expect(store.dispatchAction).toHaveBeenCalledWith(new RegisterAgGridStateAction('items', ChangeOrigin.other, [{ colId: 'id' }]));
+      expect(store.dispatchAction).toHaveBeenCalledWith(new RegisterAgGridStateAction('items', ChangeOrigin.other, [{ colId: 'id' }], {}));
     });
   });
 });
