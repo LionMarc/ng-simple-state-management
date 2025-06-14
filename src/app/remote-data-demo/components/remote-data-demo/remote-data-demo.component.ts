@@ -9,14 +9,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { createSignal, Store } from 'ngssm-store';
 import {
   DataStatus,
-  NgssmRemoteCallDirective,
   NgssmRemoteCallErrorComponent,
   NgssmRemoteCallResultAction,
   NgssmRemoteDataOverlayDirective,
   RemoteCallStatus,
   selectRemoteCall,
-  selectRemoteData
+  selectRemoteData,
+  isNgssmRemoteCallInProgress
 } from 'ngssm-remote-data';
+import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions';
 
@@ -29,7 +30,7 @@ import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions'
     MatSelectModule,
     MatCardModule,
     MatButtonModule,
-    NgssmRemoteCallDirective,
+    NgssmComponentOverlayDirective,
     NgssmRemoteDataOverlayDirective,
     NgssmRemoteCallErrorComponent
   ],
@@ -39,6 +40,8 @@ import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions'
 })
 export class RemoteDataDemoComponent {
   private readonly store = inject(Store);
+
+  protected readonly waitingOverlayRendered = createSignal((state) => isNgssmRemoteCallInProgress(state, 'demo'));
 
   public readonly dataStatus = DataStatus;
   public readonly dataStatusList = [DataStatus.loading, DataStatus.loaded];

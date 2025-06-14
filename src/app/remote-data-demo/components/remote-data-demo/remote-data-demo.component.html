@@ -68,7 +68,7 @@
           <mat-card-header>
             <mat-card-title>Component using remote call directive</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteCall]="'demo'">
+          <mat-card-content class="flex-column-stretch fxFlex" [ngssmDisplayOverlay]="waitingOverlayRendered()">
             <ngssm-remote-call-error [remoteCallId]="'demo'"></ngssm-remote-call-error>
             <p>Custom Content</p>
             {{ remoteCall() | json }}
