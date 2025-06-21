@@ -6,7 +6,10 @@ import { CachedItem } from '../model';
 export const selectNgssmCachingState = (state: State): NgssmCachingState =>
   state[NgssmCachingStateSpecification.featureStateKey] as NgssmCachingState;
 
-export const updateNgssmCachingState = <T extends CustomCommands<object> = never>(state: State, command: Spec<NgssmCachingState, T>): State =>
+export const updateNgssmCachingState = <T extends CustomCommands<object> = never>(
+  state: State,
+  command: Spec<NgssmCachingState, T>
+): State =>
   update(state, {
     [NgssmCachingStateSpecification.featureStateKey]: command
   });

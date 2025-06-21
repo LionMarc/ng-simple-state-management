@@ -36,7 +36,7 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
 })
 export class NgssmTreeDemoComponent {
   private readonly store = inject(Store);
-  
+
   private readonly nodes = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.nodes);
   private readonly selecteNode = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.selectedNode);
 

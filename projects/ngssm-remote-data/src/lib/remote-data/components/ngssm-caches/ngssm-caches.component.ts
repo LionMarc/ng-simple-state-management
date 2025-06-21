@@ -26,7 +26,7 @@ interface Cache {
 })
 export class NgssmCachesComponent {
   private readonly store = inject(Store);
-  
+
   public readonly caches = createSignal<Cache[]>((state) => {
     const remoteDataState = selectRemoteDataState(state);
     return Object.keys(remoteDataState).map((key) => ({

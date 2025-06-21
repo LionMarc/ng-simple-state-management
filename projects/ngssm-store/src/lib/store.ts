@@ -257,11 +257,7 @@ export class Store implements ActionDispatcher {
    * @param processorMap - The map to store processors by action type.
    * @param getProcessedActions - A function to retrieve the action types processed by a processor.
    */
-  private initializeProcessors<T>(
-    processors: T[],
-    processorMap: Map<string, T[]>,
-    getProcessedActions: (processor: T) => string[]
-  ): void {
+  private initializeProcessors<T>(processors: T[], processorMap: Map<string, T[]>, getProcessedActions: (processor: T) => string[]): void {
     processors.forEach((processor) => {
       this.logger.information('[Store] ------> initialization of ', processor);
       getProcessedActions(processor).forEach((actionType) => {

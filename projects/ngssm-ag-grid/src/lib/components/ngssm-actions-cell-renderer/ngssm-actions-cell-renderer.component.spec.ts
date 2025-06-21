@@ -60,7 +60,7 @@ describe('NgssmActionsCellRendererComponent', () => {
     fixture.nativeElement.style['min-height'] = '300px';
     fixture.nativeElement.style['margin-top'] = '20px';
     loader = TestbedHarnessEnvironment.loader(fixture);
-    rootLoader= TestbedHarnessEnvironment.documentRootLoader(fixture);
+    rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     fixture.detectChanges();
   });
 
@@ -387,18 +387,18 @@ describe('NgssmActionsCellRendererComponent', () => {
       await element.click();
     });
 
-    it(`should render the popup component`,  () => {
+    it(`should render the popup component`, () => {
       const popup = document.querySelector('ngssm-testing-popup');
       expect(popup).toBeTruthy();
     });
 
-    it(`should render the title with the current row data and the popup parameter`,async  () => {
+    it(`should render the title with the current row data and the popup parameter`, async () => {
       const popup = await rootLoader.getHarness(MatCardHarness.with({ selector: 'ngssm-testing-popup mat-card' }));
       const title = await popup.getTitleText();
       expect(title).toBe('Testing: 6');
     });
 
-    it(`should hide the popup when clicking on No button`,async  () => {
+    it(`should hide the popup when clicking on No button`, async () => {
       const popup = await rootLoader.getHarness(MatCardHarness.with({ selector: 'ngssm-testing-popup mat-card' }));
       const button = await popup.getHarness(MatButtonHarness.with({ text: 'Close' }));
       await button.click();

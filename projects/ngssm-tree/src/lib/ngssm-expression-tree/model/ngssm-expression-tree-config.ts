@@ -1,4 +1,3 @@
-
 import { Type } from '@angular/core';
 import { NgssmExpressionTreeNode } from './ngssm-expression-tree-node';
 

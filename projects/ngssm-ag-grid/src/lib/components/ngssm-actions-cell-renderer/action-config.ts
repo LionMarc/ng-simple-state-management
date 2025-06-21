@@ -31,18 +31,14 @@ export type ActionHiddenFunc<TData = unknown, TValue = unknown> = (params: ICell
  * @template TPopupParameter - The type of the parameter passed to the popup component.
  */
 export interface ActionPopupComponent<TData = unknown, TValue = unknown, TPopupParameter = unknown> {
-    /**
+  /**
    * An optional initialization function for the popup component.
    *
    * @param popupRendered - A writable signal indicating whether the popup is rendered.
    * @param params - The cell renderer parameters provided by `ag-grid`.
    * @param popupParameter - Additional parameters for the popup component.
    */
-    init?: (
-      popupRendered: WritableSignal<boolean>,
-      params?: ICellRendererParams<TData, TValue>,
-      popupParameter?: TPopupParameter
-    ) => void;
+  init?: (popupRendered: WritableSignal<boolean>, params?: ICellRendererParams<TData, TValue>, popupParameter?: TPopupParameter) => void;
 }
 
 /**
