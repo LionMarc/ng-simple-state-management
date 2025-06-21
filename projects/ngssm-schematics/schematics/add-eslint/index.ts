@@ -67,9 +67,9 @@ function updateAngularJson(): Rule {
         '@angular-eslint/schematics:library': {
           setParserOptionsProject: true
         },
-        "@schematics/angular": {
-          "component": {
-            "changeDetection": "OnPush"
+        '@schematics/angular': {
+          component: {
+            changeDetection: 'OnPush'
           }
         }
       };

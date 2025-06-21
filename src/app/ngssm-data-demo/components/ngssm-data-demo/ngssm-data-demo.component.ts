@@ -44,7 +44,7 @@ export class NgssmDataDemoComponent {
   public readonly teamsSourceValue = dataSourceToSignal<unknown>(teamsKey, { defaultValue: {} });
   public readonly playersSourceValue = dataSourceToSignal<unknown>(playersKey, { defaultValue: {} });
   public readonly componentWithScopedDatasourceRendered = signal<boolean>(false);
-  public readonly state = createSignal<string>(state => JSON.stringify(state, undefined, 4));
+  public readonly state = createSignal<string>((state) => JSON.stringify(state, undefined, 4));
 
   public reloadTeams(): void {
     this.store.dispatchAction(new NgssmLoadDataSourceValueAction(teamsKey, { forceReload: true }));

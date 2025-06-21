@@ -1,1 +1,1 @@
-export type Empty = object
+export type Empty = object;

@@ -701,7 +701,7 @@ describe('DataSourceValueReducer', () => {
         testing: {
           status: NgssmDataSourceValueStatus.loaded,
           value: {
-             title: 'to test update'
+            title: 'to test update'
           },
           lastLoadingDate: now
         }
@@ -714,8 +714,7 @@ describe('DataSourceValueReducer', () => {
           ['data-providers']: {
             $set: {
               status: NgssmDataSourceValueStatus.loaded,
-              additionalProperties: {
-              }
+              additionalProperties: {}
             }
           }
         }
@@ -734,7 +733,7 @@ describe('DataSourceValueReducer', () => {
         testing: {
           status: NgssmDataSourceValueStatus.loaded,
           value: {
-             title: 'to test update'
+            title: 'to test update'
           },
           lastLoadingDate: now
         }

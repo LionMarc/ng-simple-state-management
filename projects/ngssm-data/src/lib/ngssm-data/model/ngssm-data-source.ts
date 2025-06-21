@@ -19,7 +19,7 @@ export type NgssmAdditionalPropertyLoading<TData = unknown> = (
 ) => Observable<TData>;
 
 // Interface defining the structure of a data source
-// Be careful when using linkedToDataSource or linkedDataSources because no check is done to validate that there is no 
+// Be careful when using linkedToDataSource or linkedDataSources because no check is done to validate that there is no
 // circular dependencies (A => B => C => A, for example).
 export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditionalProperty = unknown> {
   key: string; // Unique identifier for the data source

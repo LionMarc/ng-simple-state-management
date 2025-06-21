@@ -3,14 +3,14 @@ import { AgPublicEventType, GetContextMenuItems } from 'ag-grid-community';
 /**
  * List of default ag-grid events listened by the directive to update the stored state.
  */
-export const defaultAgGridColumnsEvents:AgPublicEventType[] =[
+export const defaultAgGridColumnsEvents: AgPublicEventType[] = [
   'sortChanged',
   'filterChanged',
   'columnPinned',
   'columnResized',
   'displayedColumnsChanged',
   'filterChanged'
-]
+];
 
 /**
  * Configuration parameters of the {@link NgssmAgGridDirective} directive to apply on a
