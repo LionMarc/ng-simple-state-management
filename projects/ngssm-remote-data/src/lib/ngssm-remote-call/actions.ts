@@ -1,6 +1,10 @@
 import { Action } from 'ngssm-store';
-import { RemoteCall } from '../model';
-import { NgssmRemoteCallActionType } from './ngssm-remote-call-action-type';
+
+import { RemoteCall } from './remote-call';
+
+export enum NgssmRemoteCallActionType {
+  setRemoteCall = '[NgssmRemoteCallActionType] setRemoteCall'
+}
 
 export class SetRemoteCallAction implements Action {
   public readonly type: string = NgssmRemoteCallActionType.setRemoteCall;

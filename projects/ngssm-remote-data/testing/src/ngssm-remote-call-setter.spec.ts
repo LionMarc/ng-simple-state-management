@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { Store } from 'ngssm-store';
@@ -37,19 +38,23 @@ describe('NgssmRemoteCallSetter', () => {
 
   it(`should update the error of a remote call`, () => {
     const setter = TestBed.inject(NgssmRemoteCallSetter);
-    setter.setRemoteCallError('first', { title: 'testing error' });
+    setter.setRemoteCallError('first', { message: 'testing error' } as unknown as HttpErrorResponse);
 
     const store = TestBed.inject(Store);
-    expect(selectRemoteCall(store.state(), 'first')?.error).toEqual({ title: 'testing error' });
+    expect(selectRemoteCall(store.state(), 'first')?.httpErrorResponse).toEqual({
+      message: 'testing error'
+    } as unknown as HttpErrorResponse);
   });
 
   it(`should update status and error of a remote call`, () => {
     TestBed.inject(NgssmRemoteCallSetter)
-      .setRemoteCallError('first', { title: 'testing error' })
-      .setRemoteCallStatus('first', RemoteCallStatus.ko);
+      .setRemoteCallError('first', { message: 'testing error' } as unknown as HttpErrorResponse)
+      .setRemoteCallStatus('first', RemoteCallStatus.failed);
 
     const store = TestBed.inject(Store);
-    expect(selectRemoteCall(store.state(), 'first')?.error).toEqual({ title: 'testing error' });
-    expect(selectRemoteCall(store.state(), 'first')?.status).toEqual(RemoteCallStatus.ko);
+    expect(selectRemoteCall(store.state(), 'first')?.httpErrorResponse).toEqual({
+      message: 'testing error'
+    } as unknown as HttpErrorResponse);
+    expect(selectRemoteCall(store.state(), 'first')?.status).toEqual(RemoteCallStatus.failed);
   });
 });

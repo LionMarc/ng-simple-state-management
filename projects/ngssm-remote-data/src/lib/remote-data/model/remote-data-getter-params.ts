@@ -1,4 +1,4 @@
-import { RemoteCallError } from '../../ngssm-remote-call/model';
+import { RemoteCallError } from './remote-call-error';
 
 export interface RemoteDataGetterParams<TData = unknown> {
   serviceParams: TData;

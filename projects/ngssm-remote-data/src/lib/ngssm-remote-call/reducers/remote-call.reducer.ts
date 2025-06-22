@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 
 import { Reducer, State, Action } from 'ngssm-store';
 
-import { NgssmRemoteCallResultAction } from '../actions';
-import { NGSSM_REMOTE_CALL_CONFIG, RemoteCallConfig, RemoteCallStatus, getDefaultRemoteCall } from '../model';
-import { updateNgssmRemoteCallState } from '../state';
+import { NGSSM_REMOTE_CALL_CONFIG, NgssmRemoteCallResultAction, RemoteCallConfig } from '../register-remote-call';
+import { getDefaultRemoteCall, RemoteCallStatus } from '../remote-call';
+import { updateNgssmRemoteCallState } from '../ngssm-remote-call.state';
 
 @Injectable()
 export class RemoteCallReducer implements Reducer {

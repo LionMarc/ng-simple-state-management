@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -67,13 +68,15 @@ export class RemoteDataDemoComponent {
   public endCallWithError(): void {
     this.store.dispatchAction(
       new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, {
-        status: RemoteCallStatus.ko,
-        error: {
-          title: 'testing error',
-          errors: {
-            propA: ['Invalid value']
+        status: RemoteCallStatus.failed,
+        httpErrorResponse: {
+          error: {
+            title: 'testing error',
+            errors: {
+              propA: ['Invalid value']
+            }
           }
-        }
+        } as unknown as HttpErrorResponse
       })
     );
   }
@@ -81,7 +84,7 @@ export class RemoteDataDemoComponent {
   public endCallWithErrorMessage(): void {
     this.store.dispatchAction(
       new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, {
-        status: RemoteCallStatus.ko,
+        status: RemoteCallStatus.failed,
         message: 'Testing error message'
       })
     );

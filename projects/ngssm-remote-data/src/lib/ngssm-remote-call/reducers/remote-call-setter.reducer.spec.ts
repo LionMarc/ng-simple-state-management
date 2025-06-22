@@ -1,8 +1,9 @@
 import { State } from 'ngssm-store';
+
 import { NgssmRemoteCallActionType, SetRemoteCallAction } from '../actions';
-import { RemoteCallStatus } from '../model';
-import { NgssmRemoteCallStateSpecification, selectNgssmRemoteCallState, updateNgssmRemoteCallState } from '../state';
 import { RemoteCallSetterReducer } from './remote-call-setter.reducer';
+import { NgssmRemoteCallStateSpecification, selectNgssmRemoteCallState, updateNgssmRemoteCallState } from '../ngssm-remote-call.state';
+import { RemoteCallStatus } from '../remote-call';
 
 describe('RemoteCallSetterReducer', () => {
   let reducer: RemoteCallSetterReducer;
@@ -40,10 +41,7 @@ describe('RemoteCallSetterReducer', () => {
         remoteCalls: {
           ['testing']: {
             $set: {
-              status: RemoteCallStatus.ko,
-              error: {
-                title: 'test'
-              }
+              status: RemoteCallStatus.failed
             }
           }
         }

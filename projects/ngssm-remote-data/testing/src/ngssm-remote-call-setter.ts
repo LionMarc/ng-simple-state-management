@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 
-import { RemoteCallError, RemoteCallStatus, updateNgssmRemoteCallState } from 'ngssm-remote-data';
+import { getDefaultRemoteCall, RemoteCallStatus, updateNgssmRemoteCallState } from 'ngssm-remote-data';
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
@@ -11,6 +13,23 @@ import { StoreMock } from 'ngssm-store/testing';
 @Injectable()
 export class NgssmRemoteCallSetter {
   public readonly store = inject(Store) as unknown as StoreMock;
+
+  /**
+   * Initializes the given remote call in the state.
+   * @param remoteCallId The identifier of the remote call
+   * @returns The NgssmRemoteCallSetter instance for chaining.
+   */
+  public initRemoteCall(remoteCallId: string): NgssmRemoteCallSetter {
+    this.store.stateValue = updateNgssmRemoteCallState(this.store.stateValue, {
+      remoteCalls: {
+        [remoteCallId]: {
+          $set: getDefaultRemoteCall()
+        }
+      }
+    });
+
+    return this;
+  }
 
   /**
    * Sets the status of a remote call in the StoreMock.
@@ -36,11 +55,11 @@ export class NgssmRemoteCallSetter {
    * @param error The error to set (optional).
    * @returns The NgssmRemoteCallSetter instance for chaining.
    */
-  public setRemoteCallError(remoteCallId: string, error?: RemoteCallError): NgssmRemoteCallSetter {
+  public setRemoteCallError(remoteCallId: string, error?: HttpErrorResponse): NgssmRemoteCallSetter {
     this.store.stateValue = updateNgssmRemoteCallState(this.store.stateValue, {
       remoteCalls: {
         [remoteCallId]: {
-          error: { $set: error }
+          httpErrorResponse: { $set: error }
         }
       }
     });
@@ -48,3 +67,5 @@ export class NgssmRemoteCallSetter {
     return this;
   }
 }
+
+export const ngssmRemoteCallSetter = () => TestBed.inject(NgssmRemoteCallSetter);

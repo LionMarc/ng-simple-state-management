@@ -3,7 +3,7 @@ import { EnvironmentProviders, inject, makeEnvironmentProviders, provideAppIniti
 import { Logger, Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
-import { NgssmRemoteCallStateSpecification, NgssmRemoteCallStateInitializer } from 'ngssm-remote-data';
+import { NgssmRemoteCallStateSpecification, NgssmRemoteCallStateInitializer, RemoteCallResultProcessor } from 'ngssm-remote-data';
 import { NgssmRemoteCallSetter } from './ngssm-remote-call-setter';
 
 /**
@@ -34,6 +34,17 @@ export const provideNgssmRemoteCallTesting = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
     provideAppInitializer(ngssmRemoteCallStateAndRemoteCallsInitializer),
     NgssmRemoteCallStateInitializer,
-    NgssmRemoteCallSetter
+    NgssmRemoteCallSetter,
+    {
+      provide: RemoteCallResultProcessor,
+      useValue: {
+        processRemoteCallError: () => {
+          // nothing to do. Used for testing
+        },
+        processRemoteCallSuccess: () => {
+          // nothing to do. Used for testing
+        }
+      }
+    }
   ]);
 };

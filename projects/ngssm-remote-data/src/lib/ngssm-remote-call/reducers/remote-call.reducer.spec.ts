@@ -1,10 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { State } from 'ngssm-store';
 
-import { NGSSM_REMOTE_CALL_CONFIG, RemoteCallConfig, RemoteCallStatus } from '../model';
-import { NgssmRemoteCallStateSpecification, selectNgssmRemoteCallState, updateNgssmRemoteCallState } from '../state';
 import { RemoteCallReducer } from './remote-call.reducer';
+import { NGSSM_REMOTE_CALL_CONFIG, RemoteCallConfig } from '../register-remote-call';
+import { NgssmRemoteCallStateSpecification, selectNgssmRemoteCallState, updateNgssmRemoteCallState } from '../ngssm-remote-call.state';
+import { RemoteCallStatus } from '../remote-call';
 
 describe('RemoteCallReducer', () => {
   let reducer: RemoteCallReducer;
@@ -52,10 +54,10 @@ describe('RemoteCallReducer', () => {
         remoteCalls: {
           ['test1']: {
             $set: {
-              status: RemoteCallStatus.ko,
-              error: {
-                title: 'Bad data'
-              },
+              status: RemoteCallStatus.failed,
+              httpErrorResponse: {
+                message: 'Bad data'
+              } as unknown as HttpErrorResponse,
               message: 'unexpected'
             }
           }
@@ -72,7 +74,7 @@ describe('RemoteCallReducer', () => {
     it(`should reset the error to undefined`, () => {
       const updatedState = reducer.updateState(state, { type: 'trigger1' });
 
-      expect(selectNgssmRemoteCallState(updatedState).remoteCalls['test1'].error).toEqual(undefined);
+      expect(selectNgssmRemoteCallState(updatedState).remoteCalls['test1'].httpErrorResponse).toEqual(undefined);
     });
 
     it(`should reset the message to undefined`, () => {

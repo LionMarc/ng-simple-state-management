@@ -5,8 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createSignal } from 'ngssm-store';
 
-import { selectNgssmRemoteCallState } from '../../state';
-import { RemoteCallStatus } from '../../model';
+import { RemoteCall, RemoteCallStatus } from '../remote-call';
+import { selectNgssmRemoteCallState } from '../ngssm-remote-call.state';
 
 @Component({
   selector: 'ngssm-remote-call-error',
@@ -28,15 +28,15 @@ export class NgssmRemoteCallErrorComponent {
   constructor() {
     effect(() => {
       const id = this.remoteCallId();
-      const remoteCall = this.remoteCalls()[id];
-      this.errorContainerRendered.set(remoteCall?.status === RemoteCallStatus.ko);
+      const remoteCall: RemoteCall = this.remoteCalls()[id];
+      this.errorContainerRendered.set(remoteCall?.status === RemoteCallStatus.failed);
       const description: string =
-        remoteCall?.status !== RemoteCallStatus.ko
+        remoteCall?.status !== RemoteCallStatus.failed
           ? ''
           : remoteCall.message
             ? remoteCall.message
-            : remoteCall.error
-              ? JSON.stringify(remoteCall.error, null, 2)
+            : remoteCall.httpErrorResponse
+              ? JSON.stringify(remoteCall.httpErrorResponse, null, 2)
               : 'No error description provided!';
       this.errorDescription.set(description);
     });
