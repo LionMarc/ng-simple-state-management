@@ -68,13 +68,13 @@ describe('NgssmRemoteCallErrorComponent', () => {
       });
     });
 
-    describe(`when remote call status is '${RemoteCallStatus.failed}'`, () => {
+    describe(`when remote call status is '${RemoteCallStatus.ko}'`, () => {
       beforeEach(() => {
         const state = updateNgssmRemoteCallState(store.stateValue, {
           remoteCalls: {
             [remoteCallId]: {
               $set: {
-                status: RemoteCallStatus.failed
+                status: RemoteCallStatus.ko
               }
             }
           }

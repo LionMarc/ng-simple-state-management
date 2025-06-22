@@ -68,7 +68,7 @@ export class RemoteDataDemoComponent {
   public endCallWithError(): void {
     this.store.dispatchAction(
       new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, {
-        status: RemoteCallStatus.failed,
+        status: RemoteCallStatus.ko,
         httpErrorResponse: {
           error: {
             title: 'testing error',
@@ -84,7 +84,7 @@ export class RemoteDataDemoComponent {
   public endCallWithErrorMessage(): void {
     this.store.dispatchAction(
       new NgssmRemoteCallResultAction(RemoteDataDemoActionType.endRemoteCall, {
-        status: RemoteCallStatus.failed,
+        status: RemoteCallStatus.ko,
         message: 'Testing error message'
       })
     );
