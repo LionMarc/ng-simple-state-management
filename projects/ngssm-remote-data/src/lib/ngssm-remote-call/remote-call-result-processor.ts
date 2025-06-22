@@ -52,5 +52,5 @@ export const processRemoteCallError = (
 ): void => {
   logger.error(errorMessage, error);
   notifier.notifyError(`${errorMessage}: ${error.error?.title}`);
-  actionDispatcher.dispatchAction(new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.ko, httpErrorResponse: error }));
+  actionDispatcher.dispatchAction(new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.ko, error: error.error }));
 };

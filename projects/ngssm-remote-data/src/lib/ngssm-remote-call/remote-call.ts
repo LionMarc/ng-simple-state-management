@@ -8,11 +8,18 @@ export enum RemoteCallStatus {
   ko = 'Ko' // The remote call failed
 }
 
-// Describes the state and result of a remote call, including error information if applicable.
-export interface RemoteCall {
+/**
+ * Describes the state and result of a remote call, including error information if applicable.
+ *
+ * Note that the property error is only here to ensure compatibility with previous versions. It will be removed in a future release.
+ * Only the processRemoteCallError helper sets this property.
+ * The service RemoteCallResultProcessor which must be used instead of the helper does not set this property.
+ */
+export interface RemoteCall<TErrorType = unknown> {
   status: RemoteCallStatus; // The current status of the remote call
   httpErrorResponse?: HttpErrorResponse; // Optional HTTP error response if the call failed
   message?: string; // Optional message describing the result or error
+  error?: TErrorType; // Error property of HttpErrorResponse => to avoid too many impacts on code using this.
 }
 
 /**
