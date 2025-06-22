@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 
-import { Logger, Store } from 'ngssm-store';
+import { ActionDispatcher, Logger, Store } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
 
 import { SetRemoteCallAction } from './actions';
@@ -19,7 +19,7 @@ export class RemoteCallResultProcessor {
     this.logger.error(errorMessage, error);
     this.notifier.notifyError(`${errorMessage}: ${error.message}`);
     this.store.dispatchAction(
-      new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.failed, httpErrorResponse: error, message: errorMessage })
+      new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.ko, httpErrorResponse: error, message: errorMessage })
     );
   }
 
@@ -29,3 +29,28 @@ export class RemoteCallResultProcessor {
     this.store.dispatchAction(new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.done }));
   }
 }
+
+/**
+ * Helper method to process http error.
+ *
+ * Use instead the service RemoteCallResultProcessor.
+ *
+ * @param error The http error response.
+ * @param errorMessage The custom error message.
+ * @param remoteCallId The remote call identifier.
+ * @param actionDispatcher The action dispatcher.
+ * @param logger The logger.
+ * @param notifier The message notifier.
+ */
+export const processRemoteCallError = (
+  error: HttpErrorResponse,
+  errorMessage: string,
+  remoteCallId: string,
+  actionDispatcher: ActionDispatcher,
+  logger: Logger,
+  notifier: NgssmNotifierService
+): void => {
+  logger.error(errorMessage, error);
+  notifier.notifyError(`${errorMessage}: ${error.error?.title}`);
+  actionDispatcher.dispatchAction(new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.ko, httpErrorResponse: error }));
+};

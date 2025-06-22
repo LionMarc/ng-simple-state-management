@@ -54,7 +54,7 @@ describe('RemoteCallReducer', () => {
         remoteCalls: {
           ['test1']: {
             $set: {
-              status: RemoteCallStatus.failed,
+              status: RemoteCallStatus.ko,
               httpErrorResponse: {
                 message: 'Bad data'
               } as unknown as HttpErrorResponse,

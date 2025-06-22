@@ -49,12 +49,12 @@ describe('NgssmRemoteCallSetter', () => {
   it(`should update status and error of a remote call`, () => {
     TestBed.inject(NgssmRemoteCallSetter)
       .setRemoteCallError('first', { message: 'testing error' } as unknown as HttpErrorResponse)
-      .setRemoteCallStatus('first', RemoteCallStatus.failed);
+      .setRemoteCallStatus('first', RemoteCallStatus.ko);
 
     const store = TestBed.inject(Store);
     expect(selectRemoteCall(store.state(), 'first')?.httpErrorResponse).toEqual({
       message: 'testing error'
     } as unknown as HttpErrorResponse);
-    expect(selectRemoteCall(store.state(), 'first')?.status).toEqual(RemoteCallStatus.failed);
+    expect(selectRemoteCall(store.state(), 'first')?.status).toEqual(RemoteCallStatus.ko);
   });
 });

@@ -6,7 +6,7 @@ import { NgssmRemoteCallStateSpecification, updateNgssmRemoteCallState } from '.
 
 describe('selectors', () => {
   describe('isNgssmRemoteCallInProgress', () => {
-    [RemoteCallStatus.done, RemoteCallStatus.failed, RemoteCallStatus.none].forEach((status) => {
+    [RemoteCallStatus.done, RemoteCallStatus.ko, RemoteCallStatus.none].forEach((status) => {
       it(`should return false when remote call status is '${status}'`, () => {
         let state: State = {
           [NgssmRemoteCallStateSpecification.featureStateKey]: NgssmRemoteCallStateSpecification.initialState

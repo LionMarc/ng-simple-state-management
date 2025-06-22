@@ -53,7 +53,7 @@ describe('RemoteCallResultProcessor', () => {
     it(`should dispatch an action to update the status of the remote call`, () => {
       expect(store.dispatchAction).toHaveBeenCalledWith(
         new SetRemoteCallAction('my-id', {
-          status: RemoteCallStatus.failed,
+          status: RemoteCallStatus.ko,
           httpErrorResponse: {
             message: 'http error'
           } as unknown as HttpErrorResponse,

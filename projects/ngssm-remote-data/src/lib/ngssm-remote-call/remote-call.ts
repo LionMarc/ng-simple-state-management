@@ -5,7 +5,7 @@ export enum RemoteCallStatus {
   none = 'None', // No call has been made yet
   inProgress = 'In progress', // The remote call is currently in progress
   done = 'Done', // The remote call completed successfully
-  failed = 'Failed' // The remote call failed
+  ko = 'Ko' // The remote call failed
 }
 
 // Describes the state and result of a remote call, including error information if applicable.

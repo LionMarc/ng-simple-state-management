@@ -41,7 +41,7 @@ describe('RemoteCallSetterReducer', () => {
         remoteCalls: {
           ['testing']: {
             $set: {
-              status: RemoteCallStatus.failed
+              status: RemoteCallStatus.ko
             }
           }
         }

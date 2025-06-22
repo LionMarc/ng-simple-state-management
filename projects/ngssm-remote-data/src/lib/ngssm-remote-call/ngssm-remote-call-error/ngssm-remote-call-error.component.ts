@@ -29,9 +29,9 @@ export class NgssmRemoteCallErrorComponent {
     effect(() => {
       const id = this.remoteCallId();
       const remoteCall: RemoteCall = this.remoteCalls()[id];
-      this.errorContainerRendered.set(remoteCall?.status === RemoteCallStatus.failed);
+      this.errorContainerRendered.set(remoteCall?.status === RemoteCallStatus.ko);
       const description: string =
-        remoteCall?.status !== RemoteCallStatus.failed
+        remoteCall?.status !== RemoteCallStatus.ko
           ? ''
           : remoteCall.message
             ? remoteCall.message
