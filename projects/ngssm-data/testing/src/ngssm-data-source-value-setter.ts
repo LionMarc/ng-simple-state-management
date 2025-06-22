@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { NgssmDataSourceValueStatus, updateNgssmDataState } from 'ngssm-data';
 
 import { Store } from 'ngssm-store';
@@ -32,3 +33,5 @@ export class NgssmDataSourceValueSetter {
     return this;
   }
 }
+
+export const ngssmDataSourceValueSetter = () => TestBed.inject(NgssmDataSourceValueSetter);

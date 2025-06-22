@@ -47,7 +47,7 @@ export class DataLoadingEffect implements Effect {
               actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.loaded, value)),
             error: (error) => {
               this.logger.error(`Unable to load data for '${key}'`, error);
-              actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.error));
+              actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.error, undefined, error));
             }
           });
         });

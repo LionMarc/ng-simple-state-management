@@ -1,4 +1,5 @@
 import { inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 
@@ -232,7 +233,9 @@ describe('DataLoadingEffect', () => {
         effect.processAction(store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceValueAction('data-providers-ko', NgssmDataSourceValueStatus.error)
+          new NgssmSetDataSourceValueAction('data-providers-ko', NgssmDataSourceValueStatus.error, undefined, {
+            title: 'bad call'
+          } as unknown as HttpErrorResponse)
         );
       });
     });
@@ -266,7 +269,9 @@ describe('DataLoadingEffect', () => {
         effect.processAction(store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceValueAction('managers-ko', NgssmDataSourceValueStatus.error)
+          new NgssmSetDataSourceValueAction('managers-ko', NgssmDataSourceValueStatus.error, undefined, {
+            title: 'bad call'
+          } as unknown as HttpErrorResponse)
         );
       });
     });
