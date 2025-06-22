@@ -37,7 +37,9 @@ export class NgssmRemoteCallErrorComponent {
             ? remoteCall.message
             : remoteCall.httpErrorResponse
               ? JSON.stringify(remoteCall.httpErrorResponse, null, 2)
-              : 'No error description provided!';
+              : remoteCall.error
+                ? JSON.stringify(remoteCall.error, null, 2)
+                : 'No error description provided!';
       this.errorDescription.set(description);
     });
   }
