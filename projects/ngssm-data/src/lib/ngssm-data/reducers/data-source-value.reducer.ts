@@ -123,7 +123,8 @@ export class DataSourceValueReducer implements Reducer {
             [ngssmSetDataSourceValueAction.key]: {
               status: { $set: ngssmSetDataSourceValueAction.status },
               value: { $set: ngssmSetDataSourceValueAction.value },
-              lastLoadingDate: { $set: DateTime.now() }
+              lastLoadingDate: { $set: DateTime.now() },
+              httpErrorResponse: { $set: ngssmSetDataSourceValueAction.httpErrorResponse }
             }
           }
         });

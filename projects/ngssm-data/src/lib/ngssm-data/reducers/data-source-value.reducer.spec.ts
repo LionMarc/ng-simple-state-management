@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { State } from 'ngssm-store';
 
 import { DateTime } from 'luxon';
@@ -314,6 +316,18 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.value).toEqual(['prv1', 'prv3']);
+    });
+
+    it(`should update source value error with the error set in action`, () => {
+      const action = new NgssmSetDataSourceValueAction('data-providers', NgssmDataSourceValueStatus.loaded, undefined, {
+        message: 'ko'
+      } as unknown as HttpErrorResponse);
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.httpErrorResponse).toEqual({
+        message: 'ko'
+      } as unknown as HttpErrorResponse);
     });
   });
 
