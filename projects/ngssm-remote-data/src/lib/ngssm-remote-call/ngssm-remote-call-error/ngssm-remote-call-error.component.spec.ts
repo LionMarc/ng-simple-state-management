@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -9,8 +10,8 @@ import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
 import { NgssmRemoteCallErrorComponent } from './ngssm-remote-call-error.component';
-import { NgssmRemoteCallStateSpecification, updateNgssmRemoteCallState } from '../../state';
-import { RemoteCallStatus } from '../../model';
+import { RemoteCallStatus } from '../remote-call';
+import { NgssmRemoteCallStateSpecification, updateNgssmRemoteCallState } from '../ngssm-remote-call.state';
 
 describe('NgssmRemoteCallErrorComponent', () => {
   let fixture: ComponentFixture<NgssmRemoteCallErrorComponent>;
@@ -53,9 +54,6 @@ describe('NgssmRemoteCallErrorComponent', () => {
             [remoteCallId]: {
               $set: {
                 status,
-                error: {
-                  title: 'testing'
-                },
                 message: 'Testing message'
               }
             }
@@ -70,13 +68,13 @@ describe('NgssmRemoteCallErrorComponent', () => {
       });
     });
 
-    describe(`when remote call status is '${RemoteCallStatus.ko}'`, () => {
+    describe(`when remote call status is '${RemoteCallStatus.failed}'`, () => {
       beforeEach(() => {
         const state = updateNgssmRemoteCallState(store.stateValue, {
           remoteCalls: {
             [remoteCallId]: {
               $set: {
-                status: RemoteCallStatus.ko
+                status: RemoteCallStatus.failed
               }
             }
           }
@@ -126,10 +124,10 @@ describe('NgssmRemoteCallErrorComponent', () => {
           const state = updateNgssmRemoteCallState(store.stateValue, {
             remoteCalls: {
               [remoteCallId]: {
-                error: {
+                httpErrorResponse: {
                   $set: {
-                    title: 'with detailed'
-                  }
+                    message: 'with detailed'
+                  } as unknown as HttpErrorResponse
                 }
               }
             }
@@ -148,10 +146,10 @@ describe('NgssmRemoteCallErrorComponent', () => {
           const state = updateNgssmRemoteCallState(store.stateValue, {
             remoteCalls: {
               [remoteCallId]: {
-                error: {
+                httpErrorResponse: {
                   $set: {
-                    title: 'testing'
-                  }
+                    message: 'testing'
+                  } as unknown as HttpErrorResponse
                 }
               }
             }
@@ -164,7 +162,7 @@ describe('NgssmRemoteCallErrorComponent', () => {
           const pipe = new JsonPipe();
           expect(element?.nativeElement.innerHTML).toContain(
             pipe.transform({
-              title: 'testing'
+              message: 'testing'
             })
           );
         });

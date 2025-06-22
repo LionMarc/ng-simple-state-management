@@ -1,12 +1,12 @@
 import { State } from 'ngssm-store';
 
-import { RemoteCallStatus } from './model';
-import { NgssmRemoteCallStateSpecification, updateNgssmRemoteCallState } from './state';
 import { isNgssmRemoteCallInProgress } from './selectors';
+import { RemoteCallStatus } from './remote-call';
+import { NgssmRemoteCallStateSpecification, updateNgssmRemoteCallState } from './ngssm-remote-call.state';
 
 describe('selectors', () => {
   describe('isNgssmRemoteCallInProgress', () => {
-    [RemoteCallStatus.done, RemoteCallStatus.ko, RemoteCallStatus.none].forEach((status) => {
+    [RemoteCallStatus.done, RemoteCallStatus.failed, RemoteCallStatus.none].forEach((status) => {
       it(`should return false when remote call status is '${status}'`, () => {
         let state: State = {
           [NgssmRemoteCallStateSpecification.featureStateKey]: NgssmRemoteCallStateSpecification.initialState

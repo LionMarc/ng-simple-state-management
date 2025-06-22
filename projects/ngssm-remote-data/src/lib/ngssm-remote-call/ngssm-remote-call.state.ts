@@ -2,7 +2,7 @@ import update, { Spec } from 'immutability-helper';
 
 import { NgSsmFeatureState, State } from 'ngssm-store';
 
-import { RemoteCall } from '../model';
+import { RemoteCall } from './remote-call';
 
 export const selectNgssmRemoteCallState = (state: State): NgssmRemoteCallState =>
   state[NgssmRemoteCallStateSpecification.featureStateKey] as NgssmRemoteCallState;

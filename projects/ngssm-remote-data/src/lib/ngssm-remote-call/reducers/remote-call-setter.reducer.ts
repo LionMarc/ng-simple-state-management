@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Reducer, State, Action } from 'ngssm-store';
 
 import { NgssmRemoteCallActionType, SetRemoteCallAction } from '../actions';
-import { updateNgssmRemoteCallState } from '../state';
+import { updateNgssmRemoteCallState } from '../ngssm-remote-call.state';
 
 @Injectable()
 export class RemoteCallSetterReducer implements Reducer {
