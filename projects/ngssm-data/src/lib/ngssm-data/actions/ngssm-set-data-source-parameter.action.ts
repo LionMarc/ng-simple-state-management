@@ -5,7 +5,8 @@ export class NgssmSetDataSourceParameterAction<TParameter = unknown> extends Ngs
   constructor(
     key: string,
     public readonly parameter?: TParameter,
-    public readonly parameterIsValid?: boolean
+    public readonly parameterIsValid?: boolean,
+    public readonly doNotMarkParameterAsModified?: boolean
   ) {
     super(NgssmDataActionType.setDataSourceParameter, key);
   }

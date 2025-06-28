@@ -163,7 +163,7 @@ export class DataSourceValueReducer implements Reducer {
             [ngssmSetDataSourceParameterAction.key]: {
               parameter: { $set: ngssmSetDataSourceParameterAction.parameter },
               parameterIsValid: { $set: ngssmSetDataSourceParameterAction.parameterIsValid },
-              valueOutdated: { $set: true }
+              valueOutdated: { $set: ngssmSetDataSourceParameterAction.doNotMarkParameterAsModified === true ? false : true }
             }
           }
         });
