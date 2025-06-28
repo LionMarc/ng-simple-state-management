@@ -15,7 +15,7 @@ describe('NgssmVisibilitySetter', () => {
     });
   });
 
-  it(`should set the eleemtnas visible`, () => {
+  it(`should set the element as visible`, () => {
     ngssmVisibilitySetter().showElement(key);
 
     const store = TestBed.inject(Store);
@@ -27,5 +27,20 @@ describe('NgssmVisibilitySetter', () => {
 
     const store = TestBed.inject(Store);
     expect(selectNgssmVisibilityState(store.state()).elements[key]).toBeFalse();
+  });
+
+  [true, false].forEach((value) => {
+    it(`should toggle visibility to ${!value} when visibility is ${value} `, () => {
+      if (value) {
+        ngssmVisibilitySetter().showElement(key);
+      } else {
+        ngssmVisibilitySetter().hideElement(key);
+      }
+
+      ngssmVisibilitySetter().toggleElementVisibility(key);
+
+      const store = TestBed.inject(Store);
+      expect(selectNgssmVisibilityState(store.state()).elements[key]).toEqual(!value);
+    });
   });
 });
