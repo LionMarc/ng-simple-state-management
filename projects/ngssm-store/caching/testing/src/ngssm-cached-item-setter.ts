@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 
 import { Store } from 'ngssm-store';
 import { CachedItemStatus, SetCachedItemAction, updateNgssmCachingState } from 'ngssm-store/caching';
@@ -69,3 +70,5 @@ export class NgssmCachedItemSetter {
     return this;
   }
 }
+
+export const ngssmCachedItemSetter = () => TestBed.inject(NgssmCachedItemSetter);
