@@ -453,6 +453,14 @@ describe('DataSourceValueReducer', () => {
         const updatedState = reducer.updateState(state, action);
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBeTrue();
       });
+
+      it(`should not set source value valueOutdated to true when doNotMarkParameterAsModified is set to true`, () => {
+        const updatedState = reducer.updateState(
+          state,
+          new NgssmSetDataSourceParameterAction('data-providers', 'new parameter', undefined, true)
+        );
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBeFalse();
+      });
     });
 
     it(`should update source value parameter validity with the value set in action`, () => {
