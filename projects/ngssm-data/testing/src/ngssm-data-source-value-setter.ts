@@ -32,6 +32,18 @@ export class NgssmDataSourceValueSetter {
 
     return this;
   }
+
+  public setDataSourceParameter<T>(datasourceKey: string, value?: T): NgssmDataSourceValueSetter {
+    this.store.stateValue = updateNgssmDataState(this.store.stateValue, {
+      dataSourceValues: {
+        [datasourceKey]: {
+          parameter: { $set: value }
+        }
+      }
+    });
+
+    return this;
+  }
 }
 
 export const ngssmDataSourceValueSetter = () => TestBed.inject(NgssmDataSourceValueSetter);
