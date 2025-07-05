@@ -12,7 +12,6 @@ import {
   DataStatus,
   NgssmRemoteCallErrorComponent,
   NgssmRemoteCallResultAction,
-  NgssmRemoteDataOverlayDirective,
   RemoteCallStatus,
   selectRemoteCall,
   selectRemoteData,
@@ -32,7 +31,6 @@ import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions'
     MatCardModule,
     MatButtonModule,
     NgssmComponentOverlayDirective,
-    NgssmRemoteDataOverlayDirective,
     NgssmRemoteCallErrorComponent
   ],
   templateUrl: './remote-data-demo.component.html',
@@ -43,6 +41,9 @@ export class RemoteDataDemoComponent {
   private readonly store = inject(Store);
 
   protected readonly waitingOverlayRendered = createSignal((state) => isNgssmRemoteCallInProgress(state, 'demo'));
+  protected readonly areRemoteDataLoading = createSignal((state) =>
+    this.dataStatusKeys.some((k) => selectRemoteData(state, k)?.status === DataStatus.loading)
+  );
 
   public readonly dataStatus = DataStatus;
   public readonly dataStatusList = [DataStatus.loading, DataStatus.loaded];
