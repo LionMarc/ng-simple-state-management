@@ -37,7 +37,7 @@
           <mat-card-header>
             <mat-card-title>Component using directive</mat-card-title>
           </mat-card-header>
-          <mat-card-content class="flex-column-stretch fxFlex" [ngssmRemoteDataOverlay]="dataStatusKeys">
+          <mat-card-content class="flex-column-stretch fxFlex" [ngssmDisplayOverlay]="areRemoteDataLoading()">
             <p>Custom Content</p>
             @for (status of statuses(); track status) {
               <p>
