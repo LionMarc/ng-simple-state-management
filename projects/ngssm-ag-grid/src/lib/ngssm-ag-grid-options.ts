@@ -6,6 +6,7 @@ import { ColDef, StatusPanelDef } from 'ag-grid-community';
  * - theme: The CSS theme to use for the grid.
  * - statusBar: Optional status bar configuration for AG Grid.
  * - defaultColDef: Optional default column definition for all columns.
+ * - loadSavedGridStatesAtStartup: If true, grid states saved in local storage are loaded during app initialization.
  */
 export class NgssmAgGridOptions {
   theme = 'ag-theme-material';
@@ -15,6 +16,7 @@ export class NgssmAgGridOptions {
       }
     | undefined = undefined;
   defaultColDef: ColDef | undefined = undefined;
+  loadSavedGridStatesAtStartup?: boolean = undefined;
 }
 
 /**
