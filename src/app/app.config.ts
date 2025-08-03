@@ -5,7 +5,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/d
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { provideNgssmStore, provideConsoleAppender, Store, Logger } from 'ngssm-store';
-import { NGSSM_AG_GRID_OPTIONS, provideNgssmAgGrid } from 'ngssm-ag-grid';
+import { provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import {
   defaultRegexEditorValidator,
@@ -83,28 +83,24 @@ export const appConfig: ApplicationConfig = {
     provideNgssmStore(),
     provideConsoleAppender('Main'),
     useDefaultErrorStateMatcher,
-    {
-      provide: NGSSM_AG_GRID_OPTIONS,
-      useValue: {
-        theme: 'ag-theme-alpine',
-        statusBar: {
-          statusPanels: [
-            {
-              statusPanel: 'agTotalAndFilteredRowCountComponent'
-            }
-          ]
-        },
-        defaultColDef: {
-          resizable: true,
-          sortable: true
-        }
-      }
-    },
     provideNgssmShell(),
     provideNgssmRemoteData(),
     provideNgssmTree(),
     provideNgssmNavigation(),
-    provideNgssmAgGrid(),
+    provideNgssmAgGrid({
+      theme: 'ag-theme-alpine',
+      statusBar: {
+        statusPanels: [
+          {
+            statusPanel: 'agTotalAndFilteredRowCountComponent'
+          }
+        ]
+      },
+      defaultColDef: {
+        resizable: true,
+        sortable: true
+      }
+    }),
     provideNgssmRemoteCall(),
     provideNgssmExpressionTree(),
     provideNgssmVisibility(),
