@@ -99,7 +99,8 @@ export const appConfig: ApplicationConfig = {
       defaultColDef: {
         resizable: true,
         sortable: true
-      }
+      },
+      loadSavedGridStatesAtStartup: true
     }),
     provideNgssmRemoteCall(),
     provideNgssmExpressionTree(),
