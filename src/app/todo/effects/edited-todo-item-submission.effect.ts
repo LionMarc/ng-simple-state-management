@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { NgssmLoadDataSourceValueAction } from 'ngssm-data';
 import { Effect, State, Logger, ActionDispatcher } from 'ngssm-store';
+import { RemoteCallResultProcessor } from 'ngssm-remote-data';
 
 import { TodoActionType } from '../actions';
 import { todoItemsKey } from '../model';
@@ -12,6 +13,7 @@ import { selectTodoState } from '../state';
 export class EditedTodoItemSubmissionEffect implements Effect {
   private readonly todoItemsService = inject(TodoItemsService);
   private readonly logger = inject(Logger);
+  private readonly remoteCallResultProcesor = inject(RemoteCallResultProcessor);
 
   public readonly processedActions: string[] = [TodoActionType.submitEditedTodoItem];
 
@@ -29,6 +31,7 @@ export class EditedTodoItemSubmissionEffect implements Effect {
           this.logger.information('To-Do created.');
           actiondispatcher.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
           actiondispatcher.dispatchActionType(TodoActionType.closeTodoItemEditor);
+          this.remoteCallResultProcesor.processRemoteCallSuccess('test', 'OKAYYYYYYY');
         },
         error: (error) => {
           this.logger.error('Unable to create the To-Do', error);

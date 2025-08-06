@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 
 import { ActionDispatcher, Logger, Store } from 'ngssm-store';
 import { NgssmNotifierService } from 'ngssm-toolkit';
@@ -12,21 +12,25 @@ import { RemoteCallStatus } from './remote-call';
 })
 export class RemoteCallResultProcessor {
   private readonly logger = inject(Logger);
-  private readonly store = inject(Store);
+
+  // Inject Injector instead of Store because Effects are injected into Store and this class may be used by Effects
+  private readonly injector = inject(Injector);
   private readonly notifier = inject(NgssmNotifierService);
 
   public processRemoteCallError(remoteCallId: string, error: HttpErrorResponse, errorMessage: string): void {
     this.logger.error(errorMessage, error);
     this.notifier.notifyError(`${errorMessage}: ${error.message}`);
-    this.store.dispatchAction(
-      new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.ko, httpErrorResponse: error, message: errorMessage })
-    );
+    this.injector
+      .get(Store)
+      .dispatchAction(
+        new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.ko, httpErrorResponse: error, message: errorMessage })
+      );
   }
 
   public processRemoteCallSuccess(remoteCallId: string, message: string): void {
     this.logger.information(message);
     this.notifier.notifySuccess(message);
-    this.store.dispatchAction(new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.done }));
+    this.injector.get(Store).dispatchAction(new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.done }));
   }
 }
 
