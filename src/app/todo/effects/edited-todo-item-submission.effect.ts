@@ -13,7 +13,7 @@ import { selectTodoState } from '../state';
 export class EditedTodoItemSubmissionEffect implements Effect {
   private readonly todoItemsService = inject(TodoItemsService);
   private readonly logger = inject(Logger);
-  private readonly remoteCallResultProcesor = inject(RemoteCallResultProcessor);
+  private readonly remoteCallResultProcessor = inject(RemoteCallResultProcessor);
 
   public readonly processedActions: string[] = [TodoActionType.submitEditedTodoItem];
 
@@ -31,7 +31,7 @@ export class EditedTodoItemSubmissionEffect implements Effect {
           this.logger.information('To-Do created.');
           actiondispatcher.dispatchAction(new NgssmLoadDataSourceValueAction(todoItemsKey, { forceReload: true }));
           actiondispatcher.dispatchActionType(TodoActionType.closeTodoItemEditor);
-          this.remoteCallResultProcesor.processRemoteCallSuccess('test', 'OKAYYYYYYY');
+          this.remoteCallResultProcessor.processRemoteCallSuccess('test', 'OKAYYYYYYY');
         },
         error: (error) => {
           this.logger.error('Unable to create the To-Do', error);
