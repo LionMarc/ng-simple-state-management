@@ -8,7 +8,7 @@ import { DefaultMenuItem, GetContextMenuItemsParams, MenuItemDef } from 'ag-grid
 import { createSignal, Logger, Store } from 'ngssm-store';
 
 import { AgGridAction, AgGridActionType, RegisterAgGridStateAction, RegisterSelectedRowsAction } from '../actions';
-import { ChangeOrigin, selectAgGridState } from '../state';
+import { ChangeOrigin, ColumnGroupState, selectAgGridState } from '../state';
 import { defaultAgGridColumnsEvents, NgssmAgGridConfig } from './ngssm-ag-grid-config';
 
 @Directive({
@@ -41,10 +41,12 @@ export class NgssmAgGridDirective {
   });
 
   constructor() {
+    this.logger.information(`[NgssmAgGridDirective] Initialization...`);
+
     // Setup gridInintialized signal
     this.agGridAngular.gridReady.pipe(take(1)).subscribe(() => this.gridInitialized.set(true));
 
-    // Apply registered grid setup is any and start listening to ag-grid events
+    // Apply registered grid setup if any and start listening to ag-grid events
     const effectRef = effect(() => {
       if (!this.gridInitialized()) {
         return;
@@ -54,8 +56,9 @@ export class NgssmAgGridDirective {
 
       const gridState = this.gridStates()[this.config().gridId];
       if (gridState) {
+        this.agGridAngular.api.setColumnGroupState(gridState.columnGroupStates);
         this.agGridAngular.api.applyColumnState({
-          state: gridState.columnsState,
+          state: gridState.columnStates,
           applyOrder: true
         });
         this.agGridAngular.api.setFilterModel(gridState.filterModel);
@@ -88,8 +91,9 @@ export class NgssmAgGridDirective {
 
       const gridState = this.gridStates()[this.config().gridId];
       if (gridState?.origin === ChangeOrigin.other) {
+        this.agGridAngular.api.setColumnGroupState(gridState.columnGroupStates);
         this.agGridAngular.api.applyColumnState({
-          state: gridState.columnsState,
+          state: gridState.columnStates,
           applyOrder: true
         });
         this.agGridAngular.api.setFilterModel(gridState.filterModel);
@@ -120,6 +124,7 @@ export class NgssmAgGridDirective {
     });
 
     this.agGridAngular.getContextMenuItems = (params) => this.getContextMenuItems(params);
+    this.logger.information(`[NgssmAgGridDirective] Initialization done.`);
   }
 
   private initSateChangeListener(): void {
@@ -133,7 +138,10 @@ export class NgssmAgGridDirective {
   private saveGridState(): void {
     const state = this.agGridAngular.api.getColumnState();
     const filterModel = this.agGridAngular.api.getFilterModel();
-    this.store.dispatchAction(new RegisterAgGridStateAction(this.config().gridId, ChangeOrigin.agGrid, state, filterModel));
+    const columnGroupStates: ColumnGroupState[] = this.agGridAngular.api.getColumnGroupState();
+    this.store.dispatchAction(
+      new RegisterAgGridStateAction(this.config().gridId, ChangeOrigin.agGrid, state, columnGroupStates, filterModel)
+    );
   }
 
   private processSelectionChanged(): void {
@@ -159,25 +167,26 @@ export class NgssmAgGridDirective {
       menuItems.push(...(params.defaultItems ?? []));
     }
 
-    if (this.config().canSaveOnDiskColumnsState === true) {
+    if (this.config().canSaveOnDiskcolumnStates === true) {
       const gridId = this.config().gridId;
       menuItems.push(
         ...[
           'separator' as DefaultMenuItem,
           {
             name: 'Save columns state',
-            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.saveColumnsStateOnDisk, gridId)),
+            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.savecolumnStatesOnDisk, gridId)),
             icon: '<i class="fa-regular fa-floppy-disk"></i>'
           },
           {
             name: 'Restore columns state',
-            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, gridId)),
+            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.resetcolumnStatesFromDisk, gridId)),
             icon: '<i class="fa-solid fa-rotate-right"></i>'
           },
           {
             name: 'Reset columns state to default',
             action: () => {
               this.agGridAngular.api.resetColumnState();
+              this.agGridAngular.api.resetColumnGroupState();
               this.agGridAngular.api.setFilterModel(null);
             },
             icon: '<i class="fa-solid fa-clock-rotate-left"></i>'

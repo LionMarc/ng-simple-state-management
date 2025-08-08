@@ -9,7 +9,8 @@ export const defaultAgGridColumnsEvents: AgPublicEventType[] = [
   'columnPinned',
   'columnResized',
   'displayedColumnsChanged',
-  'filterChanged'
+  'filterChanged',
+  'columnGroupOpened'
 ];
 
 /**
@@ -35,7 +36,7 @@ export interface NgssmAgGridConfig {
    *
    * this functionnality is only available for enterprise version of {@link https://www.ag-grid.com/}.
    */
-  canSaveOnDiskColumnsState?: boolean;
+  canSaveOnDiskcolumnStates?: boolean;
 
   /**
    * Used to override default context menu items.
