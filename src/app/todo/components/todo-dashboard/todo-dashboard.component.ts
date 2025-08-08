@@ -142,7 +142,24 @@ export class TodoDashboardComponent {
         field: 'title',
         headerName: 'Title',
         filter: 'agTextColumnFilter',
-        width: 800
+        width: 300
+      },
+      {
+        headerName: 'Status',
+        groupId: 'status',
+        children: [
+          {
+            headerName: 'Last Update',
+            colId: 'last-update',
+            valueGetter: (params: ValueGetterParams<TodoItem>) => params.data?.status?.lastUpdate
+          },
+          {
+            headerName: 'By',
+            colId: 'last-updated-by',
+            valueGetter: (params: ValueGetterParams<TodoItem>) => params.data?.status?.updatedBy,
+            columnGroupShow: 'open'
+          }
+        ]
       }
     ],
     getRowId: (params: GetRowIdParams<TodoItem>) => params.data.id?.toString() ?? '',
@@ -155,7 +172,7 @@ export class TodoDashboardComponent {
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
     keepSelection: true,
-    canSaveOnDiskColumnsState: true,
+    canSaveOnDiskcolumnStates: true,
     getContextMenuItems: (params) => {
       console.log('CALLED', params);
       const menuItems: (DefaultMenuItem | MenuItemDef)[] = [...(params.defaultItems ?? [])];
@@ -188,7 +205,7 @@ export class TodoDashboardComponent {
     console.log('CALLED ctor of dashboard');
 
     this.allowRestoringGridControl.valueChanges.subscribe((value) => {
-      this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskColumnsState: value ?? true };
+      this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskcolumnStates: value ?? true };
     });
 
     this.deleteHiddenControl.valueChanges.subscribe((v) => this.deleteHidden.set(v ?? false));

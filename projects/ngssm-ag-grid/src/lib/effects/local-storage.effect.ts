@@ -9,16 +9,17 @@ import { ChangeOrigin, selectAgGridState } from '../state';
 export class LocalStorageEffect implements Effect {
   private readonly logger = inject(Logger);
 
-  public readonly processedActions: string[] = [AgGridActionType.saveColumnsStateOnDisk, AgGridActionType.resetColumnsStateFromDisk];
+  public readonly processedActions: string[] = [AgGridActionType.savecolumnStatesOnDisk, AgGridActionType.resetcolumnStatesFromDisk];
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const agGridAction = action as AgGridAction;
 
     switch (action.type) {
-      case AgGridActionType.saveColumnsStateOnDisk: {
+      case AgGridActionType.savecolumnStatesOnDisk: {
         const gridState = selectAgGridState(state).gridStates[agGridAction.gridId];
         if (gridState) {
-          localStorage.setItem(this.getColumnsStateLocalStorageKey(agGridAction.gridId), JSON.stringify(gridState.columnsState));
+          localStorage.setItem(this.getcolumnStatesLocalStorageKey(agGridAction.gridId), JSON.stringify(gridState.columnStates));
+          localStorage.setItem(this.getcolumnGroupStatesLocalStorageKey(agGridAction.gridId), JSON.stringify(gridState.columnGroupStates));
           if (gridState.filterModel) {
             localStorage.setItem(this.getFilterModelLocalStorageKey(agGridAction.gridId), JSON.stringify(gridState.filterModel));
           }
@@ -27,18 +28,20 @@ export class LocalStorageEffect implements Effect {
         break;
       }
 
-      case AgGridActionType.resetColumnsStateFromDisk: {
-        const stored = localStorage.getItem(this.getColumnsStateLocalStorageKey(agGridAction.gridId));
+      case AgGridActionType.resetcolumnStatesFromDisk: {
+        const stored = localStorage.getItem(this.getcolumnStatesLocalStorageKey(agGridAction.gridId));
+        const columnGroupStates = localStorage.getItem(this.getcolumnGroupStatesLocalStorageKey(agGridAction.gridId));
         const filterModelStored = localStorage.getItem(this.getFilterModelLocalStorageKey(agGridAction.gridId));
         console.log(stored, filterModelStored);
         if (stored) {
           try {
-            const columnsState = JSON.parse(stored);
-            if (Array.isArray(columnsState)) {
+            const columnStates = JSON.parse(stored);
+            if (Array.isArray(columnStates)) {
               const action = new RegisterAgGridStateAction(
                 agGridAction.gridId,
                 ChangeOrigin.other,
-                columnsState,
+                columnStates,
+                columnGroupStates ? JSON.parse(columnGroupStates) : [],
                 filterModelStored ? JSON.parse(filterModelStored) : null
               );
               actiondispatcher.dispatchAction(action);
@@ -55,8 +58,12 @@ export class LocalStorageEffect implements Effect {
     }
   }
 
-  private getColumnsStateLocalStorageKey(gridId: string): string {
+  private getcolumnStatesLocalStorageKey(gridId: string): string {
     return `ngssm-ag-grid_${gridId}`;
+  }
+
+  private getcolumnGroupStatesLocalStorageKey(gridId: string): string {
+    return `ngssm-ag-grid_groups_${gridId}`;
   }
 
   private getFilterModelLocalStorageKey(gridId: string): string {

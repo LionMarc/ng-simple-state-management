@@ -215,7 +215,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -224,6 +224,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'id'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null
@@ -252,7 +258,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin: ChangeOrigin.other,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -261,6 +267,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'id'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null
@@ -286,7 +298,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin: ChangeOrigin.other,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -295,6 +307,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'title'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null
@@ -322,7 +340,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin: ChangeOrigin.agGrid,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -331,6 +349,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'title'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null
@@ -386,7 +410,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -395,6 +419,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'id'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null
@@ -460,7 +490,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin: ChangeOrigin.other,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -469,6 +499,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'id'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null
@@ -499,7 +535,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin: ChangeOrigin.other,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -508,6 +544,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'title'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null
@@ -539,7 +581,7 @@ describe('NgssmAgGridDirective', () => {
             items: {
               $set: {
                 origin: ChangeOrigin.agGrid,
-                columnsState: [
+                columnStates: [
                   {
                     colId: 'description'
                   },
@@ -548,6 +590,12 @@ describe('NgssmAgGridDirective', () => {
                   },
                   {
                     colId: 'title'
+                  }
+                ],
+                columnGroupStates: [
+                  {
+                    groupId: 'test',
+                    open: true
                   }
                 ],
                 filterModel: null

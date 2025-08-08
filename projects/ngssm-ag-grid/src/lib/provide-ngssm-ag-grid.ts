@@ -27,7 +27,7 @@ export const loadGridStates = () => {
     if (key?.startsWith(wantedPrefix)) {
       const gridId = key.slice(wantedPrefix.length);
       logger.information(`[ag-grid] Restoring '${gridId}'.`);
-      store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnsStateFromDisk, gridId));
+      store.dispatchAction(new AgGridAction(AgGridActionType.resetcolumnStatesFromDisk, gridId));
     }
   }
 };
