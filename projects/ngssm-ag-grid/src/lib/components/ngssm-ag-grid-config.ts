@@ -36,7 +36,7 @@ export interface NgssmAgGridConfig {
    *
    * this functionnality is only available for enterprise version of {@link https://www.ag-grid.com/}.
    */
-  canSaveOnDiskcolumnStates?: boolean;
+  canSaveOnDiskColumnStates?: boolean;
 
   /**
    * Used to override default context menu items.

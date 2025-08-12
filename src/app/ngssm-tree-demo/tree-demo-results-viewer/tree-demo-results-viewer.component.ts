@@ -62,7 +62,7 @@ export class TreeDemoResultsViewerComponent {
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'ngssm-tree-demo:search-results-viewer',
     keepSelection: false,
-    canSaveOnDiskcolumnStates: true
+    canSaveOnDiskColumnStates: true
   };
 
   constructor() {

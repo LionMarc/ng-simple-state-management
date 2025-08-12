@@ -52,8 +52,8 @@ describe('provideNgssmAgGrid', () => {
   it('should restore grid states when loadSavedGridStatesAtStartup is true', async () => {
     await setupTest(true);
 
-    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetcolumnStatesFromDisk, 'todo'));
-    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetcolumnStatesFromDisk, 'sources'));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'todo'));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'sources'));
   });
 
   it('should not restore grid states when loadSavedGridStatesAtStartup is false', async () => {

@@ -172,7 +172,7 @@ export class TodoDashboardComponent {
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
     keepSelection: true,
-    canSaveOnDiskcolumnStates: true,
+    canSaveOnDiskColumnStates: true,
     getContextMenuItems: (params) => {
       console.log('CALLED', params);
       const menuItems: (DefaultMenuItem | MenuItemDef)[] = [...(params.defaultItems ?? [])];
@@ -205,7 +205,7 @@ export class TodoDashboardComponent {
     console.log('CALLED ctor of dashboard');
 
     this.allowRestoringGridControl.valueChanges.subscribe((value) => {
-      this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskcolumnStates: value ?? true };
+      this.agGridConfig = { ...this.agGridConfig, canSaveOnDiskColumnStates: value ?? true };
     });
 
     this.deleteHiddenControl.valueChanges.subscribe((v) => this.deleteHidden.set(v ?? false));
