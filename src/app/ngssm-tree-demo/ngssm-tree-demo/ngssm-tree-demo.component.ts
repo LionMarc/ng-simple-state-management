@@ -109,6 +109,6 @@ export class NgssmTreeDemoComponent {
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'tree-selection',
     keepSelection: false,
-    canSaveOnDiskcolumnStates: true
+    canSaveOnDiskColumnStates: true
   };
 }

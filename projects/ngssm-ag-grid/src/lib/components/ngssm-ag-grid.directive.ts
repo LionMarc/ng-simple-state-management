@@ -167,19 +167,19 @@ export class NgssmAgGridDirective {
       menuItems.push(...(params.defaultItems ?? []));
     }
 
-    if (this.config().canSaveOnDiskcolumnStates === true) {
+    if (this.config().canSaveOnDiskColumnStates === true) {
       const gridId = this.config().gridId;
       menuItems.push(
         ...[
           'separator' as DefaultMenuItem,
           {
             name: 'Save columns state',
-            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.savecolumnStatesOnDisk, gridId)),
+            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.saveColumnStatesOnDisk, gridId)),
             icon: '<i class="fa-regular fa-floppy-disk"></i>'
           },
           {
             name: 'Restore columns state',
-            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.resetcolumnStatesFromDisk, gridId)),
+            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, gridId)),
             icon: '<i class="fa-solid fa-rotate-right"></i>'
           },
           {
