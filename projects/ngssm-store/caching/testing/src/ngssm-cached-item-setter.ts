@@ -36,14 +36,14 @@ export class NgssmCachedItemSetter {
 
   /**
    * Sets the status of a cached item in the StoreMock.
-   * @param cacheItemKey The key of the cached item.
+   * @param cachedItemKey The key of the cached item.
    * @param status The new status to set.
    * @returns The NgssmCachedItemSetter instance for chaining.
    */
-  public setCacheItemStatus(cacheItemKey: string, status: CachedItemStatus): NgssmCachedItemSetter {
+  public setCachedItemStatus(cachedItemKey: string, status: CachedItemStatus): NgssmCachedItemSetter {
     this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
       caches: {
-        [cacheItemKey]: {
+        [cachedItemKey]: {
           status: { $set: status }
         }
       }
@@ -54,14 +54,14 @@ export class NgssmCachedItemSetter {
 
   /**
    * Sets the value of a cached item in the StoreMock.
-   * @param cacheItemKey The key of the cached item.
+   * @param cachedItemKey The key of the cached item.
    * @param value The value to set.
    * @returns The NgssmCachedItemSetter instance for chaining.
    */
-  public setCacheItemValue<T>(cacheItemKey: string, value?: T): NgssmCachedItemSetter {
+  public setCachedItemValue<T>(cachedItemKey: string, value?: T): NgssmCachedItemSetter {
     this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
       caches: {
-        [cacheItemKey]: {
+        [cachedItemKey]: {
           item: { $set: value }
         }
       }
