@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { Store } from 'ngssm-store';
-import { CachedItemStatus, SetCachedItemAction, updateNgssmCachingState } from 'ngssm-store/caching';
+import { CachedItemStatus, selectNgssmCachedItem, SetCachedItemAction, updateNgssmCachingState } from 'ngssm-store/caching';
 import { StoreMock } from 'ngssm-store/testing';
 
 /**
@@ -36,36 +36,65 @@ export class NgssmCachedItemSetter {
 
   /**
    * Sets the status of a cached item in the StoreMock.
+   * If the key does not exist in cache, it is created with an undefined value.
+   *
    * @param cachedItemKey The key of the cached item.
    * @param status The new status to set.
    * @returns The NgssmCachedItemSetter instance for chaining.
    */
   public setCachedItemStatus(cachedItemKey: string, status: CachedItemStatus): NgssmCachedItemSetter {
-    this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
-      caches: {
-        [cachedItemKey]: {
-          status: { $set: status }
+    if (selectNgssmCachedItem(this.store.stateValue, cachedItemKey)) {
+      this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
+        caches: {
+          [cachedItemKey]: {
+            status: { $set: status }
+          }
         }
-      }
-    });
+      });
+    } else {
+      this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
+        caches: {
+          [cachedItemKey]: {
+            $set: {
+              status
+            }
+          }
+        }
+      });
+    }
 
     return this;
   }
 
   /**
    * Sets the value of a cached item in the StoreMock.
+   * If the key does not exist in cache, it is created with the status CachedItemStatus.notSet.
+   *
    * @param cachedItemKey The key of the cached item.
    * @param value The value to set.
    * @returns The NgssmCachedItemSetter instance for chaining.
    */
   public setCachedItemValue<T>(cachedItemKey: string, value?: T): NgssmCachedItemSetter {
-    this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
-      caches: {
-        [cachedItemKey]: {
-          item: { $set: value }
+    if (selectNgssmCachedItem(this.store.stateValue, cachedItemKey)) {
+      this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
+        caches: {
+          [cachedItemKey]: {
+            item: { $set: value }
+          }
         }
-      }
-    });
+      });
+    } else {
+      this.store.stateValue = updateNgssmCachingState(this.store.stateValue, {
+        caches: {
+          [cachedItemKey]: {
+            $set: {
+              status: CachedItemStatus.notSet,
+              item: value
+            }
+          }
+        }
+      });
+    }
 
     return this;
   }
