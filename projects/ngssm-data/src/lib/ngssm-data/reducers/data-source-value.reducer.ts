@@ -9,7 +9,6 @@ import {
   NgssmClearDataSourceValueAction,
   NgssmDataActionType,
   NgssmLoadDataSourceAdditionalPropertyValueAction,
-  NgssmLoadDataSourceValueAction,
   NgssmSetDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceParameterValidityAction,
@@ -23,7 +22,6 @@ import { selectNgssmDataSourceValue } from '../selectors';
 @Injectable()
 export class DataSourceValueReducer implements Reducer {
   public readonly processedActions: string[] = [
-    NgssmDataActionType.loadDataSourceValue,
     NgssmDataActionType.setDataSourceValue,
     NgssmDataActionType.clearDataSourceValue,
     NgssmDataActionType.setDataSourceParameter,
@@ -35,82 +33,6 @@ export class DataSourceValueReducer implements Reducer {
 
   public updateState(state: State, action: Action): State {
     switch (action.type) {
-      case NgssmDataActionType.loadDataSourceValue: {
-        const loadDataSourceValue = action as NgssmLoadDataSourceValueAction;
-        const dataSourceValue = selectNgssmDataState(state).dataSourceValues[loadDataSourceValue.key];
-        if (!dataSourceValue) {
-          break;
-        }
-
-        let shouldReload = false;
-
-        let currentState = state;
-        if (loadDataSourceValue.options?.parameter) {
-          shouldReload = true;
-          currentState = updateNgssmDataState(state, {
-            dataSourceValues: {
-              [loadDataSourceValue.key]: {
-                parameter: { $set: loadDataSourceValue.options?.parameter.value }
-              }
-            }
-          });
-        }
-
-        if (dataSourceValue.status === NgssmDataSourceValueStatus.loaded) {
-          if (
-            loadDataSourceValue.options?.forceReload === true ||
-            !dataSourceValue.dataLifetimeInSeconds ||
-            !dataSourceValue.lastLoadingDate
-          ) {
-            shouldReload = true;
-          } else {
-            const dataLifetime = DateTime.now().diff(dataSourceValue.lastLoadingDate, 'second');
-            if ((dataLifetime.toObject().seconds ?? 0) > dataSourceValue.dataLifetimeInSeconds) {
-              shouldReload = true;
-            }
-          }
-        } else {
-          shouldReload = true;
-        }
-
-        if (dataSourceValue.parameterIsValid === false) {
-          shouldReload = false;
-        }
-
-        if (shouldReload) {
-          if (loadDataSourceValue.options?.keepAdditionalProperties !== true) {
-            currentState = updateNgssmDataState(currentState, {
-              dataSourceValues: {
-                [loadDataSourceValue.key]: {
-                  additionalProperties: { $set: {} }
-                }
-              }
-            });
-          }
-
-          if (loadDataSourceValue.options?.resetValue === true) {
-            currentState = updateNgssmDataState(currentState, {
-              dataSourceValues: {
-                [loadDataSourceValue.key]: {
-                  value: { $set: undefined }
-                }
-              }
-            });
-          }
-
-          return updateNgssmDataState(currentState, {
-            dataSourceValues: {
-              [loadDataSourceValue.key]: {
-                status: { $set: NgssmDataSourceValueStatus.loading },
-                valueOutdated: { $set: false }
-              }
-            }
-          });
-        }
-
-        break;
-      }
-
       case NgssmDataActionType.setDataSourceValue: {
         const ngssmSetDataSourceValueAction = action as NgssmSetDataSourceValueAction;
         const dataSourceValue = selectNgssmDataState(state).dataSourceValues[ngssmSetDataSourceValueAction.key];
