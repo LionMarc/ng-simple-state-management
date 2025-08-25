@@ -7,6 +7,18 @@ import { selectNgssmDataSourceValue } from './selectors';
 import { NgssmDataSourceValueStatus } from './model';
 import { selectNgssmDataState } from './state';
 
+/**
+ * Effect function that handles loading a data source with a dependency.
+ *
+ * This effect checks if the requested data source has a dependency that is not yet loaded.
+ * If the data source is not currently loading and has a dependency, it dispatches an action
+ * to load the dependency data source first. If the data source does not have a dependency,
+ * it logs an error message.
+ *
+ * @param state - The current application state.
+ * @param action - The action triggering the effect, expected to be of type NgssmLoadDataSourceValueAction.
+ * @returns void
+ */
 export const loadDataSourceWithDependencyEffect: EffectFunc = (state: State, action: Action) => {
   const logger = inject(Logger);
   const ngssmLoadDataSourceValueAction = action as NgssmLoadDataSourceValueAction;
@@ -30,6 +42,11 @@ export const loadDataSourceWithDependencyEffect: EffectFunc = (state: State, act
   store.dispatchAction(new NgssmLoadDataSourceValueAction(dependency));
 };
 
+/**
+ * Effect initializer that listens for NgssmSetDataSourceValueAction and dispatches any delayed loading actions
+ * for dependent data sources. This ensures that when a data source is set, any queued actions for sources
+ * waiting on this dependency are executed.
+ */
 export const dependentDataSourceLoadInitializer = async () => {
   const store = inject(Store);
   const logger = inject(Logger);
