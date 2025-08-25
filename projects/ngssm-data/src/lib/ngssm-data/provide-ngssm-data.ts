@@ -1,13 +1,14 @@
 import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
 
-import { Store, provideEffects, provideReducers } from 'ngssm-store';
+import { Store, provideEffectFunc, provideEffects, provideReducers } from 'ngssm-store';
 
 import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
-import { DataSourceValueReducer, DataSourcesRegistrationReducer } from './reducers';
+import { DataSourceValueReducer, DataSourcesRegistrationReducer, LoadDataSourceValueReducer } from './reducers';
 import { DataLoadingEffect } from './effects';
-import { NgssmRegisterDataSourcesAction } from './actions';
+import { NgssmDataActionType, NgssmRegisterDataSourcesAction } from './actions';
 import { postLoadingActionExecutorInitializer } from './post-loading-action-executor';
 import { dataSourcesLinkerInitializer } from './data-sources-linker';
+import { dependentDataSourceLoadInitializer, loadDataSourceWithDependencyEffect } from './data-source-with-dependency';
 
 const initDataSourceValues = () => {
   const store = inject(Store);
@@ -22,7 +23,9 @@ export const provideNgssmData = (): EnvironmentProviders => {
     provideAppInitializer(initDataSourceValues),
     provideAppInitializer(postLoadingActionExecutorInitializer),
     provideAppInitializer(dataSourcesLinkerInitializer),
-    provideReducers(DataSourcesRegistrationReducer, DataSourceValueReducer),
-    provideEffects(DataLoadingEffect)
+    provideAppInitializer(dependentDataSourceLoadInitializer),
+    provideReducers(DataSourcesRegistrationReducer, DataSourceValueReducer, LoadDataSourceValueReducer),
+    provideEffects(DataLoadingEffect),
+    provideEffectFunc(NgssmDataActionType.loadDataSourceValue, loadDataSourceWithDependencyEffect)
   ]);
 };
