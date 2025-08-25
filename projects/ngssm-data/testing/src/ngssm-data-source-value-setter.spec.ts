@@ -59,4 +59,15 @@ describe('NgssmDataSourceValueSetter', () => {
     const store = TestBed.inject(Store);
     expect(selectNgssmDataSourceValue(store.state(), 'first')?.parameter).toEqual({ connectorId: 'gtkjhy' });
   });
+
+  it(`should update the status and the value of an additional property`, () => {
+    const setter = TestBed.inject(NgssmDataSourceValueSetter);
+    setter.setAdditionalProperty('first', 'my-prop', { label: 'testing' }, NgssmDataSourceValueStatus.loading);
+
+    const store = TestBed.inject(Store);
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.additionalProperties['my-prop']?.value).toEqual({ label: 'testing' });
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.additionalProperties['my-prop']?.status).toEqual(
+      NgssmDataSourceValueStatus.loading
+    );
+  });
 });
