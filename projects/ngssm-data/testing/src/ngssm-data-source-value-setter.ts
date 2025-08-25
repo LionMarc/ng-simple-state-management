@@ -44,6 +44,30 @@ export class NgssmDataSourceValueSetter {
 
     return this;
   }
+
+  public setAdditionalProperty<T>(
+    datasourceKey: string,
+    additionalProperty: string,
+    value?: T,
+    status: NgssmDataSourceValueStatus = NgssmDataSourceValueStatus.loaded
+  ): NgssmDataSourceValueSetter {
+    this.store.stateValue = updateNgssmDataState(this.store.stateValue, {
+      dataSourceValues: {
+        [datasourceKey]: {
+          additionalProperties: {
+            [additionalProperty]: {
+              $set: {
+                value,
+                status
+              }
+            }
+          }
+        }
+      }
+    });
+
+    return this;
+  }
 }
 
 export const ngssmDataSourceValueSetter = () => TestBed.inject(NgssmDataSourceValueSetter);
