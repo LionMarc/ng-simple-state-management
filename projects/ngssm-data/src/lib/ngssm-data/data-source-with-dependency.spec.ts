@@ -2,6 +2,8 @@ import { ApplicationInitStatus, effect, inject } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { delay, of } from 'rxjs';
 
+import { DateTime } from 'luxon';
+
 import { Action, Logger, provideConsoleAppender, Store } from 'ngssm-store';
 
 import { provideNgssmData } from './provide-ngssm-data';
@@ -9,7 +11,6 @@ import { NgssmDataLoading, NgssmDataSourceValueStatus, provideNgssmDataSource } 
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from './actions';
 import { selectNgssmDataSourceValue } from './selectors';
 import { NgssmDataStateSpecification, selectNgssmDataState, NgssmDataState } from './state';
-import { DateTime } from 'luxon';
 
 const dependentSourceKey = 'dependent';
 const dependentSourceLoader: NgssmDataLoading<string[]> = () => {
