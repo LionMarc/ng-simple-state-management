@@ -32,6 +32,8 @@ export const loadDataSourceWithDependencyEffect: EffectFunc = (state: State, act
 
   const dependency = dataSource.dependsOnDataSource;
   if (!dependency) {
+    // Date source is already loaded and has no dependency.
+    // This is the usual case with data source with a lifetime not null and reloaded without being forced when a page is opened.
     return;
   }
 
