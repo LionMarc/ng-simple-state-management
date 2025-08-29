@@ -20,7 +20,6 @@ import { selectNgssmDataState } from './state';
  * @returns void
  */
 export const loadDataSourceWithDependencyEffect: EffectFunc = (state: State, action: Action) => {
-  const logger = inject(Logger);
   const ngssmLoadDataSourceValueAction = action as NgssmLoadDataSourceValueAction;
   const dataSourceValue = selectNgssmDataSourceValue(state, ngssmLoadDataSourceValueAction.key);
 
@@ -31,10 +30,10 @@ export const loadDataSourceWithDependencyEffect: EffectFunc = (state: State, act
 
   const dataSource = selectNgssmDataState(state).dataSources[ngssmLoadDataSourceValueAction.key];
 
-  // Should not happen. But, just in case...
   const dependency = dataSource.dependsOnDataSource;
   if (!dependency) {
-    logger.error(`Data source ${ngssmLoadDataSourceValueAction.key} depends on no other data source!`);
+    // Date source is already loaded and has no dependency.
+    // This is the usual case with data source with a lifetime not null and reloaded without being forced when a page is opened.
     return;
   }
 

@@ -2,7 +2,9 @@ import { ApplicationInitStatus, effect, inject } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { delay, of } from 'rxjs';
 
-import { Action, provideConsoleAppender, Store } from 'ngssm-store';
+import { DateTime } from 'luxon';
+
+import { Action, Logger, provideConsoleAppender, Store } from 'ngssm-store';
 
 import { provideNgssmData } from './provide-ngssm-data';
 import { NgssmDataLoading, NgssmDataSourceValueStatus, provideNgssmDataSource } from './model';
@@ -39,6 +41,7 @@ const waitDataSourcesRegistered = async () => {
 
 describe('Data sourcewith dependency', () => {
   let store: Store;
+  let logger: Logger;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -46,7 +49,7 @@ describe('Data sourcewith dependency', () => {
         provideNgssmData(),
         provideConsoleAppender('test'),
         provideNgssmDataSource(dependentSourceKey, dependentSourceLoader, { dependsOnDataSource: dependencySourceKey }),
-        provideNgssmDataSource(dependencySourceKey, dependencySourceLoader)
+        provideNgssmDataSource(dependencySourceKey, dependencySourceLoader, { dataLifetimeInSeconds: 600 })
       ]
     });
 
@@ -54,6 +57,7 @@ describe('Data sourcewith dependency', () => {
     TestBed.tick();
 
     store = TestBed.inject(Store);
+    logger = TestBed.inject(Logger);
 
     await waitDataSourcesRegistered();
   });
@@ -134,5 +138,40 @@ describe('Data sourcewith dependency', () => {
     expect(selectNgssmDataSourceValue(store.state(), dependentSourceKey)?.value).toEqual(['value1']);
 
     expect(selectNgssmDataState(store.state()).delayedActions[dependencySourceKey]).toBeFalsy();
+  }));
+
+  it(`should not log an error when data source depends on no other data source and data source is already loaded`, fakeAsync(async () => {
+    const state = store.state();
+    const dataSourceValue = (state[NgssmDataStateSpecification.featureStateKey] as NgssmDataState).dataSourceValues[dependencySourceKey];
+    dataSourceValue.status = NgssmDataSourceValueStatus.loaded;
+    dataSourceValue.lastLoadingDate = DateTime.now();
+
+    const actions: Action[] = [];
+
+    spyOn(logger, 'error');
+
+    let resolver: (value: boolean | PromiseLike<boolean>) => void;
+    const promise = new Promise<boolean>((resolve) => (resolver = resolve));
+
+    TestBed.runInInjectionContext(() => {
+      effect(() => {
+        const action = store.processedAction();
+        if ([NgssmDataActionType.loadDataSourceValue as string, NgssmDataActionType.setDataSourceValue as string].includes(action.type)) {
+          actions.push(action);
+        }
+
+        if (actions.length === 1) {
+          resolver(true);
+        }
+      });
+    });
+
+    store.dispatchAction(new NgssmLoadDataSourceValueAction(dependencySourceKey));
+
+    tick(100);
+
+    await promise;
+
+    expect(logger.error).not.toHaveBeenCalled();
   }));
 });
