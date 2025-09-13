@@ -5,6 +5,8 @@ name: Build CI
 permissions:
   contents: read
   pull-requests: write
+  checks: write
+  actions: read
 
 on:
   push:
