@@ -1,9 +1,0 @@
-<button mat-icon-button (click)="openEditor($event)" [disabled]="isDisabled$ | async" color="primary" id="toggleButton">
-    <mat-icon class="fa-solid fa-up-right-from-square ngssm-regex-editor-toggle-icon" cdkOverlayOrigin
-        #trigger="cdkOverlayOrigin"></mat-icon>
-</button>
-
-<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="(isOpen$ | async) === true" [cdkConnectedOverlayPositions]="positions">
-    <ngssm-regex-editor (closeEditor)="closeEditor($event)" [regex]="regexValue"></ngssm-regex-editor>
-</ng-template>

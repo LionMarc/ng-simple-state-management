@@ -7,13 +7,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/mater
 import { provideNgssmStore, provideConsoleAppender, Store, Logger } from 'ngssm-store';
 import { provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
-import {
-  defaultRegexEditorValidator,
-  NGSSM_REGEX_EDITOR_VALIDATOR,
-  provideNgssmMatDialog,
-  RegexEditorValidator,
-  useDefaultErrorStateMatcher
-} from 'ngssm-toolkit';
+import { provideNgssmMatDialog, useDefaultErrorStateMatcher } from 'ngssm-toolkit';
 import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree } from 'ngssm-tree';
 import { provideNgssmNavigation } from 'ngssm-navigation';
 import { provideNgssmShell } from 'ngssm-shell';
@@ -28,27 +22,8 @@ import { provideToolkitDemo } from './toolkit/public-api';
 import { provideNgssmDataDemo } from './ngssm-data-demo/public-api';
 import { provideTodo } from './todo/provide-todo';
 import { routes } from './app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
+
 import { provideNgssmFeatureStateDemo } from './ngssm-feature-state-demo/public-api';
-
-const dotnetRegexValidator: RegexEditorValidator = {
-  validatePattern: (pattern: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = JSON.parse((window as any).dotnet.tools.regexToolsApi.validatePattern(pattern));
-    return result;
-  },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  isMatch: (pattern: string, testString: string) => (window as any).dotnet.tools.regexToolsApi.isMatch(pattern, testString)
-};
-
-const dotnetRegexValidatorFactory = (): RegexEditorValidator => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if ((window as any).dotnet?.tools?.regexToolsApi) {
-    return dotnetRegexValidator;
-  }
-
-  return defaultRegexEditorValidator;
-};
 
 export const actionEffectInitializer = async () => {
   const store = inject(Store);
@@ -70,7 +45,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom([MatDialogModule, MatSnackBarModule]),
     provideRouter(routes, withHashLocation()),
-    provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
@@ -108,7 +82,6 @@ export const appConfig: ApplicationConfig = {
     provideNgssmMatDialog(),
     provideNgssmData(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
-    { provide: NGSSM_REGEX_EDITOR_VALIDATOR, useFactory: dotnetRegexValidatorFactory },
     provideRemoteDataDemo(),
     provideJsonBuilder(),
     provideToolkitDemo(),

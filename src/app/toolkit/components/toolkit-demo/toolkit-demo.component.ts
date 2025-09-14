@@ -14,7 +14,6 @@ import {
   NgssmFilePickerComponent,
   NgssmConfirmationDialogService,
   NgssmNotifierService,
-  NgssmRegexEditorToggleComponent,
   NgssmComponentDisplayDirective,
   NgssmComponentAction,
   NgssmHelpComponent
@@ -45,7 +44,6 @@ export class TestingFilePickerInitialization {
     MatCheckboxModule,
     MatSelectModule,
     NgssmFilePickerComponent,
-    NgssmRegexEditorToggleComponent,
     NgssmComponentDisplayDirective,
     NgssmHelpComponent,
     OverlayDemoComponent
@@ -65,7 +63,6 @@ export class ToolkitDemoComponent {
   public readonly fileControl = new FormControl<File | undefined>(undefined, Validators.required);
   public readonly displayFilePickerDetailsControl = new FormControl<boolean>(true);
   public readonly filePickerDisabledControl = new FormControl<boolean>(false);
-  public readonly regexControl = new FormControl<string | null>(null);
   public readonly componentList: { label: string; component: Type<unknown> }[] = [
     { label: 'Component 1', component: Demo1Component },
     { label: 'Component 2', component: Demo2Component }
@@ -107,14 +104,6 @@ export class ToolkitDemoComponent {
 
   public notifySuccess(message: string): void {
     this.ngssmNotifierService.notifySuccess(message);
-  }
-
-  public toggleRegexControlState(): void {
-    if (this.regexControl.disabled) {
-      this.regexControl.enable();
-    } else {
-      this.regexControl.disable();
-    }
   }
 
   public displayConfirmationDialog(message: string, submitLabel: string, cancelLabel: string): void {
