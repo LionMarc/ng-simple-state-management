@@ -5,8 +5,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { NgssmAgGridOptions, NGSSM_AG_GRID_OPTIONS } from '../ngssm-ag-grid-options';
 
 @Directive({
-  selector: '[ngssmAgGridTheme]',
-  standalone: true
+  selector: '[ngssmAgGridTheme]'
 })
 export class NgssmAgGridThemeDirective {
   private readonly options: NgssmAgGridOptions | null = inject(NGSSM_AG_GRID_OPTIONS, { optional: true });

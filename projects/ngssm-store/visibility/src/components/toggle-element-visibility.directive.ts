@@ -6,8 +6,7 @@ import { ToggleElementVisibilityAction } from '../actions';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[toggleElementVisibility]',
-  standalone: true
+  selector: '[toggleElementVisibility]'
 })
 export class ToggleElementVisibilityDirective {
   private readonly store = inject(Store);

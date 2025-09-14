@@ -3,8 +3,7 @@ import { State } from 'ngssm-store';
 import { selectNgssmVisibilityState } from '../state';
 
 @Pipe({
-  name: 'isElementVisible',
-  standalone: true
+  name: 'isElementVisible'
 })
 export class IsElementVisiblePipe implements PipeTransform {
   public transform(value: State, ...args: string[]): boolean {

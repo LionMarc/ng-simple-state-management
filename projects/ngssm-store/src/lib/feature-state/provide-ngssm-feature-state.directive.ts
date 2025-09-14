@@ -13,8 +13,7 @@ import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE } from '.
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[provideNgssmFeatureState]',
-  standalone: true
+  selector: '[provideNgssmFeatureState]'
 })
 export class ProvideNgssmFeatureStateDirective implements OnDestroy {
   private readonly component: FeatureStateSpecification = inject(NGSSM_COMPONENT_WITH_FEATURE_STATE);

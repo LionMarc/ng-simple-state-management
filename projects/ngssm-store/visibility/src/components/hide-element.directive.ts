@@ -4,8 +4,7 @@ import { HideElementAction } from '../actions';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[hideElement]',
-  standalone: true
+  selector: '[hideElement]'
 })
 export class HideElementDirective {
   private readonly store = inject(Store);
