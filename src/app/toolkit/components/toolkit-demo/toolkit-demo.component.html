@@ -71,24 +71,6 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="sub-card regex-editor-demo flex-column-stretch">
-      <mat-card-header>
-        <mat-card-title>Regex Editor</mat-card-title>
-      </mat-card-header>
-
-      <mat-card-content class="flex-column-stretch fxFlex">
-        <mat-form-field>
-          <mat-label>Regex</mat-label>
-          <input matInput [formControl]="regexControl" #regexInput readonly (click)="editorToggle.openEditor($event)" />
-          <ngssm-regex-editor-toggle matSuffix [inputElement]="regexInput" #editorToggle [disabled]="regexControl.disabled">
-          </ngssm-regex-editor-toggle>
-        </mat-form-field>
-
-        <button mat-stroked-button (click)="toggleRegexControlState()">Toggle enable/disable state</button>
-        {{ regexControl.value }}
-      </mat-card-content>
-    </mat-card>
-
     <mat-card class="sub-card component-display-directive-demo flex-column-stretch">
       <mat-card-header>
         <mat-card-title>Component display directive</mat-card-title>
