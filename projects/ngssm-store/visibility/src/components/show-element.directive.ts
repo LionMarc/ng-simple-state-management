@@ -4,8 +4,7 @@ import { ShowElementAction } from '../actions';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[showElement]',
-  standalone: true
+  selector: '[showElement]'
 })
 export class ShowElementDirective {
   private readonly store = inject(Store);

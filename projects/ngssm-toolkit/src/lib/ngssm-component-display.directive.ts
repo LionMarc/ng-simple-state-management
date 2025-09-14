@@ -3,8 +3,7 @@ import { ComponentRef, Directive, inject, Input, Type, ViewContainerRef } from '
 export type NgssmComponentAction = (component: unknown) => void;
 
 @Directive({
-  selector: '[ngssmComponentDisplay]',
-  standalone: true
+  selector: '[ngssmComponentDisplay]'
 })
 export class NgssmComponentDisplayDirective {
   private readonly viewContainerRef = inject(ViewContainerRef);
