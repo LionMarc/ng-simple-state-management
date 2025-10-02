@@ -11,8 +11,14 @@ import { StoreMock } from './store-mock';
  * with a `StoreMock` instance, allowing for isolated and controlled testing of components or services
  * that depend on the `Store`.
  *
- * @returns {EnvironmentProviders} The environment providers configured with the `StoreMock`.
+ * @param action Optional callback function that receives the mock `Store` instance. Can be used to configure
+ *               or manipulate the mock store before it is provided to the testing environment.
+ * @returns The environment providers configured with the `StoreMock`.
  */
-export const provideNgssmStoreTesting = (): EnvironmentProviders => {
-  return makeEnvironmentProviders([{ provide: Store, useValue: new StoreMock({}) }]);
+export const provideNgssmStoreTesting = (action?: (store: Store) => void): EnvironmentProviders => {
+  const store = new StoreMock({});
+  if (action) {
+    action(store as unknown as Store);
+  }
+  return makeEnvironmentProviders([{ provide: Store, useValue: store }]);
 };
