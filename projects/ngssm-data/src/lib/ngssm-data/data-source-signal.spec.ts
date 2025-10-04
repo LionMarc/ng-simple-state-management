@@ -15,11 +15,13 @@ import { NgssmDataSourceValueStatus } from './model';
     @for (label of labels.value(); track label) {
       <div>{{ label }}</div>
     }
+    <span id="parameter">{{ parameter.value() }}</span>
   `
 })
 class TestingComponent {
   public readonly status = dataSourceToSignal<NgssmDataSourceValueStatus>('data-labels', { type: 'status' });
   public readonly labels = dataSourceToSignal<string[]>('data-labels', { defaultValue: ['one', 'two'] });
+  public readonly parameter = dataSourceToSignal<string | undefined>('data-labels', { type: 'parameter' });
 }
 
 describe('DataSourceSignal', () => {
@@ -38,7 +40,8 @@ describe('DataSourceSignal', () => {
             $set: {
               status: NgssmDataSourceValueStatus.loaded,
               additionalProperties: {},
-              value: ['info', 'warn']
+              value: ['info', 'warn'],
+              parameter: 'my-parameter'
             }
           }
         }
@@ -95,6 +98,11 @@ describe('DataSourceSignal', () => {
         const span = fixture.debugElement.query(By.css('#status')).nativeElement.innerHTML;
         expect(span).toEqual(status);
       });
+    });
+
+    it(`should render the parameter`, () => {
+      const span = fixture.debugElement.query(By.css('#parameter')).nativeElement.innerHTML;
+      expect(span).toEqual('my-parameter');
     });
   });
 });
