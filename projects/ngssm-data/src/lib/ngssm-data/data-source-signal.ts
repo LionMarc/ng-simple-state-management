@@ -8,7 +8,7 @@ export interface NgssmDataSourceSignal<T = unknown> {
   value: Signal<T>;
 }
 
-export type NgssmDataSourceSignalType = 'value' | 'status';
+export type NgssmDataSourceSignalType = 'value' | 'status' | 'parameter';
 
 export interface NgssmDataSourceSignalOptions<T = unknown> {
   type?: NgssmDataSourceSignalType;
@@ -34,6 +34,12 @@ export const dataSourceToSignal = <T = unknown>(key: string, options?: NgssmData
       return {
         key,
         value: computed(() => selectNgssmDataSourceValue<T>(store.state(), key)?.value ?? options?.defaultValue) as Signal<T>
+      };
+
+    case 'parameter':
+      return {
+        key,
+        value: computed(() => selectNgssmDataSourceValue<T>(store.state(), key)?.parameter ?? options?.defaultValue) as Signal<T>
       };
   }
 };
