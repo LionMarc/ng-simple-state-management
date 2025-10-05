@@ -324,7 +324,16 @@ describe('DataLoadingEffect', () => {
         effect.processAction(store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceAdditionalPropertyValueAction('data-providers-ko', 'my-prop', NgssmDataSourceValueStatus.error)
+          new NgssmSetDataSourceAdditionalPropertyValueAction(
+            'data-providers-ko',
+            'my-prop',
+            NgssmDataSourceValueStatus.error,
+            undefined,
+            undefined,
+            {
+              title: 'bad call'
+            } as unknown as HttpErrorResponse
+          )
         );
       });
     });
@@ -360,7 +369,20 @@ describe('DataLoadingEffect', () => {
         effect.processAction(store, store.stateValue, action);
 
         expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceAdditionalPropertyValueAction('managers-ko', 'my-prop', NgssmDataSourceValueStatus.error)
+          new NgssmSetDataSourceAdditionalPropertyValueAction(
+            'managers-ko',
+            'my-prop',
+            NgssmDataSourceValueStatus.error,
+            undefined,
+            undefined,
+            {
+              title: 'bad call',
+              property: 'my-prop',
+              state: {
+                description: 'test'
+              }
+            } as unknown as HttpErrorResponse
+          )
         );
       });
     });
