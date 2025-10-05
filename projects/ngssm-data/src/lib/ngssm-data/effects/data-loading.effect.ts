@@ -85,7 +85,7 @@ export class DataLoadingEffect implements Effect {
                   property,
                   NgssmDataSourceValueStatus.error,
                   undefined,
-                  undefined,
+                  ngssmLoadDataSourceAdditionalPropertyValueAction.postLoadingAction,
                   error
                 )
               );
