@@ -8,8 +8,6 @@ import { Reducer, State, Action } from 'ngssm-store';
 import {
   NgssmClearDataSourceValueAction,
   NgssmDataActionType,
-  NgssmLoadDataSourceAdditionalPropertyValueAction,
-  NgssmSetDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceParameterValidityAction,
   NgssmSetDataSourceValueAction,
@@ -25,8 +23,6 @@ export class DataSourceValueReducer implements Reducer {
     NgssmDataActionType.setDataSourceValue,
     NgssmDataActionType.clearDataSourceValue,
     NgssmDataActionType.setDataSourceParameter,
-    NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
-    NgssmDataActionType.setDataSourceAdditionalPropertyValue,
     NgssmDataActionType.updateDataSourceParameter,
     NgssmDataActionType.setDataSourceParameterValidity
   ];
@@ -115,68 +111,6 @@ export class DataSourceValueReducer implements Reducer {
           dataSourceValues: {
             [ngssmSetDataSourceParameterValidityAction.key]: {
               parameterIsValid: { $set: ngssmSetDataSourceParameterValidityAction.isValid }
-            }
-          }
-        });
-      }
-
-      case NgssmDataActionType.loadDataSourceAdditionalPropertyValue: {
-        const ngssmLoadDataSourceAdditionalPropertyValueAction = action as NgssmLoadDataSourceAdditionalPropertyValueAction;
-        const dataSourcePropertyValue =
-          selectNgssmDataState(state).dataSourceValues[ngssmLoadDataSourceAdditionalPropertyValueAction.key]?.additionalProperties[
-            ngssmLoadDataSourceAdditionalPropertyValueAction.property
-          ];
-
-        if (
-          dataSourcePropertyValue?.status === NgssmDataSourceValueStatus.loaded &&
-          ngssmLoadDataSourceAdditionalPropertyValueAction.forceReload !== true
-        ) {
-          break;
-        }
-
-        if (!dataSourcePropertyValue) {
-          return updateNgssmDataState(state, {
-            dataSourceValues: {
-              [ngssmLoadDataSourceAdditionalPropertyValueAction.key]: {
-                additionalProperties: {
-                  [ngssmLoadDataSourceAdditionalPropertyValueAction.property]: {
-                    $set: {
-                      status: NgssmDataSourceValueStatus.loading
-                    }
-                  }
-                }
-              }
-            }
-          });
-        }
-
-        return updateNgssmDataState(state, {
-          dataSourceValues: {
-            [ngssmLoadDataSourceAdditionalPropertyValueAction.key]: {
-              additionalProperties: {
-                [ngssmLoadDataSourceAdditionalPropertyValueAction.property]: {
-                  status: { $set: NgssmDataSourceValueStatus.loading }
-                }
-              }
-            }
-          }
-        });
-      }
-
-      case NgssmDataActionType.setDataSourceAdditionalPropertyValue: {
-        const ngssmSetDataSourceAdditionalPropertyValueAction = action as NgssmSetDataSourceAdditionalPropertyValueAction;
-        return updateNgssmDataState(state, {
-          dataSourceValues: {
-            [ngssmSetDataSourceAdditionalPropertyValueAction.key]: {
-              additionalProperties: {
-                [ngssmSetDataSourceAdditionalPropertyValueAction.property]: {
-                  $set: {
-                    status: ngssmSetDataSourceAdditionalPropertyValueAction.status,
-                    value: ngssmSetDataSourceAdditionalPropertyValueAction.value,
-                    lastLoadingDate: DateTime.now()
-                  }
-                }
-              }
             }
           }
         });

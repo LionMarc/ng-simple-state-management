@@ -80,7 +80,14 @@ export class DataLoadingEffect implements Effect {
             error: (error) => {
               this.logger.error(`Unable to load data for '${key}' and property '${property}'`, error);
               actiondispatcher.dispatchAction(
-                new NgssmSetDataSourceAdditionalPropertyValueAction(key, property, NgssmDataSourceValueStatus.error)
+                new NgssmSetDataSourceAdditionalPropertyValueAction(
+                  key,
+                  property,
+                  NgssmDataSourceValueStatus.error,
+                  undefined,
+                  undefined,
+                  error
+                )
               );
             }
           });

@@ -3,7 +3,12 @@ import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppIniti
 import { Store, provideEffectFunc, provideEffects, provideReducers } from 'ngssm-store';
 
 import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
-import { DataSourceValueReducer, DataSourcesRegistrationReducer, LoadDataSourceValueReducer } from './reducers';
+import {
+  DataSourceAdditionalPropertyValueReducer,
+  DataSourceValueReducer,
+  DataSourcesRegistrationReducer,
+  LoadDataSourceValueReducer
+} from './reducers';
 import { DataLoadingEffect } from './effects';
 import { NgssmDataActionType, NgssmRegisterDataSourcesAction } from './actions';
 import { postLoadingActionExecutorInitializer } from './post-loading-action-executor';
@@ -24,7 +29,12 @@ export const provideNgssmData = (): EnvironmentProviders => {
     provideAppInitializer(postLoadingActionExecutorInitializer),
     provideAppInitializer(dataSourcesLinkerInitializer),
     provideAppInitializer(dependentDataSourceLoadInitializer),
-    provideReducers(DataSourcesRegistrationReducer, DataSourceValueReducer, LoadDataSourceValueReducer),
+    provideReducers(
+      DataSourcesRegistrationReducer,
+      DataSourceValueReducer,
+      LoadDataSourceValueReducer,
+      DataSourceAdditionalPropertyValueReducer
+    ),
     provideEffects(DataLoadingEffect),
     provideEffectFunc(NgssmDataActionType.loadDataSourceValue, loadDataSourceWithDependencyEffect)
   ]);

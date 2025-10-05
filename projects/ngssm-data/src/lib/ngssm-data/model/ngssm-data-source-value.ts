@@ -14,6 +14,7 @@ export interface NgssmDataSourceAdditionalPropertyValue<TProperty = unknown> {
   status: NgssmDataSourceValueStatus;
   value?: TProperty;
   lastLoadingDate?: DateTime;
+  httpErrorResponse?: HttpErrorResponse;
 }
 
 export interface NgssmDataSourceValue<TData = unknown, TParameter = unknown> {
