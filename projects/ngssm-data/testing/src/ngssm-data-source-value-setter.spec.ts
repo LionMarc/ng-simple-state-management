@@ -70,4 +70,68 @@ describe('NgssmDataSourceValueSetter', () => {
       NgssmDataSourceValueStatus.loading
     );
   });
+
+  it(`should update the overall parameter validity of a data source`, () => {
+    const setter = TestBed.inject(NgssmDataSourceValueSetter);
+    setter.setParameterValidity('first', true);
+
+    const store = TestBed.inject(Store);
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.parameterIsValid).toBeTrue();
+
+    // Toggle to false
+    setter.setParameterValidity('first', false);
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.parameterIsValid).toBeFalse();
+  });
+
+  it(`should update partial parameter validity for a data source`, () => {
+    const setter = TestBed.inject(NgssmDataSourceValueSetter);
+    // Set partial validity for key 'fieldA'
+    setter.setParameterValidity('second', true, 'fieldA');
+
+    const store = TestBed.inject(Store);
+    expect(selectNgssmDataSourceValue(store.state(), 'second')?.parameterPartialValidity?.['fieldA']).toBeTrue();
+
+    // Update partial validity to false
+    setter.setParameterValidity('second', false, 'fieldA');
+    expect(selectNgssmDataSourceValue(store.state(), 'second')?.parameterPartialValidity?.['fieldA']).toBeFalse();
+  });
+
+  it(`should clear the overall parameter validity of a data source`, () => {
+    const setter = TestBed.inject(NgssmDataSourceValueSetter);
+    setter.setParameterValidity('first', true);
+
+    const store = TestBed.inject(Store);
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.parameterIsValid).toBeTrue();
+
+    // Clear overall validity
+    setter.clearParameterValidity('first');
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.parameterIsValid).toBeUndefined();
+  });
+
+  it(`should clear a partial parameter validity entry for a data source`, () => {
+    const setter = TestBed.inject(NgssmDataSourceValueSetter);
+    setter.setParameterValidity('second', true, 'fieldB');
+
+    const store = TestBed.inject(Store);
+    expect(selectNgssmDataSourceValue(store.state(), 'second')?.parameterPartialValidity?.['fieldB']).toBeTrue();
+
+    // Clear partial validity
+    setter.clearParameterValidity('second', 'fieldB');
+    expect(selectNgssmDataSourceValue(store.state(), 'second')?.parameterPartialValidity?.['fieldB']).toBeUndefined();
+  });
+
+  // Tests for setOutdatedValueFlag
+  it(`should set the valueOutdated flag to true and then to false for a data source`, () => {
+    const setter = TestBed.inject(NgssmDataSourceValueSetter);
+
+    // Mark as outdated
+    setter.setOutdatedValueFlag('first', true);
+    let store = TestBed.inject(Store);
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.valueOutdated).toBeTrue();
+
+    // Mark as up-to-date
+    setter.setOutdatedValueFlag('first', false);
+    store = TestBed.inject(Store);
+    expect(selectNgssmDataSourceValue(store.state(), 'first')?.valueOutdated).toBeFalse();
+  });
 });
