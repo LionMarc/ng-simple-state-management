@@ -53,7 +53,8 @@ describe('DataSourceValueReducer', () => {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
               value: ['test'],
-              additionalProperties: {}
+              additionalProperties: {},
+              parameterPartialValidity: {}
             }
           }
         }
@@ -102,7 +103,8 @@ describe('DataSourceValueReducer', () => {
               lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
               parameter: 'previous',
               additionalProperties: {},
-              parameterIsValid: true
+              parameterIsValid: true,
+              parameterPartialValidity: {}
             }
           }
         }
@@ -165,7 +167,8 @@ describe('DataSourceValueReducer', () => {
                 value: ['test'],
                 lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
                 parameter: 'testing',
-                additionalProperties: {}
+                additionalProperties: {},
+                parameterPartialValidity: {}
               }
             }
           }
@@ -195,7 +198,8 @@ describe('DataSourceValueReducer', () => {
                 value: ['test'],
                 lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
                 parameter: 'testing',
-                additionalProperties: {}
+                additionalProperties: {},
+                parameterPartialValidity: {}
               }
             }
           }
@@ -230,7 +234,8 @@ describe('DataSourceValueReducer', () => {
               value: ['test'],
               lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
               parameter: 'testing',
-              additionalProperties: {}
+              additionalProperties: {},
+              parameterPartialValidity: {}
             }
           }
         }
@@ -263,7 +268,8 @@ describe('DataSourceValueReducer', () => {
                 onlyLast: true
               },
               additionalProperties: {},
-              valueOutdated: false
+              valueOutdated: false,
+              parameterPartialValidity: {}
             }
           }
         }
@@ -297,7 +303,8 @@ describe('DataSourceValueReducer', () => {
               lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
               parameter: 'testing',
               additionalProperties: {},
-              parameterIsValid: true
+              parameterIsValid: true,
+              parameterPartialValidity: {}
             }
           }
         }
@@ -308,6 +315,90 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(false);
+    });
+
+    it(`should update the partial validity when key is not yet in parameterPartialValidity record`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing',
+              additionalProperties: {},
+              parameterIsValid: true,
+              parameterPartialValidity: {
+                test: true
+              }
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterValidityAction('data-providers', false, 'instrument');
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
+        test: true,
+        instrument: false
+      });
+    });
+
+    it(`should update the partial validity when key is in parameterPartialValidity record`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing',
+              additionalProperties: {},
+              parameterIsValid: true,
+              parameterPartialValidity: {
+                test: true,
+                instrument: true
+              }
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterValidityAction('data-providers', false, 'instrument');
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
+        test: true,
+        instrument: false
+      });
+    });
+
+    it(`should update the partial validity when parameterPartialValidity record is not set`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing',
+              additionalProperties: {},
+              parameterIsValid: true
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterValidityAction('data-providers', true, 'instrument');
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
+        instrument: true
+      });
     });
   });
 });
