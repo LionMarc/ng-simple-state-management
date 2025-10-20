@@ -85,3 +85,23 @@ export const getNgssmDataSourceValueAutoReloadTypes = (): { label: string; value
   { label: 'Every 5 minutes', value: '5min' },
   { label: 'Every 15 minutes', value: '15min' }
 ];
+
+export const isNgssmDataSourceValueParameterValid = (dataSourceValue: NgssmDataSourceValue): boolean => {
+  if (dataSourceValue.parameterIsValid === true) {
+    return true;
+  }
+
+  if (dataSourceValue.parameterIsValid === false) {
+    return false;
+  }
+
+  if (dataSourceValue.parameterPartialValidity) {
+    let isValid = true;
+    Object.values(dataSourceValue.parameterPartialValidity).forEach((isPartialValid) => {
+      isValid = isValid && isPartialValid;
+    });
+    return isValid;
+  }
+
+  return true;
+};

@@ -10,7 +10,7 @@ import { DateTime } from 'luxon';
 import { createSignal, Store } from 'ngssm-store';
 
 import { selectNgssmDataState } from '../../state';
-import { NgssmDataSourceValue, NgssmDataSourceValueStatus } from '../../model';
+import { isNgssmDataSourceValueParameterValid, NgssmDataSourceValue, NgssmDataSourceValueStatus } from '../../model';
 import { NgssmLoadDataSourceValueAction } from '../../actions';
 import { NgssmAutoReloadComponent } from '../ngssm-auto-reload/ngssm-auto-reload.component';
 
@@ -65,7 +65,8 @@ export class NgssmDataReloadButtonComponent {
         return;
       }
 
-      const someHasAnInvalidParameter = keys.findIndex((key) => values[key]?.parameterIsValid === false) !== -1;
+      const someHasAnInvalidParameter =
+        keys.findIndex((key) => values[key] && isNgssmDataSourceValueParameterValid(values[key]) === false) !== -1;
       if (someHasAnInvalidParameter) {
         this.buttonDisabled.set(true);
         return;
