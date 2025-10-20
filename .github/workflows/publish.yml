@@ -19,5 +19,58 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build:ci
-      - run: ./publish_packages.sh ${{ github.event.release.tag_name }}
-        shell: bash
+      - name: Publish toolkit
+        working-directory: dist/ngssm-toolkit
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish store
+        working-directory: dist/ngssm-store
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish schematics
+        working-directory: dist/ngssm-schematics
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish remote-data
+        working-directory: dist/ngssm-remote-data
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish navigation
+        working-directory: dist/ngssm-navigation
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish ag-grid
+        working-directory: dist/ngssm-ag-grid
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish shell
+        working-directory: dist/ngssm-shell
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish ace-editor
+        working-directory: dist/ngssm-ace-editor
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish tree
+        working-directory: dist/ngssm-tree
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish data
+        working-directory: dist/ngssm-data
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
+      - name: Publish smusdi
+        working-directory: dist/ngssm-smusdi
+        run: |
+          npm version ${{ github.event.release.tag_name }}
+          npm publish --verbose
