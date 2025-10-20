@@ -4,54 +4,87 @@ import { Observable } from 'rxjs';
 import { State, Store } from 'ngssm-store';
 import { NgssmLoadDataSourceValueAction } from '../actions';
 
-// Type definition for a function that loads data
+/**
+ * Function signature for loading a data source value.
+ * - state: the current global application state.
+ * - dataSourceKey: the unique key of the data source being loaded.
+ * - parameter: optional parameter passed to the loader.
+ *
+ * Must return an Observable that emits the requested data.
+ */
 export type NgssmDataLoading<TData = unknown, TParameter = unknown> = (
   state: State,
   dataSourceKey: string,
   parameter?: TParameter
 ) => Observable<TData>;
 
-// Type definition for a function that loads additional properties
+/**
+ * Function signature for loading an additional property of a data source (e.g. row detail).
+ * - state: the current global application state.
+ * - dataSourceKey: the unique key of the data source.
+ * - additionalProperty: the name of the additional property to load.
+ *
+ * Must return an Observable that emits the requested additional property data.
+ */
 export type NgssmAdditionalPropertyLoading<TData = unknown> = (
   state: State,
   dataSourceKey: string,
   additionalProperty: string
 ) => Observable<TData>;
 
-// Interface defining the structure of a data source
-// Be careful when using linkedToDataSource or linkedDataSources because no check is done to validate that there is no
-// circular dependencies (A => B => C => A, for example).
+/**
+ * Describes a data source and its optional behaviours.
+ *
+ * - key: unique identifier for the data source.
+ * - dataLifetimeInSeconds: optional TTL for cached data (seconds).
+ * - dataLoadingFunc: required function that loads the main data.
+ * - additionalPropertyLoadingFunc: optional function to load named additional properties independently.
+ * - initialParameter: optional parameter used initially when registering the data source.
+ * - initialParameterInvalid: flag indicating the initial parameter should be considered invalid.
+ * - linkedToDataSource: if specified, this data source is reloaded when the target source is updated.
+ * - linkedDataSources: list of other data sources to reload when this source is updated.
+ * - dependsOnDataSource: optional dependency key; when loading this source, the dependency will be loaded first.
+ */
 export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditionalProperty = unknown> {
-  key: string; // Unique identifier for the data source
-  dataLifetimeInSeconds?: number; // Optional lifetime for cached data
-  dataLoadingFunc: NgssmDataLoading<TData, TParameter>; // Function to load data
-  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionalProperty>; // Optional function to load additional properties
-  initialParameter?: TParameter; // Optional initial parameter for the data source
-  initialParameterInvalid?: boolean; // Flag indicating if the initial parameter is invalid,
-  linkedToDataSource?: string; // If target data source valued is updated, a reload is made for this data source. This is used to force updating this data source.
-  linkedDataSources?: string[]; // If current source is updated, all the linked data sources are reloaded. This is used to force updating the other data sources.
-  dependsOnDataSource?: string; // When loading the current data source, if the dependency source is not loaded, it is first loaded before loading the current one.
+  key: string;
+  dataLifetimeInSeconds?: number;
+  dataLoadingFunc: NgssmDataLoading<TData, TParameter>;
+  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionalProperty>;
+  initialParameter?: TParameter;
+  initialParameterInvalid?: boolean;
+  linkedToDataSource?: string;
+  linkedDataSources?: string[];
+  dependsOnDataSource?: string;
 }
 
-// Injection token for registering data sources
+/**
+ * Injection token used to register data sources via DI.
+ * Provide one or several NgssmDataSource objects using this token (multi: true).
+ */
 export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA_SOURCE');
 
-// Optional parameters when registering a data source
+/**
+ * Options accepted when providing a data source via provideNgssmDataSource.
+ * See individual properties for behaviour.
+ */
 export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditionalProperty = unknown> {
-  dataLifetimeInSeconds?: number; // Optional data lifetime
-  initialParameter?: TParameter; // Optional initial parameter
-  initialParameterInvalid?: boolean; // Optional flag for invalid initial parameter
-  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionalProperty>; // Optional function to load additional properties,
-  linkedToDataSource?: string; // If target data source valued is updated, a reload is made for this data source.
-  linkedDataSources?: string[]; // If current source is updated, all the linked data sources are reloaded.
-  dependsOnDataSource?: string; // When loading the current data source, if the dependency source is not loaded, it is first loaded before loading the current one.
+  dataLifetimeInSeconds?: number;
+  initialParameter?: TParameter;
+  initialParameterInvalid?: boolean;
+  additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionalProperty>;
+  linkedToDataSource?: string;
+  linkedDataSources?: string[];
+  dependsOnDataSource?: string;
 }
 
-// Function to provide a data source as an environment provider
+/**
+ * Helper function to register a data source in Angular's environment providers.
+ * Use provideNgssmData() at app startup to pick up data sources registered via this helper.
+ */
 export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TAdditionalProperty = unknown>(
-  key: string, // Unique key for the data source
-  loadingFunc: NgssmDataLoading<TData, TParameter>, // Function to load data
-  options?: NgssmDataSourceProvideOptions<TParameter, TAdditionalProperty> // Optional configuration options
+  key: string,
+  loadingFunc: NgssmDataLoading<TData, TParameter>,
+  options?: NgssmDataSourceProvideOptions<TParameter, TAdditionalProperty>
 ): EnvironmentProviders => {
   return makeEnvironmentProviders([
     {
@@ -91,7 +124,10 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
   ]);
 };
 
-// Function to dispatch an action to load a data source value
+/**
+ * Guard / initializer helper that dispatches a NgssmLoadDataSourceValueAction for the given key.
+ * Returns a function suitable for use in Router canActivate (or app initializers) that always returns true.
+ */
 export const ngssmLoadDataSourceValue = (key: string, forceReload = false): (() => boolean) => {
   return () => {
     inject(Store).dispatchAction(new NgssmLoadDataSourceValueAction(key, { forceReload }));

@@ -43,6 +43,7 @@ export class DataSourceValueReducer implements Reducer {
               value: { $set: ngssmSetDataSourceValueAction.value },
               lastLoadingDate: { $set: DateTime.now() },
               httpErrorResponse: { $set: ngssmSetDataSourceValueAction.httpErrorResponse }
+              // leave parameterPartialValidity as-is on value set (no change here)
             }
           }
         });
@@ -56,7 +57,9 @@ export class DataSourceValueReducer implements Reducer {
             dataSourceValues: {
               [ngssmClearDataSourceValueAction.key]: {
                 parameter: { $set: undefined },
-                parameterIsValid: { $set: undefined }
+                parameterIsValid: { $set: undefined },
+                // clear partial validity when parameter is cleared
+                parameterPartialValidity: { $set: undefined }
               }
             }
           });
@@ -68,7 +71,9 @@ export class DataSourceValueReducer implements Reducer {
               status: { $set: NgssmDataSourceValueStatus.none },
               value: { $set: undefined },
               lastLoadingDate: { $set: undefined },
-              additionalProperties: { $set: {} }
+              additionalProperties: { $set: {} },
+              // ensure partial-validity cleared when value is cleared
+              parameterPartialValidity: { $set: undefined }
             }
           }
         });
@@ -81,7 +86,9 @@ export class DataSourceValueReducer implements Reducer {
             [ngssmSetDataSourceParameterAction.key]: {
               parameter: { $set: ngssmSetDataSourceParameterAction.parameter },
               parameterIsValid: { $set: ngssmSetDataSourceParameterAction.parameterIsValid },
-              valueOutdated: { $set: ngssmSetDataSourceParameterAction.doNotMarkParameterAsModified === true ? false : true }
+              valueOutdated: { $set: ngssmSetDataSourceParameterAction.doNotMarkParameterAsModified === true ? false : true },
+              // reset partial validity when parameter is explicitly set
+              parameterPartialValidity: { $set: undefined }
             }
           }
         });
@@ -99,7 +106,9 @@ export class DataSourceValueReducer implements Reducer {
           dataSourceValues: {
             [ngssmUpdateDataSourceParameterAction.key]: {
               parameter: { $set: newParameter },
-              valueOutdated: { $set: true }
+              valueOutdated: { $set: true },
+              // reset partial validity when parameter is updated
+              parameterPartialValidity: { $set: undefined }
             }
           }
         });
@@ -107,16 +116,59 @@ export class DataSourceValueReducer implements Reducer {
 
       case NgssmDataActionType.setDataSourceParameterValidity: {
         const ngssmSetDataSourceParameterValidityAction = action as NgssmSetDataSourceParameterValidityAction;
-        return updateNgssmDataState(state, {
-          dataSourceValues: {
-            [ngssmSetDataSourceParameterValidityAction.key]: {
-              parameterIsValid: { $set: ngssmSetDataSourceParameterValidityAction.isValid }
-            }
-          }
-        });
+        if (ngssmSetDataSourceParameterValidityAction.partialValidityKey) {
+          return this.setPartialValidity(
+            state,
+            ngssmSetDataSourceParameterValidityAction.key,
+            ngssmSetDataSourceParameterValidityAction.isValid,
+            ngssmSetDataSourceParameterValidityAction.partialValidityKey
+          );
+        }
+
+        return this.setGlobalValidity(
+          state,
+          ngssmSetDataSourceParameterValidityAction.key,
+          ngssmSetDataSourceParameterValidityAction.isValid
+        );
       }
     }
 
     return state;
+  }
+
+  private setGlobalValidity(state: State, key: string, isValid: boolean): State {
+    return updateNgssmDataState(state, {
+      dataSourceValues: {
+        [key]: {
+          parameterIsValid: { $set: isValid }
+        }
+      }
+    });
+  }
+
+  private setPartialValidity(state: State, key: string, isValid: boolean, partialKey: string): State {
+    if (selectNgssmDataSourceValue(state, key)?.parameterPartialValidity) {
+      return updateNgssmDataState(state, {
+        dataSourceValues: {
+          [key]: {
+            parameterPartialValidity: {
+              [partialKey]: { $set: isValid }
+            }
+          }
+        }
+      });
+    }
+
+    return updateNgssmDataState(state, {
+      dataSourceValues: {
+        [key]: {
+          parameterPartialValidity: {
+            $set: {
+              [partialKey]: isValid
+            }
+          }
+        }
+      }
+    });
   }
 }
