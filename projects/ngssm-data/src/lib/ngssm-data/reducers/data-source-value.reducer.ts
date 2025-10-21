@@ -86,9 +86,8 @@ export class DataSourceValueReducer implements Reducer {
             [ngssmSetDataSourceParameterAction.key]: {
               parameter: { $set: ngssmSetDataSourceParameterAction.parameter },
               parameterIsValid: { $set: ngssmSetDataSourceParameterAction.parameterIsValid },
-              valueOutdated: { $set: ngssmSetDataSourceParameterAction.doNotMarkParameterAsModified === true ? false : true },
-              // reset partial validity when parameter is explicitly set
-              parameterPartialValidity: { $set: undefined }
+              valueOutdated: { $set: ngssmSetDataSourceParameterAction.doNotMarkParameterAsModified === true ? false : true }
+              // leave parameterPartialValidity as-is on value set (no change here)
             }
           }
         });
@@ -106,9 +105,8 @@ export class DataSourceValueReducer implements Reducer {
           dataSourceValues: {
             [ngssmUpdateDataSourceParameterAction.key]: {
               parameter: { $set: newParameter },
-              valueOutdated: { $set: true },
-              // reset partial validity when parameter is updated
-              parameterPartialValidity: { $set: undefined }
+              valueOutdated: { $set: true }
+              // leave parameterPartialValidity as-is on value set (no change here)
             }
           }
         });
