@@ -168,7 +168,9 @@ describe('DataSourceValueReducer', () => {
                 lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
                 parameter: 'testing',
                 additionalProperties: {},
-                parameterPartialValidity: {}
+                parameterPartialValidity: {
+                  testing: true
+                }
               }
             }
           }
@@ -183,6 +185,13 @@ describe('DataSourceValueReducer', () => {
       it(`should set source value valueOutdated to true`, () => {
         const updatedState = reducer.updateState(state, action);
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBeTrue();
+      });
+
+      it(`should not modify the parameter partial validity record`, () => {
+        const updatedState = reducer.updateState(state, action);
+        expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
+          testing: true
+        });
       });
     });
 
@@ -247,6 +256,32 @@ describe('DataSourceValueReducer', () => {
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(false);
     });
+
+    it(`should not modify the parameter partial validity record`, () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing',
+              additionalProperties: {},
+              parameterPartialValidity: {
+                testing: true
+              }
+            }
+          }
+        }
+      });
+
+      const action = new NgssmSetDataSourceParameterAction('data-providers', 'new parameter', false);
+
+      const updatedState = reducer.updateState(state, action);
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
+        testing: true
+      });
+    });
   });
 
   describe(`when processing action of type '${NgssmDataActionType.updateDataSourceParameter}'`, () => {
@@ -269,7 +304,9 @@ describe('DataSourceValueReducer', () => {
               },
               additionalProperties: {},
               valueOutdated: false,
-              parameterPartialValidity: {}
+              parameterPartialValidity: {
+                testing: true
+              }
             }
           }
         }
@@ -285,10 +322,17 @@ describe('DataSourceValueReducer', () => {
       });
     });
 
-    it(`should should set source value valueOutdated to true`, () => {
+    it(`should set source value valueOutdated to true`, () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBeTrue();
+    });
+
+    it(`should not modify the parameter partial validity record`, () => {
+      const updatedState = reducer.updateState(state, action);
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
+        testing: true
+      });
     });
   });
 
