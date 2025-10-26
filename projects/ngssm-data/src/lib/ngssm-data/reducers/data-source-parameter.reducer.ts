@@ -54,7 +54,7 @@ export class DataSourceParameterReducer implements Reducer {
           }
         });
 
-        if (ngssmUpdateDataSourceParameterAction.doNotUpdateValueOutdated == true) {
+        if (ngssmUpdateDataSourceParameterAction.doNotUpdateValueOutdated === true) {
           return updatedState;
         }
 
