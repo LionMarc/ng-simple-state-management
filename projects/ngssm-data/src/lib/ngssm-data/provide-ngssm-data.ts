@@ -5,6 +5,7 @@ import { Store, provideEffectFunc, provideEffects, provideReducers } from 'ngssm
 import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
 import {
   DataSourceAdditionalPropertyValueReducer,
+  DataSourceParameterReducer,
   DataSourceValueReducer,
   DataSourcesRegistrationReducer,
   LoadDataSourceValueReducer
@@ -33,7 +34,8 @@ export const provideNgssmData = (): EnvironmentProviders => {
       DataSourcesRegistrationReducer,
       DataSourceValueReducer,
       LoadDataSourceValueReducer,
-      DataSourceAdditionalPropertyValueReducer
+      DataSourceAdditionalPropertyValueReducer,
+      DataSourceParameterReducer
     ),
     provideEffects(DataLoadingEffect),
     provideEffectFunc(NgssmDataActionType.loadDataSourceValue, loadDataSourceWithDependencyEffect)
