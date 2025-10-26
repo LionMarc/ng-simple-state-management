@@ -5,7 +5,7 @@ export class NgssmUpdateDataSourceParameterAction<TParameter = unknown> extends 
   constructor(
     key: string,
     public readonly parameter: Partial<TParameter>,
-    public readonly doNotUpdatevalueOutdated?: boolean
+    public readonly doNotUpdateValueOutdated?: boolean
   ) {
     super(NgssmDataActionType.updateDataSourceParameter, key);
   }
