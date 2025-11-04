@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NgssmDataSourceValueStatus, selectNgssmDataSourceValue, updateNgssmDataState } from 'ngssm-data';
@@ -7,7 +8,17 @@ import { StoreMock } from 'ngssm-store/testing';
 
 /**
  * Utility service for setting and updating data source values, status, parameters, and additional properties
- * in the StoreMock during tests. Provides methods for manipulating the test state of data sources.
+ * in the StoreMock during tests.
+ *
+ * Provides methods to:
+ * - apply direct updates to a data source value (status, value, parameter),
+ * - manage additional properties (set value/status and set per-property http errors),
+ * - set/clear overall parameter validity (parameterIsValid) or partial validity entries
+ *   (parameterPartialValidity map) for per-field validation,
+ * - mark a data source value as outdated (valueOutdated flag) when parameters change,
+ * - set a top-level httpErrorResponse on the data source value (setDataSourceError).
+ *
+ * All methods return the NgssmDataSourceValueSetter instance for fluent chaining.
  */
 @Injectable()
 export class NgssmDataSourceValueSetter {
@@ -74,6 +85,30 @@ export class NgssmDataSourceValueSetter {
   }
 
   /**
+   * Sets or clears the top-level HTTP error response for a data source in the StoreMock.
+   *
+   * This is useful in tests to simulate an error that occurred while loading the main data source value.
+   * The method ensures the data source is initialized and updates the data source's httpErrorResponse
+   * field with the provided HttpErrorResponse or clears it when undefined is passed.
+   *
+   * @param datasourceKey The key of the data source to update.
+   * @param error Optional HttpErrorResponse to set; pass undefined to clear the error.
+   * @returns The NgssmDataSourceValueSetter instance for chaining.
+   */
+  public setDataSourceError(datasourceKey: string, error?: HttpErrorResponse): NgssmDataSourceValueSetter {
+    this.checkDataSource(datasourceKey);
+    this.store.stateValue = updateNgssmDataState(this.store.stateValue, {
+      dataSourceValues: {
+        [datasourceKey]: {
+          httpErrorResponse: { $set: error }
+        }
+      }
+    });
+
+    return this;
+  }
+
+  /**
    * Sets an additional property for a data source in the StoreMock.
    * Throws an error if the data source is not found.
    * @param datasourceKey The key of the data source.
@@ -98,6 +133,38 @@ export class NgssmDataSourceValueSetter {
                 value,
                 status
               }
+            }
+          }
+        }
+      }
+    });
+
+    return this;
+  }
+
+  /**
+   * Sets the HTTP error response for a specific additional property of a data source in the StoreMock.
+   *
+   * Use this in tests to simulate a failure when loading an additional property (e.g. row detail).
+   * Ensures the data source is initialized and sets or clears the additional property's httpErrorResponse.
+   *
+   * @param datasourceKey The key of the data source that owns the additional property.
+   * @param additionalProperty The name of the additional property to update.
+   * @param error Optional HttpErrorResponse to set; pass undefined to clear the error.
+   * @returns The NgssmDataSourceValueSetter instance for chaining.
+   */
+  public setAdditionalPropertyError(
+    datasourceKey: string,
+    additionalProperty: string,
+    error?: HttpErrorResponse
+  ): NgssmDataSourceValueSetter {
+    this.checkDataSource(datasourceKey);
+    this.store.stateValue = updateNgssmDataState(this.store.stateValue, {
+      dataSourceValues: {
+        [datasourceKey]: {
+          additionalProperties: {
+            [additionalProperty]: {
+              httpErrorResponse: { $set: error }
             }
           }
         }
