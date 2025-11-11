@@ -1,4 +1,4 @@
-import { Directive, inject, Input, TemplateRef } from '@angular/core';
+import { Directive, inject, input, TemplateRef, effect } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
 
 import { NgssmOverlayBuilder } from './ngssm-overlay-builder';
@@ -8,26 +8,27 @@ import { NgssmOverlayBuilder } from './ngssm-overlay-builder';
   providers: [NgssmOverlayBuilder]
 })
 export class NgssmComponentOverlayDirective {
+  public readonly overlayTemplate = input<TemplateRef<unknown> | undefined | null>();
+  public readonly overlayComponent = input<ComponentType<unknown> | undefined | null>();
+  public readonly overlayMessage = input<string | null | undefined>('Please wait');
+  public readonly ngssmDisplayOverlay = input<boolean>(false);
+
   private overlayBuilder = inject(NgssmOverlayBuilder);
 
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('overlayTemplate') set overLayTemplate(value: TemplateRef<unknown> | undefined | null) {
-    this.overlayBuilder.overLayTemplate = value ?? undefined;
-  }
+  constructor() {
+    effect(() => {
+      this.overlayBuilder.overlayTemplate = this.overlayTemplate() ?? undefined;
+      this.overlayBuilder.overlayComponent = this.overlayComponent() ?? undefined;
+      this.overlayBuilder.overlayMessage.set(this.overlayMessage() ?? '');
+    });
 
-  @Input() set overlayComponent(value: ComponentType<unknown> | undefined | null) {
-    this.overlayBuilder.overlayComponent = value ?? undefined;
-  }
-
-  @Input() public set overlayMessage(value: string) {
-    this.overlayBuilder.overlayMessage = value;
-  }
-
-  @Input('ngssmDisplayOverlay') public set displayOverlay(value: boolean) {
-    if (value === true) {
-      this.overlayBuilder.showOverlay();
-    } else {
-      this.overlayBuilder.hideOverlay();
-    }
+    effect(() => {
+      const doRenderOveralay = this.ngssmDisplayOverlay();
+      if (doRenderOveralay === true) {
+        this.overlayBuilder.showOverlay();
+      } else {
+        this.overlayBuilder.hideOverlay();
+      }
+    });
   }
 }

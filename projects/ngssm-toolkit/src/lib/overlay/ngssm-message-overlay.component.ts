@@ -1,17 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'ngssm-message-overlay',
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
+  imports: [MatCardModule, MatProgressSpinnerModule],
   template: `
     <mat-card>
       <mat-card-content class="message-container">
         <mat-spinner></mat-spinner>
-        {{ message$ | async }}
+        {{ message() }}
       </mat-card-content>
     </mat-card>
   `,
@@ -26,5 +24,5 @@ import { Observable, Subject } from 'rxjs';
   ]
 })
 export class NgssmMessageOverlayComponent {
-  public message$: Observable<string> = new Subject<string>();
+  public message = signal<string>('');
 }
