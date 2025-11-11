@@ -15,10 +15,10 @@ import {
   Injector,
   OnDestroy,
   Renderer2,
+  signal,
   TemplateRef,
   ViewContainerRef
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 import { Logger } from 'ngssm-store';
 
@@ -29,6 +29,10 @@ import { NgssmOverlayContainer } from './ngssm-overlay-container';
 export class NgssmOverlayBuilder implements OnDestroy {
   private static nextId = 1;
 
+  public readonly overlayMessage = signal<string>('Please wait');
+  public overLayTemplate: TemplateRef<unknown> | undefined;
+  public overlayComponent: ComponentType<unknown> | undefined;
+
   private readonly logger = inject(Logger);
   private readonly injector = inject(Injector);
   private readonly elementRef = inject(ElementRef);
@@ -37,13 +41,9 @@ export class NgssmOverlayBuilder implements OnDestroy {
   private readonly renderer = inject(Renderer2);
 
   private readonly overlayInjector?: DestroyableInjector;
-  private readonly _overlayMessage$ = new BehaviorSubject<string>('Please wait');
   private id = NgssmOverlayBuilder.nextId++;
 
   private overlayRef: OverlayRef;
-
-  public overLayTemplate: TemplateRef<unknown> | undefined;
-  public overlayComponent: ComponentType<unknown> | undefined;
 
   constructor() {
     this.logger.information(`[NgssmOverlayBuilder] Creating overlay ${this.id}`);
@@ -69,21 +69,17 @@ export class NgssmOverlayBuilder implements OnDestroy {
     this.overlayInjector?.destroy();
   }
 
-  public set overlayMessage(value: string) {
-    this._overlayMessage$.next(value);
-  }
-
   public showOverlay(): void {
     if (this.overLayTemplate) {
       this.overlayRef.attach(new TemplatePortal(this.overLayTemplate, this.viewContainerRef));
     } else if (this.overlayComponent) {
-      const ref = this.overlayRef.attach(new ComponentPortal(this.overlayComponent));
+      const ref = this.overlayRef.attach(new ComponentPortal(this.overlayComponent, this.viewContainerRef));
       if (this.overlayComponent === NgssmMessageOverlayComponent) {
-        (ref.instance as NgssmMessageOverlayComponent).message$ = this._overlayMessage$.asObservable();
+        (ref.instance as NgssmMessageOverlayComponent).message = this.overlayMessage;
       }
     } else {
       const ref = this.overlayRef.attach(new ComponentPortal(NgssmMessageOverlayComponent, this.viewContainerRef));
-      ref.instance.message$ = this._overlayMessage$.asObservable();
+      ref.instance.message = this.overlayMessage;
     }
   }
 
