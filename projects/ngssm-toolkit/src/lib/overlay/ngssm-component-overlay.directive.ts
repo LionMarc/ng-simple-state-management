@@ -17,7 +17,7 @@ export class NgssmComponentOverlayDirective {
 
   constructor() {
     effect(() => {
-      this.overlayBuilder.overLayTemplate = this.overlayTemplate() ?? undefined;
+      this.overlayBuilder.overlayTemplate = this.overlayTemplate() ?? undefined;
       this.overlayBuilder.overlayComponent = this.overlayComponent() ?? undefined;
       this.overlayBuilder.overlayMessage.set(this.overlayMessage() ?? '');
     });

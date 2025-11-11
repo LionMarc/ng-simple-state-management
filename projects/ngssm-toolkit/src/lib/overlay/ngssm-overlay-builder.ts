@@ -30,7 +30,7 @@ export class NgssmOverlayBuilder implements OnDestroy {
   private static nextId = 1;
 
   public readonly overlayMessage = signal<string>('Please wait');
-  public overLayTemplate: TemplateRef<unknown> | undefined;
+  public overlayTemplate: TemplateRef<unknown> | undefined;
   public overlayComponent: ComponentType<unknown> | undefined;
 
   private readonly logger = inject(Logger);
@@ -70,8 +70,8 @@ export class NgssmOverlayBuilder implements OnDestroy {
   }
 
   public showOverlay(): void {
-    if (this.overLayTemplate) {
-      this.overlayRef.attach(new TemplatePortal(this.overLayTemplate, this.viewContainerRef));
+    if (this.overlayTemplate) {
+      this.overlayRef.attach(new TemplatePortal(this.overlayTemplate, this.viewContainerRef));
     } else if (this.overlayComponent) {
       const ref = this.overlayRef.attach(new ComponentPortal(this.overlayComponent, this.viewContainerRef));
       if (this.overlayComponent === NgssmMessageOverlayComponent) {
