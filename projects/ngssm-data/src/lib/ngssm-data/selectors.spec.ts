@@ -1,7 +1,7 @@
 import { State } from 'ngssm-store';
 
 import { NgssmDataStateSpecification, updateNgssmDataState } from './state';
-import { isNgssmDataSourceLoading, isNgssmDataSourceParameterValid } from './selectors';
+import { isNgssmDataSourceLoading, isNgssmDataSourceParameterValid, throwIfSourceValueDoesNotExist } from './selectors';
 import { NgssmDataSourceValueStatus } from './model';
 
 describe('selectors', () => {
@@ -131,6 +131,27 @@ describe('selectors', () => {
 
       const result = isNgssmDataSourceParameterValid(state, 'my-source');
       expect(result).toBeFalse();
+    });
+  });
+
+  describe('throwIfSourceValueDoesNotExist', () => {
+    it('should not throw when the data source value exists', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'existing-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {}
+            }
+          }
+        }
+      });
+
+      expect(() => throwIfSourceValueDoesNotExist(state, 'existing-source')).not.toThrow();
+    });
+
+    it('should throw when the data source value does not exist', () => {
+      expect(() => throwIfSourceValueDoesNotExist(state, 'missing-source')).toThrowError('Datasource missing-source does not exists.');
     });
   });
 });
