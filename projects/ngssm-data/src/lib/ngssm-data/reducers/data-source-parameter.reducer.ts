@@ -81,7 +81,8 @@ export class DataSourceParameterReducer implements Reducer {
         return this.setGlobalValidity(
           state,
           ngssmSetDataSourceParameterValidityAction.key,
-          ngssmSetDataSourceParameterValidityAction.isValid
+          ngssmSetDataSourceParameterValidityAction.isValid,
+          ngssmSetDataSourceParameterValidityAction.clearPartialValidities
         );
       }
     }
@@ -89,7 +90,18 @@ export class DataSourceParameterReducer implements Reducer {
     return state;
   }
 
-  private setGlobalValidity(state: State, key: string, isValid: boolean): State {
+  private setGlobalValidity(state: State, key: string, isValid: boolean, clearPartialValidities?: boolean): State {
+    if (clearPartialValidities === true) {
+      return updateNgssmDataState(state, {
+        dataSourceValues: {
+          [key]: {
+            parameterIsValid: { $set: isValid },
+            parameterPartialValidity: { $set: undefined }
+          }
+        }
+      });
+    }
+
     return updateNgssmDataState(state, {
       dataSourceValues: {
         [key]: {
