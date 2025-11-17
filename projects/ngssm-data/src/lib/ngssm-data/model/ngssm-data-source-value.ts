@@ -87,20 +87,16 @@ export const getNgssmDataSourceValueAutoReloadTypes = (): { label: string; value
 ];
 
 export const isNgssmDataSourceValueParameterValid = (dataSourceValue: NgssmDataSourceValue): boolean => {
-  if (dataSourceValue.parameterIsValid === true) {
-    return true;
-  }
-
-  if (dataSourceValue.parameterIsValid === false) {
-    return false;
-  }
-
   if (dataSourceValue.parameterPartialValidity) {
     let isValid = true;
     Object.values(dataSourceValue.parameterPartialValidity).forEach((isPartialValid) => {
       isValid = isValid && isPartialValid;
     });
     return isValid;
+  }
+
+  if (dataSourceValue.parameterIsValid === false) {
+    return false;
   }
 
   return true;

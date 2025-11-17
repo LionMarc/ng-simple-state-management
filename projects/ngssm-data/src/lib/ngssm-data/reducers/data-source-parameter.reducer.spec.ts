@@ -344,5 +344,36 @@ describe('DataSourceParameterReducer', () => {
         instrument: true
       });
     });
+
+    it(`should clear all partial validities when clearPartialValidities is true`, () => {
+      // Arrange: state with existing partial validities
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              value: ['test'],
+              lastLoadingDate: DateTime.fromISO('2023-12-18T12:34:00Z'),
+              parameter: 'testing',
+              additionalProperties: {},
+              parameterIsValid: true,
+              parameterPartialValidity: {
+                fieldA: true,
+                fieldB: false
+              }
+            }
+          }
+        }
+      });
+
+      // Act: dispatch action asking to set overall validity and clear partial validities
+      const action = new NgssmSetDataSourceParameterValidityAction('data-providers', false, undefined, true);
+      const updatedState = reducer.updateState(state, action);
+
+      // Assert: partial validities have been cleared (empty object)
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual(undefined);
+      // And overall validity has been updated
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(false);
+    });
   });
 });
