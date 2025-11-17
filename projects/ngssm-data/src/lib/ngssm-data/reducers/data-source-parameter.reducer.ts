@@ -6,12 +6,13 @@ import { Reducer, State, Action } from 'ngssm-store';
 
 import {
   NgssmDataActionType,
+  NgssmDataSourceValueAction,
   NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceParameterValidityAction,
   NgssmUpdateDataSourceParameterAction
 } from '../actions';
 import { updateNgssmDataState } from '../state';
-import { selectNgssmDataSourceValue } from '../selectors';
+import { selectNgssmDataSourceValue, throwIfSourceValueDoesNotExist } from '../selectors';
 
 @Injectable()
 export class DataSourceParameterReducer implements Reducer {
@@ -22,6 +23,8 @@ export class DataSourceParameterReducer implements Reducer {
   ];
 
   public updateState(state: State, action: Action): State {
+    throwIfSourceValueDoesNotExist(state, (action as NgssmDataSourceValueAction).key);
+
     switch (action.type) {
       case NgssmDataActionType.setDataSourceParameter: {
         const ngssmSetDataSourceParameterAction = action as NgssmSetDataSourceParameterAction;

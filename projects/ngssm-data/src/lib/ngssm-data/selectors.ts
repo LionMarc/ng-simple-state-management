@@ -56,3 +56,24 @@ export const isNgssmDataSourceParameterValid = (state: State, dataSourceKey: str
 
   return isNgssmDataSourceValueParameterValid(dataSource);
 };
+
+/**
+ * Throws an Error if the data source value for the given key does not exist in the state.
+ *
+ * This is a convenience guard used by callers that require the data source value to be present.
+ * Use throwIfSourceValueDoesNotExist(state, key) to validate presence before accessing the value.
+ *
+ * @param state The global application state.
+ * @param dataSourceKey The key of the data source to check.
+ * @throws Error when the data source value is not present in the state.
+ */
+export const throwIfSourceValueDoesNotExist = (state: State, dataSourceKey?: string) => {
+  if (!dataSourceKey) {
+    return;
+  }
+
+  const dataSource = selectNgssmDataSourceValue(state, dataSourceKey);
+  if (!dataSource || dataSource.status === NgssmDataSourceValueStatus.notRegistered) {
+    throw new Error(`Datasource ${dataSourceKey} does not exists.`);
+  }
+};
