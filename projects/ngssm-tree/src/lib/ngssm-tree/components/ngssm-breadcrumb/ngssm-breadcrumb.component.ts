@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, input, effect, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -11,7 +11,7 @@ import { SelectNodeAction } from '../../actions';
 
 @Component({
   selector: 'ngssm-breadcrumb',
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule],
   templateUrl: './ngssm-breadcrumb.component.html',
   styleUrls: ['./ngssm-breadcrumb.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

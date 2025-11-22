@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal, effect, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,14 +18,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'ngssm-todo-item-editor',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatInputModule,
     MatButtonModule
-  ],
+],
   templateUrl: './todo-item-editor.component.html',
   styleUrls: ['./todo-item-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

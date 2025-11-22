@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, effect, inject, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { createSignal, Store } from 'ngssm-store';
 import {
@@ -20,7 +20,7 @@ import { JsonBuilderActionType } from '../../actions';
 
 @Component({
   selector: 'ngssm-json-builder',
-  imports: [CommonModule, NgssmExpressionTreeComponent],
+  imports: [NgssmExpressionTreeComponent],
   templateUrl: './json-builder.component.html',
   styleUrls: ['./json-builder.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

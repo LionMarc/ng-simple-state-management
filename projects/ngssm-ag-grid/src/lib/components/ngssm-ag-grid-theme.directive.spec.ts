@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -13,7 +13,7 @@ ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule]);
 provideGlobalGridOptions({ theme: 'legacy' });
 
 @Component({
-  imports: [CommonModule, AgGridAngular, NgssmAgGridThemeDirective],
+  imports: [AgGridAngular, NgssmAgGridThemeDirective],
   template: ` <ag-grid-angular ngssmAgGridTheme> </ag-grid-angular> `,
   styles: [
     `

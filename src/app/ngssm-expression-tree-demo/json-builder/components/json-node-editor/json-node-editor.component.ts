@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,7 +14,7 @@ import { JsonNodeType, getJsonNodeTypes } from '../../model';
 
 @Component({
   selector: 'ngssm-json-node-editor',
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatDialogModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatDialogModule, MatButtonModule],
   templateUrl: './json-node-editor.component.html',
   styleUrls: ['./json-node-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

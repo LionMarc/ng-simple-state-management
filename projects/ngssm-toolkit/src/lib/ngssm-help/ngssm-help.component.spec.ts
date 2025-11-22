@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { By } from '@angular/platform-browser';
@@ -11,13 +11,13 @@ import { NgssmHelpComponent } from './ngssm-help.component';
 
 @Component({
   template: ` <ngssm-help> NGContent Help </ngssm-help> `,
-  imports: [CommonModule, NgssmHelpComponent]
+  imports: [NgssmHelpComponent]
 })
 class WithNgContentComponent {}
 
 @Component({
   template: ` <ngssm-help [help]="help"></ngssm-help> `,
-  imports: [CommonModule, NgssmHelpComponent]
+  imports: [NgssmHelpComponent]
 })
 class WithInputContentComponent {
   public readonly help = 'INPUT help';

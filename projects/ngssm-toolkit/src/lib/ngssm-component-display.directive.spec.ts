@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
@@ -9,7 +9,7 @@ import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-co
 @Component({
   selector: 'ngssm-first',
   template: `{{ title }}`,
-  imports: [CommonModule]
+  imports: []
 })
 class FirstComponent {
   public title = 'First';
@@ -18,7 +18,7 @@ class FirstComponent {
 @Component({
   selector: 'ngssm-second',
   template: `{{ title }}`,
-  imports: [CommonModule]
+  imports: []
 })
 class SecondComponent {
   public title = 'Second';
@@ -26,7 +26,7 @@ class SecondComponent {
 
 @Component({
   template: ` <div [ngssmComponentDisplay]="componentToDisplay$ | async" [ngssmComponentAction]="componentAction$ | async"></div> `,
-  imports: [CommonModule, NgssmComponentDisplayDirective]
+  imports: [NgssmComponentDisplayDirective]
 })
 class TestingComponent {
   public readonly componentToDisplay$ = new BehaviorSubject<unknown>(FirstComponent);

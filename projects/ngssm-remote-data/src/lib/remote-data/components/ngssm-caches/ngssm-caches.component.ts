@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -19,7 +19,7 @@ interface Cache {
 
 @Component({
   selector: 'ngssm-caches',
-  imports: [CommonModule, MatDialogModule, MatButtonModule, MatTableModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [MatDialogModule, MatButtonModule, MatTableModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './ngssm-caches.component.html',
   styleUrls: ['./ngssm-caches.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -16,7 +16,7 @@ import { HideElementAction, NgssmVisibilityActionType } from '../actions';
 
 @Component({
   template: ` <button mat-raised-button [hideElement]="'element-one'" id="buttonId">Hide Element</button> `,
-  imports: [CommonModule, MatButtonModule, HideElementDirective]
+  imports: [MatButtonModule, HideElementDirective]
 })
 class TestingComponent {}
 

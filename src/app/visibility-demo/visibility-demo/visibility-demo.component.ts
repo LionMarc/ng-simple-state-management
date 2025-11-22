@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,6 @@ import {
 @Component({
   selector: 'ngssm-visibility-demo',
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -27,7 +26,7 @@ import {
     ShowElementDirective,
     HideElementDirective,
     VisibilityToggleGroupComponent
-  ],
+],
   templateUrl: './visibility-demo.component.html',
   styleUrls: ['./visibility-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

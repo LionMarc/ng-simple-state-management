@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, booleanAttribute, input, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { Store } from 'ngssm-store';
@@ -9,7 +9,7 @@ import { IsElementVisiblePipe } from '../is-element-visible.pipe';
 
 @Component({
   selector: 'ngssm-visibility-toggle-group',
-  imports: [CommonModule, MatButtonToggleModule, ToggleElementVisibilityDirective, IsElementVisiblePipe],
+  imports: [MatButtonToggleModule, ToggleElementVisibilityDirective, IsElementVisiblePipe],
   templateUrl: './visibility-toggle-group.component.html',
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush

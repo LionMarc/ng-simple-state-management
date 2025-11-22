@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -9,7 +9,7 @@ import { ComponentWithFeatureStateComponent } from '../component-with-feature-st
 
 @Component({
   selector: 'ngssm-feature-state-demo',
-  imports: [CommonModule, MatCardModule, MatButtonModule, NgssmAceEditorComponent, ComponentWithFeatureStateComponent],
+  imports: [MatCardModule, MatButtonModule, NgssmAceEditorComponent, ComponentWithFeatureStateComponent],
   templateUrl: './feature-state-demo.component.html',
   styleUrls: ['./feature-state-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

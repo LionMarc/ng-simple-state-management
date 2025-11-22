@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'ngssm-demo1',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './demo1.component.html',
   styleUrls: ['./demo1.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

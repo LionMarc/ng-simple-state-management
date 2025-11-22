@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ElementRef, Type, input, output, inject, effect, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
@@ -7,7 +7,7 @@ import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '.
 
 @Component({
   selector: 'ngssm-expression-tree-node-details',
-  imports: [CommonModule, NgssmComponentDisplayDirective],
+  imports: [NgssmComponentDisplayDirective],
   templateUrl: './ngssm-expression-tree-node-details.component.html',
   styleUrls: ['./ngssm-expression-tree-node-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -16,7 +16,7 @@ import { NgssmVisibilityActionType, ToggleElementVisibilityAction } from '../act
 
 @Component({
   template: ` <button mat-raised-button [toggleElementVisibility]="'element-one'" id="buttonId">Toggle Element</button> `,
-  imports: [CommonModule, MatButtonModule, ToggleElementVisibilityDirective]
+  imports: [MatButtonModule, ToggleElementVisibilityDirective]
 })
 class TestingComponent {}
 

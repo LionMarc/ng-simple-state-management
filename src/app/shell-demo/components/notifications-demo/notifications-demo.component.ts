@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,6 @@ import { Store } from 'ngssm-store';
 @Component({
   selector: 'ngssm-notifications-demo',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatCardModule,
@@ -22,7 +21,7 @@ import { Store } from 'ngssm-store';
     MatSelectModule,
     MatInputModule,
     NgssmAceEditorComponent
-  ],
+],
   templateUrl: './notifications-demo.component.html',
   styleUrls: ['./notifications-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

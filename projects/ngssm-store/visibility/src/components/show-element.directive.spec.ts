@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ShowElementDirective } from './show-element.directive';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -16,7 +16,7 @@ import { NgssmVisibilityActionType, ShowElementAction } from '../actions';
 
 @Component({
   template: ` <button mat-raised-button [showElement]="'element-one'" id="buttonId">Show Element</button> `,
-  imports: [CommonModule, MatButtonModule, ShowElementDirective]
+  imports: [MatButtonModule, ShowElementDirective]
 })
 class TestingComponent {}
 

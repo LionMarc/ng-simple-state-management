@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -31,7 +31,6 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 @Component({
   selector: 'ngssm-todo-dashboard',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
@@ -42,7 +41,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
     NgssmComponentOverlayDirective,
     NgssmDataReloadButtonComponent,
     TodoItemComponent
-  ],
+],
   templateUrl: './todo-dashboard.component.html',
   styleUrls: ['./todo-dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

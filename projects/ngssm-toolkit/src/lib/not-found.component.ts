@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'ngssm-not-found',
-  imports: [CommonModule],
+  imports: [],
   template: ` <img src="./assets/404-not-found.png" alt="not found" /> `,
   styles: [
     `
