@@ -30,11 +30,6 @@ import { NgssmExpressionTreeNodeDetailsComponent } from '../ngssm-expression-tre
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeComponent<T = unknown> {
-  private readonly store = inject(Store);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
-
-  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
-
   public readonly treeConfig = input<NgssmExpressionTreeConfig<T> | null | undefined, NgssmExpressionTreeConfig<T> | null | undefined>(
     undefined,
     {
@@ -63,6 +58,11 @@ export class NgssmExpressionTreeComponent<T = unknown> {
     }
   );
   public readonly displayedNodes = signal<NgssmExpressionTreeNode[]>([]);
+
+  private readonly store = inject(Store);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
 
   constructor() {
     effect(() => {

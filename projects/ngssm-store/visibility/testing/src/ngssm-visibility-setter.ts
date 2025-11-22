@@ -11,8 +11,9 @@ import { HideElementAction, ShowElementAction, ToggleElementVisibilityAction, Vi
  */
 @Injectable()
 export class NgssmVisibilitySetter {
-  private readonly reducer = new VisibilityReducer();
   public readonly store = inject(Store) as unknown as StoreMock;
+
+  private readonly reducer = new VisibilityReducer();
 
   /**
    * Sets the specified element as visible in the StoreMock.

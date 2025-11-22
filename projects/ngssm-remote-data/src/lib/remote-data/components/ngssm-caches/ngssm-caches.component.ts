@@ -25,8 +25,6 @@ interface Cache {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmCachesComponent {
-  private readonly store = inject(Store);
-
   public readonly caches = createSignal<Cache[]>((state) => {
     const remoteDataState = selectRemoteDataState(state);
     return Object.keys(remoteDataState).map((key) => ({
@@ -36,6 +34,8 @@ export class NgssmCachesComponent {
   });
 
   public readonly dataStatus = DataStatus;
+
+  private readonly store = inject(Store);
 
   public close(): void {
     this.store.dispatchActionType(RemoteDataActionType.closeCachesComponent);

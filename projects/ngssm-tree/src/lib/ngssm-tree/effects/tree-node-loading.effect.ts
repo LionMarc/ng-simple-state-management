@@ -9,14 +9,15 @@ import { selectNgssmTreeState } from '../state';
 
 @Injectable()
 export class TreeNodeLoadingEffect implements Effect {
-  private readonly dataServices: NgssmTreeDataService[] =
-    (inject(NGSSM_TREE_DATA_SERVICE, { optional: true }) as unknown as NgssmTreeDataService[]) ?? [];
-  private readonly logger = inject(Logger);
   public readonly processedActions: string[] = [
     NgssmTreeActionType.expandNode,
     NgssmTreeActionType.selectNode,
     NgssmTreeActionType.loadChildrenOfNode
   ];
+
+  private readonly dataServices: NgssmTreeDataService[] =
+    (inject(NGSSM_TREE_DATA_SERVICE, { optional: true }) as unknown as NgssmTreeDataService[]) ?? [];
+  private readonly logger = inject(Logger);
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const treeNodeAction = action as TreeNodeAction;

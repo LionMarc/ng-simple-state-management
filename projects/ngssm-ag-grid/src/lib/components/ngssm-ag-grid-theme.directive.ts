@@ -8,10 +8,10 @@ import { NgssmAgGridOptions, NGSSM_AG_GRID_OPTIONS } from '../ngssm-ag-grid-opti
   selector: '[ngssmAgGridTheme]'
 })
 export class NgssmAgGridThemeDirective {
+  @HostBinding('class') className = '';
+
   private readonly options: NgssmAgGridOptions | null = inject(NGSSM_AG_GRID_OPTIONS, { optional: true });
   private agGridAngular = inject(AgGridAngular);
-
-  @HostBinding('class') className = '';
 
   constructor() {
     this.className = (this.options ?? new NgssmAgGridOptions()).theme;

@@ -40,6 +40,11 @@ export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
   providedIn: 'root'
 })
 export class Store implements ActionDispatcher {
+  // If true, an action is processed in a macro-task by using setTimoeout. Otherwise, Promise.resolve() is used
+  // When using micro task, an issue can occur with angular root effects that want to process state or action signals.
+  // They can be executed after a list of actions is processed. In that case, some actions are never processed by the effects.
+  public useMacroTasks = true;
+
   // Logger service for debugging and monitoring.
   private readonly logger = inject(Logger);
   // Array of reducers to process state updates.
@@ -71,11 +76,6 @@ export class Store implements ActionDispatcher {
 
   // The most recently action processed by reducers, managed as an observable.
   private readonly _processedAction$ = new BehaviorSubject<Action>({ type: '' });
-
-  // If true, an action is processed in a macro-task by using setTimoeout. Otherwise, Promise.resolve() is used
-  // When using micro task, an issue can occur with angular root effects that want to process state or action signals.
-  // They can be executed after a list of actions is processed. In that case, some actions are never processed by the effects.
-  public useMacroTasks = true;
 
   /**
    * Initializes the `Store` with reducers, effects, and state initializers.

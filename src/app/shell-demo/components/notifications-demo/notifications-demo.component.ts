@@ -26,10 +26,6 @@ import { Store } from 'ngssm-store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationsDemoComponent {
-  private readonly store = inject(Store);
-
-  private details: string | undefined;
-
   public readonly ngssmAceEditorMode = NgssmAceEditorMode;
   public readonly notificationTypes = [ShellNotificationType.success, ShellNotificationType.error];
   public readonly typeControl = new FormControl<ShellNotificationType | undefined>(undefined, Validators.required);
@@ -38,6 +34,10 @@ export class NotificationsDemoComponent {
     type: this.typeControl,
     title: this.titleControl
   });
+
+  private readonly store = inject(Store);
+
+  private details: string | undefined;
 
   public onContentChanged(event: string): void {
     this.details = event;

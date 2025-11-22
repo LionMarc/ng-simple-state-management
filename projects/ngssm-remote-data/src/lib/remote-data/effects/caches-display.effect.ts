@@ -7,11 +7,11 @@ import { NgssmCachesComponent } from '../components';
 
 @Injectable()
 export class CachesDisplayEffect implements Effect {
+  public readonly processedActions: string[] = [RemoteDataActionType.displayCaches, RemoteDataActionType.closeCachesComponent];
+
   private readonly matDialog = inject(MatDialog);
 
   private dialog: MatDialogRef<NgssmCachesComponent> | undefined;
-
-  public readonly processedActions: string[] = [RemoteDataActionType.displayCaches, RemoteDataActionType.closeCachesComponent];
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

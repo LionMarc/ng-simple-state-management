@@ -18,9 +18,6 @@ import { DisplayNotificationDetailsAction } from '../../actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellNotificationComponent {
-  private readonly store = inject(Store);
-  private readonly notifications = createSignal((state) => selectShellState(state).shellNotifications.notifications);
-
   public readonly displayDetailsButton = input(false);
   public readonly shellNotificationIndex = input<number>();
 
@@ -29,6 +26,9 @@ export class ShellNotificationComponent {
   });
 
   public readonly shellNotificationType = ShellNotificationType;
+
+  private readonly store = inject(Store);
+  private readonly notifications = createSignal((state) => selectShellState(state).shellNotifications.notifications);
 
   public displayDetails(): void {
     this.store.dispatchAction(new DisplayNotificationDetailsAction(this.shellNotificationIndex() ?? -1));

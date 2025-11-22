@@ -18,15 +18,15 @@ import { EditTodoItemAction } from '../../actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemComponent {
-  private readonly store = inject(Store);
-
-  private readonly todoItems = dataSourceToSignal<TodoItem[]>(todoItemsKey, { defaultValue: [] });
-
   public readonly todoId = input<number>(0);
 
   public readonly todoItem = computed<TodoItem | undefined>(() => {
     return this.todoItems.value().find((t) => t.id === this.todoId());
   });
+
+  private readonly store = inject(Store);
+
+  private readonly todoItems = dataSourceToSignal<TodoItem[]>(todoItemsKey, { defaultValue: [] });
 
   public editTodoItem(id: number): void {
     this.store.dispatchAction(new EditTodoItemAction(id));

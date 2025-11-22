@@ -36,8 +36,6 @@ import { ComponentWithScopedDataSourceComponent } from '../component-with-scoped
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmDataDemoComponent {
-  protected readonly store = inject(Store);
-
   public readonly teamsKey = teamsKey;
   public readonly playersKey = playersKey;
 
@@ -45,6 +43,8 @@ export class NgssmDataDemoComponent {
   public readonly playersSourceValue = dataSourceToSignal<unknown>(playersKey, { defaultValue: {} });
   public readonly componentWithScopedDatasourceRendered = signal<boolean>(false);
   public readonly state = createSignal<string>((state) => JSON.stringify(state, undefined, 4));
+
+  protected readonly store = inject(Store);
 
   public reloadTeams(): void {
     this.store.dispatchAction(new NgssmLoadDataSourceValueAction(teamsKey, { forceReload: true }));

@@ -12,11 +12,6 @@ import { selectNgssmTreeNode, selectNgssmTreeNodeChildren, selectNgssmTreeState 
 
 @Injectable()
 export class TreeNodesSearchingEffect implements Effect {
-  private readonly matDialog = inject(MatDialog);
-  private readonly logger = inject(Logger);
-
-  private dialog: MatDialogRef<NgssmTreeSearchDialogComponent> | undefined;
-
   public readonly processedActions: string[] = [
     NgssmTreeActionType.displaySearchDialog,
     NgssmTreeActionType.closeSearchDialog,
@@ -24,6 +19,11 @@ export class TreeNodesSearchingEffect implements Effect {
     NgssmTreeActionType.registerNodes,
     NgssmTreeActionType.registerPartialSearchResults
   ];
+
+  private readonly matDialog = inject(MatDialog);
+  private readonly logger = inject(Logger);
+
+  private dialog: MatDialogRef<NgssmTreeSearchDialogComponent> | undefined;
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

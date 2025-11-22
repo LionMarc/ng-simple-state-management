@@ -25,15 +25,15 @@ interface DisplayedNode {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmTreeComponent {
+  public readonly treeConfig = input<NgssmTreeConfig | undefined | null>();
+
+  protected readonly dataStatus = DataStatus;
+  protected readonly displayedItems = signal<DisplayedNode[]>([]);
+  protected readonly selectedNodeId = signal<string | undefined>(undefined);
+
   private readonly store = inject(Store);
   private readonly trees = createSignal((state) => selectNgssmTreeState(state).trees);
   private readonly tree = signal<NgssmTree | undefined>(undefined);
-
-  public readonly treeConfig = input<NgssmTreeConfig | undefined | null>();
-
-  public readonly dataStatus = DataStatus;
-  public readonly displayedItems = signal<DisplayedNode[]>([]);
-  public readonly selectedNodeId = signal<string | undefined>(undefined);
 
   constructor() {
     effect(() => {
@@ -105,32 +105,32 @@ export class NgssmTreeComponent {
     });
   }
 
-  public getItemId(_: number, node: DisplayedNode): string {
+  protected getItemId(_: number, node: DisplayedNode): string {
     return node.node.node.nodeId;
   }
 
-  public expand(node: NgssmTreeNode): void {
+  protected expand(node: NgssmTreeNode): void {
     const treeId = this.treeConfig()?.treeId;
     if (treeId) {
       this.store.dispatchAction(new ExpandNodeAction(treeId, node.node.nodeId));
     }
   }
 
-  public collapse(node: NgssmTreeNode): void {
+  protected collapse(node: NgssmTreeNode): void {
     const treeId = this.treeConfig()?.treeId;
     if (treeId) {
       this.store.dispatchAction(new CollapseNodeAction(treeId, node.node.nodeId));
     }
   }
 
-  public selectNode(node: NgssmTreeNode): void {
+  protected selectNode(node: NgssmTreeNode): void {
     const treeId = this.treeConfig()?.treeId;
     if (treeId) {
       this.store.dispatchAction(new SelectNodeAction(treeId, node.node.nodeId));
     }
   }
 
-  public displaySearchDialog(node: NgssmTreeNode): void {
+  protected displaySearchDialog(node: NgssmTreeNode): void {
     const treeId = this.treeConfig()?.treeId;
     if (treeId) {
       this.store.dispatchAction(new DisplaySearchDialogAction(treeId, node.node.nodeId));

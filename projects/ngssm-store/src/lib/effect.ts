@@ -4,10 +4,12 @@ import { Action } from './action';
 import { State } from './state';
 import { ActionDispatcher } from './action-dispatcher';
 
+export type EffectFunc = (state: State, action: Action) => void;
+
 export interface Effect {
+  isFunc?: boolean;
   processedActions: string[];
   processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void;
-  isFunc?: boolean;
 }
 
 export const NGSSM_EFFECT = new InjectionToken<Effect>('NGSSM_EFFECT');
@@ -19,8 +21,6 @@ export const provideEffect = (effect: Type<unknown>): EnvironmentProviders => {
 export const provideEffects = (...effects: Type<unknown>[]): EnvironmentProviders => {
   return makeEnvironmentProviders(effects.map((effect) => ({ provide: NGSSM_EFFECT, useClass: effect, multi: true })));
 };
-
-export type EffectFunc = (state: State, action: Action) => void;
 
 export const provideEffectFunc = (actionType: string, effectFunc: EffectFunc): EnvironmentProviders => {
   return makeEnvironmentProviders([

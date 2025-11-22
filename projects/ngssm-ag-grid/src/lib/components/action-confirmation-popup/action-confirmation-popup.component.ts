@@ -91,14 +91,15 @@ import { ActionPopupComponent } from '../ngssm-actions-cell-renderer';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionConfirmationPopupComponent implements ActionPopupComponent<unknown, unknown, ActionConfirmationPopupParameter> {
-  private params?: ICellRendererParams;
-  private popupParameter?: ActionConfirmationPopupParameter;
   public readonly message = signal<string>('No message');
   public readonly cancelButtonLabel = signal<string>('No');
   public readonly confirmButtonLabel = signal<string>('Yes');
   public readonly color = signal<string>('primary');
 
   public isOpen = signal<boolean>(false);
+
+  private params?: ICellRendererParams;
+  private popupParameter?: ActionConfirmationPopupParameter;
 
   public init(
     popupRendered: WritableSignal<boolean>,

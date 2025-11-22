@@ -48,11 +48,8 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
   providers: [provideFeatureState('todo-dashboard', {})]
 })
 export class TodoDashboardComponent {
-  private readonly store = inject(Store);
-  private readonly router = inject(Router);
-
-  private readonly deleteHidden = signal<boolean>(false);
-
+  public readonly deleteHidden = signal<boolean>(false);
+  public readonly deleteHiddenControl = new FormControl<boolean>(false);
   public readonly waitingOverlayRendered = createSignal<boolean>(
     (state) => selectNgssmDataSourceValue<TodoItem[]>(state, todoItemsKey)?.status === NgssmDataSourceValueStatus.loading
   );
@@ -166,7 +163,6 @@ export class TodoDashboardComponent {
   };
 
   public readonly remoteDataKey = todoItemsKey;
-  public readonly deleteHiddenControl = new FormControl<boolean>(false);
 
   public agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
@@ -199,6 +195,9 @@ export class TodoDashboardComponent {
       return menuItems;
     }
   };
+
+  private readonly store = inject(Store);
+  private readonly router = inject(Router);
 
   constructor() {
     console.log('CALLED ctor of dashboard');

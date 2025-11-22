@@ -8,14 +8,14 @@ import { updateNavigationState } from '../state';
 
 @Injectable()
 export class NavigationReducer implements Reducer {
+  public readonly processedActions: string[] = [];
+
   private readonly configs: NavigationLockingConfig[] | null = inject(NGSSM_NAVIGATION_LOCKING_CONFIG, {
     optional: true
   }) as unknown as NavigationLockingConfig[];
 
   private readonly lockingActions: Set<string>;
   private readonly unlockingActions: Set<string>;
-
-  public readonly processedActions: string[] = [];
 
   constructor() {
     this.lockingActions = new Set<string>([NavigationActionType.lockNavigation]);

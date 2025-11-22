@@ -8,11 +8,11 @@ import { updateNgssmRemoteCallState } from '../ngssm-remote-call.state';
 
 @Injectable()
 export class RemoteCallReducer implements Reducer {
+  public readonly processedActions: string[] = [];
+
   private readonly remoteCallConfigs: RemoteCallConfig[] | null = inject(NGSSM_REMOTE_CALL_CONFIG, {
     optional: true
   }) as unknown as RemoteCallConfig[];
-
-  public readonly processedActions: string[] = [];
 
   constructor() {
     (this.remoteCallConfigs ?? []).forEach((c) => this.processedActions.push(...[...c.triggeredActionTypes, ...c.resultActionTypes]));

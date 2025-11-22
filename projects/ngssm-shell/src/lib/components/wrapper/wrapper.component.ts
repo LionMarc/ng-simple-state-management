@@ -7,11 +7,11 @@ import { Component, ChangeDetectionStrategy, ViewContainerRef, Type, inject, sig
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WrapperComponent {
-  private readonly viewContainerRef = inject(ViewContainerRef);
-
   public readonly item = input<string | Type<unknown> | undefined>();
 
   public readonly innerHtml = signal<string | undefined>(undefined);
+
+  private readonly viewContainerRef = inject(ViewContainerRef);
 
   constructor() {
     effect(() => {

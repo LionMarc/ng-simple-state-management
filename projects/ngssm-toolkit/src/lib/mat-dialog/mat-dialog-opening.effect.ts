@@ -12,13 +12,13 @@ interface ExtendedConfig {
 
 @Injectable()
 export class MatDialogOpeningEffect implements Effect {
+  public readonly processedActions: string[] = [];
+
   private configs: NgssmMatDialogConfig[] | null = inject(NGSSM_MAT_DIALOG_CONFIG, { optional: true }) as unknown as NgssmMatDialogConfig[];
   private readonly matDialog = inject(MatDialog);
   private readonly injector = inject(EnvironmentInjector);
 
   private readonly extendedConfigs: ExtendedConfig[];
-
-  public readonly processedActions: string[] = [];
 
   constructor() {
     const allActions = (this.configs ?? []).flatMap((c) => [c.openingAction, ...c.closingActions]);

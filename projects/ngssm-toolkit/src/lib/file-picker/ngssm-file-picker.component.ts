@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostBinding, inject, input, Input, OnDestroy, ViewChild } from '@angular/core';
@@ -21,26 +22,13 @@ export const noop = () => {
 export class NgssmFilePickerComponent implements MatFormFieldControl<File>, ControlValueAccessor, OnDestroy {
   private static nextId = 0;
 
-  public readonly ngControl: NgControl | null = inject(NgControl, { optional: true, self: true });
+  @ViewChild('fileInput', { static: true }) fileInput: ElementRef | undefined;
+  @HostBinding('id') public id = `file-picker-${NgssmFilePickerComponent.nextId++}`;
 
-  private onChangeCallback: (_: unknown) => void = noop;
-  private _required = false;
-  private _disabled = false;
+  public readonly ngControl: NgControl | null = inject(NgControl, { optional: true, self: true });
 
   public readonly displayDetails = input(true);
 
-  @ViewChild('fileInput', { static: true }) fileInput: ElementRef | undefined;
-
-  constructor() {
-    // Replace the provider from above with this.
-    if (this.ngControl != null) {
-      // Setting the value accessor directly (instead of using
-      // the providers) to avoid running into a circular import.
-      this.ngControl.valueAccessor = this;
-    }
-  }
-
-  @HostBinding('id') public id = `file-picker-${NgssmFilePickerComponent.nextId++}`;
   public controlType = 'file-picker';
   public placeholder = '';
   public focused = false;
@@ -49,12 +37,17 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
   public autofilled?: boolean | undefined;
   public userAriaDescribedBy?: string | undefined;
 
-  public get empty(): boolean {
-    return this.value === null;
-  }
+  private onChangeCallback: (_: unknown) => void = noop;
+  private _required = false;
+  private _disabled = false;
 
-  public get shouldLabelFloat(): boolean {
-    return this.value !== null;
+  constructor() {
+    // Replace the provider from above with this.
+    if (this.ngControl != null) {
+      // Setting the value accessor directly (instead of using
+      // the providers) to avoid running into a circular import.
+      this.ngControl.valueAccessor = this;
+    }
   }
 
   @Input()
@@ -75,6 +68,14 @@ export class NgssmFilePickerComponent implements MatFormFieldControl<File>, Cont
   public set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
     this.stateChanges.next();
+  }
+
+  public get empty(): boolean {
+    return this.value === null;
+  }
+
+  public get shouldLabelFloat(): boolean {
+    return this.value !== null;
   }
 
   public get errorState(): boolean {

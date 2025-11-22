@@ -12,14 +12,14 @@ import { getNgssmDataSourceValueAutoReloadTypes, NgssmDataSourceValueAutoReloadT
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmAutoReloadComponent implements OnDestroy {
-  private timerId: number | undefined;
-
   public readonly autoReloadAction = input<() => void>(() => {
     // nothing by default
   });
 
-  public readonly reloadTypes = getNgssmDataSourceValueAutoReloadTypes();
-  public readonly reloadTypeControl = new FormControl<NgssmDataSourceValueAutoReloadType>('Off');
+  protected readonly reloadTypes = getNgssmDataSourceValueAutoReloadTypes();
+  protected readonly reloadTypeControl = new FormControl<NgssmDataSourceValueAutoReloadType>('Off');
+
+  private timerId: number | undefined;
 
   constructor() {
     this.reloadTypeControl.valueChanges.subscribe((v) => {

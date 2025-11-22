@@ -18,18 +18,16 @@ import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  private readonly store = inject(Store);
+  public readonly serviceInfo = createSignal<ServiceInfo | undefined>(
+    (s) => selectNgssmDataSourceValue<ServiceInfo>(s, serviceInfoKey)?.value
+  );
 
-  private readonly footerComponents: (string | Type<unknown>)[] = [
+  public readonly footerComponents: (string | Type<unknown>)[] = [
     '<div class="footer-message">Demo application</div>',
     '<div class="footer-message">Another message</div>',
     '<div class="footer-message">And another one</div>',
     TodoFooterComponent
   ];
-
-  public readonly serviceInfo = createSignal<ServiceInfo | undefined>(
-    (s) => selectNgssmDataSourceValue<ServiceInfo>(s, serviceInfoKey)?.value
-  );
 
   public readonly shellConfig: ShellConfig = {
     logo: './assets/logo.png',
@@ -127,6 +125,8 @@ export class AppComponent {
   };
 
   public readonly lockStatus = LockStatus;
+
+  private readonly store = inject(Store);
 
   public closeNavigationBar(): void {
     this.store.dispatchActionType(ShellActionType.closeNavigationBar);

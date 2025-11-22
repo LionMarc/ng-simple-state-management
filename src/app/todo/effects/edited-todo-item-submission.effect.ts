@@ -11,11 +11,11 @@ import { selectTodoState } from '../state';
 
 @Injectable()
 export class EditedTodoItemSubmissionEffect implements Effect {
+  public readonly processedActions: string[] = [TodoActionType.submitEditedTodoItem];
+
   private readonly todoItemsService = inject(TodoItemsService);
   private readonly logger = inject(Logger);
   private readonly remoteCallResultProcessor = inject(RemoteCallResultProcessor);
-
-  public readonly processedActions: string[] = [TodoActionType.submitEditedTodoItem];
 
   public processAction(actiondispatcher: ActionDispatcher, state: State): void {
     const todoItem = selectTodoState(state).todoItemEditor.todoItem;

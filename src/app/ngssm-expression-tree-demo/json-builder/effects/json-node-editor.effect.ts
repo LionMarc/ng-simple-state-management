@@ -11,15 +11,15 @@ import { JsonNodeType } from '../model';
 
 @Injectable()
 export class JsonNodeEditorEffect implements Effect {
-  private readonly matDialog = inject(MatDialog);
-
-  private dialog: MatDialogRef<JsonNodeEditorComponent> | undefined;
-
   public readonly processedActions: string[] = [
     JsonBuilderActionType.newProperty,
     JsonBuilderActionType.closeJsonNodeEditor,
     JsonBuilderActionType.submitJsonNode
   ];
+
+  private readonly matDialog = inject(MatDialog);
+
+  private dialog: MatDialogRef<JsonNodeEditorComponent> | undefined;
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

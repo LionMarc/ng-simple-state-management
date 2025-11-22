@@ -14,13 +14,13 @@ import { NgssmDataSourceValueStatus } from '../model';
 
 @Injectable()
 export class DataLoadingEffect implements Effect {
-  private readonly injector = inject(EnvironmentInjector);
-  private readonly logger = inject(Logger);
-
   public readonly processedActions: string[] = [
     NgssmDataActionType.loadDataSourceValue,
     NgssmDataActionType.loadDataSourceAdditionalPropertyValue
   ];
+
+  private readonly injector = inject(EnvironmentInjector);
+  private readonly logger = inject(Logger);
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const key = (action as NgssmDataSourceValueAction).key;

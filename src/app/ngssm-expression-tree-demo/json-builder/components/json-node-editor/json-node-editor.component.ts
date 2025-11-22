@@ -20,8 +20,6 @@ import { JsonNodeType, getJsonNodeTypes } from '../../model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsonNodeEditorComponent {
-  private readonly store = inject(Store);
-
   public readonly jsonNodeTypes = getJsonNodeTypes();
 
   public readonly jsonNodeTypeControl = new FormControl<JsonNodeType | undefined>(undefined, Validators.required);
@@ -34,6 +32,8 @@ export class JsonNodeEditorComponent {
     type: this.jsonNodeTypeControl,
     name: this.jsonNodeNameControl
   });
+
+  private readonly store = inject(Store);
 
   public close(): void {
     this.store.dispatchActionType(JsonBuilderActionType.closeJsonNodeEditor);

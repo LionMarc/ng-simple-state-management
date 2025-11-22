@@ -9,12 +9,12 @@ import { NgssmRegisterDataSourceAction, NgssmUnregisterDataSourceAction } from '
   selector: '[ngssmScopedDataSource]'
 })
 export class NgssmScopedDataSourceDirective implements OnDestroy {
-  private readonly actionDispatcher: ActionDispatcher = inject(ACTION_DISPATCHER);
-  private isInitialized = false;
-
   public readonly ngssmScopedDataSource = input.required<NgssmDataSource, NgssmDataSource>({
     transform: this.checkDataSoruce
   });
+
+  private readonly actionDispatcher: ActionDispatcher = inject(ACTION_DISPATCHER);
+  private isInitialized = false;
 
   constructor() {
     effect(() => {

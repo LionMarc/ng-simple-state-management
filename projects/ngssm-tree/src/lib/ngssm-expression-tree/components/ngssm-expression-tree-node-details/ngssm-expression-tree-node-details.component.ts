@@ -12,14 +12,14 @@ import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeNodeDetailsComponent {
-  private readonly elementRef = inject(ElementRef);
-
   public readonly nodeId = input<string | null | undefined>();
   public readonly treeConfig = input<NgssmExpressionTreeConfig | null | undefined>();
   public readonly heightChanged = output<number>();
 
   public readonly componentAction = signal<NgssmComponentAction | undefined>(undefined);
   public readonly componentToDisplay = signal<Type<unknown> | undefined>(undefined);
+
+  private readonly elementRef = inject(ElementRef);
 
   constructor() {
     effect(() => {

@@ -34,7 +34,8 @@ module.exports = tseslint.config(
           prefix: 'ngssm',
           style: 'kebab-case'
         }
-      ]
+      ],
+      '@typescript-eslint/member-ordering': 'error'
     }
   },
   {
