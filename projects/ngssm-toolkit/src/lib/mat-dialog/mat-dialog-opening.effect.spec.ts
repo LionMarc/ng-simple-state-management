@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
@@ -23,7 +23,7 @@ enum TestingActionType {
 
 @Component({
   selector: 'ngssm-testing',
-  imports: [CommonModule],
+  imports: [],
   template: ` nothing `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -32,7 +32,7 @@ export class DialogDemoComponent {}
 
 @Component({
   selector: 'ngssm-editor',
-  imports: [CommonModule],
+  imports: [],
   template: ` nothing `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush

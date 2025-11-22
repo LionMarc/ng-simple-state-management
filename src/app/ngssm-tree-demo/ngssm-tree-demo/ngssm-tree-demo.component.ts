@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -21,7 +21,6 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
 @Component({
   selector: 'ngssm-ngssm-tree-demo',
   imports: [
-    CommonModule,
     MatCardModule,
     MatIconModule,
     AgGridModule,

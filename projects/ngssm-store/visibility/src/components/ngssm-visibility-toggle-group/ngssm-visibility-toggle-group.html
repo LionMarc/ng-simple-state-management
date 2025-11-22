@@ -1,6 +1,9 @@
 <mat-button-toggle-group [multiple]="true" [hideMultipleSelectionIndicator]="hideMultipleSelectionIndicator()">
   @for (item of items(); track item.key) {
-    <mat-button-toggle [toggleElementVisibility]="item.key" [checked]="store.state() | isElementVisible: item.key" [id]="item.key">
+    <mat-button-toggle
+      [ngssmToggleElementVisibility]="item.key"
+      [checked]="store.state() | ngssmIsElementVisible: item.key"
+      [id]="item.key">
       {{ item.label }}
     </mat-button-toggle>
   }

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -8,7 +8,7 @@ import { ToolkitDemoActionType } from '../../actions';
 
 @Component({
   selector: 'ngssm-dialog-demo',
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [MatDialogModule, MatButtonModule],
   templateUrl: './dialog-demo.component.html',
   styleUrls: ['./dialog-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

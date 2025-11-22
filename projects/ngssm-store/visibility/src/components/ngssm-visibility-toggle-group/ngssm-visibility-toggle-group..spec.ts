@@ -1,36 +1,40 @@
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonToggleHarness } from '@angular/material/button-toggle/testing';
 
-import { StoreMock } from 'ngssm-store/testing';
+import { StoreMock, provideNgssmStoreTesting } from 'ngssm-store/testing';
 import { Store } from 'ngssm-store';
 
-import { VisibilityToggleGroupComponent } from './visibility-toggle-group.component';
+import { NgssmVisibilityToggleGroup } from './ngssm-visibility-toggle-group';
 import { NgssmVisibilityStateSpecification } from '../../state';
 import { NgssmVisibilityActionType, ToggleElementVisibilityAction } from '../../actions';
 
-describe('VisibilityToggleGroupComponent', () => {
-  let component: VisibilityToggleGroupComponent;
-  let fixture: ComponentFixture<VisibilityToggleGroupComponent>;
-  let store: StoreMock;
+describe('NgssmVisibilityToggleGroup', () => {
+  let component: NgssmVisibilityToggleGroup;
+  let fixture: ComponentFixture<NgssmVisibilityToggleGroup>;
+  let storeMock: StoreMock;
   let loader: HarnessLoader;
 
   beforeEach(async () => {
-    store = new StoreMock({
-      [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
-    });
     TestBed.configureTestingModule({
-      imports: [VisibilityToggleGroupComponent, NoopAnimationsModule],
-      providers: [{ provide: Store, useValue: store }],
+      imports: [NgssmVisibilityToggleGroup],
+      providers: [provideNgssmStoreTesting()],
       teardown: { destroyAfterEach: false }
     });
-    fixture = TestBed.createComponent(VisibilityToggleGroupComponent);
+    fixture = TestBed.createComponent(NgssmVisibilityToggleGroup);
     fixture.nativeElement.style['min-height'] = '300px';
     loader = TestbedHarnessEnvironment.loader(fixture);
     component = fixture.componentInstance;
+
+    storeMock = TestBed.inject(Store) as unknown as StoreMock;
+
+    storeMock.stateValue = {
+      ...storeMock.stateValue,
+      [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
+    };
+
     fixture.componentRef.setInput('items', [
       {
         label: 'Left',
@@ -45,7 +49,7 @@ describe('VisibilityToggleGroupComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    spyOn(store, 'dispatchAction');
+    spyOn(storeMock, 'dispatchAction');
   });
 
   it('should create', () => {
@@ -57,7 +61,7 @@ describe('VisibilityToggleGroupComponent', () => {
 
     await element.toggle();
 
-    expect(store.dispatchAction).toHaveBeenCalledWith(new ToggleElementVisibilityAction('left-value'));
+    expect(storeMock.dispatchAction).toHaveBeenCalledWith(new ToggleElementVisibilityAction('left-value'));
   });
 
   it(`should render a check indicator when hideMultipleSelectionIndicator is false and itme is selected`, async () => {

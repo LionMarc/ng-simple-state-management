@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { selectRemoteData } from 'ngssm-remote-data';
 import { createSignal } from 'ngssm-store';
@@ -8,7 +7,7 @@ import { todoItemsKey } from '../../model';
 
 @Component({
   selector: 'ngssm-todo-footer',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './todo-footer.component.html',
   styleUrls: ['./todo-footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

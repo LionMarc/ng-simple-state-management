@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
@@ -10,7 +9,7 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
 
 @Component({
   selector: 'ngssm-tree-demo-results-viewer',
-  imports: [CommonModule, AgGridModule, NgssmAgGridDirective, NgssmAgGridThemeDirective],
+  imports: [AgGridModule, NgssmAgGridDirective, NgssmAgGridThemeDirective],
   templateUrl: './tree-demo-results-viewer.component.html',
   styleUrls: ['./tree-demo-results-viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

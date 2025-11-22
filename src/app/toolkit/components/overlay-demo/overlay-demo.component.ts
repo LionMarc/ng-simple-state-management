@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -8,7 +7,7 @@ import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 
 @Component({
   selector: 'ngssm-overlay-demo',
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatSlideToggleModule, NgssmComponentOverlayDirective],
+  imports: [ReactiveFormsModule, MatCardModule, MatSlideToggleModule, NgssmComponentOverlayDirective],
   templateUrl: './overlay-demo.component.html',
   styleUrls: ['./overlay-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

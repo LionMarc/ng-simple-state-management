@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, Injectable, Type, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,7 +33,6 @@ export class TestingFilePickerInitialization {
 @Component({
   selector: 'ngssm-toolkit-demo',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,

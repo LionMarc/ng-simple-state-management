@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -22,7 +22,7 @@ import { Entry, databases } from '../database';
 
 @Component({
   selector: 'ngssm-ngssm-expression-tree-demo',
-  imports: [CommonModule, MatCardModule, MatIconModule, NgssmExpressionTreeComponent, JsonBuilderComponent],
+  imports: [MatCardModule, MatIconModule, NgssmExpressionTreeComponent, JsonBuilderComponent],
   templateUrl: './ngssm-expression-tree-demo.component.html',
   styleUrls: ['./ngssm-expression-tree-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

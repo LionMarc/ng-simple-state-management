@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ViewContainerRef, ChangeDetectorRef, inject, viewChild, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,6 @@ import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../
 @Component({
   selector: 'ngssm-ngssm-tree-search-dialog',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,

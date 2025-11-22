@@ -1,9 +1,8 @@
 import { Component, ChangeDetectionStrategy, ViewContainerRef, Type, inject, signal, input, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'ngssm-wrapper',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

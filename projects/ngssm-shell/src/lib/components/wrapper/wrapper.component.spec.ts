@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CommonModule } from '@angular/common';
+
 import { By } from '@angular/platform-browser';
 
 import { WrapperComponent } from './wrapper.component';
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-  imports: [CommonModule, WrapperComponent]
+  imports: [WrapperComponent]
 })
 class UndefinedComponent {
   public item = undefined;
@@ -15,7 +15,7 @@ class UndefinedComponent {
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-  imports: [CommonModule, WrapperComponent]
+  imports: [WrapperComponent]
 })
 class StringComponent {
   public item = 'MESSAGE';
@@ -24,13 +24,13 @@ class StringComponent {
 @Component({
   selector: 'ngssm-wrapped',
   template: `TESTING`,
-  imports: [CommonModule]
+  imports: []
 })
 class WrappedComponent {}
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
-  imports: [CommonModule, WrapperComponent]
+  imports: [WrapperComponent]
 })
 class WithComponent {
   public item = WrappedComponent;

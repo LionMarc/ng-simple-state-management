@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,7 +17,7 @@ interface Config {
 
 @Component({
   selector: 'ngssm-json-node',
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './json-node.component.html',
   styleUrls: ['./json-node.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

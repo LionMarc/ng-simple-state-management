@@ -1,11 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE, ProvideNgssmFeatureStateDirective } from 'ngssm-store';
 
 @Component({
   selector: 'ngssm-component-with-feature-state',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './component-with-feature-state.component.html',
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,

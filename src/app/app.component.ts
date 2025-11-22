@@ -1,5 +1,5 @@
 import { Component, Type, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 
 import { NavigationActionType } from 'ngssm-navigation';
@@ -13,7 +13,7 @@ import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
 
 @Component({
   selector: 'ngssm-root',
-  imports: [CommonModule, MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
+  imports: [MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

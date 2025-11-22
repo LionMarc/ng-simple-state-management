@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Type, inject, input, signal, effect, untracked } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
@@ -35,7 +35,7 @@ const getDefaultCutAndPaste = (): CutAndPaste => ({
 
 @Component({
   selector: 'ngssm-expression-tree-node',
-  imports: [CommonModule, MatIconModule, MatMenuModule, MatDividerModule, NgssmComponentDisplayDirective],
+  imports: [MatIconModule, MatMenuModule, MatDividerModule, NgssmComponentDisplayDirective],
   templateUrl: './ngssm-expression-tree-node.component.html',
   styleUrls: ['./ngssm-expression-tree-node.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, input, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,7 +19,6 @@ import { WrapperComponent } from '../wrapper/wrapper.component';
 @Component({
   selector: 'ngssm-shell',
   imports: [
-    CommonModule,
     RouterModule,
     MatSidenavModule,
     MatToolbarModule,

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,7 @@ import { ShellNotificationComponent } from '../shell-notification/shell-notifica
 
 @Component({
   selector: 'ngssm-shell-notifications',
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, NgssmAceEditorComponent, ShellNotificationComponent],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, NgssmAceEditorComponent, ShellNotificationComponent],
   templateUrl: './shell-notifications.component.html',
   styleUrls: ['./shell-notifications.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

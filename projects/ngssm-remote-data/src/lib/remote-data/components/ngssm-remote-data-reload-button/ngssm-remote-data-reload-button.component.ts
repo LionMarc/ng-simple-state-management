@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal, input, inject, effect } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -15,7 +15,7 @@ const datePipe = new DatePipe('en-US');
 
 @Component({
   selector: 'ngssm-remote-data-reload-button',
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule],
+  imports: [MatIconModule, MatButtonModule, MatTooltipModule, MatProgressSpinnerModule],
   templateUrl: './ngssm-remote-data-reload-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
