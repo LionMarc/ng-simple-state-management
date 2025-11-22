@@ -31,11 +31,6 @@ import { NgssmAceEditorApi, NgssmAceEditorComponent, NgssmAceEditorMode } from '
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AceEditorDemoComponent {
-  private readonly _updatedContent$ = new BehaviorSubject<string>('');
-  private readonly _isValid$ = new BehaviorSubject<boolean>(true);
-  private readonly _isReady$ = new BehaviorSubject<boolean>(false);
-  private aceEditorApi: NgssmAceEditorApi | undefined;
-
   public readonly readonlyControl = new FormControl(true);
   public readonly modes: { label: string; value: NgssmAceEditorMode }[] = [
     { label: 'text', value: NgssmAceEditorMode.text },
@@ -46,6 +41,11 @@ export class AceEditorDemoComponent {
   public readonly modeControl = new FormControl(NgssmAceEditorMode.text);
   public readonly contentControl = new FormControl('testing initial content');
   public readonly commentPatternControl = new FormControl(undefined, Validators.required);
+
+  private readonly _updatedContent$ = new BehaviorSubject<string>('');
+  private readonly _isValid$ = new BehaviorSubject<boolean>(true);
+  private readonly _isReady$ = new BehaviorSubject<boolean>(false);
+  private aceEditorApi: NgssmAceEditorApi | undefined;
 
   public get updatedContent$(): Observable<string> {
     return this._updatedContent$.asObservable();

@@ -11,16 +11,16 @@ import { NgssmLoadDataSourceValueAction } from 'ngssm-data';
 
 @Injectable()
 export class TodoEditorEffect implements Effect {
-  private readonly matDialog = inject(MatDialog);
-
-  private dialog: MatDialogRef<TodoItemEditorComponent> | undefined;
-
   public readonly processedActions: string[] = [
     TodoActionType.addTodoItem,
     TodoActionType.closeTodoItemEditor,
     TodoActionType.editTodoItem,
     TodoActionType.todoItemLoaded
   ];
+
+  private readonly matDialog = inject(MatDialog);
+
+  private dialog: MatDialogRef<TodoItemEditorComponent> | undefined;
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     switch (action.type) {

@@ -18,12 +18,12 @@ import { selectNgssmRemoteCallState } from '../ngssm-remote-call.state';
   }
 })
 export class NgssmRemoteCallErrorComponent {
-  private readonly remoteCalls = createSignal((state) => selectNgssmRemoteCallState(state).remoteCalls);
-
   public readonly remoteCallId = input<string>('');
 
   public readonly errorContainerRendered = signal<boolean>(false);
   public readonly errorDescription = signal<string>('');
+
+  private readonly remoteCalls = createSignal((state) => selectNgssmRemoteCallState(state).remoteCalls);
 
   constructor() {
     effect(() => {

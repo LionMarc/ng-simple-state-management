@@ -21,23 +21,21 @@ import { NgssmAutoReloadComponent } from '../ngssm-auto-reload/ngssm-auto-reload
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmDataReloadButtonComponent {
-  private readonly store = inject(Store);
+  public readonly label = input<string | undefined>(undefined);
+  public readonly keepAdditionalProperties = input(false);
+  public readonly buttonIcon = input<string>('fa-solid fa-rotate-right');
+  public readonly autoReloadEnabled = input(false);
+  public readonly dataSourceKeys = input<string[]>([]);
 
+  protected readonly loadInProgress = signal<boolean>(false);
+  protected readonly buttonDisabled = signal<boolean>(true);
+  protected readonly tooltipMessage = signal<string>('');
+  protected readonly color = signal<string>('primary');
+
+  private readonly store = inject(Store);
   private readonly dataSourceValues = createSignal<Record<string, NgssmDataSourceValue>>(
     (state) => selectNgssmDataState(state).dataSourceValues
   );
-
-  public readonly loadInProgress = signal<boolean>(false);
-  public readonly buttonDisabled = signal<boolean>(true);
-  public readonly tooltipMessage = signal<string>('');
-  public readonly color = signal<string>('primary');
-  public readonly reloadAction = () => this.reload();
-
-  public label = input<string | undefined>(undefined);
-  public keepAdditionalProperties = input(false);
-  public buttonIcon = input<string>('fa-solid fa-rotate-right');
-  public autoReloadEnabled = input(false);
-  public dataSourceKeys = input<string[]>([]);
 
   constructor() {
     effect(() => {
@@ -79,7 +77,9 @@ export class NgssmDataReloadButtonComponent {
     });
   }
 
-  public reload(): void {
+  protected readonly reloadAction = () => this.reload();
+
+  protected reload(): void {
     const isDisabled = this.buttonDisabled();
     if (isDisabled) {
       return;

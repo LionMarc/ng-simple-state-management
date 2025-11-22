@@ -23,10 +23,6 @@ interface Config {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsonNodeComponent implements NgssmExpressionTreeCustomComponent {
-  private readonly store = inject(Store);
-
-  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
-
   public readonly config = signal<Config | undefined>(undefined);
   public readonly node = computed<JsonNode | undefined>(() => {
     const currentConfig = this.config();
@@ -40,6 +36,10 @@ export class JsonNodeComponent implements NgssmExpressionTreeCustomComponent {
   public readonly canDelete = signal(false);
 
   public readonly jsonNodeType = JsonNodeType;
+
+  private readonly store = inject(Store);
+
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
 
   public setup(treeId: string, nodeId: string): void {
     if (this.config()) {

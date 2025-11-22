@@ -34,11 +34,6 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmTreeDemoComponent {
-  private readonly store = inject(Store);
-
-  private readonly nodes = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.nodes);
-  private readonly selecteNode = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.selectedNode);
-
   public readonly selectedNodeChildren = computed<NgssmTreeNode[]>(() => {
     const selected = this.selecteNode();
     if (!selected) {
@@ -110,4 +105,9 @@ export class NgssmTreeDemoComponent {
     keepSelection: false,
     canSaveOnDiskColumnStates: true
   };
+
+  private readonly store = inject(Store);
+
+  private readonly nodes = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.nodes);
+  private readonly selecteNode = createSignal((state) => selectNgssmTreeState(state).trees['demo']?.selectedNode);
 }

@@ -36,10 +36,6 @@ import { WrapperComponent } from '../wrapper/wrapper.component';
   }
 })
 export class ShellComponent {
-  private readonly store = inject(Store);
-  private readonly navigationBarOpen = createSignal((state) => selectShellState(state).navigationBarOpen);
-  private readonly navigationBarLockStatus = createSignal((state) => selectShellState(state).navigationBarLockStatus);
-
   public readonly shellConfig = input<ShellConfig>();
 
   public readonly notificationsCount = createSignal((state) => selectShellState(state).shellNotifications.notifications.length);
@@ -62,6 +58,10 @@ export class ShellComponent {
 
     return isOpen;
   });
+
+  private readonly store = inject(Store);
+  private readonly navigationBarOpen = createSignal((state) => selectShellState(state).navigationBarOpen);
+  private readonly navigationBarLockStatus = createSignal((state) => selectShellState(state).navigationBarLockStatus);
 
   public toggleNavigationBarState(): void {
     this.store.dispatchActionType(ShellActionType.toggleNavigationBarState);

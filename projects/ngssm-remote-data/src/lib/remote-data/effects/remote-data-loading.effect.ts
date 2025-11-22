@@ -9,6 +9,8 @@ import { selectRemoteDataState } from '../state';
 
 @Injectable()
 export class RemoteDataLoadingEffect implements Effect {
+  public readonly processedActions: string[] = [RemoteDataActionType.loadRemoteData];
+
   private readonly remoteDataProviders: RemoteDataProvider[] | null = inject(NGSSM_REMOTE_DATA_PROVIDER, {
     optional: true
   }) as unknown as RemoteDataProvider[];
@@ -16,8 +18,6 @@ export class RemoteDataLoadingEffect implements Effect {
   private readonly injector = inject(EnvironmentInjector);
 
   private readonly remoteDataProvidersPerKey: Map<string, RemoteDataProvider>;
-
-  public readonly processedActions: string[] = [RemoteDataActionType.loadRemoteData];
 
   constructor() {
     this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((this.remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));

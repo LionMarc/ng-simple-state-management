@@ -15,12 +15,6 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TreeDemoResultsViewerComponent {
-  private readonly store = inject(Store);
-
-  private readonly treeId = signal<string | undefined>(undefined);
-  private readonly trees = createSignal((state) => selectNgssmTreeState(state).trees);
-  private readonly matchingNodes = createSignal((state) => selectNgssmTreeState(state).treeNodesSearch.matchingNodes);
-
   public readonly nodes = computed<NgssmTreeNode[]>(() => {
     const currentTreeId = this.treeId();
     if (!currentTreeId) {
@@ -63,6 +57,12 @@ export class TreeDemoResultsViewerComponent {
     keepSelection: false,
     canSaveOnDiskColumnStates: true
   };
+
+  private readonly store = inject(Store);
+
+  private readonly treeId = signal<string | undefined>(undefined);
+  private readonly trees = createSignal((state) => selectNgssmTreeState(state).trees);
+  private readonly matchingNodes = createSignal((state) => selectNgssmTreeState(state).treeNodesSearch.matchingNodes);
 
   constructor() {
     const treeState = selectNgssmTreeState(this.store.state());

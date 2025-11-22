@@ -25,8 +25,6 @@ import { JsonBuilderActionType } from '../../actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsonBuilderComponent implements OnDestroy {
-  private readonly store = inject(Store);
-
   public readonly treeConfig: NgssmExpressionTreeConfig<JsonNode> = {
     treeId: 'json-builder-demo',
     rowSize: 40,
@@ -43,6 +41,8 @@ export class JsonBuilderComponent implements OnDestroy {
   public readonly tree = createSignal<NgssmExpressionTree<JsonNode>>(
     (state) => selectNgssmExpressionTreeState(state).trees[this.treeConfig.treeId] as NgssmExpressionTree<JsonNode>
   );
+
+  private readonly store = inject(Store);
 
   constructor() {
     const nextNodeId = selectJsonBuilderState(this.store.state()).nextNodeId;

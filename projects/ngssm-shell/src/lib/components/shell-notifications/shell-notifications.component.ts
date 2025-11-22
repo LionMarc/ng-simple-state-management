@@ -20,17 +20,17 @@ import { ShellNotificationComponent } from '../shell-notification/shell-notifica
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellNotificationsComponent {
-  private readonly store = inject(Store);
-  private readonly selectedNotificaitonIndex = createSignal(
-    (state) => selectShellState(state).shellNotifications.selectedNotificaitonIndex
-  );
-
   public readonly notificationSelected = signal<boolean>(false);
   public readonly notifications = createSignal((state) => selectShellState(state).shellNotifications.notifications);
   public readonly details = signal<string>('');
 
   public readonly shellNotificationType = ShellNotificationType;
   public readonly ngssmAceEditorMode = NgssmAceEditorMode;
+
+  private readonly store = inject(Store);
+  private readonly selectedNotificaitonIndex = createSignal(
+    (state) => selectShellState(state).shellNotifications.selectedNotificaitonIndex
+  );
 
   constructor() {
     effect(() => {

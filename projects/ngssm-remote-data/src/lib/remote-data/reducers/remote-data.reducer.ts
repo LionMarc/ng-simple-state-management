@@ -8,13 +8,13 @@ import { selectRemoteDataState, updateRemoteDataState } from '../state';
 
 @Injectable()
 export class RemoteDataReducer implements Reducer {
+  public readonly processedActions: string[] = [RemoteDataActionType.loadRemoteData, RemoteDataActionType.registerLoadedRemoteData];
+
   private readonly remoteDataProviders: RemoteDataProvider[] | null = inject(NGSSM_REMOTE_DATA_PROVIDER, {
     optional: true
   }) as unknown as RemoteDataProvider[];
 
   private readonly remoteDataProvidersPerKey: Map<string, RemoteDataProvider>;
-
-  public readonly processedActions: string[] = [RemoteDataActionType.loadRemoteData, RemoteDataActionType.registerLoadedRemoteData];
 
   constructor() {
     this.remoteDataProvidersPerKey = new Map<string, RemoteDataProvider>((this.remoteDataProviders ?? []).map((r) => [r.remoteDataKey, r]));

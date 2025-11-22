@@ -16,6 +16,13 @@ import { NgssmAceEditorMode } from '../ngssm-ace-editor-mode';
   styleUrls: ['./ngssm-ace-editor.component.scss']
 })
 export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('aceEditor') public aceEditorDiv: ElementRef | undefined;
+  @Output() public contentChanged = new EventEmitter<string>();
+  @Output() public isValidChanged = new EventEmitter<boolean>();
+  @Output() public editorReady = new EventEmitter<NgssmAceEditorApi>();
+
+  public api: NgssmAceEditorApi | undefined;
+
   private readonly aceBuildsLoader = inject(AceBuildsLoader);
   private readonly zone = inject(NgZone);
 
@@ -23,13 +30,6 @@ export class NgssmAceEditorComponent implements AfterViewInit, OnDestroy {
   private initialReadonly = true;
   private initialEditorMode: string = NgssmAceEditorMode.text;
   private silentContentUpdate = false;
-
-  @ViewChild('aceEditor') public aceEditorDiv: ElementRef | undefined;
-  @Output() public contentChanged = new EventEmitter<string>();
-  @Output() public isValidChanged = new EventEmitter<boolean>();
-  @Output() public editorReady = new EventEmitter<NgssmAceEditorApi>();
-
-  public api: NgssmAceEditorApi | undefined;
 
   public get loading$(): Observable<boolean> {
     return this.aceBuildsLoader.loading$;

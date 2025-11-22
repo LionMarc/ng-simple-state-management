@@ -128,10 +128,10 @@ interface ActionButton {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmActionsCellRendererComponent implements ICellRendererAngularComp {
+  public readonly actionButtons = signal<ActionButton[]>([]);
+
   private environmentInjector = inject(EnvironmentInjector);
   private cellParams: ICellRendererParams | undefined;
-
-  public readonly actionButtons = signal<ActionButton[]>([]);
 
   public agInit(params: ICellRendererParams): void {
     this.cellParams = params;

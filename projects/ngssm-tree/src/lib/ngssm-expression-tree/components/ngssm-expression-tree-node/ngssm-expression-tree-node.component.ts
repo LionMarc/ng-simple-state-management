@@ -41,10 +41,6 @@ const getDefaultCutAndPaste = (): CutAndPaste => ({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeNodeComponent {
-  private readonly store = inject(Store);
-  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
-  private readonly tree = signal<NgssmExpressionTree | undefined>(undefined);
-
   public readonly nodeId = input<string | null | undefined>();
   public readonly treeConfig = input<NgssmExpressionTreeConfig | null | undefined>(undefined);
 
@@ -54,6 +50,10 @@ export class NgssmExpressionTreeNodeComponent {
   public readonly cutAndPaste = signal<CutAndPaste>(getDefaultCutAndPaste());
   public readonly componentAction = signal<NgssmComponentAction | undefined>(undefined);
   public readonly componentToDisplay = signal<Type<unknown> | undefined>(undefined);
+
+  private readonly store = inject(Store);
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
+  private readonly tree = signal<NgssmExpressionTree | undefined>(undefined);
 
   constructor() {
     effect(() => {

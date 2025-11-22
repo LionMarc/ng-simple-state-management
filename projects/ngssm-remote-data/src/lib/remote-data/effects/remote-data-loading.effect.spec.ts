@@ -19,8 +19,9 @@ const remoteDataKeyForClass = 'remote-data-key-for-class';
   providedIn: 'root'
 })
 class RemoteDataTesting implements RemoteDataProvider {
-  private readonly httpClient = inject(HttpClient);
   public remoteDataKey: string = remoteDataKeyForClass;
+
+  private readonly httpClient = inject(HttpClient);
 
   public get(): Observable<string[]> {
     return this.httpClient.get<string[]>('/testing-class');

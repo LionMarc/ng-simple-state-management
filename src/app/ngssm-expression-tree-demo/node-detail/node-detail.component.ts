@@ -19,9 +19,6 @@ interface Config {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeDetailComponent implements NgssmExpressionTreeCustomComponent {
-  private readonly config = signal<Config | undefined>(undefined);
-  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
-
   public readonly node = computed<Filter | null>(() => {
     const currentConfig = this.config();
     if (!currentConfig) {
@@ -30,6 +27,9 @@ export class NodeDetailComponent implements NgssmExpressionTreeCustomComponent {
 
     return this.trees()[currentConfig.treeId].data[currentConfig.nodeId] as Filter;
   });
+
+  private readonly config = signal<Config | undefined>(undefined);
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
 
   public setup(treeId: string, nodeId: string): void {
     this.config.set({ nodeId, treeId });

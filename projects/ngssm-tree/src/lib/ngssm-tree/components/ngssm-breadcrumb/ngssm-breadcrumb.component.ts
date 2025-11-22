@@ -17,12 +17,12 @@ import { SelectNodeAction } from '../../actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmBreadcrumbComponent {
-  private readonly store = inject(Store);
-  private readonly treeState = createSignal((state) => selectNgssmTreeState(state));
-
   public readonly treeId = input<string | undefined>(undefined);
 
   public readonly nodes = signal<NodeData[]>([]);
+
+  private readonly store = inject(Store);
+  private readonly treeState = createSignal((state) => selectNgssmTreeState(state));
 
   constructor() {
     effect(() => {

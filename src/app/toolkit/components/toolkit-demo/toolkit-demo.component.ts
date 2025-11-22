@@ -51,11 +51,6 @@ export class TestingFilePickerInitialization {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolkitDemoComponent {
-  private readonly store = inject(Store);
-  private readonly ngssmNotifierService = inject(NgssmNotifierService);
-  private readonly ngssmConfirmationDialogService = inject(NgssmConfirmationDialogService);
-  private readonly testingFilePickerInitialization = inject(TestingFilePickerInitialization);
-
   public readonly componentAction = signal<NgssmComponentAction | null>(null);
 
   public readonly fileControl = new FormControl<File | undefined>(undefined, Validators.required);
@@ -71,6 +66,11 @@ export class ToolkitDemoComponent {
   public readonly helpTesting = `
   <p>Using Input as help setter</p>
   `;
+
+  private readonly store = inject(Store);
+  private readonly ngssmNotifierService = inject(NgssmNotifierService);
+  private readonly ngssmConfirmationDialogService = inject(NgssmConfirmationDialogService);
+  private readonly testingFilePickerInitialization = inject(TestingFilePickerInitialization);
 
   constructor() {
     this.filePickerDisabledControl.valueChanges.subscribe((v) => {

@@ -34,12 +34,6 @@ import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmTreeSearchDialogComponent {
-  private readonly store = inject(Store);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
-  private readonly dataServices: NgssmTreeDataService[] = inject(NGSSM_TREE_DATA_SERVICE, {
-    optional: true
-  }) as unknown as NgssmTreeDataService[];
-
   public readonly resultsViewerContainer = viewChild('resultsViewerContainer', { read: ViewContainerRef });
 
   public readonly searchStatus = SearchStatus;
@@ -51,6 +45,12 @@ export class NgssmTreeSearchDialogComponent {
     Validators.required,
     (c) => this.validatedRegex(c)
   ]);
+
+  private readonly store = inject(Store);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly dataServices: NgssmTreeDataService[] = inject(NGSSM_TREE_DATA_SERVICE, {
+    optional: true
+  }) as unknown as NgssmTreeDataService[];
 
   constructor() {
     const effectRef = effect(() => {

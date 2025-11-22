@@ -15,15 +15,6 @@ import { defaultAgGridColumnsEvents, NgssmAgGridConfig } from './ngssm-ag-grid-c
   selector: '[ngssmAgGrid]'
 })
 export class NgssmAgGridDirective {
-  private readonly logger = inject(Logger);
-  private readonly store = inject(Store);
-  private readonly agGridAngular = inject(AgGridAngular);
-  private readonly injector = inject(Injector);
-
-  private readonly gridInitialized = signal(false);
-  private readonly gridStates = createSignal((state) => selectAgGridState(state).gridStates);
-  private readonly selectedRows = createSignal((state) => selectAgGridState(state).selectedRows);
-
   public readonly config = input.required<NgssmAgGridConfig, string | NgssmAgGridConfig>({
     alias: 'ngssmAgGrid',
     transform: (v) => {
@@ -39,6 +30,15 @@ export class NgssmAgGridDirective {
       };
     }
   });
+
+  private readonly logger = inject(Logger);
+  private readonly store = inject(Store);
+  private readonly agGridAngular = inject(AgGridAngular);
+  private readonly injector = inject(Injector);
+
+  private readonly gridInitialized = signal(false);
+  private readonly gridStates = createSignal((state) => selectAgGridState(state).gridStates);
+  private readonly selectedRows = createSignal((state) => selectAgGridState(state).selectedRows);
 
   constructor() {
     this.logger.information(`[NgssmAgGridDirective] Initialization...`);

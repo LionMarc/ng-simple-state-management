@@ -7,9 +7,9 @@ import { ChangeOrigin, selectAgGridState } from '../state';
 
 @Injectable()
 export class LocalStorageEffect implements Effect {
-  private readonly logger = inject(Logger);
-
   public readonly processedActions: string[] = [AgGridActionType.saveColumnStatesOnDisk, AgGridActionType.resetColumnStatesFromDisk];
+
+  private readonly logger = inject(Logger);
 
   public processAction(actiondispatcher: ActionDispatcher, state: State, action: Action): void {
     const agGridAction = action as AgGridAction;

@@ -38,13 +38,6 @@ import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemoteDataDemoComponent {
-  private readonly store = inject(Store);
-
-  protected readonly waitingOverlayRendered = createSignal((state) => isNgssmRemoteCallInProgress(state, 'demo'));
-  protected readonly areRemoteDataLoading = createSignal((state) =>
-    this.dataStatusKeys.some((k) => selectRemoteData(state, k)?.status === DataStatus.loading)
-  );
-
   public readonly dataStatus = DataStatus;
   public readonly dataStatusList = [DataStatus.loading, DataStatus.loaded];
   public readonly dataStatusKeys = ['key1', 'key2', 'key3'];
@@ -57,6 +50,13 @@ export class RemoteDataDemoComponent {
     const values = this.dataStatusKeys.map((k) => selectRemoteData(state, k)?.status);
     return values.map((v, i) => `${this.dataStatusKeys[i]} - ${v}`);
   });
+
+  protected readonly waitingOverlayRendered = createSignal((state) => isNgssmRemoteCallInProgress(state, 'demo'));
+  protected readonly areRemoteDataLoading = createSignal((state) =>
+    this.dataStatusKeys.some((k) => selectRemoteData(state, k)?.status === DataStatus.loading)
+  );
+
+  private readonly store = inject(Store);
 
   public startCall(): void {
     this.store.dispatchActionType(RemoteDataDemoActionType.startRemoteCall);

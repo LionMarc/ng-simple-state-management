@@ -20,15 +20,15 @@ const datePipe = new DatePipe('en-US');
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmRemoteDataReloadButtonComponent {
-  private readonly store = inject(Store);
-  private readonly remoteDataState = createSignal((state) => selectRemoteDataState(state));
-
   public readonly tooltipMessage = signal<string>('');
   public readonly disabled = signal<boolean>(true);
   public readonly inLoadingStatus = signal<boolean>(false);
 
   public actionTypes = input<string[]>([]);
   public remoteDataKeys = input<string[]>([]);
+
+  private readonly store = inject(Store);
+  private readonly remoteDataState = createSignal((state) => selectRemoteDataState(state));
 
   constructor() {
     effect(() => {

@@ -23,14 +23,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoItemEditorComponent {
-  private readonly store = inject(Store);
-
-  private readonly todoItem = dataSourceToSignal<TodoItem | undefined>(todoItemKey);
-
   public readonly dialogTitle = signal<string>('');
   public readonly submitLabel = signal<string>('Create to-do');
   public readonly titleControl = new FormControl<string | null>(null, Validators.required);
   public readonly submittingTodo = createSignal<boolean>((state) => selectTodoState(state).todoItemEditor.submissionInProgress);
+
+  private readonly store = inject(Store);
+
+  private readonly todoItem = dataSourceToSignal<TodoItem | undefined>(todoItemKey);
 
   constructor() {
     const todoItemId = selectTodoState(this.store.state()).todoItemEditor.todoItemId;

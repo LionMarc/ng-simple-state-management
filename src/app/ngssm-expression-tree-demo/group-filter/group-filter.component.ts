@@ -22,7 +22,6 @@ interface Config {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupFilterComponent implements NgssmExpressionTreeCustomComponent {
-  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
   public readonly config = signal<Config | undefined>(undefined);
   public readonly mustBeDisplayed = computed(() => {
     const currentConfig = this.config();
@@ -33,6 +32,8 @@ export class GroupFilterComponent implements NgssmExpressionTreeCustomComponent 
     const item = this.trees()[currentConfig.treeId]?.data[currentConfig.nodeId] as Filter;
     return item.type === FilterType.and || item.type === FilterType.or;
   });
+
+  private readonly trees = createSignal((state) => selectNgssmExpressionTreeState(state).trees);
 
   constructor() {
     console.log('GroupFilterComponent - constructor');

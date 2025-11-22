@@ -28,8 +28,6 @@ import { Entry, databases } from '../database';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgssmExpressionTreeDemoComponent {
-  private readonly store = inject(Store);
-
   public readonly treeConfig: NgssmExpressionTreeConfig<Filter> = {
     treeId: 'demo-expression-tree',
     disableVirtualization: true,
@@ -87,6 +85,8 @@ export class NgssmExpressionTreeDemoComponent {
       return false;
     }
   };
+
+  private readonly store = inject(Store);
 
   constructor() {
     const nodes: NgssmNode<Filter>[] = [];

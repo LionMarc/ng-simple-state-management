@@ -8,9 +8,9 @@ import { ShellNotificationPopupComponent } from '../components';
 
 @Injectable()
 export class NotificationShowingEffect implements Effect {
-  private readonly snackBar = inject(MatSnackBar);
-
   public readonly processedActions: string[] = [ShellActionType.displayNotification];
+
+  private readonly snackBar = inject(MatSnackBar);
 
   public processAction(): void {
     this.snackBar.openFromComponent(ShellNotificationPopupComponent, {
