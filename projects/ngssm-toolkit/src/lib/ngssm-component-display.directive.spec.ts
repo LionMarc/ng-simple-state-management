@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
-
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
+import { Component, signal, Type } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-component-display.directive';
 
@@ -25,12 +23,12 @@ class SecondComponent {
 }
 
 @Component({
-  template: ` <div [ngssmComponentDisplay]="componentToDisplay$ | async" [ngssmComponentAction]="componentAction$ | async"></div> `,
+  template: ` <div [ngssmComponentDisplay]="componentToDisplay()" [ngssmComponentAction]="componentAction()"></div> `,
   imports: [NgssmComponentDisplayDirective]
 })
 class TestingComponent {
-  public readonly componentToDisplay$ = new BehaviorSubject<unknown>(FirstComponent);
-  public readonly componentAction$ = new BehaviorSubject<NgssmComponentAction | null>(null);
+  public readonly componentToDisplay = signal<Type<unknown>>(FirstComponent);
+  public readonly componentAction = signal<NgssmComponentAction | null>(null);
 }
 
 describe('NgssmComponentDisplayDirective', () => {
@@ -40,7 +38,7 @@ describe('NgssmComponentDisplayDirective', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestingComponent],
-      teardown: { destroyAfterEach: false }
+      teardown: { destroyAfterEach: true }
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestingComponent);
@@ -56,7 +54,7 @@ describe('NgssmComponentDisplayDirective', () => {
   });
 
   it('should render the SecondComponent when updating the component to display', async () => {
-    component.componentToDisplay$.next(SecondComponent);
+    component.componentToDisplay.set(SecondComponent);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -67,7 +65,7 @@ describe('NgssmComponentDisplayDirective', () => {
   });
 
   it('should render the new title when component action is updated', async () => {
-    component.componentAction$.next((component) => ((component as FirstComponent).title = 'New Title'));
+    component.componentAction.set((component) => ((component as FirstComponent).title = 'New Title'));
 
     fixture.detectChanges();
     await fixture.whenStable();
