@@ -28,7 +28,7 @@ import { WrapperComponent } from '../wrapper/wrapper.component';
     SideNavComponent,
     ShellNotificationsComponent,
     WrapperComponent
-],
+  ],
   templateUrl: './shell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

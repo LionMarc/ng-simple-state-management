@@ -17,14 +17,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'ngssm-todo-item-editor',
-  imports: [
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatProgressSpinnerModule,
-    MatInputModule,
-    MatButtonModule
-],
+  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule],
   templateUrl: './todo-item-editor.component.html',
   styleUrls: ['./todo-item-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -41,7 +41,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
     NgssmComponentOverlayDirective,
     NgssmDataReloadButtonComponent,
     TodoItemComponent
-],
+  ],
   templateUrl: './todo-dashboard.component.html',
   styleUrls: ['./todo-dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

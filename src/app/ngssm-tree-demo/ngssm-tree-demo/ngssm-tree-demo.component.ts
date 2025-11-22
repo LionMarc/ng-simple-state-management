@@ -28,7 +28,7 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
     NgssmBreadcrumbComponent,
     NgssmAgGridDirective,
     NgssmAgGridThemeDirective
-],
+  ],
   templateUrl: './ngssm-tree-demo.component.html',
   styleUrls: ['./ngssm-tree-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

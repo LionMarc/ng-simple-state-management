@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-
 import { selectNgssmDataSourceValue } from 'ngssm-data';
 import { createSignal } from 'ngssm-store';
 

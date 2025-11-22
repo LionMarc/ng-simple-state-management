@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, ElementRef, Type, input, output, inject, effect, signal } from '@angular/core';
 
-
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from 'ngssm-toolkit';
 
 import { NgssmExpressionTreeConfig, NgssmExpressionTreeCustomComponent } from '../../model';

@@ -8,15 +8,15 @@
         <div class="sidebar-menu flex-column-stretch">
           <mat-icon
             class="fa-regular fa-folder-open"
-            [toggleElementVisibility]="explorerVisible.key"
+            [ngssmToggleElementVisibility]="explorerVisible.key"
             [class.selected]="explorerVisible.visible()"></mat-icon>
           <mat-icon
             class="fa-solid fa-magnifying-glass"
-            [toggleElementVisibility]="searchVisible.key"
+            [ngssmToggleElementVisibility]="searchVisible.key"
             [class.selected]="searchVisible.visible()"></mat-icon>
           <mat-icon
             class="fa-solid fa-bug"
-            [toggleElementVisibility]="bugsVisible.key"
+            [ngssmToggleElementVisibility]="bugsVisible.key"
             [class.selected]="bugsVisible.visible()"></mat-icon>
         </div>
         @if (explorerVisible.visible()) {
@@ -35,22 +35,22 @@
     <mat-card class="flex-column-stretch fxFlex">
       <mat-card-header>
         <mat-card-title class="flex-row-center">
-          <button mat-stroked-button color="primary" [showElement]="'centerPart'">Show center</button>
-          <button mat-stroked-button color="primary" [hideElement]="'centerPart'" class="with-margin-left-12">Hide center</button>
+          <button mat-stroked-button color="primary" [ngssmShowElement]="'centerPart'">Show center</button>
+          <button mat-stroked-button color="primary" [ngssmHideElement]="'centerPart'" class="with-margin-left-12">Hide center</button>
           <span class="fxFlex"></span>
-          <ngssm-visibility-toggle-group [items]="visibilityItems" class="visibility-selector"> </ngssm-visibility-toggle-group>
+          <ngssm-visibility-toggle-group [items]="visibilityItems" class="visibility-selector" />
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="flex-row-stretch fxFlex">
-        @if (store.state() | isElementVisible: 'leftPart') {
+        @if (store.state() | ngssmIsElementVisible: 'leftPart') {
           <mat-card class="fxFlex left-container"> LEFT </mat-card>
         }
 
-        @if (store.state() | isElementVisible: 'centerPart') {
+        @if (store.state() | ngssmIsElementVisible: 'centerPart') {
           <mat-card class="fxFlex center-container"> CENTER </mat-card>
         }
 
-        @if (store.state() | isElementVisible: 'rightPart') {
+        @if (store.state() | ngssmIsElementVisible: 'rightPart') {
           <mat-card class="fxFlex right-container"> RIGHT </mat-card>
         }
       </mat-card-content>

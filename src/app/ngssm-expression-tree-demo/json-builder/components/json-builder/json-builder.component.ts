@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, effect, inject, OnDestroy } from '@angular/core';
 
-
 import { createSignal, Store } from 'ngssm-store';
 import {
   CutAndPasteTarget,

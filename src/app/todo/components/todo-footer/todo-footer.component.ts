@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-
 import { selectRemoteData } from 'ngssm-remote-data';
 import { createSignal } from 'ngssm-store';
 

@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, ViewContainerRef, Type, inject, signal, input, effect } from '@angular/core';
 
-
 @Component({
   selector: 'ngssm-wrapper',
   imports: [],

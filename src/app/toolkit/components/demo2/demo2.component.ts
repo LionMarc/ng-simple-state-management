@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 
-
 @Component({
   selector: 'ngssm-demo2',
   imports: [],

@@ -1,32 +1,34 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 import { Store } from 'ngssm-store';
 import {
   DefineElementsGroupAction,
-  HideElementDirective,
-  IsElementVisiblePipe,
-  ShowElementDirective,
-  ToggleElementVisibilityDirective,
-  VisibilityToggleGroupComponent,
-  isElementVisible
+  isElementVisible,
+  NgssmToggleElementVisibility,
+  NgssmHideElement,
+  NgssmShowElement,
+  NgssmVisibilityToggleGroup,
+  NgssmIsElementVisiblePipe
 } from 'ngssm-store/visibility';
 
 @Component({
   selector: 'ngssm-visibility-demo',
   imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    ToggleElementVisibilityDirective,
-    IsElementVisiblePipe,
-    ShowElementDirective,
-    HideElementDirective,
-    VisibilityToggleGroupComponent
-],
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatIcon,
+    MatButton,
+    NgssmToggleElementVisibility,
+    NgssmHideElement,
+    NgssmShowElement,
+    NgssmVisibilityToggleGroup,
+    NgssmIsElementVisiblePipe
+  ],
   templateUrl: './visibility-demo.component.html',
   styleUrls: ['./visibility-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -34,15 +36,16 @@ import {
 export class VisibilityDemoComponent {
   protected store = inject(Store);
 
-  public readonly explorerVisible = isElementVisible('explorer');
-  public readonly searchVisible = isElementVisible('search');
-  public readonly bugsVisible = isElementVisible('bugs');
+  protected readonly explorerVisible = isElementVisible('explorer');
+  protected readonly searchVisible = isElementVisible('search');
+  protected readonly bugsVisible = isElementVisible('bugs');
 
-  public readonly visibilityItems: { key: string; label: string }[] = [
+  protected readonly visibilityItems: { key: string; label: string }[] = [
     { key: 'leftPart', label: 'Left' },
     { key: 'centerPart', label: 'Center' },
     { key: 'rightPart', label: 'Right' }
   ];
+
   constructor() {
     this.store.dispatchAction(new DefineElementsGroupAction(['explorer', 'search', 'bugs']));
   }

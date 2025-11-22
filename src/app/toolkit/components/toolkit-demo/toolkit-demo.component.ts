@@ -1,4 +1,3 @@
-
 import { Component, ChangeDetectionStrategy, Injectable, Type, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -46,7 +45,7 @@ export class TestingFilePickerInitialization {
     NgssmComponentDisplayDirective,
     NgssmHelpComponent,
     OverlayDemoComponent
-],
+  ],
   templateUrl: './toolkit-demo.component.html',
   styleUrls: ['./toolkit-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

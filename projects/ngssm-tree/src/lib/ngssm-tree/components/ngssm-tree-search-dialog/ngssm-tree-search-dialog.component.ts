@@ -28,7 +28,7 @@ import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../
     MatCardModule,
     MatIconModule,
     MatProgressSpinnerModule
-],
+  ],
   templateUrl: './ngssm-tree-search-dialog.component.html',
   styleUrls: ['./ngssm-tree-search-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
