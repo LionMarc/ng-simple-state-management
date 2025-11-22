@@ -1,37 +1,33 @@
+import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
-
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { By } from '@angular/platform-browser';
 import { MatButtonHarness } from '@angular/material/button/testing';
 
-import { StoreMock } from 'ngssm-store/testing';
+import { provideNgssmStoreTesting, StoreMock } from 'ngssm-store/testing';
 import { Store } from 'ngssm-store';
 
-import { HideElementDirective } from './hide-element.directive';
 import { NgssmVisibilityStateSpecification } from '../state';
 import { HideElementAction, NgssmVisibilityActionType } from '../actions';
+import { NgssmHideElement } from './ngssm-hide-element';
 
 @Component({
-  template: ` <button mat-raised-button [hideElement]="'element-one'" id="buttonId">Hide Element</button> `,
-  imports: [MatButtonModule, HideElementDirective]
+  template: ` <button mat-raised-button [ngssmHideElement]="'element-one'" id="buttonId">Hide Element</button> `,
+  imports: [MatButtonModule, NgssmHideElement]
 })
 class TestingComponent {}
 
-describe('HideElementDirective', () => {
+describe('NgssmHideElement', () => {
   let fixture: ComponentFixture<TestingComponent>;
-  let store: StoreMock;
+  let storeMock: StoreMock;
   let loader: HarnessLoader;
 
   beforeEach(async () => {
-    store = new StoreMock({
-      [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
-    });
     await TestBed.configureTestingModule({
       imports: [TestingComponent],
-      providers: [{ provide: Store, useValue: store }],
+      providers: [provideNgssmStoreTesting()],
       teardown: { destroyAfterEach: true }
     }).compileComponents();
 
@@ -40,11 +36,18 @@ describe('HideElementDirective', () => {
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
 
-    spyOn(store, 'dispatchAction');
+    storeMock = TestBed.inject(Store) as unknown as StoreMock;
+
+    storeMock.stateValue = {
+      ...storeMock.stateValue,
+      [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
+    };
+
+    spyOn(storeMock, 'dispatchAction');
   });
 
   it('should create an instance', () => {
-    const directive = fixture.debugElement.query(By.directive(HideElementDirective)).injector.get(HideElementDirective);
+    const directive = fixture.debugElement.query(By.directive(NgssmHideElement)).injector.get(NgssmHideElement);
     expect(directive).toBeTruthy();
   });
 
@@ -53,6 +56,6 @@ describe('HideElementDirective', () => {
 
     await button.click();
 
-    expect(store.dispatchAction).toHaveBeenCalledWith(new HideElementAction('element-one'));
+    expect(storeMock.dispatchAction).toHaveBeenCalledWith(new HideElementAction('element-one'));
   });
 });

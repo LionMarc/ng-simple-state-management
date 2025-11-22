@@ -1,17 +1,17 @@
 import { State } from 'ngssm-store';
 import { NgssmVisibilityStateSpecification, updateNgssmVisibilityState } from '../state';
-import { IsElementVisiblePipe } from './is-element-visible.pipe';
+import { NgssmIsElementVisiblePipe } from './ngssm-is-element-visible.pipe';
 
-describe('IsElementVisiblePipe', () => {
+describe('NgssmIsElementVisiblePipe', () => {
   let state: State;
-  let pipe: IsElementVisiblePipe;
+  let pipe: NgssmIsElementVisiblePipe;
 
   beforeEach(() => {
     state = {
       [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
     };
 
-    pipe = new IsElementVisiblePipe();
+    pipe = new NgssmIsElementVisiblePipe();
   });
 
   it(`should return true when element is set as visible`, () => {
