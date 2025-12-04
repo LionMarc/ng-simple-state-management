@@ -11,7 +11,7 @@ describe('ProvideNgssmFeatureStateDirective', () => {
 
   beforeEach(async () => {
     store = new StoreMock({});
-    spyOn(store, 'dispatchAction');
+    vi.spyOn(store, 'dispatchAction');
     await TestBed.configureTestingModule({
       imports: [ProvideNgssmFeatureStateDirectiveTestComponent],
       providers: [{ provide: Store, useValue: store }],

@@ -10,6 +10,7 @@ describe('ConsoleAppender', () => {
     TestBed.configureTestingModule({});
     logger = TestBed.inject(Logger);
     appender = TestBed.inject(ConsoleAppender);
+    vi.restoreAllMocks();
   });
 
   describe('when appender is started', () => {
@@ -18,7 +19,7 @@ describe('ConsoleAppender', () => {
     });
 
     it('should display a message in the console when an info LogEvent is emitted', () => {
-      spyOn(console, 'log');
+      vi.spyOn(console, 'log');
 
       logger.information('Testing message');
 
@@ -31,7 +32,7 @@ describe('ConsoleAppender', () => {
       });
 
       it('should not display a message in the console when an info LogEvent is emitted', () => {
-        spyOn(console, 'log');
+        vi.spyOn(console, 'log');
 
         logger.information('Testing message');
 

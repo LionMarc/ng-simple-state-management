@@ -2,68 +2,61 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
     "paths": {
       "ngssm-ace-editor": [
-        "dist/ngssm-ace-editor"
+        "./dist/ngssm-ace-editor"
       ],
       "ngssm-ag-grid": [
-        "dist/ngssm-ag-grid"
+        "./dist/ngssm-ag-grid"
       ],
       "ngssm-data": [
-        "dist/ngssm-data"
+        "./dist/ngssm-data"
       ],
       "ngssm-navigation": [
-        "dist/ngssm-navigation"
+        "./dist/ngssm-navigation"
       ],
       "ngssm-remote-data": [
-        "dist/ngssm-remote-data"
+        "./dist/ngssm-remote-data"
       ],
       "ngssm-remote-data/*": [
-        "dist/ngssm-remote-data/*"
+        "./dist/ngssm-remote-data/*"
       ],
       "ngssm-schematics": [
-        "dist/ngssm-schematics"
+        "./dist/ngssm-schematics"
       ],
       "ngssm-shell": [
-        "dist/ngssm-shell"
+        "./dist/ngssm-shell"
       ],
       "ngssm-smusdi": [
         "./dist/ngssm-smusdi"
       ],
       "ngssm-store": [
-        "dist/ngssm-store"
+        "./dist/ngssm-store"
       ],
       "ngssm-store/*": [
-        "dist/ngssm-store/*"
+        "./dist/ngssm-store/*"
       ],
       "ngssm-toolkit": [
-        "dist/ngssm-toolkit"
+        "./dist/ngssm-toolkit"
       ],
       "ngssm-toolkit/*": [
-        "dist/ngssm-toolkit/*"
+        "./dist/ngssm-toolkit/*"
       ],
       "ngssm-tree": [
-        "dist/ngssm-tree"
+        "./dist/ngssm-tree"
       ]
-    },
-    "declaration": false,
-    "experimentalDecorators": true,
-    "moduleResolution": "bundler",
-    "importHelpers": true,
-    "target": "ES2022",
-    "module": "es2020",
-    "useDefineForClassFields": false
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -71,10 +64,49 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "include": [
-    "src",
-    "projects",
-    "samples"
-  ],
-  "exclude": []
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-store/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-store/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-navigation/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-navigation/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-ag-grid/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-ag-grid/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-data/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-data/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-tree/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-tree/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-schematics/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-schematics/tsconfig.spec.json"
+    }
+  ]
 }

@@ -6,38 +6,38 @@ import { NgssmNotificationSuccessComponent } from './ngssm-notification-success/
 import { NgssmNotifierService } from './ngssm-notifier.service';
 
 describe('NgssmNotifierService', () => {
-  let service: NgssmNotifierService;
-  let snackbar: MatSnackBar;
+    let service: NgssmNotifierService;
+    let snackbar: MatSnackBar;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [MatSnackBarModule] });
-    service = TestBed.inject(NgssmNotifierService);
-    snackbar = TestBed.inject(MatSnackBar);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should display a NgssmNotificationErrorComponent when displaying an error', () => {
-    spyOn(snackbar, 'openFromComponent');
-
-    service.notifyError('Error message');
-
-    expect(snackbar.openFromComponent).toHaveBeenCalledWith(NgssmNotificationErrorComponent, {
-      panelClass: 'ngssm-notification-panel',
-      data: 'Error message'
+    beforeEach(() => {
+        TestBed.configureTestingModule({ imports: [MatSnackBarModule] });
+        service = TestBed.inject(NgssmNotifierService);
+        snackbar = TestBed.inject(MatSnackBar);
     });
-  });
 
-  it('should display a NgssmNotificationSuccessComponent when displaying success', () => {
-    spyOn(snackbar, 'openFromComponent');
-
-    service.notifySuccess('Success message');
-
-    expect(snackbar.openFromComponent).toHaveBeenCalledWith(NgssmNotificationSuccessComponent, {
-      panelClass: 'ngssm-notification-panel',
-      data: 'Success message'
+    it('should be created', () => {
+        expect(service).toBeTruthy();
     });
-  });
+
+    it('should display a NgssmNotificationErrorComponent when displaying an error', () => {
+        vi.spyOn(snackbar, 'openFromComponent');
+
+        service.notifyError('Error message');
+
+        expect(snackbar.openFromComponent).toHaveBeenCalledWith(NgssmNotificationErrorComponent, {
+            panelClass: 'ngssm-notification-panel',
+            data: 'Error message'
+        });
+    });
+
+    it('should display a NgssmNotificationSuccessComponent when displaying success', () => {
+        vi.spyOn(snackbar, 'openFromComponent');
+
+        service.notifySuccess('Success message');
+
+        expect(snackbar.openFromComponent).toHaveBeenCalledWith(NgssmNotificationSuccessComponent, {
+            panelClass: 'ngssm-notification-panel',
+            data: 'Success message'
+        });
+    });
 });

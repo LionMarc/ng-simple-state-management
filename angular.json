@@ -111,28 +111,12 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": [
-              "src/polyfills.ts"
+            "browsers": [
+              "chromium"
             ],
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./dist"
-              ]
-            },
-            "scripts": []
+            "tsConfig": "tsconfig.spec.json"
           }
         },
         "lint": {
@@ -173,19 +157,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-toolkit/src/test.ts",
             "tsConfig": "projects/ngssm-toolkit/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-toolkit/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
+            "reporters": [
+              "junit"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects"
-              ]
-            }
+            "outputFile": "artifacts/tests-results/ngssm-toolkit.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -222,11 +203,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-store/test.ts",
             "tsConfig": "projects/ngssm-store/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-store/karma.conf.js"
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-store.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -263,11 +249,9 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-schematics/src/test.ts",
-            "tsConfig": "projects/ngssm-schematics/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-schematics/karma.conf.js"
+            "tsConfig": "projects/ngssm-schematics/tsconfig.spec.json"
           }
         },
         "lint": {
@@ -309,19 +293,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-remote-data/test.ts",
             "tsConfig": "projects/ngssm-remote-data/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-remote-data/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
+            "reporters": [
+              "junit"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects"
-              ]
-            }
+            "outputFile": "artifacts/tests-results/ngssm-remote-data.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -339,8 +320,8 @@
     "ngssm-navigation": {
       "projectType": "library",
       "root": "projects/ngssm-navigation",
-      "sourceRoot": "projects/ngssm-navigation/src",
-      "prefix": "lib",
+      "sourceRoot": "projects/ngssm-navigation",
+      "prefix": "ngssm",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
@@ -358,11 +339,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-navigation/src/test.ts",
             "tsConfig": "projects/ngssm-navigation/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-navigation/karma.conf.js"
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-navigation.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -399,21 +385,19 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-ag-grid/test.ts",
             "tsConfig": "projects/ngssm-ag-grid/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-ag-grid/karma.conf.js",
-            "styles": [
-              "node_modules/ag-grid-community/styles/ag-grid.css",
-              "node_modules/ag-grid-community/styles/ag-theme-material.css",
-              "src/styles.scss"
+            "setupFiles": [
+              "projects/ngssm-ag-grid/setup_ag-grid.ts"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects"
-              ]
-            }
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-ag-grid.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -455,19 +439,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-shell/src/test.ts",
             "tsConfig": "projects/ngssm-shell/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-shell/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
+            "reporters": [
+              "junit"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects"
-              ]
-            }
+            "outputFile": "artifacts/tests-results/ngssm-shell.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -504,11 +485,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-ace-editor/src/test.ts",
             "tsConfig": "projects/ngssm-ace-editor/tsconfig.spec.json",
-            "karmaConfig": "projects/ngssm-ace-editor/karma.conf.js"
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-ace-editor.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -550,22 +536,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/ngssm-tree/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
+            "reporters": [
+              "junit"
             ],
-            "karmaConfig": "projects/ngssm-tree/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects"
-              ]
-            }
+            "outputFile": "artifacts/tests-results/ngssm-tree.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -602,23 +582,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ngssm-data/test.ts",
             "tsConfig": "projects/ngssm-data/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
+            "reporters": [
+              "junit"
             ],
-            "karmaConfig": "projects/ngssm-data/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects"
-              ]
-            }
+            "outputFile": "artifacts/tests-results/ngssm-data.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -655,14 +628,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/ngssm-smusdi/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
+            "reporters": [
+              "junit"
             ],
-            "karmaConfig": "projects/ngssm-smusdi/karma.conf.js"
+            "outputFile": "artifacts/tests-results/ngssm-smusdi.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {

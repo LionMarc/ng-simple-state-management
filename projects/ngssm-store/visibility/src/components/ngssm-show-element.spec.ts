@@ -14,48 +14,49 @@ import { NgssmVisibilityActionType, ShowElementAction } from '../actions';
 import { NgssmShowElement } from './ngssm-show-element';
 
 @Component({
-  template: ` <button mat-raised-button [ngssmShowElement]="'element-one'" id="buttonId">Show Element</button> `,
-  imports: [MatButtonModule, NgssmShowElement]
+    template: ` <button mat-raised-button [ngssmShowElement]="'element-one'" id="buttonId">Show Element</button> `,
+    imports: [MatButtonModule, NgssmShowElement]
 })
-class TestingComponent {}
+class TestingComponent {
+}
 
 describe('NgssmShowElement', () => {
-  let fixture: ComponentFixture<TestingComponent>;
-  let storeMock: StoreMock;
-  let loader: HarnessLoader;
+    let fixture: ComponentFixture<TestingComponent>;
+    let storeMock: StoreMock;
+    let loader: HarnessLoader;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TestingComponent],
-      providers: [provideNgssmStoreTesting()],
-      teardown: { destroyAfterEach: true }
-    }).compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestingComponent],
+            providers: [provideNgssmStoreTesting()],
+            teardown: { destroyAfterEach: true }
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(TestingComponent);
-    fixture.nativeElement.style['min-height'] = '200px';
-    fixture.detectChanges();
-    loader = TestbedHarnessEnvironment.loader(fixture);
+        fixture = TestBed.createComponent(TestingComponent);
+        fixture.nativeElement.style['min-height'] = '200px';
+        fixture.detectChanges();
+        loader = TestbedHarnessEnvironment.loader(fixture);
 
-    storeMock = TestBed.inject(Store) as unknown as StoreMock;
+        storeMock = TestBed.inject(Store) as unknown as StoreMock;
 
-    storeMock.stateValue = {
-      ...storeMock.stateValue,
-      [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
-    };
+        storeMock.stateValue = {
+            ...storeMock.stateValue,
+            [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
+        };
 
-    spyOn(storeMock, 'dispatchAction');
-  });
+        vi.spyOn(storeMock, 'dispatchAction');
+    });
 
-  it('should create an instance', () => {
-    const directive = fixture.debugElement.query(By.directive(NgssmShowElement)).injector.get(NgssmShowElement);
-    expect(directive).toBeTruthy();
-  });
+    it('should create an instance', () => {
+        const directive = fixture.debugElement.query(By.directive(NgssmShowElement)).injector.get(NgssmShowElement);
+        expect(directive).toBeTruthy();
+    });
 
-  it(`should dispatch an action of type '${NgssmVisibilityActionType.showElement}' when clicking on button`, async () => {
-    const button = await loader.getHarness(MatButtonHarness.with({ selector: '#buttonId' }));
+    it(`should dispatch an action of type '${NgssmVisibilityActionType.showElement}' when clicking on button`, async () => {
+        const button = await loader.getHarness(MatButtonHarness.with({ selector: '#buttonId' }));
 
-    await button.click();
+        await button.click();
 
-    expect(storeMock.dispatchAction).toHaveBeenCalledWith(new ShowElementAction('element-one'));
-  });
+        expect(storeMock.dispatchAction).toHaveBeenCalledWith(new ShowElementAction('element-one'));
+    });
 });

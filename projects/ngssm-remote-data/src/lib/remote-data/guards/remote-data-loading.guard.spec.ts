@@ -7,38 +7,38 @@ import { RemoteDataLoadingGuard, ngssmReloadRemoteData } from './remote-data-loa
 import { LoadRemoteDataAction, RemoteDataActionType } from '../actions';
 
 describe('RemoteDataLoadingGuard', () => {
-  let guard: RemoteDataLoadingGuard;
+    let guard: RemoteDataLoadingGuard;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    guard = TestBed.inject(RemoteDataLoadingGuard);
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        guard = TestBed.inject(RemoteDataLoadingGuard);
+    });
 
-  it('should be created', () => {
-    expect(guard).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(guard).toBeTruthy();
+    });
 });
 
 describe(`ngssmReloadRemoteData`, () => {
-  let storeMock: StoreMock;
+    let storeMock: StoreMock;
 
-  beforeEach(() => {
-    storeMock = new StoreMock({});
-    TestBed.configureTestingModule({ providers: [{ provide: Store, useValue: storeMock }] });
-  });
+    beforeEach(() => {
+        storeMock = new StoreMock({});
+        TestBed.configureTestingModule({ providers: [{ provide: Store, useValue: storeMock }] });
+    });
 
-  it(`should return true`, () => {
-    const func = ngssmReloadRemoteData('testing');
-    const result = TestBed.runInInjectionContext(() => func());
-    expect(result).toBeTrue();
-  });
+    it(`should return true`, () => {
+        const func = ngssmReloadRemoteData('testing');
+        const result = TestBed.runInInjectionContext(() => func());
+        expect(result).toBe(true);
+    });
 
-  it(`should dispatch an action of type '${RemoteDataActionType.loadRemoteData}'`, () => {
-    spyOn(storeMock, 'dispatchAction');
+    it(`should dispatch an action of type '${RemoteDataActionType.loadRemoteData}'`, () => {
+        vi.spyOn(storeMock, 'dispatchAction');
 
-    const func = ngssmReloadRemoteData('testing');
-    TestBed.runInInjectionContext(() => func());
+        const func = ngssmReloadRemoteData('testing');
+        TestBed.runInInjectionContext(() => func());
 
-    expect(storeMock.dispatchAction).toHaveBeenCalledWith(new LoadRemoteDataAction('testing', { forceReload: true }));
-  });
+        expect(storeMock.dispatchAction).toHaveBeenCalledWith(new LoadRemoteDataAction('testing', { forceReload: true }));
+    });
 });

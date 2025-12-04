@@ -38,7 +38,7 @@ describe('ActionConfirmationPopupComponent', () => {
       const mockPopupParameter: ActionConfirmationPopupParameter = {
         ...defaultMockPopupParameter,
         color: 'warn',
-        confirmAction: jasmine.createSpy('confirmAction')
+        confirmAction: vi.fn()
       };
 
       component.init(popupRendered, mockParams as ICellRendererParams, mockPopupParameter);
@@ -47,7 +47,7 @@ describe('ActionConfirmationPopupComponent', () => {
       expect(component.color()).toBe('warn');
       expect(component.cancelButtonLabel()).toBe('No');
       expect(component.confirmButtonLabel()).toBe('Yes');
-      expect(component.isOpen()).toBeTrue();
+      expect(component.isOpen()).toBe(true);
     });
 
     it('should handle missing popup parameters gracefully', () => {
@@ -59,7 +59,7 @@ describe('ActionConfirmationPopupComponent', () => {
       expect(component.color()).toBe('primary');
       expect(component.cancelButtonLabel()).toBe('Cancel');
       expect(component.confirmButtonLabel()).toBe('Confirm');
-      expect(component.isOpen()).toBeTrue();
+      expect(component.isOpen()).toBe(true);
     });
   });
 
@@ -69,7 +69,7 @@ describe('ActionConfirmationPopupComponent', () => {
 
       component.closePopup();
 
-      expect(component.isOpen()).toBeFalse();
+      expect(component.isOpen()).toBe(false);
     });
   });
 
@@ -78,7 +78,7 @@ describe('ActionConfirmationPopupComponent', () => {
       const mockParams = { data: { name: 'Test Item' } };
       const mockPopupParameter: ActionConfirmationPopupParameter = {
         ...defaultMockPopupParameter,
-        confirmAction: jasmine.createSpy('confirmAction')
+        confirmAction: vi.fn()
       };
 
       component.init(popupRendered, mockParams as ICellRendererParams, mockPopupParameter);
@@ -86,7 +86,7 @@ describe('ActionConfirmationPopupComponent', () => {
       component.executeAction();
 
       expect(mockPopupParameter.confirmAction).toHaveBeenCalledWith(mockParams);
-      expect(component.isOpen()).toBeFalse();
+      expect(component.isOpen()).toBe(false);
     });
 
     it('should handle missing confirmAction gracefully', () => {
@@ -95,7 +95,7 @@ describe('ActionConfirmationPopupComponent', () => {
       component.init(popupRendered, mockParams as ICellRendererParams, defaultMockPopupParameter);
 
       expect(() => component.executeAction()).not.toThrow();
-      expect(component.isOpen()).toBeFalse();
+      expect(component.isOpen()).toBe(false);
     });
   });
 
@@ -103,11 +103,11 @@ describe('ActionConfirmationPopupComponent', () => {
     it('should update the popupRendered signal when the popup is opened or closed', () => {
       component.init(popupRendered, {} as ICellRendererParams, defaultMockPopupParameter);
 
-      expect(popupRendered()).toBeTrue();
+      expect(popupRendered()).toBe(true);
 
       component.closePopup();
 
-      expect(popupRendered()).toBeFalse();
+      expect(popupRendered()).toBe(false);
     });
   });
 });

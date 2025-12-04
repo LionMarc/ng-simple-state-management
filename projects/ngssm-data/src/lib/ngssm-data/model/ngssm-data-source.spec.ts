@@ -1,5 +1,5 @@
 import { ApplicationInitStatus } from '@angular/core';
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { Store } from 'ngssm-store';
@@ -22,12 +22,12 @@ describe('NgssmDataSource', () => {
     it(`should return true`, () => {
       const func = ngssmLoadDataSourceValue('testing');
       const result = TestBed.runInInjectionContext(() => func());
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
     });
 
     [true, false].forEach((forceReload) => {
       it(`should dispatch an action of type '${NgssmDataActionType.loadDataSourceValue}'`, () => {
-        spyOn(storeMock, 'dispatchAction');
+        vi.spyOn(storeMock, 'dispatchAction');
 
         const func = ngssmLoadDataSourceValue('testing', forceReload);
         TestBed.runInInjectionContext(() => func());
@@ -40,28 +40,36 @@ describe('NgssmDataSource', () => {
   describe('provideNgssmDataSource', () => {
     const loader: NgssmDataLoading = () => of([5]);
 
-    it(`should register a data source linked to another one`, fakeAsync(async () => {
+    beforeEach(() => {
+      vitest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vitest.useRealTimers();
+    });
+
+    it(`should register a data source linked to another one`, async () => {
       TestBed.configureTestingModule({
         providers: [provideNgssmData(), provideNgssmDataSource('testing', loader, { linkedToDataSource: 'another-one' })]
       });
 
       await TestBed.inject(ApplicationInitStatus).donePromise;
-      flush();
+      await vitest.runAllTimersAsync();
 
       const state = TestBed.inject(Store).state();
       expect(selectNgssmDataState(state).dataSources['testing'].linkedToDataSource).toBe('another-one');
-    }));
+    });
 
-    it(`should register linked data sources`, fakeAsync(async () => {
+    it(`should register linked data sources`, async () => {
       TestBed.configureTestingModule({
         providers: [provideNgssmData(), provideNgssmDataSource('testing', loader, { linkedDataSources: ['another-one'] })]
       });
 
       await TestBed.inject(ApplicationInitStatus).donePromise;
-      flush();
+      await vitest.runAllTimersAsync();
 
       const state = TestBed.inject(Store).state();
       expect(selectNgssmDataState(state).dataSources['testing'].linkedDataSources).toEqual(['another-one']);
-    }));
+    });
   });
 });

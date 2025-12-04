@@ -119,7 +119,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
-      expect(await element.isDisabled()).toBeTrue();
+      expect(await element.isDisabled()).toBe(true);
     });
 
     it(`should not set button as disabled when value is positive`, async () => {
@@ -134,7 +134,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
-      expect(await element.isDisabled()).toBeFalse();
+      expect(await element.isDisabled()).toBe(false);
     });
   });
 
@@ -168,7 +168,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
-      expect(await element.isDisabled()).toBeTrue();
+      expect(await element.isDisabled()).toBe(true);
     });
 
     it(`should not set button as disabled when observable value is false`, async () => {
@@ -177,7 +177,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
-      expect(await element.isDisabled()).toBeFalse();
+      expect(await element.isDisabled()).toBe(false);
     });
   });
 
@@ -211,7 +211,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
-      expect(await element.isDisabled()).toBeTrue();
+      expect(await element.isDisabled()).toBe(true);
     });
 
     it(`should not set button as disabled when observable value is false`, async () => {
@@ -220,7 +220,7 @@ describe('NgssmActionsCellRendererComponent', () => {
 
       const element = await loader.getHarness(MatButtonHarness.with({ selector: '#action_0' }));
 
-      expect(await element.isDisabled()).toBeFalse();
+      expect(await element.isDisabled()).toBe(false);
     });
   });
 

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import 'ag-grid-enterprise';
 import { AgGridAngular } from 'ag-grid-angular';
 import { GetRowIdParams, GridOptions } from 'ag-grid-community';
 
@@ -20,6 +19,7 @@ interface Item {
 }
 
 @Component({
+  selector: 'ngssm-testing',
   template: `
     <ag-grid-angular class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="'items'"> </ag-grid-angular>
   `,
@@ -82,6 +82,7 @@ class TestingComponent {
 }
 
 @Component({
+  selector: 'ngssm-testing-with-config',
   template: `
     <ag-grid-angular class="ag-theme-material" [gridOptions]="gridOptions" [rowData]="items" [ngssmAgGrid]="config"> </ag-grid-angular>
   `,
@@ -177,6 +178,16 @@ describe('NgssmAgGridDirective', () => {
   let store: StoreMock;
 
   beforeEach(() => {
+    vitest.resetAllMocks();
+    vitest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vitest.resetAllMocks();
+    vitest.useRealTimers();
+  });
+
+  beforeEach(() => {
     store = new StoreMock({ [AgGridStateSpecification.featureStateKey]: AgGridStateSpecification.initialState });
   });
 
@@ -187,7 +198,8 @@ describe('NgssmAgGridDirective', () => {
       TestBed.configureTestingModule({
         imports: [TestingComponent],
         declarations: [],
-        providers: [{ provide: Store, useValue: store }]
+        providers: [{ provide: Store, useValue: store }],
+        teardown: { destroyAfterEach: false }
       });
     });
 
@@ -195,8 +207,6 @@ describe('NgssmAgGridDirective', () => {
       fixture = TestBed.createComponent(TestingComponent);
       fixture.nativeElement.style['height'] = '400px';
       fixture.nativeElement.style['width'] = '600px';
-
-      fixture.detectChanges();
     };
 
     it('should create an instance', () => {
@@ -206,7 +216,7 @@ describe('NgssmAgGridDirective', () => {
     });
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
-      it(`should initialize the grid column state when the state has been updated by '${origin}' `, fakeAsync(() => {
+      it(`should initialize the grid column state when the state has been updated by '${origin}' `, async () => {
         createComponent();
 
         let state = store.stateValue;
@@ -240,15 +250,13 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
-        fixture.detectChanges();
-        flushMicrotasks();
+        await vi.runAllTimersAsync();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
         const orderedColumns = agGrid.api.getColumnState().map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'title', 'id']);
-      }));
+      });
     });
 
     describe('when state has been already initialized', () => {
@@ -285,13 +293,12 @@ describe('NgssmAgGridDirective', () => {
         createComponent();
 
         fixture.detectChanges();
-        tick(500);
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
-        flushMicrotasks();
       };
 
-      it('should update the grid when the state update has other as origin', fakeAsync(() => {
-        initializeStateAndComponent();
+      it('should update the grid when the state update has other as origin', async () => {
+        await initializeStateAndComponent();
         let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
@@ -323,17 +330,17 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
         const orderedColumns = agGrid.api.getColumnState().map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'id', 'title']);
-      }));
+      });
 
-      it('should not update the grid when the state update has agGrid as origin', fakeAsync(() => {
-        initializeStateAndComponent();
+      it('should not update the grid when the state update has agGrid as origin', async () => {
+        await initializeStateAndComponent();
         let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
@@ -365,14 +372,14 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
         const orderedColumns = agGrid.api.getColumnState().map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'title', 'id']);
-      }));
+      });
     });
   });
 
@@ -391,18 +398,16 @@ describe('NgssmAgGridDirective', () => {
       fixture = TestBed.createComponent(TestingWithConfigComponent);
       fixture.nativeElement.style['height'] = '400px';
       fixture.nativeElement.style['width'] = '600px';
-
-      fixture.detectChanges();
     };
 
-    it('should create an instance', () => {
+    it('should create an instance', async () => {
       createCompoenent();
       const directive = fixture.debugElement.queryAll(By.directive(NgssmAgGridDirective))[0].injector.get(NgssmAgGridDirective);
       expect(directive).toBeTruthy();
     });
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
-      it(`should initialize the grid column state when the state has been updated by '${origin}' `, fakeAsync(() => {
+      it(`should initialize the grid column state when the state has been updated by '${origin}' `, async () => {
         createCompoenent();
         let state = store.stateValue;
         state = updateAgGridState(state, {
@@ -435,9 +440,8 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
-        flushMicrotasks();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
@@ -446,11 +450,11 @@ describe('NgssmAgGridDirective', () => {
           .filter((c) => c.pinned !== 'left')
           .map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'title', 'id']);
-      }));
+      });
     });
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {
-      it(`should initialize the selected rows when the state has been updated by '${origin}' `, fakeAsync(() => {
+      it(`should initialize the selected rows when the state has been updated by '${origin}' `, async () => {
         createCompoenent();
         let state = store.stateValue;
         state = updateAgGridState(state, {
@@ -466,8 +470,7 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
-        flushMicrotasks();
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
@@ -477,11 +480,11 @@ describe('NgssmAgGridDirective', () => {
           .map((n) => n.id ?? '')
           .filter((n) => n !== '');
         expect(selectedRows).toEqual(['1', '3']);
-      }));
+      });
     });
 
     describe('when state has been already initialized', () => {
-      const initializeStateAndComponent = () => {
+      const initializeStateAndComponent = async () => {
         createCompoenent();
 
         let state = store.stateValue;
@@ -522,13 +525,12 @@ describe('NgssmAgGridDirective', () => {
         });
         store.stateValue = state;
         fixture.detectChanges();
-        tick(500);
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
-        flushMicrotasks();
       };
 
-      it('should update the grid when the state update has other as origin', fakeAsync(() => {
-        initializeStateAndComponent();
+      it('should update the grid when the state update has other as origin', async () => {
+        await initializeStateAndComponent();
         let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
@@ -560,8 +562,7 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
-        flushMicrotasks();
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
@@ -571,10 +572,10 @@ describe('NgssmAgGridDirective', () => {
           .filter((c) => c.pinned !== 'left')
           .map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'id', 'title']);
-      }));
+      });
 
-      it('should not update the grid when the state update has agGrid as origin', fakeAsync(() => {
-        initializeStateAndComponent();
+      it('should not update the grid when the state update has agGrid as origin', async () => {
+        await initializeStateAndComponent();
         let state = store.stateValue;
         state = updateAgGridState(state, {
           gridStates: {
@@ -606,8 +607,7 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
-        flushMicrotasks();
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
@@ -617,10 +617,10 @@ describe('NgssmAgGridDirective', () => {
           .filter((c) => c.pinned !== 'left')
           .map((c) => c.colId);
         expect(orderedColumns).toEqual(['description', 'title', 'id']);
-      }));
+      });
 
-      it('should update the selected rows when the state update has other as origin', fakeAsync(() => {
-        initializeStateAndComponent();
+      it('should update the selected rows when the state update has other as origin', async () => {
+        await initializeStateAndComponent();
         let state = store.stateValue;
         state = updateAgGridState(state, {
           selectedRows: {
@@ -635,8 +635,7 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
-        flushMicrotasks();
+        await vi.runAllTimersAsync();
         fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
@@ -646,10 +645,11 @@ describe('NgssmAgGridDirective', () => {
           .map((n) => n.id ?? '')
           .filter((n) => n !== '');
         expect(selectedRows.sort((l, r) => l.localeCompare(r))).toEqual(['2', '3']);
-      }));
+      });
 
-      it('should not update the grid when the state update has agGrid as origin', fakeAsync(() => {
-        initializeStateAndComponent();
+      it('should not update the grid when the state update has agGrid as origin', async () => {
+        await initializeStateAndComponent();
+
         let state = store.stateValue;
         state = updateAgGridState(state, {
           selectedRows: {
@@ -664,9 +664,7 @@ describe('NgssmAgGridDirective', () => {
         store.stateValue = state;
 
         fixture.detectChanges();
-        tick(500);
-        flushMicrotasks();
-        fixture.detectChanges();
+        await vi.runAllTimersAsync();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
@@ -675,7 +673,7 @@ describe('NgssmAgGridDirective', () => {
           .map((n) => n.id ?? '')
           .filter((n) => n !== '');
         expect(selectedRows).toEqual(['1', '3']);
-      }));
+      });
     });
   });
 });
