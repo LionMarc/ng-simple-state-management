@@ -101,6 +101,12 @@
     },
     {
       "path": "./projects/ngssm-tree/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-schematics/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-schematics/tsconfig.spec.json"
     }
   ]
 }
