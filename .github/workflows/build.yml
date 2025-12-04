@@ -31,12 +31,13 @@ jobs:
 
     - name: Report
       id: testsReport
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v2
       if: always()
       with:
         name: Angular tests,
         path: artifacts/tests-results/*.xml
         reporter: java-junit
+        use-actions-summary: true
         fail-on-error: true
 
     - name: Code Coverage Report

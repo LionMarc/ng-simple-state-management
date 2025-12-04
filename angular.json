@@ -159,7 +159,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-toolkit/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-toolkit/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-toolkit.xml"
           }
         },
         "lint": {
@@ -198,7 +202,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-store/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-store/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-store.xml"
           }
         },
         "lint": {
@@ -281,7 +289,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-remote-data/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-remote-data/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-remote-data.xml"
           }
         },
         "lint": {
@@ -320,7 +332,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-navigation/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-navigation/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-navigation.xml"
           }
         },
         "lint": {
@@ -362,7 +378,11 @@
             "tsConfig": "projects/ngssm-ag-grid/tsconfig.spec.json",
             "setupFiles": [
               "projects/ngssm-ag-grid/setup_ag-grid.ts"
-            ]
+            ],
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-ag-grid.xml"
           }
         },
         "lint": {
@@ -406,7 +426,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-shell/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-shell/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-shell.xml"
           }
         },
         "lint": {
@@ -445,7 +469,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-ace-editor/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-ace-editor/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-ace-editor.xml"
           }
         },
         "lint": {
@@ -489,7 +517,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-tree/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-tree/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-tree.xml"
           }
         },
         "lint": {
@@ -528,7 +560,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-data/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-data/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-data.xml"
           }
         },
         "lint": {
@@ -567,7 +603,11 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-smusdi/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-smusdi/tsconfig.spec.json",
+            "reporters": [
+              "junit"
+            ],
+            "outputFile": "artifacts/tests-results/ngssm-smusdi.xml"
           }
         },
         "lint": {
