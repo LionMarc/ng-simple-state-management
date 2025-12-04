@@ -163,7 +163,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-toolkit.xml"
+            "outputFile": "artifacts/tests-results/ngssm-toolkit.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -206,7 +209,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-store.xml"
+            "outputFile": "artifacts/tests-results/ngssm-store.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -293,7 +299,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-remote-data.xml"
+            "outputFile": "artifacts/tests-results/ngssm-remote-data.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -336,7 +345,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-navigation.xml"
+            "outputFile": "artifacts/tests-results/ngssm-navigation.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -382,7 +394,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-ag-grid.xml"
+            "outputFile": "artifacts/tests-results/ngssm-ag-grid.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -430,7 +445,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-shell.xml"
+            "outputFile": "artifacts/tests-results/ngssm-shell.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -473,7 +491,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-ace-editor.xml"
+            "outputFile": "artifacts/tests-results/ngssm-ace-editor.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -521,7 +542,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-tree.xml"
+            "outputFile": "artifacts/tests-results/ngssm-tree.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -564,7 +588,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-data.xml"
+            "outputFile": "artifacts/tests-results/ngssm-data.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
@@ -607,7 +634,10 @@
             "reporters": [
               "junit"
             ],
-            "outputFile": "artifacts/tests-results/ngssm-smusdi.xml"
+            "outputFile": "artifacts/tests-results/ngssm-smusdi.xml",
+            "coverageReporters": [
+              "cobertura"
+            ]
           }
         },
         "lint": {
