@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 
 import { NotFoundComponent } from 'ngssm-toolkit';
 
-import { NgssmExpressionTreeDemoComponent } from './ngssm-expression-tree-demo';
 import { NgssmTreeDemoComponent } from './ngssm-tree-demo/ngssm-tree-demo/ngssm-tree-demo.component';
 import { TreeInitGuard } from './ngssm-tree-demo/tree-init.guard';
 import { remoteDataDemoRoutes } from './remote-data-demo/public-api';
@@ -21,10 +20,6 @@ export const routes: Routes = [
     path: 'tree-demo',
     component: NgssmTreeDemoComponent,
     canActivate: [() => inject(TreeInitGuard).canActivate()]
-  },
-  {
-    path: 'expression-tree-demo',
-    component: NgssmExpressionTreeDemoComponent
   },
   {
     path: 'remote-data-demo',
