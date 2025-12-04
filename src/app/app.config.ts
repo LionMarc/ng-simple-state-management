@@ -8,7 +8,7 @@ import { provideNgssmStore, provideConsoleAppender, Store, Logger } from 'ngssm-
 import { provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import { provideNgssmMatDialog, useDefaultErrorStateMatcher } from 'ngssm-toolkit';
-import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree, provideNgssmExpressionTree } from 'ngssm-tree';
+import { NGSSM_TREE_DATA_SERVICE, provideNgssmTree } from 'ngssm-tree';
 import { provideNgssmNavigation } from 'ngssm-navigation';
 import { provideNgssmShell } from 'ngssm-shell';
 import { provideNgssmVisibility } from 'ngssm-store/visibility';
@@ -17,7 +17,6 @@ import { provideNgssmSmusdi } from 'ngssm-smusdi';
 
 import { TreeDataService } from './ngssm-tree-demo/tree-data.service';
 import { provideRemoteDataDemo } from './remote-data-demo/public-api';
-import { provideJsonBuilder } from './ngssm-expression-tree-demo/json-builder/provide-json-builder';
 import { provideToolkitDemo } from './toolkit/public-api';
 import { provideNgssmDataDemo } from './ngssm-data-demo/public-api';
 import { provideTodo } from './todo/provide-todo';
@@ -77,13 +76,11 @@ export const appConfig: ApplicationConfig = {
       loadSavedGridStatesAtStartup: true
     }),
     provideNgssmRemoteCall(),
-    provideNgssmExpressionTree(),
     provideNgssmVisibility(),
     provideNgssmMatDialog(),
     provideNgssmData(),
     { provide: NGSSM_TREE_DATA_SERVICE, useClass: TreeDataService, multi: true },
     provideRemoteDataDemo(),
-    provideJsonBuilder(),
     provideToolkitDemo(),
     provideNgssmDataDemo(),
     provideTodo(),

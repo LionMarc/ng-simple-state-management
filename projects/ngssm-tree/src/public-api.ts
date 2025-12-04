@@ -3,4 +3,3 @@
  */
 
 export * from './lib/ngssm-tree/public-api';
-export * from './lib/ngssm-expression-tree/public-api';
