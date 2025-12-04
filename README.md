@@ -15,9 +15,10 @@ This project provides several libraries:
 - [ngssm-toolkit](/projects/ngssm-toolkit/README.md): provides some utilities;
 - [ngssm-store](/projects/ngssm-store/README.md) : simple state management implementation;
 - [ngssm-schematics](/projects/ngssm-schematics/README.md) : provides schematics to initialize workspace, create custom components, services...
+- [ngssm-data](/projects/ngssm-data/README.md) : library for managing remote and computed data with caching and state management;
 - [ngssm-remote-data](/projects/ngssm-remote-data/README.md) : helpers to manage data provided by remote services;
 - [ngssm-navigation](/projects/ngssm-navigation/README.md) : helpers to control angular navigation;
 - [ngssm-ag-grid](/projects/ngssm-ag-grid/README.md) : used to manage [ag-grid](https://www.ag-grid.com/) state with the store;
 - [ngssm-shell](/projects/ngssm-shell/README.md) : a complete customizable shell component;
 - [ngssm-ace-editor](/projects/ngssm-ace-editor/README.md) : simple wrapper of [ace-editor](https://ace.c9.io/);
-- [ngssm-tree](/projects/ngssm-tree/README.md) : a tree view with *ngssm-store* and data async loading.
+- [ngssm-tree](/projects/ngssm-tree/README.md) : a tree view with *ngssm-store* and data async loading;
