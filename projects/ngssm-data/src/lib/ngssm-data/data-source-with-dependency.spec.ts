@@ -1,5 +1,5 @@
 import { ApplicationInitStatus, effect, inject } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { delay, of } from 'rxjs';
 
 import { DateTime } from 'luxon';
@@ -25,7 +25,6 @@ const dependencySourceLoader: NgssmDataLoading<string[]> = () => {
 const waitDataSourcesRegistered = async () => {
   let resolver: (value: boolean | PromiseLike<boolean>) => void;
   const promise = new Promise<boolean>((resolve) => (resolver = resolve));
-
   TestBed.runInInjectionContext(() => {
     const store = inject(Store);
     effect(() => {
@@ -43,6 +42,14 @@ describe('Data sourcewith dependency', () => {
   let store: Store;
   let logger: Logger;
 
+  beforeEach(() => {
+    vitest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vitest.useRealTimers();
+  });
+
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
@@ -59,10 +66,16 @@ describe('Data sourcewith dependency', () => {
     store = TestBed.inject(Store);
     logger = TestBed.inject(Logger);
 
-    await waitDataSourcesRegistered();
+    const promise = waitDataSourcesRegistered();
+
+    TestBed.tick();
+    await vitest.runAllTimersAsync();
+    vitest.runAllTicks();
+
+    await promise;
   });
 
-  it(`should load the dependency source when trying to load the dependent source and the dependency is not loader`, fakeAsync(async () => {
+  it(`should load the dependency source when trying to load the dependent source and the dependency is not loader`, async () => {
     const actions: Action[] = [];
 
     let resolver: (value: boolean | PromiseLike<boolean>) => void;
@@ -83,7 +96,7 @@ describe('Data sourcewith dependency', () => {
 
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dependentSourceKey, { forceReload: true }));
 
-    tick(100);
+    await vitest.runAllTimersAsync();
 
     await promise;
 
@@ -98,9 +111,9 @@ describe('Data sourcewith dependency', () => {
     expect(selectNgssmDataSourceValue(store.state(), dependentSourceKey)?.value).toEqual(['value1']);
 
     expect(selectNgssmDataState(store.state()).delayedActions[dependencySourceKey]).toBeFalsy();
-  }));
+  });
 
-  it(`should not load the dependency source when trying to load the dependent source and the dependency is loader`, fakeAsync(async () => {
+  it(`should not load the dependency source when trying to load the dependent source and the dependency is loader`, async () => {
     const state = store.state();
     (state[NgssmDataStateSpecification.featureStateKey] as NgssmDataState).dataSourceValues[dependencySourceKey] = {
       status: NgssmDataSourceValueStatus.loaded,
@@ -127,7 +140,7 @@ describe('Data sourcewith dependency', () => {
 
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dependentSourceKey, { forceReload: true }));
 
-    tick(100);
+    await vitest.runAllTimersAsync();
 
     await promise;
 
@@ -138,9 +151,9 @@ describe('Data sourcewith dependency', () => {
     expect(selectNgssmDataSourceValue(store.state(), dependentSourceKey)?.value).toEqual(['value1']);
 
     expect(selectNgssmDataState(store.state()).delayedActions[dependencySourceKey]).toBeFalsy();
-  }));
+  });
 
-  it(`should not log an error when data source depends on no other data source and data source is already loaded`, fakeAsync(async () => {
+  it(`should not log an error when data source depends on no other data source and data source is already loaded`, async () => {
     const state = store.state();
     const dataSourceValue = (state[NgssmDataStateSpecification.featureStateKey] as NgssmDataState).dataSourceValues[dependencySourceKey];
     dataSourceValue.status = NgssmDataSourceValueStatus.loaded;
@@ -148,7 +161,7 @@ describe('Data sourcewith dependency', () => {
 
     const actions: Action[] = [];
 
-    spyOn(logger, 'error');
+    vi.spyOn(logger, 'error');
 
     let resolver: (value: boolean | PromiseLike<boolean>) => void;
     const promise = new Promise<boolean>((resolve) => (resolver = resolve));
@@ -168,10 +181,10 @@ describe('Data sourcewith dependency', () => {
 
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dependencySourceKey));
 
-    tick(100);
+    await vitest.runAllTimersAsync();
 
     await promise;
 
     expect(logger.error).not.toHaveBeenCalled();
-  }));
+  });
 });

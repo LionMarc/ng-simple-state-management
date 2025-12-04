@@ -8,19 +8,19 @@ import { StoreMock } from 'ngssm-store/testing';
 import { provideNgssmSmusdi } from './provide-ngssm-smusdi';
 
 describe('provideNgssmSmusdi', () => {
-  let store: StoreMock;
+    let store: StoreMock;
 
-  beforeEach(async () => {
-    store = new StoreMock({});
-    spyOn(store, 'dispatchAction');
-    TestBed.configureTestingModule({
-      providers: [provideNgssmSmusdi('my-service'), { provide: Store, useValue: store }]
+    beforeEach(async () => {
+        store = new StoreMock({});
+        vi.spyOn(store, 'dispatchAction');
+        TestBed.configureTestingModule({
+            providers: [provideNgssmSmusdi('my-service'), { provide: Store, useValue: store }]
+        });
+
+        await TestBed.inject(ApplicationInitStatus).donePromise;
     });
 
-    await TestBed.inject(ApplicationInitStatus).donePromise;
-  });
-
-  it(`should dispatch an action to load the service info`, () => {
-    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('service-info', { forceReload: true }));
-  });
+    it(`should dispatch an action to load the service info`, () => {
+        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('service-info', { forceReload: true }));
+    });
 });

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 
@@ -32,25 +32,33 @@ export class DemoComponent {
 
 // cf https://github.com/angular/components/blob/main/src/cdk/scrolling/virtual-scroll-viewport.spec.ts
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function finishInit(fixture: ComponentFixture<any>) {
+const finishInit = async (fixture: ComponentFixture<any>) => {
   // On the first cycle we render and measure the viewport.
   fixture.detectChanges();
-  flush();
+  await vitest.runAllTimersAsync();
 
   // On the second cycle we render the items.
   fixture.detectChanges();
-  flush();
+  await vitest.runAllTimersAsync();
 
   // Flush the initial fake scroll event.
-  tick(16); // flush animation frame
-  flush();
+  await vitest.advanceTimersByTimeAsync(16); // flush animation frame
+  await vitest.runAllTimersAsync();
   fixture.detectChanges();
-}
+};
 
 describe('NgssmTreeComponent', () => {
   let component: DemoComponent;
   let fixture: ComponentFixture<DemoComponent>;
   let store: StoreMock;
+
+  beforeEach(() => {
+    vitest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vitest.useRealTimers();
+  });
 
   beforeEach(async () => {
     store = new StoreMock({
@@ -109,7 +117,7 @@ describe('NgssmTreeComponent', () => {
       store.stateValue = state;
     });
 
-    it('should render all the nodes when no filter is applied', fakeAsync(() => {
+    it('should render all the nodes when no filter is applied', async () => {
       component.treeConfig$.next({
         treeId: 'testing',
         iconClasses: {
@@ -118,14 +126,14 @@ describe('NgssmTreeComponent', () => {
         }
       });
 
-      finishInit(fixture);
+      await finishInit(fixture);
 
       const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-tree-node'));
       expect(renderedNodes.length).toEqual(5);
       renderedNodes.forEach((r, i) => expect(r.nativeElement.innerHTML).toContain(nodes[i].name));
-    }));
+    });
 
-    it('should render only the folders when a filter is applied', fakeAsync(() => {
+    it('should render only the folders when a filter is applied', async () => {
       component.treeConfig$.next({
         treeId: 'testing',
         iconClasses: {
@@ -135,12 +143,12 @@ describe('NgssmTreeComponent', () => {
         filter: (node: NodeData) => node.type === 'directory'
       });
 
-      finishInit(fixture);
+      await finishInit(fixture);
 
       const renderedNodes = fixture.debugElement.queryAll(By.css('.ngssm-tree-node'));
       expect(renderedNodes.length).toEqual(2);
       expect(renderedNodes[0].nativeElement.innerHTML).toContain(nodes[0].name);
       expect(renderedNodes[1].nativeElement.innerHTML).toContain(nodes[2].name);
-    }));
+    });
   });
 });

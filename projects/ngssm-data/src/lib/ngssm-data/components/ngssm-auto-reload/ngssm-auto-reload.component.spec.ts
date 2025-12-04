@@ -1,5 +1,4 @@
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
@@ -15,10 +14,18 @@ describe('NgssmAutoReloadComponent', () => {
   let store: StoreMock;
   let loader: HarnessLoader;
 
+  beforeEach(() => {
+    vitest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vitest.useRealTimers();
+  });
+
   beforeEach(async () => {
     store = new StoreMock({});
     await TestBed.configureTestingModule({
-      imports: [NgssmAutoReloadComponent, NoopAnimationsModule],
+      imports: [NgssmAutoReloadComponent],
       providers: [{ provide: Store, useValue: store }],
       teardown: { destroyAfterEach: true }
     }).compileComponents();
@@ -49,17 +56,15 @@ describe('NgssmAutoReloadComponent', () => {
     await selector.close();
   });
 
-  it(`should execute the callback when auto reload is not off`, fakeAsync(async () => {
+  it(`should execute the callback when auto reload is not off`, async () => {
     let called = false;
     fixture.componentRef.setInput('autoReloadAction', () => (called = true));
     const selector = await loader.getHarness(MatSelectHarness);
     await selector.open();
     await selector.clickOptions({ text: 'Every minute' });
 
-    tick(60100);
+    await vi.advanceTimersByTimeAsync(60001);
 
-    expect(called).toBeTrue();
-
-    discardPeriodicTasks();
-  }));
+    expect(called).toBe(true);
+  });
 });

@@ -49,7 +49,7 @@ describe('NgssmVisibilityToggleGroup', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    spyOn(storeMock, 'dispatchAction');
+    vi.spyOn(storeMock, 'dispatchAction');
   });
 
   it('should create', () => {

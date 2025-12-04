@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import type { Mock } from 'vitest';
 
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
@@ -12,7 +13,9 @@ describe('Post loading helpers', () => {
     const dataSourceKey = 'my-source';
     let store: StoreMock;
     let factory: () => void;
-    let postLoadingAction: { action: (status: NgssmDataSourceValueStatus) => void };
+    let postLoadingAction: {
+      action: (status: NgssmDataSourceValueStatus) => void;
+    };
 
     beforeEach(() => {
       store = new StoreMock({});
@@ -21,7 +24,7 @@ describe('Post loading helpers', () => {
           console.log('postLoadingAction', status);
         }
       };
-      spyOn(postLoadingAction, 'action');
+      vi.spyOn(postLoadingAction, 'action');
       TestBed.configureTestingModule({
         providers: [{ provide: Store, useValue: store }]
       });
@@ -54,7 +57,7 @@ describe('Post loading helpers', () => {
         factory();
         store.processedAction.set(new NgssmSetDataSourceValueAction(dataSourceKey, status));
         TestBed.tick();
-        (postLoadingAction.action as jasmine.Spy).calls.reset();
+        (postLoadingAction.action as Mock).mockClear();
         store.processedAction.set(new NgssmSetDataSourceValueAction(dataSourceKey, status));
         TestBed.tick();
         expect(postLoadingAction.action).not.toHaveBeenCalled();

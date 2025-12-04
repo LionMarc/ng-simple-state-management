@@ -96,6 +96,7 @@ export class NgssmAgGridDirective {
           state: gridState.columnStates,
           applyOrder: true
         });
+
         this.agGridAngular.api.setFilterModel(gridState.filterModel);
       }
     });

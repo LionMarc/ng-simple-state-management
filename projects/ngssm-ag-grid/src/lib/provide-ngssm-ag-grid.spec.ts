@@ -9,56 +9,56 @@ import { provideNgssmAgGrid } from './provide-ngssm-ag-grid';
 import { NGSSM_AG_GRID_OPTIONS, NgssmAgGridOptions } from './ngssm-ag-grid-options';
 
 describe('provideNgssmAgGrid', () => {
-  let store: StoreMock;
+    let store: StoreMock;
 
-  beforeEach(() => {
-    store = new StoreMock({});
-    spyOn(store, 'dispatchAction');
-    localStorage.clear();
-  });
-
-  it('should provide NGSSM_AG_GRID_OPTIONS with given options', () => {
-    const options: NgssmAgGridOptions = { theme: 'ag-theme-alpine' } as NgssmAgGridOptions;
-    TestBed.configureTestingModule({
-      providers: [provideNgssmAgGrid(options) as unknown as EnvironmentProviders]
+    beforeEach(() => {
+        store = new StoreMock({});
+        vi.spyOn(store, 'dispatchAction');
+        localStorage.clear();
     });
-    const injectedOptions = TestBed.inject(NGSSM_AG_GRID_OPTIONS);
-    expect(injectedOptions).toBe(options);
-  });
 
-  it('should provide NGSSM_AG_GRID_OPTIONS as null if no options are given', () => {
-    TestBed.configureTestingModule({
-      providers: [provideNgssmAgGrid()]
+    it('should provide NGSSM_AG_GRID_OPTIONS with given options', () => {
+        const options: NgssmAgGridOptions = { theme: 'ag-theme-alpine' } as NgssmAgGridOptions;
+        TestBed.configureTestingModule({
+            providers: [provideNgssmAgGrid(options) as unknown as EnvironmentProviders]
+        });
+        const injectedOptions = TestBed.inject(NGSSM_AG_GRID_OPTIONS);
+        expect(injectedOptions).toBe(options);
     });
-    const injectedOptions = TestBed.inject(NGSSM_AG_GRID_OPTIONS, null);
-    expect(injectedOptions).toBeNull();
-  });
 
-  const setupTest = async (loadAtStartup: boolean) => {
-    const keys = ['something', 'ngssm-ag-grid_todo', 'ngssm-ag-grid_sources', 'other'];
-    keys.forEach((key) => localStorage.setItem(key, '{}'));
+    it('should provide NGSSM_AG_GRID_OPTIONS as null if no options are given', () => {
+        TestBed.configureTestingModule({
+            providers: [provideNgssmAgGrid()]
+        });
+        const injectedOptions = TestBed.inject(NGSSM_AG_GRID_OPTIONS, null);
+        expect(injectedOptions).toBeNull();
+    });
 
-    await TestBed.configureTestingModule({
-      providers: [
-        { provide: Store, useValue: store },
-        provideNgssmAgGrid({ loadSavedGridStatesAtStartup: loadAtStartup } as unknown as NgssmAgGridOptions)
-      ]
-    }).compileComponents();
+    const setupTest = async (loadAtStartup: boolean) => {
+        const keys = ['something', 'ngssm-ag-grid_todo', 'ngssm-ag-grid_sources', 'other'];
+        keys.forEach((key) => localStorage.setItem(key, '{}'));
 
-    // Wait for Angular's app initializers to complete
-    await TestBed.inject(ApplicationInitStatus).donePromise;
-  };
+        await TestBed.configureTestingModule({
+            providers: [
+                { provide: Store, useValue: store },
+                provideNgssmAgGrid({ loadSavedGridStatesAtStartup: loadAtStartup } as unknown as NgssmAgGridOptions)
+            ]
+        }).compileComponents();
 
-  it('should restore grid states when loadSavedGridStatesAtStartup is true', async () => {
-    await setupTest(true);
+        // Wait for Angular's app initializers to complete
+        await TestBed.inject(ApplicationInitStatus).donePromise;
+    };
 
-    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'todo'));
-    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'sources'));
-  });
+    it('should restore grid states when loadSavedGridStatesAtStartup is true', async () => {
+        await setupTest(true);
 
-  it('should not restore grid states when loadSavedGridStatesAtStartup is false', async () => {
-    await setupTest(false);
+        expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'todo'));
+        expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'sources'));
+    });
 
-    expect(store.dispatchAction).not.toHaveBeenCalled();
-  });
+    it('should not restore grid states when loadSavedGridStatesAtStartup is false', async () => {
+        await setupTest(false);
+
+        expect(store.dispatchAction).not.toHaveBeenCalled();
+    });
 });

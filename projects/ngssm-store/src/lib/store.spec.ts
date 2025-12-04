@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { effect } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import update from 'immutability-helper';
 
@@ -14,15 +13,24 @@ import { Action } from './action';
 describe('Store', () => {
   let store: Store;
 
-  it('should store the dispatched action in the queue before processing it in the next iteration', fakeAsync(() => {
+  beforeEach(() => {
+    vitest.resetAllMocks();
+    vitest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vitest.resetAllMocks();
+  });
+
+  it('should store the dispatched action in the queue before processing it in the next iteration', () => {
     TestBed.configureTestingModule({});
     store = TestBed.inject(Store);
 
     store.dispatchAction({ type: 'testing' });
-    expect((store as any).actionQueue.length).toEqual(1);
-    tick();
-    expect((store as any).actionQueue.length).toEqual(0);
-  }));
+    expect(store['actionQueue'].length).toEqual(1);
+    vitest.runAllTimers();
+    expect(store['actionQueue'].length).toEqual(0);
+  });
 
   it('should call all the state initializers when the object is generated', () => {
     const first: StateInitializer = {
@@ -64,7 +72,7 @@ describe('Store', () => {
     });
   });
 
-  it('should call the reducers associated to the dispatched action only', fakeAsync(() => {
+  it('should call the reducers associated to the dispatched action only', () => {
     const first: Reducer = {
       processedActions: ['createTodo'],
       updateState: (state: State) => update(state, { first: { $set: { message: 'called' } } })
@@ -78,9 +86,9 @@ describe('Store', () => {
       updateState: (state: State) => update(state, { third: { $set: { message: 'called' } } })
     };
 
-    spyOn(first, 'updateState').and.callThrough();
-    spyOn(second, 'updateState').and.callThrough();
-    spyOn(third, 'updateState').and.callThrough();
+    vi.spyOn(first, 'updateState');
+    vi.spyOn(second, 'updateState');
+    vi.spyOn(third, 'updateState');
 
     TestBed.configureTestingModule({
       providers: [
@@ -92,7 +100,7 @@ describe('Store', () => {
     store = TestBed.inject(Store);
 
     store.dispatchActionType('createTodo');
-    tick();
+    vitest.runAllTimers();
 
     expect(first.updateState).toHaveBeenCalled();
     expect(second.updateState).not.toHaveBeenCalled();
@@ -102,15 +110,15 @@ describe('Store', () => {
       first: { message: 'called' },
       third: { message: 'called' }
     });
-  }));
+  });
 
-  it('should notify the processed action', fakeAsync(() => {
+  it('should notify the processed action', async () => {
     const first: Reducer = {
       processedActions: ['createTodo'],
       updateState: (state: State) => update(state, { first: { $set: { message: 'called' } } })
     };
 
-    spyOn(first, 'updateState').and.callThrough();
+    vi.spyOn(first, 'updateState');
 
     TestBed.configureTestingModule({
       providers: [{ provide: NGSSM_REDUCER, useValue: first, multi: true }]
@@ -127,7 +135,7 @@ describe('Store', () => {
     });
 
     store.dispatchActionType('createTodo');
-    tick();
+    await vitest.runAllTimersAsync();
 
     expect(first.updateState).toHaveBeenCalled();
 
@@ -135,9 +143,9 @@ describe('Store', () => {
     expect(stateAfterAction as unknown).toEqual({
       first: { message: 'called' }
     });
-  }));
+  });
 
-  it('should call the effects associated to the dispatched action only', fakeAsync(() => {
+  it('should call the effects associated to the dispatched action only', () => {
     const first: Effect = {
       processedActions: ['createTodo'],
       processAction: () => {
@@ -157,9 +165,9 @@ describe('Store', () => {
       }
     };
 
-    spyOn(first, 'processAction').and.callThrough();
-    spyOn(second, 'processAction').and.callThrough();
-    spyOn(third, 'processAction').and.callThrough();
+    vi.spyOn(first, 'processAction');
+    vi.spyOn(second, 'processAction');
+    vi.spyOn(third, 'processAction');
 
     TestBed.configureTestingModule({
       providers: [
@@ -171,10 +179,10 @@ describe('Store', () => {
     store = TestBed.inject(Store);
 
     store.dispatchActionType('createTodo');
-    tick();
+    vitest.runAllTimers();
 
     expect(first.processAction).toHaveBeenCalled();
     expect(second.processAction).not.toHaveBeenCalled();
     expect(third.processAction).toHaveBeenCalled();
-  }));
+  });
 });

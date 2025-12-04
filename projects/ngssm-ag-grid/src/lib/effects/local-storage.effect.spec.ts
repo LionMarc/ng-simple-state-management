@@ -22,6 +22,10 @@ describe('LocalStorageEffect', () => {
     effect = TestBed.inject(LocalStorageEffect);
   });
 
+  afterEach(() => {
+    vitest.resetAllMocks();
+  });
+
   [AgGridActionType.saveColumnStatesOnDisk, AgGridActionType.resetColumnStatesFromDisk].forEach((actionType) => {
     it(`should process action of type '${actionType}'`, () => {
       expect(effect.processedActions).toContain(actionType);
@@ -30,7 +34,7 @@ describe('LocalStorageEffect', () => {
 
   describe(`when processing action of type '${AgGridActionType.saveColumnStatesOnDisk}'`, () => {
     it('should not call the localStorage when there is no columns state set in store', () => {
-      spyOn(window.localStorage, 'setItem');
+      vi.spyOn(Storage.prototype, 'setItem');
       const state = updateAgGridState(store.stateValue, {
         gridStates: {}
       });
@@ -41,7 +45,7 @@ describe('LocalStorageEffect', () => {
     });
 
     it('should call the localStorage when columns state is set in store', () => {
-      spyOn(window.localStorage, 'setItem');
+      vi.spyOn(Storage.prototype, 'setItem');
       const state = updateAgGridState(store.stateValue, {
         gridStates: {
           items: {
@@ -57,18 +61,15 @@ describe('LocalStorageEffect', () => {
 
       effect.processAction(store, state, new AgGridAction(AgGridActionType.saveColumnStatesOnDisk, 'items'));
 
-      expect(window.localStorage.setItem).toHaveBeenCalledWith('ngssm-ag-grid_items', JSON.stringify([{ colId: 'id' }]));
-      expect(window.localStorage.setItem).toHaveBeenCalledWith(
-        'ngssm-ag-grid_groups_items',
-        JSON.stringify([{ groupId: 'test', open: true }])
-      );
+      expect(localStorage.setItem).toHaveBeenCalledWith('ngssm-ag-grid_items', JSON.stringify([{ colId: 'id' }]));
+      expect(localStorage.setItem).toHaveBeenCalledWith('ngssm-ag-grid_groups_items', JSON.stringify([{ groupId: 'test', open: true }]));
     });
   });
 
   describe(`when processing action of type '${AgGridActionType.resetColumnStatesFromDisk}'`, () => {
     it('should dispatch no action when there is nothing in the local storage', () => {
-      spyOn(window.localStorage, 'getItem').and.returnValue(null);
-      spyOn(store, 'dispatchAction');
+      vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(null);
+      vi.spyOn(store, 'dispatchAction');
 
       effect.processAction(store, store.stateValue, new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'items'));
 
@@ -76,8 +77,8 @@ describe('LocalStorageEffect', () => {
     });
 
     it('should dispatch no action when data stored in localstorage is invalid', () => {
-      spyOn(window.localStorage, 'getItem').and.returnValue('bad data');
-      spyOn(store, 'dispatchAction');
+      vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('bad data');
+      vi.spyOn(store, 'dispatchAction');
 
       effect.processAction(store, store.stateValue, new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'items'));
 
@@ -85,7 +86,7 @@ describe('LocalStorageEffect', () => {
     });
 
     it(`should dispatch a '${AgGridActionType.registerAgGridState}' action when data stored in localstorage is correct`, () => {
-      spyOn(window.localStorage, 'getItem').and.callFake((key) => {
+      vi.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => {
         if (key.includes('_filters')) {
           return '{}';
         }
@@ -97,7 +98,7 @@ describe('LocalStorageEffect', () => {
         return `[{ "colId": "id" }]`;
       });
 
-      spyOn(store, 'dispatchAction');
+      vi.spyOn(store, 'dispatchAction');
 
       effect.processAction(store, store.stateValue, new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'items'));
 

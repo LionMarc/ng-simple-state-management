@@ -1,6 +1,6 @@
 import { ApplicationInitStatus } from '@angular/core';
 import { Router } from '@angular/router';
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { provideConsoleAppender, State, Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
@@ -22,8 +22,17 @@ describe('provideNgssmNavigation', () => {
   });
 
   describe(`routing effect`, () => {
-    it(`should execute the navigate method of the action when action is of type RoutingAction`, fakeAsync(() => {
-      spyOn(router, 'navigate');
+    beforeEach(() => {
+      vitest.resetAllMocks();
+      vitest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vitest.resetAllMocks();
+    });
+
+    it(`should execute the navigate method of the action when action is of type RoutingAction`, () => {
+      vi.spyOn(router, 'navigate');
       const action = {
         type: 'ROUTING_ACTION',
         navigate: (state: State, router: Router) => {
@@ -36,10 +45,10 @@ describe('provideNgssmNavigation', () => {
       TestBed.tick();
 
       expect(router.navigate).toHaveBeenCalledWith(['test']);
-    }));
+    });
 
-    it(`should do nothing when action is not of type RoutingAction`, fakeAsync(() => {
-      spyOn(router, 'navigate');
+    it(`should do nothing when action is not of type RoutingAction`, () => {
+      vi.spyOn(router, 'navigate');
       const action = {
         type: 'NOT_ROUTING_ACTION',
         navigateWrong: (state: State, router: Router) => {
@@ -49,9 +58,9 @@ describe('provideNgssmNavigation', () => {
 
       store.processedAction.set(action);
 
-      TestBed.tick();
+      vitest.runAllTimers();
 
       expect(router.navigate).not.toHaveBeenCalled();
-    }));
+    });
   });
 });

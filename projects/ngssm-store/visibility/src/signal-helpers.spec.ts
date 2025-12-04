@@ -7,43 +7,43 @@ import { NgssmVisibilityStateSpecification, updateNgssmVisibilityState } from '.
 import { ElementVisibility, isElementVisible } from './signal-helpers';
 
 describe('Visibility Signal Helpers', () => {
-  describe('isElementVisible', () => {
-    let store: StoreMock;
-    let elementVisible: ElementVisibility;
+    describe('isElementVisible', () => {
+        let store: StoreMock;
+        let elementVisible: ElementVisibility;
 
-    beforeEach(() => {
-      store = new StoreMock({
-        [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
-      });
-      TestBed.configureTestingModule({
-        providers: [{ provide: Store, useValue: store }],
-        teardown: { destroyAfterEach: true }
-      });
-      TestBed.runInInjectionContext(() => (elementVisible = isElementVisible('monitoring')));
+        beforeEach(() => {
+            store = new StoreMock({
+                [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
+            });
+            TestBed.configureTestingModule({
+                providers: [{ provide: Store, useValue: store }],
+                teardown: { destroyAfterEach: true }
+            });
+            TestBed.runInInjectionContext(() => (elementVisible = isElementVisible('monitoring')));
+        });
+
+        it(`should store the input key`, () => {
+            expect(elementVisible.key).toBe('monitoring');
+        });
+
+        it(`should be true when element 'monitoring' is visible`, () => {
+            store.stateValue = updateNgssmVisibilityState(store.stateValue, {
+                elements: {
+                    ['monitoring']: { $set: true }
+                }
+            });
+
+            expect(elementVisible.visible()).toBe(true);
+        });
+
+        it(`should be false when element 'monitoring' is not visible`, () => {
+            store.stateValue = updateNgssmVisibilityState(store.stateValue, {
+                elements: {
+                    ['monitoring']: { $set: false }
+                }
+            });
+
+            expect(elementVisible.visible()).toBe(false);
+        });
     });
-
-    it(`should store the input key`, () => {
-      expect(elementVisible.key).toBe('monitoring');
-    });
-
-    it(`should be true when element 'monitoring' is visible`, () => {
-      store.stateValue = updateNgssmVisibilityState(store.stateValue, {
-        elements: {
-          ['monitoring']: { $set: true }
-        }
-      });
-
-      expect(elementVisible.visible()).toBeTrue();
-    });
-
-    it(`should be false when element 'monitoring' is not visible`, () => {
-      store.stateValue = updateNgssmVisibilityState(store.stateValue, {
-        elements: {
-          ['monitoring']: { $set: false }
-        }
-      });
-
-      expect(elementVisible.visible()).toBeFalse();
-    });
-  });
 });

@@ -1,7 +1,6 @@
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconButton } from '@angular/material/button';
-import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatButtonHarness } from '@angular/material/button/testing';
@@ -29,7 +28,7 @@ describe('NgssmDataReloadButtonComponent', () => {
       [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
     });
     TestBed.configureTestingModule({
-      imports: [NgssmDataReloadButtonComponent, NoopAnimationsModule],
+      imports: [NgssmDataReloadButtonComponent],
       providers: [{ provide: Store, useValue: store }],
       teardown: { destroyAfterEach: true }
     });
@@ -39,7 +38,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     fixture.nativeElement.style['min-height'] = '200px';
     loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
-    spyOn(store, 'dispatchAction');
+    vi.spyOn(store, 'dispatchAction');
   });
 
   it('should create', () => {
@@ -49,7 +48,7 @@ describe('NgssmDataReloadButtonComponent', () => {
   it(`should be disabled when no data source key is set`, async () => {
     const element = await loader.getHarness(MatButtonHarness);
 
-    expect(await element.isDisabled()).toBeTrue();
+    expect(await element.isDisabled()).toBe(true);
   });
 
   describe('Rendered icon', () => {
@@ -105,7 +104,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     it(`should be disabled when state is not set for given key`, async () => {
       const element = await loader.getHarness(MatButtonHarness);
 
-      expect(await element.isDisabled()).toBeTrue();
+      expect(await element.isDisabled()).toBe(true);
     });
 
     describe(`when state is initialized for given data source`, () => {
@@ -147,7 +146,7 @@ describe('NgssmDataReloadButtonComponent', () => {
           it(`should be enabled`, async () => {
             const element = await loader.getHarness(MatButtonHarness);
 
-            expect(await element.isDisabled()).toBeFalse();
+            expect(await element.isDisabled()).toBe(false);
           });
 
           it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' when clicking on button`, async () => {
@@ -177,19 +176,25 @@ describe('NgssmDataReloadButtonComponent', () => {
               fixture.detectChanges();
             });
 
-            it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' when period elapsed`, fakeAsync(async () => {
+            beforeEach(() => {
+              vitest.useFakeTimers();
+            });
+
+            afterEach(() => {
+              vitest.useRealTimers();
+            });
+
+            it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' when period elapsed`, async () => {
               const selector = await loader.getHarness(MatSelectHarness);
               await selector.open();
               await selector.clickOptions({ text: 'Every minute' });
 
-              tick(60100);
+              await vi.advanceTimersByTimeAsync(60100);
 
               expect(store.dispatchAction).toHaveBeenCalledWith(
                 new NgssmLoadDataSourceValueAction(dataSourceKey, { forceReload: true, keepAdditionalProperties: false })
               );
-
-              discardPeriodicTasks();
-            }));
+            });
           });
         });
       });
@@ -211,7 +216,7 @@ describe('NgssmDataReloadButtonComponent', () => {
           it(`should be disabled`, async () => {
             const element = await loader.getHarness(MatButtonHarness);
 
-            expect(await element.isDisabled()).toBeTrue();
+            expect(await element.isDisabled()).toBe(true);
           });
 
           it(`should render a mat-spinner`, () => {
@@ -282,7 +287,7 @@ describe('NgssmDataReloadButtonComponent', () => {
 
         const element = await loader.getHarness(MatButtonHarness);
 
-        expect(await element.isDisabled()).toBeTrue();
+        expect(await element.isDisabled()).toBe(true);
       });
     });
   });
@@ -299,7 +304,7 @@ describe('NgssmDataReloadButtonComponent', () => {
     it(`should be disabled when no value is set set in state for the keys`, async () => {
       const element = await loader.getHarness(MatButtonHarness);
 
-      expect(await element.isDisabled()).toBeTrue();
+      expect(await element.isDisabled()).toBe(true);
     });
 
     it(`should be enabled when at least on source is set and is not in loading status`, async () => {
@@ -319,7 +324,7 @@ describe('NgssmDataReloadButtonComponent', () => {
 
       const element = await loader.getHarness(MatButtonHarness);
 
-      expect(await element.isDisabled()).toBeFalse();
+      expect(await element.isDisabled()).toBe(false);
     });
 
     it(`should render a mat-spinner when at least one source is in loading status`, () => {

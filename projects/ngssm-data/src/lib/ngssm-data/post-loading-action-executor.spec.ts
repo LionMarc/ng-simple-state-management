@@ -1,4 +1,4 @@
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ApplicationInitStatus, inject } from '@angular/core';
 import { of } from 'rxjs';
 
@@ -24,6 +24,14 @@ const dataPropertyLoading: NgssmAdditionalPropertyLoading<string> = (state, data
 describe('postLoadingActionExecutorInitializer', () => {
   let store: Store;
 
+  beforeEach(() => {
+    vitest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vitest.useRealTimers();
+  });
+
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
@@ -44,9 +52,9 @@ describe('postLoadingActionExecutorInitializer', () => {
     );
   });
 
-  it('should execute post-loading action when data is not already loaded', fakeAsync(() => {
+  it('should execute post-loading action when data is not already loaded', async () => {
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dataSourceKey));
-    flush();
+    await vitest.runAllTimersAsync();
 
     let value: string | undefined;
     const postLoadingAction = () => {
@@ -57,17 +65,17 @@ describe('postLoadingActionExecutorInitializer', () => {
     const action = new NgssmLoadDataSourceAdditionalPropertyValueAction(dataSourceKey, 'test', undefined, postLoadingAction);
 
     store.dispatchAction(action);
-    flush();
+    await vitest.runAllTimersAsync();
     TestBed.tick();
-    flush();
+    await vitest.runAllTimersAsync();
 
     expect(value).toBe('data - test');
-    flush();
-  }));
+    await vitest.runAllTimersAsync();
+  });
 
-  it('should execute post-loading action when data is already loaded', fakeAsync(() => {
+  it('should execute post-loading action when data is already loaded', async () => {
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dataSourceKey));
-    flush();
+    await vitest.runAllTimersAsync();
 
     let value: string | undefined;
     const postLoadingAction = () => {
@@ -78,19 +86,19 @@ describe('postLoadingActionExecutorInitializer', () => {
     const action = new NgssmLoadDataSourceAdditionalPropertyValueAction(dataSourceKey, 'test', undefined, postLoadingAction);
 
     store.dispatchAction(action);
-    flush();
+    await vitest.runAllTimersAsync();
     TestBed.tick();
-    flush();
+    await vitest.runAllTimersAsync();
 
     expect(value).toBe('data - test');
-    flush();
+    await vitest.runAllTimersAsync();
 
     value = 'wrong value';
     store.dispatchAction(action);
-    flush();
+    await vitest.runAllTimersAsync();
     TestBed.tick();
-    flush();
+    await vitest.runAllTimersAsync();
 
     expect(value).toBe('data - test');
-  }));
+  });
 });
