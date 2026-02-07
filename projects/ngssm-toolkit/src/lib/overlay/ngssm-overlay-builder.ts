@@ -59,7 +59,8 @@ export class NgssmOverlayBuilder implements OnDestroy {
     this.overlayRef = createOverlayRef(this.overlayInjector, {
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
       scrollStrategy: createRepositionScrollStrategy(this.injector),
-      hasBackdrop: true
+      hasBackdrop: true,
+      usePopover: false
     });
   }
 
