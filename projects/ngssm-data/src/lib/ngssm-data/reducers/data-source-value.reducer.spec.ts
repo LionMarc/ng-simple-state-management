@@ -91,7 +91,9 @@ describe('DataSourceValueReducer', () => {
               parameter: 'previous',
               additionalProperties: {},
               parameterIsValid: true,
-              parameterPartialValidity: {},
+              parameterPartialValidity: {
+                test: false
+              },
               httpErrorResponse: {
                 message: 'error'
               } as unknown as HttpErrorResponse
@@ -141,6 +143,20 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(true);
+    });
+
+    it(`should reset parameter partial validity to undefined if clearParameter is set to true`, () => {
+      const updatedState = reducer.updateState(state, new NgssmClearDataSourceValueAction('data-providers', true));
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toBeUndefined();
+    });
+
+    it(`should not reset parameter partial validity to undefined if clearParameter is not set to true`, () => {
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
+        test: false
+      });
     });
 
     it(`should reset http error response to undefined`, () => {
