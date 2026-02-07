@@ -91,7 +91,10 @@ describe('DataSourceValueReducer', () => {
               parameter: 'previous',
               additionalProperties: {},
               parameterIsValid: true,
-              parameterPartialValidity: {}
+              parameterPartialValidity: {},
+              httpErrorResponse: {
+                message: 'error'
+              } as unknown as HttpErrorResponse
             }
           }
         }
@@ -138,6 +141,12 @@ describe('DataSourceValueReducer', () => {
       const updatedState = reducer.updateState(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterIsValid).toEqual(true);
+    });
+
+    it(`should reset http error response to undefined`, () => {
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.httpErrorResponse).toBeUndefined();
     });
   });
 });
