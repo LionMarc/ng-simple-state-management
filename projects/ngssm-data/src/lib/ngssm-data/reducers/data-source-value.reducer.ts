@@ -57,9 +57,7 @@ export class DataSourceValueReducer implements Reducer {
               value: { $set: undefined },
               lastLoadingDate: { $set: undefined },
               additionalProperties: { $set: {} },
-              httpErrorResponse: { $set: undefined },
-              // ensure partial-validity cleared when value is cleared
-              parameterPartialValidity: { $set: undefined }
+              httpErrorResponse: { $set: undefined }
             }
           }
         });
