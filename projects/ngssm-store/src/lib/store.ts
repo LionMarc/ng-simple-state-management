@@ -1,4 +1,4 @@
-import { EnvironmentInjector, Injectable, Signal, inject, runInInjectionContext, signal } from '@angular/core';
+import { ApplicationRef, EnvironmentInjector, Injectable, Signal, inject, runInInjectionContext, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import update from 'immutability-helper';
@@ -45,6 +45,9 @@ export class Store implements ActionDispatcher {
   // They can be executed after a list of actions is processed. In that case, some actions are never processed by the effects.
   public useMacroTasks = true;
 
+  // If true, a call to ApplicationRef.tick is made after an action is processed and the state is updated.
+  public forceChangeDetectionAfterActionProcessed = true;
+
   // Logger service for debugging and monitoring.
   private readonly logger = inject(Logger);
   // Array of reducers to process state updates.
@@ -54,7 +57,8 @@ export class Store implements ActionDispatcher {
   // Array of state initializers to set up the initial state.
   private readonly initializers: StateInitializer[] = inject(NGSSM_STATE_INITIALIZER, { optional: true }) as unknown as StateInitializer[];
   // Angular's `EnvironmentInjector` for running effects in the correct context.
-  private injector = inject(EnvironmentInjector);
+  private readonly injector = inject(EnvironmentInjector);
+  private readonly applicationRef = inject(ApplicationRef);
 
   // The current state of the application, managed as a BehaviorSubject for RxJS compatibility.
   private readonly _state$ = new BehaviorSubject<State>({});
@@ -180,6 +184,10 @@ export class Store implements ActionDispatcher {
     try {
       // Apply reducers to update the state.
       const updatedState = this.applyReducers(nextAction);
+
+      if (this.forceChangeDetectionAfterActionProcessed) {
+        this.applicationRef.tick();
+      }
 
       // Execute effects for the action.
       const effects = this.effectsPerActionType.get(nextAction.type) ?? [];
