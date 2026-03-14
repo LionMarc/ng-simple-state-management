@@ -5,8 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavigationActionType } from 'ngssm-navigation';
 import { NgssmCachesDisplayButtonComponent } from 'ngssm-remote-data';
 import { LockNavigationBarAction, LockStatus, ShellActionType, ShellComponent, ShellConfig } from 'ngssm-shell';
-import { createSignal, Store } from 'ngssm-store';
-import { selectNgssmDataSourceValue } from 'ngssm-data';
+import { Store } from 'ngssm-store';
+import { dataSourceToSignal } from 'ngssm-data';
 import { ServiceInfo, serviceInfoKey } from 'ngssm-smusdi';
 
 import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
@@ -18,18 +18,16 @@ import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public readonly serviceInfo = createSignal<ServiceInfo | undefined>(
-    (s) => selectNgssmDataSourceValue<ServiceInfo>(s, serviceInfoKey)?.value
-  );
+  protected readonly serviceInfo = dataSourceToSignal<ServiceInfo | undefined>(serviceInfoKey);
 
-  public readonly footerComponents: (string | Type<unknown>)[] = [
+  protected readonly footerComponents: (string | Type<unknown>)[] = [
     '<div class="footer-message">Demo application</div>',
     '<div class="footer-message">Another message</div>',
     '<div class="footer-message">And another one</div>',
     TodoFooterComponent
   ];
 
-  public readonly shellConfig: ShellConfig = {
+  protected readonly shellConfig: ShellConfig = {
     logo: './assets/logo.png',
     applicationTitle: 'Demo Application',
     sidenavConfig: {
@@ -119,23 +117,23 @@ export class AppComponent {
     displayFooterNotificationsButton: true
   };
 
-  public readonly lockStatus = LockStatus;
+  protected readonly lockStatus = LockStatus;
 
   private readonly store = inject(Store);
 
-  public closeNavigationBar(): void {
+  protected closeNavigationBar(): void {
     this.store.dispatchActionType(ShellActionType.closeNavigationBar);
   }
 
-  public openNavigationBar(): void {
+  protected openNavigationBar(): void {
     this.store.dispatchActionType(ShellActionType.openNavigationBar);
   }
 
-  public lockNavigationBar(status: LockStatus): void {
+  protected lockNavigationBar(status: LockStatus): void {
     this.store.dispatchAction(new LockNavigationBarAction(status));
   }
 
-  public lockNavigation(isLocked: boolean): void {
+  protected lockNavigation(isLocked: boolean): void {
     if (isLocked) {
       this.store.dispatchActionType(NavigationActionType.lockNavigation);
     } else {
