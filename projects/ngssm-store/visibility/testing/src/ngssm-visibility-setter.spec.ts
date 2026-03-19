@@ -8,40 +8,39 @@ import { provideNgssmVisibilityTesting } from './provide-ngssm-visibility-testin
 import { ngssmVisibilitySetter } from './ngssm-visibility-setter';
 
 describe('NgssmVisibilitySetter', () => {
-    const key = 'my-key';
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [provideNgssmStoreTesting(), provideNgssmVisibilityTesting()]
-        });
+  const key = 'my-key';
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideNgssmStoreTesting(), provideNgssmVisibilityTesting()]
     });
+  });
 
-    it(`should set the element as visible`, () => {
+  it(`should set the element as visible`, () => {
+    ngssmVisibilitySetter().showElement(key);
+
+    const store = TestBed.inject(Store);
+    expect(selectNgssmVisibilityState(store.state()).elements[key]).toBe(true);
+  });
+
+  it(`should hide the element`, () => {
+    ngssmVisibilitySetter().hideElement(key);
+
+    const store = TestBed.inject(Store);
+    expect(selectNgssmVisibilityState(store.state()).elements[key]).toBe(false);
+  });
+
+  [true, false].forEach((value) => {
+    it(`should toggle visibility to ${!value} when visibility is ${value} `, () => {
+      if (value) {
         ngssmVisibilitySetter().showElement(key);
-
-        const store = TestBed.inject(Store);
-        expect(selectNgssmVisibilityState(store.state()).elements[key]).toBe(true);
-    });
-
-    it(`should hide the element`, () => {
+      } else {
         ngssmVisibilitySetter().hideElement(key);
+      }
 
-        const store = TestBed.inject(Store);
-        expect(selectNgssmVisibilityState(store.state()).elements[key]).toBe(false);
+      ngssmVisibilitySetter().toggleElementVisibility(key);
+
+      const store = TestBed.inject(Store);
+      expect(selectNgssmVisibilityState(store.state()).elements[key]).toEqual(!value);
     });
-
-    [true, false].forEach((value) => {
-        it(`should toggle visibility to ${!value} when visibility is ${value} `, () => {
-            if (value) {
-                ngssmVisibilitySetter().showElement(key);
-            }
-            else {
-                ngssmVisibilitySetter().hideElement(key);
-            }
-
-            ngssmVisibilitySetter().toggleElementVisibility(key);
-
-            const store = TestBed.inject(Store);
-            expect(selectNgssmVisibilityState(store.state()).elements[key]).toEqual(!value);
-        });
-    });
+  });
 });

@@ -16,98 +16,102 @@ const remoteDataKeyForFunc = 'remote-data-key-for-func';
 const remoteDataKeyForClass = 'remote-data-key-for-class';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 class RemoteDataTesting implements RemoteDataProvider {
-    public remoteDataKey: string = remoteDataKeyForClass;
+  public remoteDataKey: string = remoteDataKeyForClass;
 
-    private readonly httpClient = inject(HttpClient);
+  private readonly httpClient = inject(HttpClient);
 
-    public get(): Observable<string[]> {
-        return this.httpClient.get<string[]>('/testing-class');
-    }
+  public get(): Observable<string[]> {
+    return this.httpClient.get<string[]>('/testing-class');
+  }
 }
 
 describe('RemoteDataLoadingEffect', () => {
-    let effect: RemoteDataLoadingEffect;
-    let store: StoreMock;
-    const loadingFunc = () => {
-        const httpClient = inject(HttpClient);
-        return httpClient.get<string[]>('/testing-func');
-    };
-    let httpTestingController: HttpTestingController;
+  let effect: RemoteDataLoadingEffect;
+  let store: StoreMock;
+  const loadingFunc = () => {
+    const httpClient = inject(HttpClient);
+    return httpClient.get<string[]>('/testing-func');
+  };
+  let httpTestingController: HttpTestingController;
 
+  beforeEach(() => {
+    store = new StoreMock({
+      [RemoteDataStateSpecification.featureStateKey]: RemoteDataStateSpecification.initialState
+    });
+    TestBed.configureTestingModule({
+      imports: [MatSnackBarModule],
+      providers: [
+        RemoteDataLoadingEffect,
+        provideRemoteDataFunc(remoteDataKeyForFunc, loadingFunc),
+        {
+          provide: NGSSM_REMOTE_DATA_PROVIDER,
+          useClass: RemoteDataTesting,
+          multi: true
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+      ]
+    });
+    effect = TestBed.inject(RemoteDataLoadingEffect);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  describe(`Remote data as func`, () => {
     beforeEach(() => {
-        store = new StoreMock({
-            [RemoteDataStateSpecification.featureStateKey]: RemoteDataStateSpecification.initialState
-        });
-        TestBed.configureTestingModule({
-            imports: [MatSnackBarModule],
-            providers: [
-                RemoteDataLoadingEffect,
-                provideRemoteDataFunc(remoteDataKeyForFunc, loadingFunc),
-                {
-                    provide: NGSSM_REMOTE_DATA_PROVIDER,
-                    useClass: RemoteDataTesting,
-                    multi: true
-                },
-                provideHttpClient(withInterceptorsFromDi()),
-                provideHttpClientTesting()
-            ]
-        });
-        effect = TestBed.inject(RemoteDataLoadingEffect);
-        httpTestingController = TestBed.inject(HttpTestingController);
+      const state = updateRemoteDataState(store.stateValue, {
+        [remoteDataKeyForFunc]: {
+          $set: {
+            status: DataStatus.loading,
+            data: ['testing']
+          }
+        }
+      });
+      store.stateValue = state;
     });
 
-    describe(`Remote data as func`, () => {
-        beforeEach(() => {
-            const state = updateRemoteDataState(store.stateValue, {
-                [remoteDataKeyForFunc]: {
-                    $set: {
-                        status: DataStatus.loading,
-                        data: ['testing']
-                    }
-                }
-            });
-            store.stateValue = state;
-        });
+    it(`should call the function associated to the remote data`, () => {
+      vi.spyOn(store, 'dispatchAction');
 
-        it(`should call the function associated to the remote data`, () => {
-            vi.spyOn(store, 'dispatchAction');
+      effect.processAction(store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForFunc, { forceReload: true }));
 
-            effect.processAction(store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForFunc, { forceReload: true }));
+      const req = httpTestingController.expectOne('/testing-func');
 
-            const req = httpTestingController.expectOne('/testing-func');
+      req.flush(['first', 'second']);
 
-            req.flush(['first', 'second']);
+      expect(store.dispatchAction).toHaveBeenCalledWith(
+        new RegisterLoadedRemoteDataAction(remoteDataKeyForFunc, DataStatus.loaded, ['first', 'second'], undefined)
+      );
+    });
+  });
 
-            expect(store.dispatchAction).toHaveBeenCalledWith(new RegisterLoadedRemoteDataAction(remoteDataKeyForFunc, DataStatus.loaded, ['first', 'second'], undefined));
-        });
+  describe(`Remote data as class`, () => {
+    beforeEach(() => {
+      const state = updateRemoteDataState(store.stateValue, {
+        [remoteDataKeyForClass]: {
+          $set: {
+            status: DataStatus.loading,
+            data: ['testing']
+          }
+        }
+      });
+      store.stateValue = state;
     });
 
-    describe(`Remote data as class`, () => {
-        beforeEach(() => {
-            const state = updateRemoteDataState(store.stateValue, {
-                [remoteDataKeyForClass]: {
-                    $set: {
-                        status: DataStatus.loading,
-                        data: ['testing']
-                    }
-                }
-            });
-            store.stateValue = state;
-        });
+    it(`should call the function associated to the remote data`, () => {
+      vi.spyOn(store, 'dispatchAction');
 
-        it(`should call the function associated to the remote data`, () => {
-            vi.spyOn(store, 'dispatchAction');
+      effect.processAction(store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForClass, { forceReload: true }));
 
-            effect.processAction(store, store.stateValue, new LoadRemoteDataAction(remoteDataKeyForClass, { forceReload: true }));
+      const req = httpTestingController.expectOne('/testing-class');
 
-            const req = httpTestingController.expectOne('/testing-class');
+      req.flush(['first', 'second']);
 
-            req.flush(['first', 'second']);
-
-            expect(store.dispatchAction).toHaveBeenCalledWith(new RegisterLoadedRemoteDataAction(remoteDataKeyForClass, DataStatus.loaded, ['first', 'second'], undefined));
-        });
+      expect(store.dispatchAction).toHaveBeenCalledWith(
+        new RegisterLoadedRemoteDataAction(remoteDataKeyForClass, DataStatus.loaded, ['first', 'second'], undefined)
+      );
     });
+  });
 });

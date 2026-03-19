@@ -3,44 +3,44 @@ import { NgssmVisibilityStateSpecification, updateNgssmVisibilityState } from '.
 import { NgssmIsElementVisiblePipe } from './ngssm-is-element-visible.pipe';
 
 describe('NgssmIsElementVisiblePipe', () => {
-    let state: State;
-    let pipe: NgssmIsElementVisiblePipe;
+  let state: State;
+  let pipe: NgssmIsElementVisiblePipe;
 
-    beforeEach(() => {
-        state = {
-            [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
-        };
+  beforeEach(() => {
+    state = {
+      [NgssmVisibilityStateSpecification.featureStateKey]: NgssmVisibilityStateSpecification.initialState
+    };
 
-        pipe = new NgssmIsElementVisiblePipe();
+    pipe = new NgssmIsElementVisiblePipe();
+  });
+
+  it(`should return true when element is set as visible`, () => {
+    state = updateNgssmVisibilityState(state, {
+      elements: {
+        ['testing']: { $set: true }
+      }
     });
 
-    it(`should return true when element is set as visible`, () => {
-        state = updateNgssmVisibilityState(state, {
-            elements: {
-                ['testing']: { $set: true }
-            }
-        });
+    const result = pipe.transform(state, 'testing');
 
-        const result = pipe.transform(state, 'testing');
+    expect(result).toBe(true);
+  });
 
-        expect(result).toBe(true);
+  it(`should return false when element is not set as visible`, () => {
+    state = updateNgssmVisibilityState(state, {
+      elements: {
+        ['testing']: { $set: false }
+      }
     });
 
-    it(`should return false when element is not set as visible`, () => {
-        state = updateNgssmVisibilityState(state, {
-            elements: {
-                ['testing']: { $set: false }
-            }
-        });
+    const result = pipe.transform(state, 'testing');
 
-        const result = pipe.transform(state, 'testing');
+    expect(result).toBe(false);
+  });
 
-        expect(result).toBe(false);
-    });
+  it(`should return false when element is not set`, () => {
+    const result = pipe.transform(state, 'testing');
 
-    it(`should return false when element is not set`, () => {
-        const result = pipe.transform(state, 'testing');
-
-        expect(result).toBe(false);
-    });
+    expect(result).toBe(false);
+  });
 });
