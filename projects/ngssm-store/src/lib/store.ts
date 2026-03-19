@@ -46,7 +46,7 @@ export class Store implements ActionDispatcher {
   public useMacroTasks = true;
 
   // If true, a call to ApplicationRef.tick is made after an action is processed and the state is updated.
-  public forceChangeDetectionAfterActionProcessed = true;
+  public forceChangeDetectionAfterActionProcessed = false;
 
   // Logger service for debugging and monitoring.
   private readonly logger = inject(Logger);
