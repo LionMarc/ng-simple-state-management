@@ -11,185 +11,185 @@ import { NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from '.
 import { NgssmDataSourceValueStatus } from './model';
 
 describe('data-sources-linker', () => {
-    let store: StoreMock;
+  let store: StoreMock;
 
-    beforeEach(async () => {
-        store = new StoreMock({
-            [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
-        });
-
-        TestBed.configureTestingModule({
-            providers: [{ provide: Store, useValue: store }, provideAppInitializer(dataSourcesLinkerInitializer)]
-        });
-
-        await TestBed.inject(ApplicationInitStatus).donePromise;
+  beforeEach(async () => {
+    store = new StoreMock({
+      [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
     });
 
-    it(`should force the reload of 'content' when data source 'url' is updated and 'content' is linked to 'url'`, () => {
-        const state = updateNgssmDataState(store.stateValue, {
-            dataSources: {
-                url: {
-                    $set: {
-                        key: 'url',
-                        dataLoadingFunc: () => of('')
-                    }
-                },
-                content: {
-                    $set: {
-                        key: 'content',
-                        dataLoadingFunc: () => of(''),
-                        linkedToDataSource: 'url'
-                    }
-                }
-            }
-        });
-
-        store.stateValue = state;
-
-        vi.spyOn(store, 'dispatchAction');
-
-        store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-        TestBed.tick();
-
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
+    TestBed.configureTestingModule({
+      providers: [{ provide: Store, useValue: store }, provideAppInitializer(dataSourcesLinkerInitializer)]
     });
 
-    it(`should force the reload of all the linked data sources`, () => {
-        const state = updateNgssmDataState(store.stateValue, {
-            dataSources: {
-                url: {
-                    $set: {
-                        key: 'url',
-                        dataLoadingFunc: () => of('')
-                    }
-                },
-                content: {
-                    $set: {
-                        key: 'content',
-                        dataLoadingFunc: () => of(''),
-                        linkedToDataSource: 'url'
-                    }
-                },
-                updated: {
-                    $set: {
-                        key: 'updated',
-                        dataLoadingFunc: () => of(''),
-                        linkedToDataSource: 'url'
-                    }
-                },
-                somethingElse: {
-                    $set: {
-                        key: 'content',
-                        dataLoadingFunc: () => of('')
-                    }
-                }
-            }
-        });
+    await TestBed.inject(ApplicationInitStatus).donePromise;
+  });
 
-        store.stateValue = state;
-
-        vi.spyOn(store, 'dispatchAction');
-
-        store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-        TestBed.tick();
-
-        expect(store.dispatchAction).toHaveBeenCalledTimes(2);
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('updated', { forceReload: true }));
+  it(`should force the reload of 'content' when data source 'url' is updated and 'content' is linked to 'url'`, () => {
+    const state = updateNgssmDataState(store.stateValue, {
+      dataSources: {
+        url: {
+          $set: {
+            key: 'url',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        content: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of(''),
+            linkedToDataSource: 'url'
+          }
+        }
+      }
     });
 
-    it(`should force the reload of all the data sources set as linked in url data source`, () => {
-        const state = updateNgssmDataState(store.stateValue, {
-            dataSources: {
-                url: {
-                    $set: {
-                        key: 'url',
-                        dataLoadingFunc: () => of(''),
-                        linkedDataSources: ['content', 'updated']
-                    }
-                },
-                content: {
-                    $set: {
-                        key: 'content',
-                        dataLoadingFunc: () => of('')
-                    }
-                },
-                updated: {
-                    $set: {
-                        key: 'updated',
-                        dataLoadingFunc: () => of('')
-                    }
-                },
-                somethingElse: {
-                    $set: {
-                        key: 'content',
-                        dataLoadingFunc: () => of('')
-                    }
-                }
-            }
-        });
+    store.stateValue = state;
 
-        store.stateValue = state;
+    vi.spyOn(store, 'dispatchAction');
 
-        vi.spyOn(store, 'dispatchAction');
+    store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
+    TestBed.tick();
 
-        store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-        TestBed.tick();
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
+  });
 
-        expect(store.dispatchAction).toHaveBeenCalledTimes(2);
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('updated', { forceReload: true }));
+  it(`should force the reload of all the linked data sources`, () => {
+    const state = updateNgssmDataState(store.stateValue, {
+      dataSources: {
+        url: {
+          $set: {
+            key: 'url',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        content: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of(''),
+            linkedToDataSource: 'url'
+          }
+        },
+        updated: {
+          $set: {
+            key: 'updated',
+            dataLoadingFunc: () => of(''),
+            linkedToDataSource: 'url'
+          }
+        },
+        somethingElse: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of('')
+          }
+        }
+      }
     });
 
-    it(`should force the reload of all the data sources set as linked in url data source and all data sources linked to url data source`, () => {
-        const state = updateNgssmDataState(store.stateValue, {
-            dataSources: {
-                url: {
-                    $set: {
-                        key: 'url',
-                        dataLoadingFunc: () => of(''),
-                        linkedDataSources: ['content', 'updated']
-                    }
-                },
-                content: {
-                    $set: {
-                        key: 'content',
-                        dataLoadingFunc: () => of(''),
-                        linkedToDataSource: 'url'
-                    }
-                },
-                updated: {
-                    $set: {
-                        key: 'updated',
-                        dataLoadingFunc: () => of('')
-                    }
-                },
-                somethingElse: {
-                    $set: {
-                        key: 'content',
-                        dataLoadingFunc: () => of('')
-                    }
-                },
-                another: {
-                    $set: {
-                        key: 'another',
-                        dataLoadingFunc: () => of(''),
-                        linkedToDataSource: 'url'
-                    }
-                }
-            }
-        });
+    store.stateValue = state;
 
-        store.stateValue = state;
+    vi.spyOn(store, 'dispatchAction');
 
-        vi.spyOn(store, 'dispatchAction');
+    store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
+    TestBed.tick();
 
-        store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
-        TestBed.tick();
+    expect(store.dispatchAction).toHaveBeenCalledTimes(2);
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('updated', { forceReload: true }));
+  });
 
-        expect(store.dispatchAction).toHaveBeenCalledTimes(3);
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('updated', { forceReload: true }));
-        expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('another', { forceReload: true }));
+  it(`should force the reload of all the data sources set as linked in url data source`, () => {
+    const state = updateNgssmDataState(store.stateValue, {
+      dataSources: {
+        url: {
+          $set: {
+            key: 'url',
+            dataLoadingFunc: () => of(''),
+            linkedDataSources: ['content', 'updated']
+          }
+        },
+        content: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        updated: {
+          $set: {
+            key: 'updated',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        somethingElse: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of('')
+          }
+        }
+      }
     });
+
+    store.stateValue = state;
+
+    vi.spyOn(store, 'dispatchAction');
+
+    store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
+    TestBed.tick();
+
+    expect(store.dispatchAction).toHaveBeenCalledTimes(2);
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('updated', { forceReload: true }));
+  });
+
+  it(`should force the reload of all the data sources set as linked in url data source and all data sources linked to url data source`, () => {
+    const state = updateNgssmDataState(store.stateValue, {
+      dataSources: {
+        url: {
+          $set: {
+            key: 'url',
+            dataLoadingFunc: () => of(''),
+            linkedDataSources: ['content', 'updated']
+          }
+        },
+        content: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of(''),
+            linkedToDataSource: 'url'
+          }
+        },
+        updated: {
+          $set: {
+            key: 'updated',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        somethingElse: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        another: {
+          $set: {
+            key: 'another',
+            dataLoadingFunc: () => of(''),
+            linkedToDataSource: 'url'
+          }
+        }
+      }
+    });
+
+    store.stateValue = state;
+
+    vi.spyOn(store, 'dispatchAction');
+
+    store.processedAction.set(new NgssmSetDataSourceValueAction('url', NgssmDataSourceValueStatus.loaded, 'test'));
+    TestBed.tick();
+
+    expect(store.dispatchAction).toHaveBeenCalledTimes(3);
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('updated', { forceReload: true }));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('another', { forceReload: true }));
+  });
 });
