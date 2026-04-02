@@ -129,6 +129,23 @@ The `provideNgssmDataSource` function accepts:
   - `linkedDataSources`: Sources to reload when this updates
   - `dependsOnDataSource`: Load this source first before loading current
   - `additionalPropertyLoadingFunc`: Function to load additional properties
+  - `onLoaded`: Callback run after successful value load (in DI context)
+  - `onLoadError`: Callback run after failed load (in DI context)
+
+#### Callback example
+
+```ts
+provideNgssmDataSource('users', usersLoader, {
+  onLoaded: (state, key, parameter, value) => {
+    const audit = inject(AuditService);
+    audit.trackLoadSuccess(key, parameter, value);
+  },
+  onLoadError: (state, key, parameter, error) => {
+    const audit = inject(AuditService);
+    audit.trackLoadFailure(key, parameter, error);
+  }
+});
+```
 
 ## Usage
 

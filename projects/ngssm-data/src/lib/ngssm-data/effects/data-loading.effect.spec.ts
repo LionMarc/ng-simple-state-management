@@ -15,7 +15,7 @@ import {
   NgssmSetDataSourceValueAction
 } from '../actions';
 import { NgssmDataStateSpecification, updateNgssmDataState } from '../state';
-import { NgssmDataSourceValueStatus } from '../model';
+import { NgssmDataSourceLoadSuccessCallback, NgssmDataSourceValueStatus } from '../model';
 
 describe('DataLoadingEffect', () => {
   let effect: DataLoadingEffect;
@@ -38,6 +38,26 @@ describe('DataLoadingEffect', () => {
     logger = TestBed.inject(Logger);
     vi.spyOn(logger, 'error');
     vi.spyOn(logger, 'information');
+  });
+
+  const onDataProvidersLoaded = vi.fn((state: State, dataSourceKey: string, parameter: unknown, value: string[]) => {
+    const localLogger = inject(Logger);
+    localLogger.information(`onLoaded called for ${dataSourceKey} with value ${value}`);
+  });
+
+  const onDataProvidersLoadError = vi.fn((state: State, dataSourceKey: string) => {
+    const localLogger = inject(Logger);
+    localLogger.information(`onLoadError called for ${dataSourceKey}`);
+  });
+
+  const onDataProvidersKoLoaded = vi.fn((state: State, dataSourceKey: string) => {
+    const localLogger = inject(Logger);
+    localLogger.information(`onLoaded called for ${dataSourceKey} on error path`);
+  });
+
+  const onDataProvidersKoLoadError = vi.fn((state: State, dataSourceKey: string) => {
+    const localLogger = inject(Logger);
+    localLogger.information(`onLoadError called for ${dataSourceKey} on error path`);
   });
 
   const dataProvidersLoadingFunc = vi.fn(() => of(['test']));
@@ -96,14 +116,18 @@ describe('DataLoadingEffect', () => {
           $set: {
             key: 'data-providers',
             dataLoadingFunc: dataProvidersLoadingFunc,
-            additionalPropertyLoadingFunc: dataProvidersAdditionalPropertyLoadingFunc
+            additionalPropertyLoadingFunc: dataProvidersAdditionalPropertyLoadingFunc,
+            onLoaded: onDataProvidersLoaded as unknown as NgssmDataSourceLoadSuccessCallback,
+            onLoadError: onDataProvidersLoadError
           }
         },
         ['data-providers-ko']: {
           $set: {
             key: 'data-providers',
             dataLoadingFunc: dataProvidersLoadingFailsFunc,
-            additionalPropertyLoadingFunc: dataProvidersAdditionalPropertyLoadingFailsFunc
+            additionalPropertyLoadingFunc: dataProvidersAdditionalPropertyLoadingFailsFunc,
+            onLoaded: onDataProvidersKoLoaded as unknown as NgssmDataSourceLoadSuccessCallback,
+            onLoadError: onDataProvidersKoLoadError
           }
         },
         ['managers']: {
@@ -219,6 +243,9 @@ describe('DataLoadingEffect', () => {
         expect(store.dispatchAction).toHaveBeenCalledWith(
           new NgssmSetDataSourceValueAction('data-providers', NgssmDataSourceValueStatus.loaded, ['test'])
         );
+        expect(onDataProvidersLoaded).toHaveBeenCalledWith(store.stateValue, 'data-providers', undefined, ['test']);
+        expect(onDataProvidersLoadError).not.toHaveBeenCalled();
+        expect(logger.information).toHaveBeenCalledWith('onLoaded called for data-providers with value test');
       });
 
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceValue}' with status '${NgssmDataSourceValueStatus.error}' when loading fails`, () => {
@@ -231,6 +258,11 @@ describe('DataLoadingEffect', () => {
             title: 'bad call'
           } as unknown as HttpErrorResponse)
         );
+        expect(onDataProvidersKoLoadError).toHaveBeenCalledWith(store.stateValue, 'data-providers-ko', undefined, {
+          title: 'bad call'
+        });
+        expect(onDataProvidersKoLoaded).not.toHaveBeenCalled();
+        expect(logger.information).toHaveBeenLastCalledWith('onLoadError called for data-providers-ko on error path');
       });
     });
 
