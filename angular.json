@@ -585,6 +585,7 @@
           "options": {
             "tsConfig": "projects/ngssm-data/tsconfig.spec.json",
             "reporters": [
+              "default",
               "junit"
             ],
             "outputFile": "artifacts/tests-results/ngssm-data.xml",
