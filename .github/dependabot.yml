@@ -9,3 +9,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    groups:
+      angular:
+        patterns:
+          - "@angular*"
+      vitest:
+        patterns:
+          - "@vitest*"
