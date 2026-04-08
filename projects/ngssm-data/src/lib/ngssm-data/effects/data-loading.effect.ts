@@ -43,10 +43,29 @@ export class DataLoadingEffect implements Effect {
 
         runInInjectionContext(this.injector, () => {
           dataSource.dataLoadingFunc(state, key, dataSourceValue.parameter).subscribe({
-            next: (value) =>
-              actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.loaded, value)),
+            next: (value) => {
+              if (dataSource.onLoaded) {
+                try {
+                  runInInjectionContext(this.injector, () => {
+                    dataSource.onLoaded!(state, key, dataSourceValue.parameter, value);
+                  });
+                } catch (callbackError) {
+                  this.logger.error(`Error in onLoaded callback for '${key}'`, callbackError as Error);
+                }
+              }
+              actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.loaded, value));
+            },
             error: (error) => {
               this.logger.error(`Unable to load data for '${key}'`, error);
+              if (dataSource.onLoadError) {
+                try {
+                  runInInjectionContext(this.injector, () => {
+                    dataSource.onLoadError!(state, key, dataSourceValue.parameter, error);
+                  });
+                } catch (callbackError) {
+                  this.logger.error(`Error in onLoadError callback for '${key}'`, callbackError as Error);
+                }
+              }
               actiondispatcher.dispatchAction(new NgssmSetDataSourceValueAction(key, NgssmDataSourceValueStatus.error, undefined, error));
             }
           });

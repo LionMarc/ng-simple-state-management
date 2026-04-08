@@ -33,6 +33,36 @@ export type NgssmAdditionalPropertyLoading<TData = unknown> = (
 ) => Observable<TData>;
 
 /**
+ * Callback invoked after data source loading succeeds.
+ *
+ * - state: current global application state
+ * - dataSourceKey: source identifier
+ * - parameter: parameter passed when loading
+ * - value: loaded data
+ */
+export type NgssmDataSourceLoadSuccessCallback<TData = unknown, TParameter = unknown> = (
+  state: State,
+  dataSourceKey: string,
+  parameter?: TParameter,
+  value?: TData
+) => void;
+
+/**
+ * Callback invoked after data source loading fails.
+ *
+ * - state: current global application state
+ * - dataSourceKey: source identifier
+ * - parameter: parameter passed when loading
+ * - error: error returned by helper
+ */
+export type NgssmDataSourceLoadFailureCallback<TParameter = unknown> = (
+  state: State,
+  dataSourceKey: string,
+  parameter?: TParameter,
+  error?: unknown
+) => void;
+
+/**
  * Describes a data source and its optional behaviours.
  *
  * - key: unique identifier for the data source.
@@ -44,6 +74,8 @@ export type NgssmAdditionalPropertyLoading<TData = unknown> = (
  * - linkedToDataSource: if specified, this data source is reloaded when the target source is updated.
  * - linkedDataSources: list of other data sources to reload when this source is updated.
  * - dependsOnDataSource: optional dependency key; when loading this source, the dependency will be loaded first.
+ * - onLoaded: optional callback invoked after successful load (value is available).
+ * - onLoadError: optional callback invoked after failed load (error is available).
  */
 export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditionalProperty = unknown> {
   key: string;
@@ -55,6 +87,8 @@ export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditio
   linkedToDataSource?: string;
   linkedDataSources?: string[];
   dependsOnDataSource?: string;
+  onLoaded?: NgssmDataSourceLoadSuccessCallback<TData, TParameter>;
+  onLoadError?: NgssmDataSourceLoadFailureCallback<TParameter>;
 }
 
 /**
@@ -75,6 +109,8 @@ export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditional
   linkedToDataSource?: string;
   linkedDataSources?: string[];
   dependsOnDataSource?: string;
+  onLoaded?: NgssmDataSourceLoadSuccessCallback<unknown, TParameter>;
+  onLoadError?: NgssmDataSourceLoadFailureCallback<TParameter>;
 }
 
 /**
@@ -94,7 +130,9 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
           key,
           dataLifetimeInSeconds: options?.dataLifetimeInSeconds,
           dataLoadingFunc: loadingFunc,
-          additionalPropertyLoadingFunc: options?.additionalPropertyLoadingFunc
+          additionalPropertyLoadingFunc: options?.additionalPropertyLoadingFunc,
+          onLoaded: options?.onLoaded,
+          onLoadError: options?.onLoadError
         };
 
         if (options?.initialParameter) {
