@@ -58,7 +58,7 @@
   "devDependencies": {
     "@angular/build": "^21.2.6",
     "@angular/cli": "^21.2.6",
-    "@angular/compiler-cli": "^21.2.6",
+    "@angular/compiler-cli": "^21.2.7",
     "@eslint/js": "^10.0.1",
     "@types/luxon": "^3.7.1",
     "@types/node": "^25.5.0",
