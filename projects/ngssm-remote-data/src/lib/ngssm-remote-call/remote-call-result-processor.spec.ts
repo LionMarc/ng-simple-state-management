@@ -47,7 +47,7 @@ describe('RemoteCallResultProcessor', () => {
     });
 
     it(`should notify the error`, () => {
-      expect(notifier.notifyError).toHaveBeenCalledWith('wrong call: http error');
+      expect(notifier.notifyError).toHaveBeenCalledWith('wrong call', 'http error');
     });
 
     it(`should dispatch an action to update the status of the remote call`, () => {

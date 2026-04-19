@@ -107,6 +107,12 @@
     },
     {
       "path": "./projects/ngssm-schematics/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-remote-data/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-remote-data/tsconfig.spec.json"
     }
   ]
 }

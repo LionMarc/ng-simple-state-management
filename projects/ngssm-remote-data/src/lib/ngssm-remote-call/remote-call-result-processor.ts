@@ -19,7 +19,7 @@ export class RemoteCallResultProcessor {
 
   public processRemoteCallError(remoteCallId: string, error: HttpErrorResponse, errorMessage: string): void {
     this.logger.error(errorMessage, error);
-    this.notifier.notifyError(`${errorMessage}: ${error.message}`);
+    this.notifier.notifyError(errorMessage, error.message);
     this.injector
       .get(Store)
       .dispatchAction(
@@ -55,6 +55,6 @@ export const processRemoteCallError = (
   notifier: NgssmNotifierService
 ): void => {
   logger.error(errorMessage, error);
-  notifier.notifyError(`${errorMessage}: ${error.error?.title}`);
+  notifier.notifyError(errorMessage, error.error?.title);
   actionDispatcher.dispatchAction(new SetRemoteCallAction(remoteCallId, { status: RemoteCallStatus.ko, error: error.error }));
 };
