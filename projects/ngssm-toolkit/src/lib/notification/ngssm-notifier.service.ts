@@ -10,10 +10,10 @@ import { NgssmNotificationSuccessComponent } from './ngssm-notification-success/
 export class NgssmNotifierService {
   private readonly matSnackBar = inject(MatSnackBar);
 
-  public notifyError(message: string): void {
+  public notifyError(message: string, detail?: string): void {
     this.matSnackBar.openFromComponent(NgssmNotificationErrorComponent, {
       panelClass: 'ngssm-notification-panel',
-      data: message
+      data: detail ? `${message}: ${detail}` : message
     });
   }
 

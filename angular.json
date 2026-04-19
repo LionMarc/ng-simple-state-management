@@ -296,6 +296,7 @@
           "options": {
             "tsConfig": "projects/ngssm-remote-data/tsconfig.spec.json",
             "reporters": [
+              "default",
               "junit"
             ],
             "outputFile": "artifacts/tests-results/ngssm-remote-data.xml",
