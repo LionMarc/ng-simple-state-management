@@ -101,7 +101,7 @@ export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA
  * Options accepted when providing a data source via provideNgssmDataSource.
  * See individual properties for behaviour.
  */
-export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditionalProperty = unknown> {
+export interface NgssmDataSourceProvideOptions<TData = unknown, TParameter = unknown, TAdditionalProperty = unknown> {
   dataLifetimeInSeconds?: number;
   initialParameter?: TParameter;
   initialParameterInvalid?: boolean;
@@ -109,7 +109,7 @@ export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditional
   linkedToDataSource?: string;
   linkedDataSources?: string[];
   dependsOnDataSource?: string;
-  onLoaded?: NgssmDataSourceLoadSuccessCallback<unknown, TParameter>;
+  onLoaded?: NgssmDataSourceLoadSuccessCallback<TData, TParameter>;
   onLoadError?: NgssmDataSourceLoadFailureCallback<TParameter>;
 }
 
@@ -120,7 +120,7 @@ export interface NgssmDataSourceProvideOptions<TParameter = unknown, TAdditional
 export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TAdditionalProperty = unknown>(
   key: string,
   loadingFunc: NgssmDataLoading<TData, TParameter>,
-  options?: NgssmDataSourceProvideOptions<TParameter, TAdditionalProperty>
+  options?: NgssmDataSourceProvideOptions<TData, TParameter, TAdditionalProperty>
 ): EnvironmentProviders => {
   return makeEnvironmentProviders([
     {
