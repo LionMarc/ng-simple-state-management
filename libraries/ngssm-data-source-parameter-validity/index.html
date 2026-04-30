@@ -1,0 +1,1027 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>NgssmDataSource Parameter Validity and Loading Behavior - Simple State Management</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/overrides.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ngssmdatasource-parameter-validity-and-loading-behavior" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Simple State Management" class="md-header__button md-logo" aria-label="Simple State Management" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Simple State Management
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NgssmDataSource Parameter Validity and Loading Behavior
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Simple State Management" class="md-nav__button md-logo" aria-label="Simple State Management" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    Simple State Management
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    State and feature state
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Libraries
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Libraries
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ngssm-store-caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ngssm-store/caching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    ngssm-data
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            ngssm-data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ngssm-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ngssm-data-simple-use-case/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using a data source
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ngssm-toolkit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ngssm-toolkit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-validity-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameter Validity Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameter Validity Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-parameter-validity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Parameter Validity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-parameter-validity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partial Parameter Validity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validity-resolution-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validity Resolution Logic
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actions-for-managing-parameter-validity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actions for Managing Parameter Validity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actions for Managing Parameter Validity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-global-validity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Global Validity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-partial-validity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Partial Validity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loading-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading Behavior
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loading Behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-data-loading-occurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      When Data Loading Occurs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-data-loading-is-blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      When Data Loading is Blocked
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-search-form-with-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Search Form with Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-initial-invalid-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Initial Invalid Parameter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-complex-form-with-partial-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Complex Form with Partial Validation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      UI Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UI Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reload-button-with-validity-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reload Button with Validity Check
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status-checking-in-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Status Checking in Templates
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      State Structure
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ngssmdatasource-parameter-validity-and-loading-behavior">NgssmDataSource Parameter Validity and Loading Behavior</h1>
+<p>This document explains the parameter validity system in ngssm-data, including global and partial validity concepts, and how they affect data source loading behavior.</p>
+<h2 id="overview">Overview</h2>
+<p>The ngssm-data library provides sophisticated parameter validation for data sources, allowing applications to control when data should be loaded based on parameter validity. This is particularly useful for:</p>
+<ul>
+<li>Form-based data sources where users enter search criteria</li>
+<li>Multi-field parameters where individual fields can be validated separately</li>
+<li>Preventing unnecessary API calls when parameters are incomplete or invalid</li>
+</ul>
+<h2 id="parameter-validity-concepts">Parameter Validity Concepts</h2>
+<h3 id="global-parameter-validity">Global Parameter Validity</h3>
+<p>Each data source value maintains a <code>parameterIsValid</code> boolean flag that represents the overall validity of the parameter:</p>
+<p><code>typescript
+interface NgssmDataSourceValue&lt;TData, TParameter&gt; {
+  // ... other properties
+  parameterIsValid?: boolean;
+  // ... other properties
+}</code></p>
+<ul>
+<li><code>undefined</code> (default): Parameter is considered valid</li>
+<li><code>true</code>: Parameter is explicitly valid</li>
+<li><code>false</code>: Parameter is invalid, blocking data loading</li>
+</ul>
+<h3 id="partial-parameter-validity">Partial Parameter Validity</h3>
+<p>For complex parameters with multiple fields, ngssm-data supports partial validity through a map structure:</p>
+<p><code>typescript
+interface NgssmDataSourceValue&lt;TData, TParameter&gt; {
+  // ... other properties
+  parameterPartialValidity?: Record&lt;string, boolean&gt;;
+  // ... other properties
+}</code></p>
+<p>This allows tracking validity for individual parameter fields:
+<code>typescript
+{
+  parameterPartialValidity: {
+    'searchTerm': true,
+    'dateFrom': false,
+    'dateTo': true
+  }
+}</code></p>
+<h3 id="validity-resolution-logic">Validity Resolution Logic</h3>
+<p>The <code>isNgssmDataSourceValueParameterValid()</code> function determines overall parameter validity using this priority:</p>
+<ol>
+<li><strong>If partial validity exists</strong>: Returns <code>true</code> only if ALL partial fields are <code>true</code></li>
+<li><strong>Otherwise</strong>: Returns <code>false</code> only if <code>parameterIsValid</code> is explicitly <code>false</code></li>
+<li><strong>Default</strong>: Returns <code>true</code> when no validity information is present</li>
+</ol>
+<p>```typescript
+export const isNgssmDataSourceValueParameterValid = (dataSourceValue: NgssmDataSourceValue): boolean =&gt; {
+  if (dataSourceValue.parameterPartialValidity) {
+    // All partial validities must be true
+    return Object.values(dataSourceValue.parameterPartialValidity).every(isValid =&gt; isValid);
+  }</p>
+<p>if (dataSourceValue.parameterIsValid === false) {
+    return false;
+  }</p>
+<p>return true; // Default valid
+};
+```</p>
+<h2 id="actions-for-managing-parameter-validity">Actions for Managing Parameter Validity</h2>
+<h3 id="setting-global-validity">Setting Global Validity</h3>
+<p>```typescript
+// Mark parameter as valid
+store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('my-data-source', true));</p>
+<p>// Mark parameter as invalid
+store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('my-data-source', false));</p>
+<p>// Mark parameter as invalid and clear any partial validity data
+store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('my-data-source', false, true));
+```</p>
+<h3 id="setting-partial-validity">Setting Partial Validity</h3>
+<p>```typescript
+// Mark specific field as valid
+store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('my-data-source', true, 'searchTerm'));</p>
+<p>// Mark specific field as invalid
+store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('my-data-source', false, 'dateFrom'));
+```</p>
+<h3 id="updating-parameters">Updating Parameters</h3>
+<p>When parameters are updated, the system automatically manages validity and loading state:</p>
+<p>```typescript
+// Update entire parameter (marks value as outdated)
+store.dispatchAction(new NgssmSetDataSourceParameterAction('my-data-source', { searchTerm: 'test', dateFrom: null }));</p>
+<p>// Update partial parameter (also marks value as outdated by default)
+store.dispatchAction(new NgssmUpdateDataSourceParameterAction('my-data-source', { searchTerm: 'updated' }));</p>
+<p>// Update partial parameter without marking value as outdated
+store.dispatchAction(new NgssmUpdateDataSourceParameterAction('my-data-source', { searchTerm: 'updated' }, true));
+```</p>
+<h2 id="loading-behavior">Loading Behavior</h2>
+<h3 id="when-data-loading-occurs">When Data Loading Occurs</h3>
+<p>The data source will attempt to load when:</p>
+<ol>
+<li><strong>Force reload requested</strong>: <code>NgssmLoadDataSourceValueAction</code> with <code>forceReload: true</code></li>
+<li><strong>No cached value exists</strong>: First load attempt</li>
+<li><strong>Cache expired</strong>: <code>dataLifetimeInSeconds</code> exceeded since <code>lastLoadingDate</code></li>
+<li><strong>Value marked as outdated</strong>: <code>valueOutdated</code> flag is <code>true</code></li>
+</ol>
+<h3 id="when-data-loading-is-blocked">When Data Loading is Blocked</h3>
+<p>Loading is prevented when:</p>
+<ol>
+<li><strong>Global parameter invalid</strong>: <code>parameterIsValid === false</code></li>
+<li><strong>Data source not registered</strong>: Key doesn't exist in state</li>
+<li><strong>Dependency not loaded</strong>: <code>dependsOnDataSource</code> specified but not in loaded state</li>
+</ol>
+<p><strong>Note</strong>: Partial validity does not directly block loading in the core reducer. However, UI components like <code>NgssmDataReloadButtonComponent</code> use <code>isNgssmDataSourceParameterValid()</code> which considers partial validity.</p>
+<h2 id="practical-examples">Practical Examples</h2>
+<h3 id="example-1-search-form-with-validation">Example 1: Search Form with Validation</h3>
+<p>```typescript
+// Data source registration
+export const searchDataSource = provideNgssmDataSource(
+  'search-results',
+  (state, key, params: { query: string; filters: any[] }) =&gt; {
+    return http.get('/api/search', { params });
+  }
+);</p>
+<p>// In component: Update search parameters with validation
+updateSearch(query: string, filters: any[]) {
+  // Update the parameter
+  this.store.dispatchAction(new NgssmSetDataSourceParameterAction('search-results', { query, filters }));</p>
+<p>// Validate individual fields
+  this.store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('search-results', query.length &gt; 2, 'query'));
+  this.store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('search-results', filters.length &gt; 0, 'filters'));</p>
+<p>// Only load if all validations pass
+  if (query.length &gt; 2 &amp;&amp; filters.length &gt; 0) {
+    this.store.dispatchAction(new NgssmLoadDataSourceValueAction('search-results'));
+  }
+}
+```</p>
+<h3 id="example-2-initial-invalid-parameter">Example 2: Initial Invalid Parameter</h3>
+<p><code>``typescript
+// Register data source with initially invalid parameter
+export const userProfileDataSource = provideNgssmDataSource(
+  'user-profile',
+  (state, key, userId: string) =&gt; http.get(</code>/api/users/${userId}`),
+  {
+    initialParameter: '', // Empty string initially
+    initialParameterInvalid: true // Mark as invalid until user selects
+  }
+);</p>
+<p>// In component: Set valid user ID
+selectUser(userId: string) {
+  this.store.dispatchAction(new NgssmSetDataSourceParameterAction('user-profile', userId, true)); // true = parameter is valid
+  this.store.dispatchAction(new NgssmLoadDataSourceValueAction('user-profile'));
+}
+```</p>
+<h3 id="example-3-complex-form-with-partial-validation">Example 3: Complex Form with Partial Validation</h3>
+<p>```typescript
+interface SearchParams {
+  keyword: string;
+  category: string;
+  dateRange: { from: Date; to: Date };
+}</p>
+<p>// Update individual fields with validation
+updateKeyword(keyword: string) {
+  this.store.dispatchAction(new NgssmUpdateDataSourceParameterAction('advanced-search', { keyword }));
+  this.store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('advanced-search', keyword.length &gt;= 3, 'keyword'));
+}</p>
+<p>updateCategory(category: string) {
+  this.store.dispatchAction(new NgssmUpdateDataSourceParameterAction('advanced-search', { category }));
+  this.store.dispatchAction(new NgssmSetDataSourceParameterValidityAction('advanced-search', category !== '', 'category'));
+}</p>
+<p>// The data source will only load when ALL partial validities are true
+// (keyword &gt;= 3 chars AND category selected AND dateRange valid)
+```</p>
+<h2 id="ui-integration">UI Integration</h2>
+<h3 id="reload-button-with-validity-check">Reload Button with Validity Check</h3>
+<p>The <code>NgssmDataReloadButtonComponent</code> automatically checks parameter validity:</p>
+<p><code>html
+&lt;ngssm-data-reload-button
+  [dataSourceKeys]="['my-data-source']"
+  [keepAdditionalProperties]="false"&gt;
+&lt;/ngssm-data-reload-button&gt;</code></p>
+<p>The button will be disabled when <code>isNgssmDataSourceParameterValid()</code> returns <code>false</code>.</p>
+<h3 id="status-checking-in-templates">Status Checking in Templates</h3>
+<p>```html
+@if (store.state() | isNgssmDataSourceValueStatus:'my-data-source':'loaded') {
+  <!-- Data is loaded and parameter was valid --></p>
+<div>Results: {{ dataSourceValue.value | json }}</div>
+<p>} @else if (store.state() | isNgssmDataSourceParameterValid:'my-data-source' === false) {
+  <!-- Parameter is invalid --></p>
+<div class="error">Please complete the required fields</div>
+<p>}
+```</p>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Use partial validity for complex forms</strong>: Individual field validation provides better UX</li>
+<li><strong>Set initial parameters as invalid</strong>: Prevent loading with incomplete initial state</li>
+<li><strong>Validate before dispatching load actions</strong>: Avoid unnecessary API calls</li>
+<li><strong>Combine with value outdated flag</strong>: Track when parameters change but data hasn't reloaded</li>
+<li><strong>Use selectors for UI state</strong>: Leverage <code>isNgssmDataSourceParameterValid</code> in components</li>
+</ol>
+<h2 id="state-structure">State Structure</h2>
+<p><code>typescript
+interface NgssmDataSourceValue {
+  status: NgssmDataSourceValueStatus;
+  parameter?: TParameter;
+  parameterIsValid?: boolean;           // Global validity
+  parameterPartialValidity?: Record&lt;string, boolean&gt;; // Field-level validity
+  valueOutdated?: boolean;              // Parameter changed, value may be stale
+  // ... other properties
+}</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
