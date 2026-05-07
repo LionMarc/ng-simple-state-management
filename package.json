@@ -69,7 +69,7 @@
     "eslint": "10.2.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
-    "jsdom": "29.1.0",
+    "jsdom": "29.1.1",
     "ng-packagr": "21.2.3",
     "prettier": "^3.8.3",
     "typescript": "~5.9.3",
