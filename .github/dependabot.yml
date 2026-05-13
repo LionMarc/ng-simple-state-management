@@ -16,3 +16,6 @@ updates:
       vitest:
         patterns:
           - "@vitest*"
+      aggrid:
+        patterns:
+          - "ag-grid-*"
