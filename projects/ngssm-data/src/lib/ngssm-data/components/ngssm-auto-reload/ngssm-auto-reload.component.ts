@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -11,10 +11,11 @@ import { getNgssmDataSourceValueAutoReloadTypes, NgssmDataSourceValueAutoReloadT
   templateUrl: './ngssm-auto-reload.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgssmAutoReloadComponent implements OnDestroy {
+export class NgssmAutoReloadComponent implements OnInit, OnDestroy {
   public readonly autoReloadAction = input<() => void>(() => {
     // nothing by default
   });
+  public readonly initialReloadType = input<NgssmDataSourceValueAutoReloadType>('Off');
 
   protected readonly reloadTypes = getNgssmDataSourceValueAutoReloadTypes();
   protected readonly reloadTypeControl = new FormControl<NgssmDataSourceValueAutoReloadType>('Off');
@@ -42,6 +43,10 @@ export class NgssmAutoReloadComponent implements OnDestroy {
 
       this.timerId = setInterval(this.autoReloadAction(), period) as unknown as number;
     });
+  }
+
+  public ngOnInit(): void {
+    this.reloadTypeControl.setValue(this.initialReloadType());
   }
 
   public ngOnDestroy(): void {

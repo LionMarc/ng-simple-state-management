@@ -56,6 +56,19 @@ describe('NgssmAutoReloadComponent', () => {
     await selector.close();
   });
 
+  it(`should initialize the select with the value of initialReloadType`, async () => {
+    fixture.componentRef.setInput('initialReloadType', '5min');
+    fixture.detectChanges();
+
+    const selector = await loader.getHarness(MatSelectHarness);
+    expect(await selector.getValueText()).toEqual('Every 5 minutes');
+  });
+
+  it(`should default the select to 'Off' when initialReloadType is not provided`, async () => {
+    const selector = await loader.getHarness(MatSelectHarness);
+    expect(await selector.getValueText()).toEqual('Off');
+  });
+
   it(`should execute the callback when auto reload is not off`, async () => {
     let called = false;
     fixture.componentRef.setInput('autoReloadAction', () => (called = true));
