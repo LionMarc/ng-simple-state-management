@@ -47,7 +47,7 @@
     "@fortawesome/fontawesome-free": "^7.2.0",
     "ace-builds": "1.44.0",
     "ag-grid-angular": "35.2.1",
-    "ag-grid-community": "35.2.1",
+    "ag-grid-community": "35.3.0",
     "ag-grid-enterprise": "35.2.1",
     "immutability-helper": "^3.1.1",
     "luxon": "^3.7.2",
