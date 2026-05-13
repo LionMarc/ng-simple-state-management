@@ -34,7 +34,6 @@ describe('NgssmAutoReloadComponent', () => {
     component = fixture.componentInstance;
     fixture.nativeElement.style['min-height'] = '200px';
     loader = TestbedHarnessEnvironment.loader(fixture);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -42,6 +41,8 @@ describe('NgssmAutoReloadComponent', () => {
   });
 
   it(`should be able to select among the list of auto reload types`, async () => {
+    fixture.detectChanges();
+
     const selector = await loader.getHarness(MatSelectHarness);
     await selector.open();
     const labels: string[] = [];
@@ -65,11 +66,15 @@ describe('NgssmAutoReloadComponent', () => {
   });
 
   it(`should default the select to 'Off' when initialReloadType is not provided`, async () => {
+    fixture.detectChanges();
+
     const selector = await loader.getHarness(MatSelectHarness);
     expect(await selector.getValueText()).toEqual('Off');
   });
 
   it(`should execute the callback when auto reload is not off`, async () => {
+    fixture.detectChanges();
+
     let called = false;
     fixture.componentRef.setInput('autoReloadAction', () => (called = true));
     const selector = await loader.getHarness(MatSelectHarness);
