@@ -94,6 +94,43 @@ describe('selectors', () => {
       expect(result).toBe(true);
     });
 
+    it('should return false when a linked data source is loading and linked checks are not enabled', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {}
+            }
+          },
+          content: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
+            }
+          }
+        },
+        dataSources: {
+          'my-source': {
+            $set: {
+              key: 'my-source',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading,
+              linkedDataSources: ['content']
+            }
+          },
+          content: {
+            $set: {
+              key: 'content',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', false);
+      expect(result).toBe(false);
+    });
+
     it('should return true when a source linked via linkedToDataSource is loading and linked checks are enabled', () => {
       state = updateNgssmDataState(state, {
         dataSourceValues: {
@@ -129,6 +166,43 @@ describe('selectors', () => {
 
       const result = isNgssmDataSourceLoading(state, 'my-source', true);
       expect(result).toBe(true);
+    });
+
+    it('should return false when a source linked via linkedToDataSource is loading and linked checks are not enabled', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {}
+            }
+          },
+          content: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
+            }
+          }
+        },
+        dataSources: {
+          'my-source': {
+            $set: {
+              key: 'my-source',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading
+            }
+          },
+          content: {
+            $set: {
+              key: 'content',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading,
+              linkedToDataSource: 'my-source'
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', false);
+      expect(result).toBe(false);
     });
   });
 
