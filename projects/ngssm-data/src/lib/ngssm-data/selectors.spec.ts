@@ -1,8 +1,10 @@
+import { of } from 'rxjs';
+
 import { State } from 'ngssm-store';
 
 import { NgssmDataStateSpecification, updateNgssmDataState } from './state';
 import { isNgssmDataSourceLoading, isNgssmDataSourceParameterValid, throwIfSourceValueDoesNotExist } from './selectors';
-import { NgssmDataSourceValueStatus } from './model';
+import { NgssmDataLoading, NgssmDataSourceValueStatus } from './model';
 
 describe('selectors', () => {
   let state: State;
@@ -53,6 +55,80 @@ describe('selectors', () => {
         const result = isNgssmDataSourceLoading(state, 'my-source');
         expect(result).toBe(true);
       });
+    });
+
+    it('should return true when a linked data source is loading and linked checks are enabled', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {}
+            }
+          },
+          content: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
+            }
+          }
+        },
+        dataSources: {
+          'my-source': {
+            $set: {
+              key: 'my-source',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading,
+              linkedDataSources: ['content']
+            }
+          },
+          content: {
+            $set: {
+              key: 'content',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', true);
+      expect(result).toBe(true);
+    });
+
+    it('should return true when a source linked via linkedToDataSource is loading and linked checks are enabled', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {}
+            }
+          },
+          content: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
+            }
+          }
+        },
+        dataSources: {
+          'my-source': {
+            $set: {
+              key: 'my-source',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading
+            }
+          },
+          content: {
+            $set: {
+              key: 'content',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading,
+              linkedToDataSource: 'my-source'
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', true);
+      expect(result).toBe(true);
     });
   });
 
@@ -151,7 +227,7 @@ describe('selectors', () => {
     });
 
     it('should throw when the data source value does not exist', () => {
-      expect(() => throwIfSourceValueDoesNotExist(state, 'missing-source')).toThrowError('Datasource missing-source does not exists.');
+      expect(() => throwIfSourceValueDoesNotExist(state, 'missing-source')).toThrow('Datasource missing-source does not exists.');
     });
   });
 });
