@@ -31,9 +31,37 @@ export const selectNgssmDataSourceAdditionalPropertyValue = <TProperty = unknown
  * Returns true if the specified data source is currently loading, false otherwise.
  * @param state The global application state.
  * @param dataSourceKey The unique key of the data source.
+ * @param checkLinkedDataSources If set to true, also checks whether any directly linked data sources are currently loading,
+ *   including sources linked via the reverse `linkedToDataSource` relationship.
  */
-export const isNgssmDataSourceLoading = (state: State, dataSourceKey: string): boolean =>
-  selectNgssmDataSourceValue(state, dataSourceKey)?.status === NgssmDataSourceValueStatus.loading;
+export const isNgssmDataSourceLoading = (state: State, dataSourceKey: string, checkLinkedDataSources = false): boolean => {
+  if (selectNgssmDataSourceValue(state, dataSourceKey)?.status === NgssmDataSourceValueStatus.loading) {
+    return true;
+  }
+
+  if (!checkLinkedDataSources) {
+    return false;
+  }
+
+  const dataState = selectNgssmDataState(state);
+  const dataSource = dataState.dataSources[dataSourceKey];
+  if (!dataSource) {
+    return false;
+  }
+
+  const linkedDataSourceKeys = new Set<string>(dataSource.linkedDataSources ?? []);
+  Object.keys(dataState.dataSources)
+    .filter((key) => dataState.dataSources[key].linkedToDataSource === dataSourceKey)
+    .forEach((key) => linkedDataSourceKeys.add(key));
+
+  for (const linkedKey of linkedDataSourceKeys) {
+    if (selectNgssmDataSourceValue(state, linkedKey)?.status === NgssmDataSourceValueStatus.loading) {
+      return true;
+    }
+  }
+
+  return false;
+};
 
 /**
  * Determines whether the parameter for the specified data source should be considered valid.
