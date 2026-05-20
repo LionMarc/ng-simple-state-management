@@ -66,7 +66,7 @@ describe('selectors', () => {
               additionalProperties: {}
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
               additionalProperties: {}
@@ -78,12 +78,12 @@ describe('selectors', () => {
             $set: {
               key: 'my-source',
               dataLoadingFunc: (() => of([])) as NgssmDataLoading,
-              linkedDataSources: ['content']
+              linkedDataSources: ['linked-data-source']
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
-              key: 'content',
+              key: 'linked-data-source',
               dataLoadingFunc: (() => of([])) as NgssmDataLoading
             }
           }
@@ -103,7 +103,7 @@ describe('selectors', () => {
               additionalProperties: {}
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
               additionalProperties: {}
@@ -115,12 +115,12 @@ describe('selectors', () => {
             $set: {
               key: 'my-source',
               dataLoadingFunc: (() => of([])) as NgssmDataLoading,
-              linkedDataSources: ['content']
+              linkedDataSources: ['linked-data-source']
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
-              key: 'content',
+              key: 'linked-data-source',
               dataLoadingFunc: (() => of([])) as NgssmDataLoading
             }
           }
@@ -140,7 +140,7 @@ describe('selectors', () => {
               additionalProperties: {}
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
               additionalProperties: {}
@@ -154,9 +154,9 @@ describe('selectors', () => {
               dataLoadingFunc: (() => of([])) as NgssmDataLoading
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
-              key: 'content',
+              key: 'linked-data-source',
               dataLoadingFunc: (() => of([])) as NgssmDataLoading,
               linkedToDataSource: 'my-source'
             }
@@ -177,7 +177,7 @@ describe('selectors', () => {
               additionalProperties: {}
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
               status: NgssmDataSourceValueStatus.loading,
               additionalProperties: {}
@@ -191,9 +191,9 @@ describe('selectors', () => {
               dataLoadingFunc: (() => of([])) as NgssmDataLoading
             }
           },
-          content: {
+          'linked-data-source': {
             $set: {
-              key: 'content',
+              key: 'linked-data-source',
               dataLoadingFunc: (() => of([])) as NgssmDataLoading,
               linkedToDataSource: 'my-source'
             }
