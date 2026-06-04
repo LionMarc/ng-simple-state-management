@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostBinding, inject, input, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, inject, input, Input, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -17,6 +17,7 @@ export const noop = () => {
   imports: [CommonModule, NgssmFileSizePipe],
   templateUrl: './ngssm-file-picker.component.html',
   styleUrls: ['./ngssm-file-picker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [{ provide: MatFormFieldControl, useExisting: NgssmFilePickerComponent }]
 })
 export class NgssmFilePickerComponent implements MatFormFieldControl<File>, ControlValueAccessor, OnDestroy {

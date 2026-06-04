@@ -11,7 +11,9 @@
         {{ value?.name }}
       </div>
       @if (displayDetails()) {
-        <div class="file-picker-file-information">{{ value?.size | ngssmFileSize }}, last modified on {{ lastModificationDate }}</div>
+        <div class="file-picker-file-information">
+          {{ $safeNavigationMigration(value?.size) | ngssmFileSize }}, last modified on {{ lastModificationDate }}
+        </div>
       }
     </div>
   }

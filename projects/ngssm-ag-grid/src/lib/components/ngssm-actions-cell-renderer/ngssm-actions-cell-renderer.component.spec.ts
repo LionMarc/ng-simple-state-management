@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -31,6 +31,7 @@ interface TestingData {
       </mat-card-actions>
     </mat-card>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatCard, MatCardHeader, MatCardActions, MatCardTitle, MatButton]
 })
 class TestingPoupuComponent implements ActionPopupComponent<TestingData> {

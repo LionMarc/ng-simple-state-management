@@ -1,5 +1,5 @@
 import { By } from '@angular/platform-browser';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -15,6 +15,7 @@ import { NgssmHideElement } from './ngssm-hide-element';
 
 @Component({
   template: ` <button mat-raised-button [ngssmHideElement]="'element-one'" id="buttonId">Hide Element</button> `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatButtonModule, NgssmHideElement]
 })
 class TestingComponent {}

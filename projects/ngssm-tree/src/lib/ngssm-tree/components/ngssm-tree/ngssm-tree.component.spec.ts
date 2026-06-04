@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
@@ -16,6 +16,7 @@ import { NgssmTreeComponent } from './ngssm-tree.component';
   selector: 'ngssm-tree-demo',
   imports: [CommonModule, NgssmTreeComponent],
   template: `<ngssm-tree class="fxFlex" [treeConfig]="treeConfig$ | async"></ngssm-tree>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       :host {

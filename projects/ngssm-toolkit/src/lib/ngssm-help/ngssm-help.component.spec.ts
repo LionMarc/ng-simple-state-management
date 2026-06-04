@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -11,12 +11,14 @@ import { NgssmHelpComponent } from './ngssm-help.component';
 
 @Component({
   template: ` <ngssm-help> NGContent Help </ngssm-help> `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgssmHelpComponent]
 })
 class WithNgContentComponent {}
 
 @Component({
   template: ` <ngssm-help [help]="help"></ngssm-help> `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgssmHelpComponent]
 })
 class WithInputContentComponent {

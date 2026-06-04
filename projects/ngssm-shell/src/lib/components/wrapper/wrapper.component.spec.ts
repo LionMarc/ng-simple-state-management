@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
@@ -7,6 +7,7 @@ import { WrapperComponent } from './wrapper.component';
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [WrapperComponent]
 })
 class UndefinedComponent {
@@ -15,6 +16,7 @@ class UndefinedComponent {
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [WrapperComponent]
 })
 class StringComponent {
@@ -24,12 +26,14 @@ class StringComponent {
 @Component({
   selector: 'ngssm-wrapped',
   template: `TESTING`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: []
 })
 class WrappedComponent {}
 
 @Component({
   template: `<div><ngssm-wrapper [item]="item"></ngssm-wrapper></div>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [WrapperComponent]
 })
 class WithComponent {
