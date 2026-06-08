@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -15,7 +15,6 @@ provideGlobalGridOptions({ theme: 'legacy' });
 @Component({
   imports: [AgGridAngular, NgssmAgGridThemeDirective],
   template: ` <ag-grid-angular ngssmAgGridTheme> </ag-grid-angular> `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       :host {

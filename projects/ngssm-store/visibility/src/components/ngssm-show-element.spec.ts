@@ -1,5 +1,5 @@
 import { By } from '@angular/platform-browser';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -15,7 +15,6 @@ import { NgssmShowElement } from './ngssm-show-element';
 
 @Component({
   template: ` <button mat-raised-button [ngssmShowElement]="'element-one'" id="buttonId">Show Element</button> `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatButtonModule, NgssmShowElement]
 })
 class TestingComponent {}

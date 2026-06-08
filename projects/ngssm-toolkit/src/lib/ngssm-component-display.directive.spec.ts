@@ -1,5 +1,5 @@
 import { By } from '@angular/platform-browser';
-import { Component, signal, Type, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-component-display.directive';
@@ -7,7 +7,6 @@ import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-co
 @Component({
   selector: 'ngssm-first',
   template: `{{ title }}`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: []
 })
 class FirstComponent {
@@ -17,7 +16,6 @@ class FirstComponent {
 @Component({
   selector: 'ngssm-second',
   template: `{{ title }}`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: []
 })
 class SecondComponent {
@@ -26,7 +24,6 @@ class SecondComponent {
 
 @Component({
   template: ` <div [ngssmComponentDisplay]="componentToDisplay()" [ngssmComponentAction]="componentAction()"></div> `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgssmComponentDisplayDirective]
 })
 class TestingComponent {

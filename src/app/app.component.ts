@@ -1,4 +1,4 @@
-import { Component, Type, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Type, inject } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 
@@ -15,7 +15,6 @@ import { TodoCountComponent, TodoFooterComponent } from './todo/public-api';
   selector: 'ngssm-root',
   imports: [MatButtonModule, ShellComponent, NgssmCachesDisplayButtonComponent],
   templateUrl: './app.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {

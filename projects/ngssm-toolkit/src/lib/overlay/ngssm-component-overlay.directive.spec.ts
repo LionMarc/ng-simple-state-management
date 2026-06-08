@@ -1,4 +1,4 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -6,7 +6,6 @@ import { NgssmComponentOverlayDirective } from './ngssm-component-overlay.direct
 
 @Component({
   template: ` <div [ngssmDisplayOverlay]="overlayRendered()">custom content</div> `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgssmComponentOverlayDirective]
 })
 class TestingComponent {
@@ -16,14 +15,12 @@ class TestingComponent {
 @Component({
   selector: 'ngssm-component-to-render',
   template: ` Something `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: []
 })
 class ComponentToRender {}
 
 @Component({
   template: ` <div [ngssmDisplayOverlay]="overlayRendered()" [overlayComponent]="component">custom content</div> `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgssmComponentOverlayDirective]
 })
 class WithAComponent {
@@ -37,7 +34,6 @@ class WithAComponent {
 
     <ng-template #toRender> <span id="message">Hello from template</span> </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgssmComponentOverlayDirective]
 })
 class WithATemplate {

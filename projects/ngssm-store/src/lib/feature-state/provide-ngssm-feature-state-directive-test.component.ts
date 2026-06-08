@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProvideNgssmFeatureStateDirective } from './provide-ngssm-feature-state.directive';
 import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE } from './feature-state-specification';
 
@@ -8,7 +8,6 @@ import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE } from '.
   template: ` <p>provide-ngssm-feature-state-directive-test works!</p> `,
   styles: ``,
   hostDirectives: [ProvideNgssmFeatureStateDirective],
-  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NGSSM_COMPONENT_WITH_FEATURE_STATE,

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -10,7 +10,6 @@ import { dataSourceToSignal } from './data-source-signal';
 import { NgssmDataSourceValueStatus } from './model';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <span id="status">{{ status.value() }}</span>
     @for (label of labels.value(); track label) {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -37,7 +37,6 @@ interface Item {
       }
     `
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AgGridAngular, NgssmAgGridDirective]
 })
 class TestingComponent {
@@ -102,7 +101,6 @@ class TestingComponent {
       }
     `
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AgGridAngular, NgssmAgGridDirective]
 })
 class TestingWithConfigComponent {

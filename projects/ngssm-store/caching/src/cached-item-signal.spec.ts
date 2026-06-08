@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -9,7 +9,6 @@ import { ngssmCachedItemSetter, provideNgssmCachingTesting } from 'ngssm-store/c
 import { cachedItemToSignal } from './cached-item-signal';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <span id="status">{{ status.value() }}</span>
     <span id="item">{{ item.value() }}</span>
