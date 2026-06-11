@@ -2,7 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -61,8 +60,7 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictInputAccessModifiers": true
   },
   "files": [],
   "references": [
@@ -77,6 +75,12 @@
     },
     {
       "path": "./projects/ngssm-store/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-toolkit/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-toolkit/tsconfig.spec.json"
     },
     {
       "path": "./projects/ngssm-navigation/tsconfig.lib.json"
