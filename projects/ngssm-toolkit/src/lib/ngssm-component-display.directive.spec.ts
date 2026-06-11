@@ -6,11 +6,11 @@ import { NgssmComponentAction, NgssmComponentDisplayDirective } from './ngssm-co
 
 @Component({
   selector: 'ngssm-first',
-  template: `{{ title }}`,
+  template: `{{ title() }}`,
   imports: []
 })
 class FirstComponent {
-  public title = 'First';
+  public readonly title = signal('First');
 }
 
 @Component({
@@ -65,7 +65,7 @@ describe('NgssmComponentDisplayDirective', () => {
   });
 
   it('should render the new title when component action is updated', async () => {
-    component.componentAction.set((component) => ((component as FirstComponent).title = 'New Title'));
+    component.componentAction.set((component) => (component as FirstComponent).title.set('New Title'));
 
     fixture.detectChanges();
     await fixture.whenStable();

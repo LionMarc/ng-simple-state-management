@@ -13,7 +13,7 @@ import { NgssmDataSource, NgssmScopedDataSourceDirective } from 'ngssm-data';
 })
 export class ComponentWithScopedDataSourceComponent {
   private static nextId = 1;
-  public readonly dataSource: NgssmDataSource<string[], unknown> = {
+  public readonly dataSource: NgssmDataSource<unknown, unknown> = {
     key: `scoped-${ComponentWithScopedDataSourceComponent.nextId++}`,
     dataLoadingFunc: () => of([])
   };
