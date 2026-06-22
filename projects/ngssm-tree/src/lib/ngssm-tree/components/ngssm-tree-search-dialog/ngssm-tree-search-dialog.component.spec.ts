@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgssmTreeSearchDialogComponent } from './ngssm-tree-search-dialog.component';
 
@@ -9,7 +8,7 @@ describe('NgssmTreeSearchDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, NgssmTreeSearchDialogComponent]
+      imports: [NgssmTreeSearchDialogComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgssmTreeSearchDialogComponent);
