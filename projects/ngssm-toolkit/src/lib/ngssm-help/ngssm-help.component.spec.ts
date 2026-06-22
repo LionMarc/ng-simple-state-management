@@ -5,7 +5,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { By } from '@angular/platform-browser';
 import { MatButtonHarness } from '@angular/material/button/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgssmHelpComponent } from './ngssm-help.component';
 
@@ -31,7 +30,7 @@ describe('NgssmHelpComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [WithNgContentComponent, NoopAnimationsModule],
+        imports: [WithNgContentComponent],
         teardown: { destroyAfterEach: false }
       }).compileComponents();
 
@@ -63,7 +62,7 @@ describe('NgssmHelpComponent', () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [WithInputContentComponent, NoopAnimationsModule],
+        imports: [WithInputContentComponent],
         teardown: { destroyAfterEach: false }
       }).compileComponents();
 
