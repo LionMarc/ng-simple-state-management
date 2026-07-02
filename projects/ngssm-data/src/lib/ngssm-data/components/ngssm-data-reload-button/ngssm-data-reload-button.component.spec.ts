@@ -24,6 +24,7 @@ describe('NgssmDataReloadButtonComponent', () => {
   let loader: HarnessLoader;
 
   beforeEach(() => {
+    vi.useFakeTimers();
     store = new StoreMock({
       [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
     });
@@ -39,6 +40,10 @@ describe('NgssmDataReloadButtonComponent', () => {
     loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
     vi.spyOn(store, 'dispatchAction');
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {

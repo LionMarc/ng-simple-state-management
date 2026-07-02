@@ -251,6 +251,7 @@ describe('NgssmAgGridDirective', () => {
 
         fixture.detectChanges();
         await vi.runAllTimersAsync();
+        fixture.detectChanges();
 
         const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
         expect(agGrid).toBeTruthy();
