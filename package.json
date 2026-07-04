@@ -59,7 +59,7 @@
     "@angular/compiler-cli": "22.0.5",
     "@eslint/js": "10.0.1",
     "@types/luxon": "3.7.2",
-    "@types/node": "26.0.1",
+    "@types/node": "26.1.0",
     "@vitest/browser-playwright": "4.1.9",
     "@vitest/coverage-v8": "4.1.9",
     "@vitest/ui": "4.1.9",
