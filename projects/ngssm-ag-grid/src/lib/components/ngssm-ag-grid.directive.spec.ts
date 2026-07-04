@@ -178,13 +178,13 @@ describe('NgssmAgGridDirective', () => {
   let store: StoreMock;
 
   beforeEach(() => {
-    vitest.resetAllMocks();
-    vitest.useFakeTimers();
+    vi.resetAllMocks();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    vitest.resetAllMocks();
-    vitest.useRealTimers();
+    vi.resetAllMocks();
+    vi.useRealTimers();
   });
 
   beforeEach(() => {
