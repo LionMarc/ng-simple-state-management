@@ -35,14 +35,14 @@ export class DemoComponent {
 const finishInit = async (fixture: ComponentFixture<any>) => {
   // On the first cycle we render and measure the viewport.
   fixture.detectChanges();
-  await vitest.runAllTimersAsync();
+  await vi.runAllTimersAsync();
 
   // On the second cycle we render the items.
   fixture.detectChanges();
-  await vitest.runAllTimersAsync();
+  await vi.runAllTimersAsync();
 
   // Flush the initial fake scroll event.
-  await vitest.advanceTimersByTimeAsync(16); // flush animation frame
+  await vi.advanceTimersByTimeAsync(16); // flush animation frame
   await vitest.runAllTimersAsync();
   fixture.detectChanges();
 };
@@ -53,11 +53,11 @@ describe('NgssmTreeComponent', () => {
   let store: StoreMock;
 
   beforeEach(() => {
-    vitest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    vitest.useRealTimers();
+    vi.useRealTimers();
   });
 
   beforeEach(async () => {

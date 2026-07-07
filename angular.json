@@ -28,8 +28,7 @@
               "base": "dist/ng-simple-state-management"
             },
             "index": "src/index.html",
-            "polyfills": [
-            ],
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -160,11 +159,16 @@
           "options": {
             "tsConfig": "projects/ngssm-toolkit/tsconfig.spec.json",
             "reporters": [
-              "junit", "default"
+              "junit",
+              "default"
             ],
             "outputFile": "artifacts/tests-results/ngssm-toolkit.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },
@@ -204,14 +208,15 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-store/tsconfig.spec.json",
-            "reporters": [
-              "junit", "default"
-            ],
             "outputFile": "artifacts/tests-results/ngssm-store.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
-            ]
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
+            ],
+            "runnerConfig": "projects/ngssm-store/vitest.config.js"
           }
         },
         "lint": {
@@ -250,7 +255,10 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-schematics/tsconfig.spec.json"
+            "tsConfig": "projects/ngssm-schematics/tsconfig.spec.json",
+            "browsers": [
+              "chromium"
+            ]
           }
         },
         "lint": {
@@ -301,7 +309,11 @@
             ],
             "outputFile": "artifacts/tests-results/ngssm-remote-data.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },
@@ -343,11 +355,16 @@
           "options": {
             "tsConfig": "projects/ngssm-navigation/tsconfig.spec.json",
             "reporters": [
-              "junit", "default"
+              "junit",
+              "default"
             ],
             "outputFile": "artifacts/tests-results/ngssm-navigation.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },
@@ -387,16 +404,21 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
+            "browsers": [
+              "chromium"
+            ],
             "tsConfig": "projects/ngssm-ag-grid/tsconfig.spec.json",
             "setupFiles": [
               "projects/ngssm-ag-grid/setup_ag-grid.ts"
             ],
             "reporters": [
-              "junit", "default"
+              "junit",
+              "default"
             ],
             "outputFile": "artifacts/tests-results/ngssm-ag-grid.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
             ]
           }
         },
@@ -443,11 +465,16 @@
           "options": {
             "tsConfig": "projects/ngssm-shell/tsconfig.spec.json",
             "reporters": [
-              "junit", "default"
+              "junit",
+              "default"
             ],
             "outputFile": "artifacts/tests-results/ngssm-shell.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },
@@ -489,11 +516,16 @@
           "options": {
             "tsConfig": "projects/ngssm-ace-editor/tsconfig.spec.json",
             "reporters": [
-              "junit", "default"
+              "junit",
+              "default"
             ],
             "outputFile": "artifacts/tests-results/ngssm-ace-editor.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },
@@ -540,11 +572,16 @@
           "options": {
             "tsConfig": "projects/ngssm-tree/tsconfig.spec.json",
             "reporters": [
-              "junit", "default"
+              "junit",
+              "default"
             ],
             "outputFile": "artifacts/tests-results/ngssm-tree.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },
@@ -591,7 +628,11 @@
             ],
             "outputFile": "artifacts/tests-results/ngssm-data.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },
@@ -633,11 +674,16 @@
           "options": {
             "tsConfig": "projects/ngssm-smusdi/tsconfig.spec.json",
             "reporters": [
-              "junit", "default"
+              "junit",
+              "default"
             ],
             "outputFile": "artifacts/tests-results/ngssm-smusdi.xml",
             "coverageReporters": [
-              "cobertura", "lcov"
+              "cobertura",
+              "lcov"
+            ],
+            "browsers": [
+              "chromium"
             ]
           }
         },

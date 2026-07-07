@@ -23,7 +23,7 @@ describe('LocalStorageEffect', () => {
   });
 
   afterEach(() => {
-    vitest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   [AgGridActionType.saveColumnStatesOnDisk, AgGridActionType.resetColumnStatesFromDisk].forEach((actionType) => {
