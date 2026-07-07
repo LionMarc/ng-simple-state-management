@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -27,8 +27,7 @@ import { NgssmAceEditorApi, NgssmAceEditorComponent, NgssmAceEditorMode } from '
     NgssmAceEditorComponent
   ],
   templateUrl: './ace-editor-demo.component.html',
-  styleUrls: ['./ace-editor-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ace-editor-demo.component.scss']
 })
 export class AceEditorDemoComponent {
   public readonly readonlyControl = new FormControl(true);

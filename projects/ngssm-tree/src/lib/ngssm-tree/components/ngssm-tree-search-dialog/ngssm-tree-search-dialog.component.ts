@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewContainerRef, ChangeDetectorRef, inject, viewChild, effect } from '@angular/core';
+import { Component, ViewContainerRef, ChangeDetectorRef, inject, viewChild, effect } from '@angular/core';
 
 import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -30,8 +30,7 @@ import { NgssmTreeDataService, NGSSM_TREE_DATA_SERVICE, SearchStatus } from '../
     MatProgressSpinnerModule
   ],
   templateUrl: './ngssm-tree-search-dialog.component.html',
-  styleUrls: ['./ngssm-tree-search-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ngssm-tree-search-dialog.component.scss']
 })
 export class NgssmTreeSearchDialogComponent {
   public readonly resultsViewerContainer = viewChild('resultsViewerContainer', { read: ViewContainerRef });

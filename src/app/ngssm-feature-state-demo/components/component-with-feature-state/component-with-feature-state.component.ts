@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE, ProvideNgssmFeatureStateDirective } from 'ngssm-store';
 
@@ -6,8 +6,6 @@ import { FeatureStateSpecification, NGSSM_COMPONENT_WITH_FEATURE_STATE, ProvideN
   selector: 'ngssm-component-with-feature-state',
   imports: [],
   templateUrl: './component-with-feature-state.component.html',
-  styleUrls: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [ProvideNgssmFeatureStateDirective],
   providers: [
     {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -22,8 +22,7 @@ import { Store } from 'ngssm-store';
     NgssmAceEditorComponent
   ],
   templateUrl: './notifications-demo.component.html',
-  styleUrls: ['./notifications-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./notifications-demo.component.scss']
 })
 export class NotificationsDemoComponent {
   public readonly ngssmAceEditorMode = NgssmAceEditorMode;

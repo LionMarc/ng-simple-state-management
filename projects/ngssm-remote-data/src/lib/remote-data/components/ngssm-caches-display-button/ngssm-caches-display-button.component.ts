@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,8 +11,7 @@ import { RemoteDataActionType } from '../../actions';
 @Component({
   selector: 'ngssm-caches-display-button',
   imports: [MatButtonModule, MatIconModule, MatTooltipModule],
-  templateUrl: './ngssm-caches-display-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './ngssm-caches-display-button.component.html'
 })
 export class NgssmCachesDisplayButtonComponent {
   private readonly store = inject(Store);

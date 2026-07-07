@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -30,8 +30,7 @@ import {
     NgssmIsElementVisiblePipe
   ],
   templateUrl: './visibility-demo.component.html',
-  styleUrls: ['./visibility-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./visibility-demo.component.scss']
 })
 export class VisibilityDemoComponent {
   protected store = inject(Store);

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, computed, inject } from '@angular/core';
+import { Component, input, computed, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,8 +14,7 @@ import { EditTodoItemAction } from '../../actions';
   selector: 'ngssm-todo-item',
   imports: [MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './todo-item.component.html',
-  styleUrls: ['./todo-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./todo-item.component.scss']
 })
 export class TodoItemComponent {
   public readonly todoId = input<number>(0);

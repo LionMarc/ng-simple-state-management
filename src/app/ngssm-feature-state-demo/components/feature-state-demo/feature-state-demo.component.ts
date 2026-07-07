@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,8 +11,7 @@ import { ComponentWithFeatureStateComponent } from '../component-with-feature-st
   selector: 'ngssm-feature-state-demo',
   imports: [MatCardModule, MatButtonModule, NgssmAceEditorComponent, ComponentWithFeatureStateComponent],
   templateUrl: './feature-state-demo.component.html',
-  styleUrls: ['./feature-state-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./feature-state-demo.component.scss']
 })
 export class FeatureStateDemoComponent {
   public readonly state = createSignal<string>((state) => JSON.stringify(state, undefined, 4));

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input, computed } from '@angular/core';
+import { Component, inject, input, computed } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,8 +14,7 @@ import { DisplayNotificationDetailsAction } from '../../actions';
   selector: 'ngssm-shell-notification',
   imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './shell-notification.component.html',
-  styleUrls: ['./shell-notification.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./shell-notification.component.scss']
 })
 export class ShellNotificationComponent {
   public readonly displayDetailsButton = input(false);

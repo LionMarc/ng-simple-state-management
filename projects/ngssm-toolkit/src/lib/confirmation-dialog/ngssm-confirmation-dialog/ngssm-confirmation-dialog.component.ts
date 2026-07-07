@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 
@@ -8,8 +8,7 @@ import { NgssmConfirmationDialogConfig } from '../ngssm-confirmation-dialog-conf
   selector: 'ngssm-confirmation-dialog',
   imports: [MatDialogContent, MatDialogActions, MatDialogClose, MatButton],
   templateUrl: './ngssm-confirmation-dialog.component.html',
-  styleUrls: ['./ngssm-confirmation-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ngssm-confirmation-dialog.component.scss']
 })
 export class NgssmConfirmationDialogComponent {
   public readonly data = inject(MAT_DIALOG_DATA) as NgssmConfirmationDialogConfig;

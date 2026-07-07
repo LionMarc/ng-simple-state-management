@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,8 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'ngssm-notification-success',
   imports: [MatIconModule],
   templateUrl: './ngssm-notification-success.component.html',
-  styleUrls: ['./ngssm-notification-success.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ngssm-notification-success.component.scss']
 })
 export class NgssmNotificationSuccessComponent {
   public message: string = inject(MAT_SNACK_BAR_DATA);

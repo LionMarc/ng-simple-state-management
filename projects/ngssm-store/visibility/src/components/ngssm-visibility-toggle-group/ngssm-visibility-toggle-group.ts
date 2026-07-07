@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, booleanAttribute, input, inject } from '@angular/core';
+import { Component, booleanAttribute, input, inject } from '@angular/core';
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 
 import { Store } from 'ngssm-store';
@@ -9,9 +9,7 @@ import { NgssmToggleElementVisibility } from '../ngssm-toggle-element-visibility
 @Component({
   selector: 'ngssm-visibility-toggle-group',
   imports: [MatButtonToggleGroup, MatButtonToggle, NgssmToggleElementVisibility, NgssmIsElementVisiblePipe],
-  templateUrl: './ngssm-visibility-toggle-group.html',
-  styleUrls: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './ngssm-visibility-toggle-group.html'
 })
 export class NgssmVisibilityToggleGroup {
   public readonly items = input<{ label: string; key: string }[]>([]);

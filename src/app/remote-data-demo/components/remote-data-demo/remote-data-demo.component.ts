@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -34,8 +34,7 @@ import { RemoteDataDemoActionType, UpdateDataStatusAction } from '../../actions'
     NgssmRemoteCallErrorComponent
   ],
   templateUrl: './remote-data-demo.component.html',
-  styleUrls: ['./remote-data-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./remote-data-demo.component.scss']
 })
 export class RemoteDataDemoComponent {
   public readonly dataStatus = DataStatus;

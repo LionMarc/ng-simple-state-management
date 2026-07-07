@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -9,8 +9,7 @@ import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
   selector: 'ngssm-overlay-demo',
   imports: [ReactiveFormsModule, MatCardModule, MatSlideToggleModule, NgssmComponentOverlayDirective],
   templateUrl: './overlay-demo.component.html',
-  styleUrls: ['./overlay-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./overlay-demo.component.scss']
 })
 export class OverlayDemoComponent {
   public readonly rightControl = new FormControl(false);

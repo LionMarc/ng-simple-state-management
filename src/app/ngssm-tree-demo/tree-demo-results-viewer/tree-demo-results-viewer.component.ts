@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 
 import { GetRowIdParams, GridOptions, ValueGetterParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
@@ -11,8 +11,7 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
   selector: 'ngssm-tree-demo-results-viewer',
   imports: [AgGridModule, NgssmAgGridDirective, NgssmAgGridThemeDirective],
   templateUrl: './tree-demo-results-viewer.component.html',
-  styleUrls: ['./tree-demo-results-viewer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./tree-demo-results-viewer.component.scss']
 })
 export class TreeDemoResultsViewerComponent {
   public readonly nodes = computed<NgssmTreeNode[]>(() => {

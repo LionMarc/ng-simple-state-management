@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -44,7 +44,6 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
   ],
   templateUrl: './todo-dashboard.component.html',
   styleUrls: ['./todo-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideFeatureState('todo-dashboard', {})]
 })
 export class TodoDashboardComponent {

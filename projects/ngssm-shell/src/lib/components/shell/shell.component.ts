@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input, computed } from '@angular/core';
+import { Component, inject, input, computed } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -30,7 +30,6 @@ import { WrapperComponent } from '../wrapper/wrapper.component';
     WrapperComponent
   ],
   templateUrl: './shell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'ngssm-shell'
   }

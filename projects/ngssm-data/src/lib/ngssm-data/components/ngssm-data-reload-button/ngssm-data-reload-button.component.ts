@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, input, effect, inject } from '@angular/core';
+import { Component, signal, input, effect, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
@@ -17,8 +17,7 @@ import { NgssmAutoReloadComponent } from '../ngssm-auto-reload/ngssm-auto-reload
 @Component({
   selector: 'ngssm-data-reload-button',
   imports: [NgClass, MatButton, MatIconButton, MatTooltip, MatIcon, MatProgressSpinner, NgssmAutoReloadComponent],
-  templateUrl: './ngssm-data-reload-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './ngssm-data-reload-button.component.html'
 })
 export class NgssmDataReloadButtonComponent {
   public readonly label = input<string | undefined>(undefined);

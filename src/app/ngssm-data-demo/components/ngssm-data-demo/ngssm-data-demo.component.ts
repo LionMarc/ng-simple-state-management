@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -32,8 +32,7 @@ import { ComponentWithScopedDataSourceComponent } from '../component-with-scoped
     ComponentWithScopedDataSourceComponent
   ],
   templateUrl: './ngssm-data-demo.component.html',
-  styleUrls: ['./ngssm-data-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ngssm-data-demo.component.scss']
 })
 export class NgssmDataDemoComponent {
   public readonly teamsKey = teamsKey;
