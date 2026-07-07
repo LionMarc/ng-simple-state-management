@@ -23,12 +23,13 @@ describe('provideNgssmNavigation', () => {
 
   describe(`routing effect`, () => {
     beforeEach(() => {
-      vitest.resetAllMocks();
-      vitest.useFakeTimers();
+      vi.resetAllMocks();
+      vi.useFakeTimers();
     });
 
     afterEach(() => {
-      vitest.resetAllMocks();
+      vi.resetAllMocks();
+      vi.useRealTimers();
     });
 
     it(`should execute the navigate method of the action when action is of type RoutingAction`, () => {
@@ -58,7 +59,7 @@ describe('provideNgssmNavigation', () => {
 
       store.processedAction.set(action);
 
-      vitest.runAllTimers();
+      vi.runAllTimers();
 
       expect(router.navigate).not.toHaveBeenCalled();
     });

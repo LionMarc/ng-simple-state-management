@@ -208,11 +208,6 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ngssm-store/tsconfig.spec.json",
-            "reporters": [
-              "junit",
-              "default"
-            ],
             "outputFile": "artifacts/tests-results/ngssm-store.xml",
             "coverageReporters": [
               "cobertura",
@@ -220,7 +215,8 @@
             ],
             "browsers": [
               "chromium"
-            ]
+            ],
+            "runnerConfig": "projects/ngssm-store/vitest.config.js"
           }
         },
         "lint": {

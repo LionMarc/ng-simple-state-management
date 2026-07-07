@@ -182,11 +182,11 @@ describe('NgssmDataReloadButtonComponent', () => {
             });
 
             beforeEach(() => {
-              vitest.useFakeTimers();
+              vi.useFakeTimers();
             });
 
             afterEach(() => {
-              vitest.useRealTimers();
+              vi.useRealTimers();
             });
 
             it(`should dispatch a '${NgssmDataActionType.loadDataSourceValue}' when period elapsed`, async () => {

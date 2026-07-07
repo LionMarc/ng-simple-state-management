@@ -15,11 +15,11 @@ describe('NgssmAutoReloadComponent', () => {
   let loader: HarnessLoader;
 
   beforeEach(() => {
-    vitest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    vitest.useRealTimers();
+    vi.useRealTimers();
   });
 
   beforeEach(async () => {

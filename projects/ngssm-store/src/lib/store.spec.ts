@@ -14,12 +14,13 @@ describe('Store', () => {
   let store: Store;
 
   beforeEach(() => {
-    vitest.resetAllMocks();
-    vitest.useFakeTimers();
+    vi.resetAllMocks();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    vitest.resetAllMocks();
+    vi.resetAllMocks();
+    vi.useRealTimers();
   });
 
   it('should store the dispatched action in the queue before processing it in the next iteration', () => {
@@ -28,7 +29,7 @@ describe('Store', () => {
 
     store.dispatchAction({ type: 'testing' });
     expect(store['actionQueue'].length).toEqual(1);
-    vitest.runAllTimers();
+    vi.runAllTimers();
     expect(store['actionQueue'].length).toEqual(0);
   });
 
@@ -100,7 +101,7 @@ describe('Store', () => {
     store = TestBed.inject(Store);
 
     store.dispatchActionType('createTodo');
-    vitest.runAllTimers();
+    vi.runAllTimers();
 
     expect(first.updateState).toHaveBeenCalled();
     expect(second.updateState).not.toHaveBeenCalled();
@@ -135,7 +136,7 @@ describe('Store', () => {
     });
 
     store.dispatchActionType('createTodo');
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     expect(first.updateState).toHaveBeenCalled();
 
@@ -179,7 +180,7 @@ describe('Store', () => {
     store = TestBed.inject(Store);
 
     store.dispatchActionType('createTodo');
-    vitest.runAllTimers();
+    vi.runAllTimers();
 
     expect(first.processAction).toHaveBeenCalled();
     expect(second.processAction).not.toHaveBeenCalled();

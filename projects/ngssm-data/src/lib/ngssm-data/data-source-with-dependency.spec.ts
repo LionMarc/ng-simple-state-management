@@ -43,11 +43,11 @@ describe('Data sourcewith dependency', () => {
   let logger: Logger;
 
   beforeEach(() => {
-    vitest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    vitest.useRealTimers();
+    vi.useRealTimers();
   });
 
   beforeEach(async () => {
@@ -69,8 +69,8 @@ describe('Data sourcewith dependency', () => {
     const promise = waitDataSourcesRegistered();
 
     TestBed.tick();
-    await vitest.runAllTimersAsync();
-    vitest.runAllTicks();
+    await vi.runAllTimersAsync();
+    vi.runAllTicks();
 
     await promise;
   });
@@ -96,7 +96,7 @@ describe('Data sourcewith dependency', () => {
 
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dependentSourceKey, { forceReload: true }));
 
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     await promise;
 
@@ -140,7 +140,7 @@ describe('Data sourcewith dependency', () => {
 
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dependentSourceKey, { forceReload: true }));
 
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     await promise;
 
@@ -181,7 +181,7 @@ describe('Data sourcewith dependency', () => {
 
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dependencySourceKey));
 
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     await promise;
 

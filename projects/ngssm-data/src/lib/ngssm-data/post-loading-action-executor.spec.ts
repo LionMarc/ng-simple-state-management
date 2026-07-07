@@ -25,11 +25,11 @@ describe('postLoadingActionExecutorInitializer', () => {
   let store: Store;
 
   beforeEach(() => {
-    vitest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    vitest.useRealTimers();
+    vi.useRealTimers();
   });
 
   beforeEach(async () => {
@@ -54,7 +54,7 @@ describe('postLoadingActionExecutorInitializer', () => {
 
   it('should execute post-loading action when data is not already loaded', async () => {
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dataSourceKey));
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     let value: string | undefined;
     const postLoadingAction = () => {
@@ -65,17 +65,17 @@ describe('postLoadingActionExecutorInitializer', () => {
     const action = new NgssmLoadDataSourceAdditionalPropertyValueAction(dataSourceKey, 'test', undefined, postLoadingAction);
 
     store.dispatchAction(action);
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
     TestBed.tick();
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     expect(value).toBe('data - test');
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
   });
 
   it('should execute post-loading action when data is already loaded', async () => {
     store.dispatchAction(new NgssmLoadDataSourceValueAction(dataSourceKey));
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     let value: string | undefined;
     const postLoadingAction = () => {
@@ -86,18 +86,18 @@ describe('postLoadingActionExecutorInitializer', () => {
     const action = new NgssmLoadDataSourceAdditionalPropertyValueAction(dataSourceKey, 'test', undefined, postLoadingAction);
 
     store.dispatchAction(action);
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
     TestBed.tick();
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     expect(value).toBe('data - test');
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     value = 'wrong value';
     store.dispatchAction(action);
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
     TestBed.tick();
-    await vitest.runAllTimersAsync();
+    await vi.runAllTimersAsync();
 
     expect(value).toBe('data - test');
   });

@@ -41,11 +41,11 @@ describe('NgssmDataSource', () => {
     const loader: NgssmDataLoading = () => of([5]);
 
     beforeEach(() => {
-      vitest.useFakeTimers();
+      vi.useFakeTimers();
     });
 
     afterEach(() => {
-      vitest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it(`should register a data source linked to another one`, async () => {
@@ -54,7 +54,7 @@ describe('NgssmDataSource', () => {
       });
 
       await TestBed.inject(ApplicationInitStatus).donePromise;
-      await vitest.runAllTimersAsync();
+      await vi.runAllTimersAsync();
 
       const state = TestBed.inject(Store).state();
       expect(selectNgssmDataState(state).dataSources['testing'].linkedToDataSource).toBe('another-one');
@@ -66,7 +66,7 @@ describe('NgssmDataSource', () => {
       });
 
       await TestBed.inject(ApplicationInitStatus).donePromise;
-      await vitest.runAllTimersAsync();
+      await vi.runAllTimersAsync();
 
       const state = TestBed.inject(Store).state();
       expect(selectNgssmDataState(state).dataSources['testing'].linkedDataSources).toEqual(['another-one']);
