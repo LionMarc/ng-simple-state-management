@@ -68,26 +68,13 @@
  * - The component uses Angular signals (`WritableSignal` and `Signal`) to manage the state of `isDisabled` and `isHidden`.
  * - Observables are converted to signals using `toSignal` for seamless integration with Angular's reactivity system.
  *
- * ### Change Detection:
- * - The component uses `ChangeDetectionStrategy.OnPush` for improved performance by minimizing unnecessary change detection cycles.
- *
  * ### Notes:
  * - Ensure that the `actions` array in `NgssmActionsCellRendererParams` is properly configured to avoid runtime errors.
  * - The component is designed to work with Angular Material and requires the relevant modules to be imported in your application.
  * - The `isDisabled` and `isHidden` properties can accept multiple input types (boolean, function, signal, or observable), providing flexibility in defining button behavior.
  */
 
-import {
-  Component,
-  ChangeDetectionStrategy,
-  signal,
-  WritableSignal,
-  Signal,
-  inject,
-  EnvironmentInjector,
-  runInInjectionContext,
-  isSignal
-} from '@angular/core';
+import { Component, signal, WritableSignal, Signal, inject, EnvironmentInjector, runInInjectionContext, isSignal } from '@angular/core';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -124,8 +111,7 @@ interface ActionButton {
 @Component({
   selector: 'ngssm-actions-cell-renderer',
   imports: [MatIconButton, MatIcon, MatTooltip, CdkOverlayOrigin, CdkConnectedOverlay, NgssmComponentDisplayDirective],
-  templateUrl: './ngssm-actions-cell-renderer.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './ngssm-actions-cell-renderer.component.html'
 })
 export class NgssmActionsCellRendererComponent implements ICellRendererAngularComp {
   public readonly actionButtons = signal<ActionButton[]>([]);

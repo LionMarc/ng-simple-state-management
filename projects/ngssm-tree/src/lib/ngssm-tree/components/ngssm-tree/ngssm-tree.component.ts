@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input, effect, signal, untracked } from '@angular/core';
+import { Component, inject, input, effect, signal, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
@@ -21,8 +21,7 @@ interface DisplayedNode {
   selector: 'ngssm-tree',
   imports: [CommonModule, ScrollingModule, MatCardModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './ngssm-tree.component.html',
-  styleUrls: ['./ngssm-tree.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ngssm-tree.component.scss']
 })
 export class NgssmTreeComponent {
   public readonly treeConfig = input<NgssmTreeConfig | undefined | null>();

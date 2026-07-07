@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, effect, inject } from '@angular/core';
+import { Component, signal, effect, inject } from '@angular/core';
 
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -19,8 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'ngssm-todo-item-editor',
   imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule],
   templateUrl: './todo-item-editor.component.html',
-  styleUrls: ['./todo-item-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./todo-item-editor.component.scss']
 })
 export class TodoItemEditorComponent {
   public readonly dialogTitle = signal<string>('');

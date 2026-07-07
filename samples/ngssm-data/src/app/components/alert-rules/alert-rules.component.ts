@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -13,8 +13,7 @@ import { AlertRule, alertRulesKey } from '../../model';
   selector: 'app-alert-rules',
   imports: [MatCard, MatCardHeader, MatCardTitle, MatCardContent, AgGridAngular, NgssmDataReloadButtonComponent, NgssmAgGridThemeDirective],
   templateUrl: './alert-rules.component.html',
-  styleUrl: './alert-rules.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './alert-rules.component.scss'
 })
 export class AlertRulesComponent {
   public readonly alertRulesSource = dataSourceToSignal<AlertRule[]>(alertRulesKey, {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { selectRemoteData } from 'ngssm-remote-data';
 import { createSignal } from 'ngssm-store';
@@ -9,8 +9,7 @@ import { todoItemsKey } from '../../model';
   selector: 'ngssm-todo-footer',
   imports: [],
   templateUrl: './todo-footer.component.html',
-  styleUrls: ['./todo-footer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./todo-footer.component.scss']
 })
 export class TodoFooterComponent {
   public readonly count = createSignal((state) => ((selectRemoteData(state, todoItemsKey)?.data ?? []) as unknown[]).length);

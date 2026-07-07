@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input, effect, signal } from '@angular/core';
+import { Component, inject, input, effect, signal } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,8 +13,7 @@ import { SelectNodeAction } from '../../actions';
   selector: 'ngssm-breadcrumb',
   imports: [MatIconModule, MatButtonModule],
   templateUrl: './ngssm-breadcrumb.component.html',
-  styleUrls: ['./ngssm-breadcrumb.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ngssm-breadcrumb.component.scss']
 })
 export class NgssmBreadcrumbComponent {
   public readonly treeId = input<string | undefined>(undefined);

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { createSignal } from 'ngssm-store';
 
@@ -9,8 +9,7 @@ import { ShellNotificationComponent } from '../shell-notification/shell-notifica
   selector: 'ngssm-shell-notification-popup',
   imports: [ShellNotificationComponent],
   templateUrl: './shell-notification-popup.component.html',
-  styleUrls: ['./shell-notification-popup.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./shell-notification-popup.component.scss']
 })
 export class ShellNotificationPopupComponent {
   public readonly shellNotificationIndex = createSignal((state) => {

@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy, ViewContainerRef, Type, inject, signal, input, effect } from '@angular/core';
+import { Component, ViewContainerRef, Type, inject, signal, input, effect } from '@angular/core';
 
 @Component({
   selector: 'ngssm-wrapper',
   imports: [],
-  templateUrl: './wrapper.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './wrapper.component.html'
 })
 export class WrapperComponent {
   public readonly item = input<string | Type<unknown> | undefined>();

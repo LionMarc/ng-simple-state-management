@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, WritableSignal } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardActions, MatCardTitle, MatCardHeader } from '@angular/material/card';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -81,14 +81,12 @@ import { ActionPopupComponent } from '../ngssm-actions-cell-renderer';
  * ### Notes:
  * - Ensure that the `popupParameter` object is properly configured to avoid runtime errors.
  * - The `messageBuilder` function in `popupParameter` allows dynamic message generation based on the `params` object.
- * - The component uses `ChangeDetectionStrategy.OnPush` for performance optimization.
  * - The `isOpen` signal can be used to programmatically control the popup's visibility.
  */
 @Component({
   selector: 'ngssm-action-confirmation-popup',
   imports: [MatCard, MatCardHeader, MatCardTitle, MatCardActions, MatButton],
-  templateUrl: './action-confirmation-popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './action-confirmation-popup.component.html'
 })
 export class ActionConfirmationPopupComponent implements ActionPopupComponent<unknown, unknown, ActionConfirmationPopupParameter> {
   public readonly message = signal<string>('No message');

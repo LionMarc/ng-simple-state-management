@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -24,18 +24,14 @@ enum TestingActionType {
 @Component({
   selector: 'ngssm-testing',
   imports: [],
-  template: ` nothing `,
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  template: ` nothing `
 })
 export class DialogDemoComponent {}
 
 @Component({
   selector: 'ngssm-editor',
   imports: [],
-  template: ` nothing `,
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  template: ` nothing `
 })
 export class EditorComponent {}
 

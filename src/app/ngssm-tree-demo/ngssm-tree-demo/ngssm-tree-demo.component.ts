@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,8 +30,7 @@ import { NgssmAgGridConfig, NgssmAgGridDirective, NgssmAgGridThemeDirective } fr
     NgssmAgGridThemeDirective
   ],
   templateUrl: './ngssm-tree-demo.component.html',
-  styleUrls: ['./ngssm-tree-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./ngssm-tree-demo.component.scss']
 })
 export class NgssmTreeDemoComponent {
   public readonly selectedNodeChildren = computed<NgssmTreeNode[]>(() => {

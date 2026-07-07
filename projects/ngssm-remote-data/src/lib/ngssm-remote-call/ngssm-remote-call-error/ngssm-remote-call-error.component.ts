@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, input, effect } from '@angular/core';
+import { Component, signal, input, effect } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +12,6 @@ import { selectNgssmRemoteCallState } from '../ngssm-remote-call.state';
   selector: 'ngssm-remote-call-error',
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './ngssm-remote-call-error.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'ngssm-remote-call-error'
   }
