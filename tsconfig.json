@@ -31,9 +31,6 @@
       "ngssm-remote-data/*": [
         "./dist/ngssm-remote-data/*"
       ],
-      "ngssm-schematics": [
-        "./dist/ngssm-schematics"
-      ],
       "ngssm-shell": [
         "./dist/ngssm-shell"
       ],
@@ -105,12 +102,6 @@
     },
     {
       "path": "./projects/ngssm-tree/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/ngssm-schematics/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/ngssm-schematics/tsconfig.spec.json"
     },
     {
       "path": "./projects/ngssm-remote-data/tsconfig.lib.json"

@@ -13,7 +13,6 @@
     "build:data": "ng build --project=ngssm-data --configuration=production",
     "build:navigation": "ng build --project=ngssm-navigation --configuration=production",
     "build:remote-data": "ng build --project=ngssm-remote-data --configuration=production",
-    "build:schematics": "ng build --project=ngssm-schematics && cd projects/ngssm-schematics && npm run build",
     "build:shell": "ng build --project=ngssm-shell --configuration=production",
     "build:smusdi": "ng build --project=ngssm-smusdi --configuration=production",
     "build:store": "ng build --project=ngssm-store --configuration=production",
@@ -28,8 +27,7 @@
     "test:store": "ng test --no-watch --project=ngssm-store --coverage",
     "test:toolkit": "ng test --no-watch --project=ngssm-toolkit --coverage",
     "test:tree": "ng test --no-watch --project=ngssm-tree --coverage",
-    "link:schematics": "npm link ./dist/ngssm-schematics",
-    "build:ci": "npm run build:store && npm run build:toolkit && npm run build:schematics && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:ace-editor && npm run build:shell && npm run build:tree && npm run build:data && npm run build:smusdi",
+    "build:ci": "npm run build:store && npm run build:toolkit && npm run build:remote-data && npm run build:navigation && npm run build:ag-grid && npm run build:ace-editor && npm run build:shell && npm run build:tree && npm run build:data && npm run build:smusdi",
     "test:ci": "npm run test:store && npm run test:toolkit && npm run test:remote-data && npm run test:navigation && npm run test:ag-grid && npm run test:shell && npm run test:data && npm run test:smusdi && npm run test:tree"
   },
   "private": true,
