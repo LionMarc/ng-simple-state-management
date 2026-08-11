@@ -275,7 +275,7 @@ const isUsersLoading = isNgssmDataSourceLoading(state, 'users');
 const isUsersOrDetailsLoading = isNgssmDataSourceLoading(state, 'users', {
   checkLinkedDataSources: true,
   checkAdditionalProperties: {
-    type: 'some',
+    type: 'selected',
     properties: ['details']
   }
 });
@@ -283,8 +283,8 @@ const isUsersOrDetailsLoading = isNgssmDataSourceLoading(state, 'users', {
 
 The options object supports:
 - `checkLinkedDataSources`: also check linked data sources
-- `checkAdditionalProperties.type`: `'none' | 'some' | 'all'`
-- `checkAdditionalProperties.properties`: property names to inspect when `type` is `'some'`
+- `checkAdditionalProperties.type`: `'none' | 'selected' | 'allProperties'`
+- `checkAdditionalProperties.properties`: property names to inspect when `type` is `'selected'`
 
 ## Advanced Features
 
