@@ -8,6 +8,18 @@ import {
 } from './model';
 import { selectNgssmDataState } from './state/ngssm-data.state';
 
+export type NgssmDataSourceLoadingCheckType = 'none' | 'selected' | 'allProperties';
+
+export interface NgssmDataSourceLoadingAdditionalPropertiesCheck {
+  type: NgssmDataSourceLoadingCheckType;
+  properties?: string[];
+}
+
+export interface NgssmDataSourceLoadingOptions {
+  checkLinkedDataSources?: boolean;
+  checkAdditionalProperties?: NgssmDataSourceLoadingAdditionalPropertiesCheck;
+}
+
 export const selectNgssmDataSourceValue = <TDataType = unknown, TParameter = unknown>(
   state: State,
   key: string
@@ -31,15 +43,46 @@ export const selectNgssmDataSourceAdditionalPropertyValue = <TProperty = unknown
  * Returns true if the specified data source is currently loading, false otherwise.
  * @param state The global application state.
  * @param dataSourceKey The unique key of the data source.
- * @param checkLinkedDataSources If set to true, also checks whether any directly linked data sources are currently loading,
- *   including sources linked via the reverse `linkedToDataSource` relationship.
+ * @param optionsOrCheckLinkedDataSources Either a boolean used for the legacy linked-data-source check,
+ *   or an options object that can also verify the status of additional properties.
  */
-export const isNgssmDataSourceLoading = (state: State, dataSourceKey: string, checkLinkedDataSources = false): boolean => {
-  if (selectNgssmDataSourceValue(state, dataSourceKey)?.status === NgssmDataSourceValueStatus.loading) {
+export const isNgssmDataSourceLoading = (
+  state: State,
+  dataSourceKey: string,
+  optionsOrCheckLinkedDataSources: boolean | NgssmDataSourceLoadingOptions = false
+): boolean => {
+  const options =
+    typeof optionsOrCheckLinkedDataSources === 'boolean'
+      ? { checkLinkedDataSources: optionsOrCheckLinkedDataSources }
+      : (optionsOrCheckLinkedDataSources ?? {});
+
+  const hasLoadingDataSourceStatus = selectNgssmDataSourceValue(state, dataSourceKey)?.status === NgssmDataSourceValueStatus.loading;
+  if (hasLoadingDataSourceStatus) {
     return true;
   }
 
-  if (!checkLinkedDataSources) {
+  const hasLoadingAdditionalProperties = (key: string): boolean => {
+    const checkOptions = options.checkAdditionalProperties;
+    if (!checkOptions || checkOptions.type === 'none') {
+      return false;
+    }
+
+    const additionalProperties = selectNgssmDataSourceValue(state, key)?.additionalProperties ?? {};
+    const propertyNames = Object.keys(additionalProperties);
+    const propertiesToCheck = checkOptions.type === 'selected' ? (checkOptions.properties ?? []) : propertyNames;
+
+    if (propertiesToCheck.length === 0) {
+      return false;
+    }
+
+    return propertiesToCheck.some((property) => additionalProperties[property]?.status === NgssmDataSourceValueStatus.loading);
+  };
+
+  if (hasLoadingAdditionalProperties(dataSourceKey)) {
+    return true;
+  }
+
+  if (!options.checkLinkedDataSources) {
     return false;
   }
 
@@ -55,7 +98,10 @@ export const isNgssmDataSourceLoading = (state: State, dataSourceKey: string, ch
     .forEach((key) => linkedDataSourceKeys.add(key));
 
   for (const linkedKey of linkedDataSourceKeys) {
-    if (selectNgssmDataSourceValue(state, linkedKey)?.status === NgssmDataSourceValueStatus.loading) {
+    if (
+      selectNgssmDataSourceValue(state, linkedKey)?.status === NgssmDataSourceValueStatus.loading ||
+      hasLoadingAdditionalProperties(linkedKey)
+    ) {
       return true;
     }
   }
