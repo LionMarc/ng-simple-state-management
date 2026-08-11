@@ -5,6 +5,7 @@ import { State } from 'ngssm-store';
 import { DateTime } from 'luxon';
 
 import {
+  NgssmClearDataSourceAdditionalPropertyValueAction,
   NgssmDataActionType,
   NgssmLoadDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceAdditionalPropertyValueAction
@@ -24,13 +25,15 @@ describe('DataSourceAdditionalPropertyValueReducer', () => {
     };
   });
 
-  [NgssmDataActionType.loadDataSourceAdditionalPropertyValue, NgssmDataActionType.setDataSourceAdditionalPropertyValue].forEach(
-    (actionType: string) => {
-      it(`should process action of type '${actionType}'`, () => {
-        expect(reducer.processedActions).toContain(actionType);
-      });
-    }
-  );
+  [
+    NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.setDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.clearDataSourceAdditionalPropertyValue
+  ].forEach((actionType: string) => {
+    it(`should process action of type '${actionType}'`, () => {
+      expect(reducer.processedActions).toContain(actionType);
+    });
+  });
 
   it('should return input state when processing not valid action type', () => {
     const updatedState = reducer.updateState(state, { type: 'not-processed' });
@@ -170,6 +173,44 @@ describe('DataSourceAdditionalPropertyValueReducer', () => {
         testing: {
           status: NgssmDataSourceValueStatus.loading,
           value: 'testing'
+        }
+      });
+    });
+  });
+
+  describe(`when processing action of type '${NgssmDataActionType.clearDataSourceAdditionalPropertyValue}'`, () => {
+    it('should clear the additional property value and reset its status', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {
+                testing: {
+                  status: NgssmDataSourceValueStatus.loaded,
+                  value: {
+                    label: 'for testing'
+                  },
+                  lastLoadingDate: DateTime.now(),
+                  httpErrorResponse: {
+                    message: 'previous error'
+                  } as HttpErrorResponse
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const action = new NgssmClearDataSourceAdditionalPropertyValueAction('data-providers', 'testing');
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
+        testing: {
+          status: NgssmDataSourceValueStatus.none,
+          value: undefined,
+          lastLoadingDate: undefined,
+          httpErrorResponse: undefined
         }
       });
     });

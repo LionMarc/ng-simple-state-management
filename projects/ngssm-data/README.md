@@ -69,12 +69,15 @@ The state representation of loaded data:
 ```typescript
 interface NgssmDataSourceValue<TData = unknown, TParameter = unknown> {
   value?: TData;                          // The actual data
-  status: NgssmDataSourceValueStatus;     // 'NOT_LOADED' | 'LOADING' | 'LOADED' | 'LOAD_ERROR'
+  status: NgssmDataSourceValueStatus;     // 'none' | 'notRegistered' | 'loading' | 'loaded' | 'error'
   parameter?: TParameter;                 // Current parameter
-  parameterInvalid?: boolean;             // Whether parameter is valid
-  lastLoad?: DateTime;                    // When data was last loaded
-  loadError?: Error;                      // Load error if status is LOAD_ERROR
-  additionalProperties?: Record<string, unknown>;  // Additional loaded properties
+  parameterIsValid?: boolean;             // Whether parameter is valid
+  parameterPartialValidity?: Record<string, boolean>;
+  lastLoadingDate?: DateTime;             // When data was last loaded
+  dataLifetimeInSeconds?: number;         // Cache TTL in seconds
+  additionalProperties: Record<string, NgssmDataSourceAdditionalPropertyValue>;
+  httpErrorResponse?: HttpErrorResponse;
+  valueOutdated?: boolean;
 }
 ```
 
@@ -248,6 +251,16 @@ this.store.dispatchAction(
 );
 ```
 
+You can also clear a previously loaded additional property value:
+
+```typescript
+import { NgssmClearDataSourceAdditionalPropertyValueAction } from 'ngssm-data';
+
+this.store.dispatchAction(
+  new NgssmClearDataSourceAdditionalPropertyValueAction('users', 'user-roles')
+);
+```
+
 ### Checking Load Status
 
 Use the status pipe to check loading state:
@@ -357,6 +370,7 @@ Common actions for data management:
 - `NgssmSetDataSourceParameterAction(key, parameter)` - Update parameter
 - `NgssmSetDataSourceParameterValidityAction(key, valid)` - Mark parameter validity
 - `NgssmLoadDataSourceAdditionalPropertyValueAction(key, property)` - Load additional property
+- `NgssmClearDataSourceAdditionalPropertyValueAction(key, property)` - Clear an additional property value
 - `NgssmClearDataSourceValueAction(key)` - Clear cached data
 - `NgssmRegisterDataSourceAction(dataSource)` - Register single source
 - `NgssmRegisterDataSourcesAction(dataSources)` - Register multiple sources
