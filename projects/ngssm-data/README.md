@@ -265,6 +265,27 @@ import { isNgssmDataSourceValueStatusPipe } from 'ngssm-data';
 export class MyComponent {}
 ```
 
+You can also inspect whether a data source is loading, including the status of additional properties:
+
+```typescript
+import { isNgssmDataSourceLoading } from 'ngssm-data';
+
+const isUsersLoading = isNgssmDataSourceLoading(state, 'users');
+
+const isUsersOrDetailsLoading = isNgssmDataSourceLoading(state, 'users', {
+  checkLinkedDataSources: true,
+  checkAdditionalProperties: {
+    type: 'some',
+    properties: ['details']
+  }
+});
+```
+
+The options object supports:
+- `checkLinkedDataSources`: also check linked data sources
+- `checkAdditionalProperties.type`: `'none' | 'some' | 'all'`
+- `checkAdditionalProperties.properties`: property names to inspect when `type` is `'some'`
+
 ## Advanced Features
 
 ### Data Dependencies

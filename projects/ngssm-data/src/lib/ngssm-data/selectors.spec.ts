@@ -57,6 +57,92 @@ describe('selectors', () => {
       });
     });
 
+    it('should return true when a selected additional property is loading', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {
+                'prop-a': {
+                  status: NgssmDataSourceValueStatus.loaded
+                },
+                'prop-b': {
+                  status: NgssmDataSourceValueStatus.loading
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', {
+        checkAdditionalProperties: {
+          type: 'selected',
+          properties: ['prop-b']
+        }
+      });
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false when a loading additional property is not in the selected property list', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {
+                'prop-a': {
+                  status: NgssmDataSourceValueStatus.loading
+                },
+                'prop-b': {
+                  status: NgssmDataSourceValueStatus.loaded
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', {
+        checkAdditionalProperties: {
+          type: 'selected',
+          properties: ['prop-b']
+        }
+      });
+
+      expect(result).toBe(false);
+    });
+
+    it('should return true when any additional property is loading while checking all properties', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {
+                'prop-a': {
+                  status: NgssmDataSourceValueStatus.loaded
+                },
+                'prop-b': {
+                  status: NgssmDataSourceValueStatus.loading
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', {
+        checkAdditionalProperties: {
+          type: 'allProperties'
+        }
+      });
+
+      expect(result).toBe(true);
+    });
+
     it('should return true when a linked data source is loading and linked checks are enabled', () => {
       state = updateNgssmDataState(state, {
         dataSourceValues: {
