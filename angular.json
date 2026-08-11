@@ -231,48 +231,6 @@
         }
       }
     },
-    "ngssm-schematics": {
-      "projectType": "library",
-      "root": "projects/ngssm-schematics",
-      "sourceRoot": "projects/ngssm-schematics/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "options": {
-            "project": "projects/ngssm-schematics/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/ngssm-schematics/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/ngssm-schematics/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/ngssm-schematics/tsconfig.spec.json",
-            "browsers": [
-              "chromium"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/ngssm-schematics/**/*.ts",
-              "projects/ngssm-schematics/**/*.html"
-            ],
-            "eslintConfig": "projects/ngssm-schematics/eslint.config.js"
-          }
-        }
-      }
-    },
     "ngssm-remote-data": {
       "projectType": "library",
       "root": "projects/ngssm-remote-data",

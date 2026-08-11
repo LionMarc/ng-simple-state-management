@@ -20,13 +20,7 @@ The static way of providing a feature state is to use the decorator _NgSsmFeatur
 --8<-- "projects/ngssm-store/src/lib/store.ts:15:19"
 ```
 
-A feature state can be generated with schematics. For example:
-
-```node
-ng g ngssm-schematics:feature-state testFeatureState
-```
-
-with the generated file
+Example:
 
 ```javascript hl_lines="13 13"
 import update, { Spec } from 'immutability-helper';
