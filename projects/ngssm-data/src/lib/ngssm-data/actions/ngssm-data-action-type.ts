@@ -29,5 +29,8 @@ export enum NgssmDataActionType {
   loadDataSourceAdditionalPropertyValue = '[NgssmDataActionType] loadDataSourceAdditionalPropertyValue',
 
   // Store the value for an additional property of the data source
-  setDataSourceAdditionalPropertyValue = '[NgssmDataActionType] setDataSourceAdditionalPropertyValue'
+  setDataSourceAdditionalPropertyValue = '[NgssmDataActionType] setDataSourceAdditionalPropertyValue',
+
+  // Clear the stored value of an additional property of the data source
+  clearDataSourceAdditionalPropertyValue = '[NgssmDataActionType] clearDataSourceAdditionalPropertyValue'
 }

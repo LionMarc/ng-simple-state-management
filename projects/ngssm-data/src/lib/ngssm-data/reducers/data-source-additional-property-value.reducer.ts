@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { Reducer, State, Action } from 'ngssm-store';
 
 import {
+  NgssmClearDataSourceAdditionalPropertyValueAction,
   NgssmDataActionType,
   NgssmLoadDataSourceAdditionalPropertyValueAction,
   NgssmSetDataSourceAdditionalPropertyValueAction
@@ -16,7 +17,8 @@ import { NgssmDataSourceValueStatus } from '../model';
 export class DataSourceAdditionalPropertyValueReducer implements Reducer {
   public readonly processedActions: string[] = [
     NgssmDataActionType.loadDataSourceAdditionalPropertyValue,
-    NgssmDataActionType.setDataSourceAdditionalPropertyValue
+    NgssmDataActionType.setDataSourceAdditionalPropertyValue,
+    NgssmDataActionType.clearDataSourceAdditionalPropertyValue
   ];
 
   public updateState(state: State, action: Action): State {
@@ -76,6 +78,26 @@ export class DataSourceAdditionalPropertyValueReducer implements Reducer {
                     value: ngssmSetDataSourceAdditionalPropertyValueAction.value,
                     lastLoadingDate: DateTime.now(),
                     httpErrorResponse: ngssmSetDataSourceAdditionalPropertyValueAction.httpErrorResponse
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      case NgssmDataActionType.clearDataSourceAdditionalPropertyValue: {
+        const ngssmClearDataSourceAdditionalPropertyValueAction = action as NgssmClearDataSourceAdditionalPropertyValueAction;
+        return updateNgssmDataState(state, {
+          dataSourceValues: {
+            [ngssmClearDataSourceAdditionalPropertyValueAction.key]: {
+              additionalProperties: {
+                [ngssmClearDataSourceAdditionalPropertyValueAction.property]: {
+                  $set: {
+                    status: NgssmDataSourceValueStatus.none,
+                    value: undefined,
+                    lastLoadingDate: undefined,
+                    httpErrorResponse: undefined
                   }
                 }
               }
