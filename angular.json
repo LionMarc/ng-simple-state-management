@@ -216,7 +216,7 @@
             "browsers": [
               "chromium"
             ],
-            "runnerConfig": "projects/ngssm-store/vitest.config.js"
+            "runnerConfig": "projects/ngssm-store/vitest.config.mts"
           }
         },
         "lint": {
