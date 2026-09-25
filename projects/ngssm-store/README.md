@@ -4,13 +4,13 @@ A lightweight, production-ready state management library for Angular application
 
 ## Overview
 
-`ngssm-store` is a simple yet powerful custom implementation of the Redux pattern designed specifically for Angular. It leverages Angular's dependency injection, RxJS for reactive updates, and modern Angular signals for optimal reactivity.
+`ngssm-store` is a simple yet powerful custom implementation of the Redux pattern designed specifically for Angular. It leverages Angular's dependency injection and modern Angular signals for reactive state updates.
 
 ### Key Features
 
 - **Centralized State Management**: Single source of truth for application state
 - **Redux Pattern**: Actions → Reducers → State → Effects → Actions
-- **Dual Reactivity**: Both RxJS observables and Angular Signals support
+- **Signal Reactivity**: Angular Signals provide reactive state and action updates
 - **Immutable State**: Uses `immutability-helper` to ensure state immutability
 - **Effect System**: Side effects, async operations, and action chaining
 - **Feature States**: Modular state management with feature-based organization
@@ -199,51 +199,8 @@ export class CounterComponent {
 }
 ```
 
-### Accessing State with Signals
-
-Use the signal-based API for reactive components:
-
-```typescript
-import { createSignal } from 'ngssm-store';
-
-@Component({
-  selector: 'app-dashboard',
-  template: `
-    <div>
-      <p>Total Users: {{ userCount() }}</p>
-      <div *ngIf="loading()">Loading...</div>
-      <ul>
-        <li *ngFor="let user of users()">{{ user.name }}</li>
-      </ul>
-    </div>`
-})
-export class DashboardComponent {
-  private store = inject(Store);
-  
-  users = createSignal((state) => state.users?.list ?? []);
   loading = createSignal((state) => state.users?.loading ?? false);
   userCount = createSignal((state) => (state.users?.list ?? []).length);
-}
-```
-
-### Accessing State with RxJS
-
-For components that need RxJS integration:
-
-```typescript
-@Component({
-  selector: 'app-user-list',
-  template: `
-    <ul>
-      <li *ngFor="let user of users$ | async">{{ user.name }}</li>
-    </ul>`
-})
-export class UserListComponent {
-  private store = inject(Store);
-  
-  users$ = this.store.state$.pipe(
-    map((state) => state.users?.list ?? [])
-  );
 }
 ```
 
@@ -258,8 +215,6 @@ export class MyComponent {
 
   getCurrentState() {
     const currentState = this.store.state(); // Signal access
-    // or
-    const viaObservable = this.store.state$; // Observable access
   }
 }
 ```
@@ -274,9 +229,6 @@ export class MyComponent {
   private store = inject(Store);
   
   lastAction = createSignal((state) => this.store.processedAction().type);
-  
-  // Or with RxJS
-  lastAction$ = this.store.processedAction$.pipe(map(a => a.type));
 }
 ```
 
@@ -435,9 +387,7 @@ export class Store {
 ### Store Class
 
 - `state(): Signal<State>` - Get current state as a Signal
-- `state$: Observable<State>` - Get state as an Observable
 - `processedAction(): Signal<Action>` - Get last processed action as a Signal
-- `processedAction$: Observable<Action>` - Get last processed action as Observable
 - `dispatchAction(action: Action): void` - Dispatch an action
 - `dispatchActionType(actionType: string): void` - Dispatch by action type string
 
