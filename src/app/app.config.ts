@@ -29,15 +29,12 @@ export const actionEffectInitializer = async () => {
   const logger = inject(Logger);
 
   store.useMacroTasks = true;
-  store.processedAction$.subscribe((action) => logger.debug(`[Store - Listener] Action ${action.type} received as observable`));
 
   effect(() => {
     const action = store.processedAction();
 
     logger.debug(`[Store - Listener] Action ${action.type} received as signal`);
   });
-
-  store.state$.subscribe(() => logger.debug(`[Store - Listener] State changed received as observable`));
 
   effect(() => {
     store.state();

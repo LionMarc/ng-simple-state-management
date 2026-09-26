@@ -1,10 +1,8 @@
 import { WritableSignal, signal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 import { Action, ActionDispatcher, State } from 'ngssm-store';
 
 export class StoreMock implements ActionDispatcher {
-  public readonly state$: BehaviorSubject<State>;
   public readonly state: WritableSignal<State>;
   public logsEnabled = false;
   public processedAction = signal<Action>({ type: '' });
@@ -12,7 +10,6 @@ export class StoreMock implements ActionDispatcher {
   private _stateValue: State = {};
 
   constructor(initialState: State) {
-    this.state$ = new BehaviorSubject<State>(this._stateValue);
     this.state = signal<State>(this._stateValue);
     this.stateValue = initialState;
   }
@@ -23,7 +20,6 @@ export class StoreMock implements ActionDispatcher {
 
   public set stateValue(value: State) {
     this._stateValue = value;
-    this.state$.next(value);
     this.state.set(value);
   }
 
