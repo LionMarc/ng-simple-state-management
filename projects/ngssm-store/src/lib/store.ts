@@ -1,5 +1,4 @@
 import { ApplicationRef, EnvironmentInjector, Injectable, Signal, inject, runInInjectionContext, signal } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 import update from 'immutability-helper';
 
@@ -23,18 +22,18 @@ export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
 /**
  * The `Store` class is a centralized state management system for Angular applications.
  * It manages the application state, processes actions using reducers, and handles side effects using effects.
- * The class integrates both RxJS (`BehaviorSubject`) and Angular signals for reactive state management.
+ * The class exposes Angular signals for reactive state management.
  *
  * ### Features:
  * - Centralized state management with support for reducers and effects.
- * - Reactive state updates using both RxJS and Angular signals.
+ * - Reactive state updates using Angular signals.
  * - Modular initialization of feature states, reducers, and effects.
  * - Sequential action processing with an action queue.
  * - Logging for debugging and monitoring state changes and action processing.
  *
  * ### Usage:
  * - Dispatch actions using `dispatchAction` or `dispatchActionType`.
- * - Subscribe to state updates using `state$` (RxJS) or `state` (Angular signal).
+ * - Read state updates using `state` (Angular signal).
  */
 @Injectable({
   providedIn: 'root'
@@ -60,9 +59,6 @@ export class Store implements ActionDispatcher {
   private readonly injector = inject(EnvironmentInjector);
   private readonly applicationRef = inject(ApplicationRef);
 
-  // The current state of the application, managed as a BehaviorSubject for RxJS compatibility.
-  private readonly _state$ = new BehaviorSubject<State>({});
-
   // A queue to ensure actions are processed sequentially.
   private readonly actionQueue: Action[] = [];
 
@@ -72,25 +68,19 @@ export class Store implements ActionDispatcher {
   // Maps action types to their corresponding effects.
   private readonly effectsPerActionType = new Map<string, Effect[]>();
 
-  // The current state of the application, managed as an Angular signal for signal-based reactivity.
+  // The current state of the application, managed as an Angular signal.
   private readonly _stateSignal = signal<State>({});
 
   // The most recently action processed by reducers, managed as an Angular signal.
   private readonly _processedAction = signal<Action>({ type: '' });
-
-  // The most recently action processed by reducers, managed as an observable.
-  private readonly _processedAction$ = new BehaviorSubject<Action>({ type: '' });
 
   /**
    * Initializes the `Store` with reducers, effects, and state initializers.
    * Also sets up the initial state and registers reducers and effects.
    */
   constructor() {
-    // Synchronize the RxJS state with the Angular signal state.
-    this._state$.subscribe((value) => this._stateSignal.set(value));
-
     this.logger.information('[Store] ---> state initialization...');
-    let state = this._state$.getValue();
+    let state = this._stateSignal();
 
     // Initialize feature states.
     state = featureStateSpecifications.reduce((p, c) => update(p, { [c.featureStateKey]: { $set: c.initialState } }), state);
@@ -102,7 +92,7 @@ export class Store implements ActionDispatcher {
     });
 
     // Update the state with the initialized values.
-    this._state$.next(state);
+    this._stateSignal.set(state);
 
     // Register reducers and effects.
     this.logger.information(`[Store] ---> initialization of ${(this.reducers ?? []).length} reducers...`);
@@ -112,29 +102,12 @@ export class Store implements ActionDispatcher {
   }
 
   /**
-   * Returns the current state as an RxJS observable.
-   * Useful for subscribing to state changes in a reactive manner.
-   */
-  public get state$(): Observable<State> {
-    return this._state$.asObservable();
-  }
-
-  /**
    * Returns the most recently action processed by reducers as an Angular signal.
    * Useful for accessing the last processed action in a reactive manner.
    * This signal is updated before processing the effects.
    */
   public get processedAction(): Signal<Action> {
     return this._processedAction.asReadonly();
-  }
-
-  /**
-   * Returns the most recently action processed by reducers as an observale.
-   * Useful for accessing the last processed action in a reactive manner.
-   * This signal is updated before processing the effects.
-   */
-  public get processedAction$(): Observable<Action> {
-    return this._processedAction$.asObservable();
   }
 
   /**
@@ -223,18 +196,17 @@ export class Store implements ActionDispatcher {
     try {
       const reducers = this.reducersPerActionType.get(nextAction.type) ?? [];
       this.logger.debug(`[Store] ${reducers.length} reducers found to process the action ${nextAction.type}`, reducers);
-      const currentState = this._state$.getValue();
+      const currentState = this._stateSignal();
       const updatedState = reducers.reduce((p, c) => c.updateState(p, nextAction), currentState);
 
       if (updatedState !== currentState) {
-        this._state$.next(updatedState);
+        this._stateSignal.set(updatedState);
       }
 
       return updatedState;
     } finally {
       this.logger.debug(`[Store] Notify action ${nextAction.type} as processed`);
       this._processedAction.set(nextAction);
-      this._processedAction$.next(nextAction);
     }
   }
 
