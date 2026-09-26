@@ -4,7 +4,7 @@ import { Action } from './action';
 import { State } from './state';
 import { ActionDispatcher } from './action-dispatcher';
 
-export type EffectFunc = (state: State, action: Action) => void;
+export type EffectFunc<TActionType extends Action = Action> = (state: State, action: TActionType) => void;
 
 export interface Effect {
   isFunc?: boolean;
