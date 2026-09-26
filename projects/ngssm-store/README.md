@@ -399,6 +399,7 @@ export class Store {
 - `provideReducers(...reducers)` - Register multiple reducers
 - `provideEffect(effect)` - Register a single effect
 - `provideEffects(...effects)` - Register multiple effects
+- `EffectFunc<TActionType extends Action = Action>` - Effect function receiving state and an action; defaults to the base `Action` type
 - `provideEffectFunc(actionType, func)` - Register an effect function
 
 ### Interfaces
