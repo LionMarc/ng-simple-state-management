@@ -1,6 +1,6 @@
 import { effect, inject, untracked } from '@angular/core';
 
-import { EffectFunc, State, Action, Logger, Store } from 'ngssm-store';
+import { EffectFunc, State, Logger, Store } from 'ngssm-store';
 
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from './actions';
 import { selectNgssmDataSourceValue } from './selectors';
@@ -19,16 +19,15 @@ import { selectNgssmDataState } from './state';
  * @param action - The action triggering the effect, expected to be of type NgssmLoadDataSourceValueAction.
  * @returns void
  */
-export const loadDataSourceWithDependencyEffect: EffectFunc = (state: State, action: Action) => {
-  const ngssmLoadDataSourceValueAction = action as NgssmLoadDataSourceValueAction;
-  const dataSourceValue = selectNgssmDataSourceValue(state, ngssmLoadDataSourceValueAction.key);
+export const loadDataSourceWithDependencyEffect: EffectFunc<NgssmLoadDataSourceValueAction> = (state, action) => {
+  const dataSourceValue = selectNgssmDataSourceValue(state, action.key);
 
   // We only take into account source with a dependency not already loaded. In that case, the status must not be loading.
   if (dataSourceValue.status === NgssmDataSourceValueStatus.loading) {
     return;
   }
 
-  const dataSource = selectNgssmDataState(state).dataSources[ngssmLoadDataSourceValueAction.key];
+  const dataSource = selectNgssmDataState(state).dataSources[action.key];
 
   const dependency = dataSource.dependsOnDataSource;
   if (!dependency) {
@@ -37,8 +36,7 @@ export const loadDataSourceWithDependencyEffect: EffectFunc = (state: State, act
     return;
   }
 
-  const store = inject(Store);
-  store.dispatchAction(new NgssmLoadDataSourceValueAction(dependency));
+  inject(Store).dispatchAction(new NgssmLoadDataSourceValueAction(dependency));
 };
 
 /**
