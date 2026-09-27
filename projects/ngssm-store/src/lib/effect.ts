@@ -22,14 +22,17 @@ export const provideEffects = (...effects: Type<unknown>[]): EnvironmentProvider
   return makeEnvironmentProviders(effects.map((effect) => ({ provide: NGSSM_EFFECT, useClass: effect, multi: true })));
 };
 
-export const provideEffectFunc = (actionType: string, effectFunc: EffectFunc): EnvironmentProviders => {
+export const provideEffectFunc = <TActionType extends Action = Action>(
+  actionType: string,
+  effectFunc: EffectFunc<TActionType>
+): EnvironmentProviders => {
   return makeEnvironmentProviders([
     {
       provide: NGSSM_EFFECT,
       useFactory: () => {
         const effect: Effect = {
           processedActions: [actionType],
-          processAction: (_, state, action) => effectFunc(state, action),
+          processAction: (_, state, action) => effectFunc(state, action as TActionType),
           isFunc: true
         };
         return effect;
