@@ -393,7 +393,7 @@ export class Store {
 
 ### Helper Functions
 
-- `createSignal<T>(selector: (state: State) => T): Signal<T>` - Create a derived signal from state
+- `createSignal<T>(selector: (state: State) => T, options?: CreateComputedOptions<T>): Signal<T>` - Create a derived signal from state. `options` are passed to Angular's `computed` function, allowing options such as a custom `equal` comparison function.
 - `provideNgssmStore()` - Initialize the store
 - `provideReducer(reducer)` - Register a single reducer
 - `provideReducers(...reducers)` - Register multiple reducers
