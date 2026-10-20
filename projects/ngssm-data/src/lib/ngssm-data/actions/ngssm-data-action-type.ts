@@ -15,6 +15,8 @@ export enum NgssmDataActionType {
 
   // Used to partially update the parameter. Usefull when creating a search component with multiple search criteria.
   updateDataSourceParameter = '[NgssmDataActionType] updateDataSourceParameter',
+  // Used to update the parameter by applying a function to its current value
+  updateDataSourceParameterWithFunction = '[NgssmDataActionType] updateDataSourceParameterWithFunction',
 
   // Update only the validity of the parameter. Usefull in case of a partial update of the parameter.
   setDataSourceParameterValidity = '[NgssmDataActionType] setDataSourceParameterValidity',

@@ -387,6 +387,8 @@ Common actions for data management:
 
 - `NgssmLoadDataSourceValueAction(key, parameter?)` - Load data
 - `NgssmSetDataSourceParameterAction(key, parameter)` - Update parameter
+- `NgssmUpdateDataSourceParameterAction(key, partialParameter)` - Shallow-merge a partial parameter
+- `NgssmUpdateDataSourceParameterWithFunctionAction(key, updater)` - Update a parameter from its current value
 - `NgssmSetDataSourceParameterValidityAction(key, valid)` - Mark parameter validity
 - `NgssmLoadDataSourceAdditionalPropertyValueAction(key, property)` - Load additional property
 - `NgssmClearDataSourceAdditionalPropertyValueAction(key, property)` - Clear an additional property value
