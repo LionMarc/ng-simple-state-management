@@ -1,4 +1,4 @@
-import { effect } from '@angular/core';
+import { effect, inject, InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import update from 'immutability-helper';
@@ -6,11 +6,12 @@ import update from 'immutability-helper';
 import { State } from './state';
 import { NGSSM_STATE_INITIALIZER, StateInitializer } from './state-initializer';
 import { Store } from './store';
-import { NGSSM_REDUCER, Reducer } from './reducer';
+import { NGSSM_REDUCER, provideReducerFunc, Reducer } from './reducer';
 import { Effect, NGSSM_EFFECT } from './effect';
 import { Action } from './action';
 
 describe('Store', () => {
+  const REDUCER_FUNC_VALUE = new InjectionToken<string>('REDUCER_FUNC_VALUE');
   let store: Store;
 
   beforeEach(() => {
@@ -111,6 +112,55 @@ describe('Store', () => {
       first: { message: 'called' },
       third: { message: 'called' }
     });
+  });
+
+  it('should apply reducer functions registered for the dispatched action types', () => {
+    const reducerFunc = vi.fn((state: State) => update(state, { fromReducerFunc: { $set: true } }));
+
+    TestBed.configureTestingModule({
+      providers: [provideReducerFunc(['createTodo', 'updateTodo'], reducerFunc)]
+    });
+    store = TestBed.inject(Store);
+
+    store.dispatchActionType('createTodo');
+    store.dispatchActionType('updateTodo');
+    vi.runAllTimers();
+
+    expect(reducerFunc).toHaveBeenCalledTimes(2);
+    expect(store.state()).toEqual({ fromReducerFunc: true });
+  });
+
+  it('should apply reducer functions after matching class reducers', () => {
+    const reducer: Reducer = {
+      processedActions: ['createTodo'],
+      updateState: (state: State) => update(state, { value: { $set: 1 } })
+    };
+    const reducerFunc = (state: State) => update(state, { value: { $set: 2 } });
+
+    TestBed.configureTestingModule({
+      providers: [{ provide: NGSSM_REDUCER, useValue: reducer, multi: true }, provideReducerFunc(['createTodo'], reducerFunc)]
+    });
+    store = TestBed.inject(Store);
+
+    store.dispatchActionType('createTodo');
+    vi.runAllTimers();
+
+    expect(store.state()).toEqual({ value: 2 });
+  });
+
+  it('should execute reducer functions in an injection context', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: REDUCER_FUNC_VALUE, useValue: 'injected' },
+        provideReducerFunc(['createTodo'], (state) => update(state, { injectedValue: { $set: inject(REDUCER_FUNC_VALUE) } }))
+      ]
+    });
+    store = TestBed.inject(Store);
+
+    store.dispatchActionType('createTodo');
+    vi.runAllTimers();
+
+    expect(store.state()).toEqual({ injectedValue: 'injected' });
   });
 
   it('should notify the processed action', async () => {

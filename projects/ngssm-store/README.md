@@ -294,6 +294,38 @@ bootstrapApplication(AppComponent, {
 
 Effect functions should be preferred over the legacy `Effect` interface implementation as they are more concise and leverage Angular's dependency injection system.
 
+### Reducer Functions
+
+Reducer functions can be registered for one or more action types without implementing the
+legacy `Reducer` interface:
+
+```typescript
+import { Action, provideReducerFunc } from 'ngssm-store';
+
+interface IncrementByAction extends Action {
+  type: 'INCREMENT_BY';
+  amount: number;
+}
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideNgssmStore(),
+    provideReducerFunc<IncrementByAction>(['INCREMENT_BY'], (state, action) => ({
+      ...state,
+      counter: {
+        count: ((state['counter'] as { count: number } | undefined)?.count ?? 0) + action.amount
+      }
+    }))
+  ]
+});
+```
+
+Reducer functions receive the current state and action and return the next state. They run
+in an Angular injection context, so it is safe to use `inject()` inside them. They are kept
+separate from class reducers; when both are registered for the same action, class reducers
+run first, followed by reducer functions in registration order. Existing class reducers
+remain supported for compatibility.
+
 ## Feature States
 
 Organize state by feature for better modularity:
@@ -397,6 +429,8 @@ export class Store {
 - `provideNgssmStore()` - Initialize the store
 - `provideReducer(reducer)` - Register a single reducer
 - `provideReducers(...reducers)` - Register multiple reducers
+- `ReducerFunc<TActionType extends Action = Action>` - Reducer function receiving state and an action
+- `provideReducerFunc(actionTypes, func)` - Register a reducer function for one or more action types
 - `provideEffect(effect)` - Register a single effect
 - `provideEffects(...effects)` - Register multiple effects
 - `EffectFunc<TActionType extends Action = Action>` - Effect function receiving state and an action; defaults to the base `Action` type
