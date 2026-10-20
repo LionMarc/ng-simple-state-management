@@ -2,7 +2,7 @@ import { Observable, delay, of } from 'rxjs';
 
 import { NgssmDataLoading } from 'ngssm-data';
 
-export const playersKey = 'gssm-data-demo:players';
+export const playersKey = 'ngssm-data-demo:players';
 
 export interface Player {
   name: string;
