@@ -112,6 +112,14 @@ store.dispatchAction(new NgssmUpdateDataSourceParameterAction('my-data-source', 
 
 // Update partial parameter without marking value as outdated
 store.dispatchAction(new NgssmUpdateDataSourceParameterAction('my-data-source', { searchTerm: 'updated' }, true));
+
+// Update the parameter based on its current value
+store.dispatchAction(
+  new NgssmUpdateDataSourceParameterWithFunctionAction('my-data-source', (parameter) => ({
+    ...parameter,
+    searchTerm: 'updated'
+  }))
+);
 ```
 
 ## Loading Behavior

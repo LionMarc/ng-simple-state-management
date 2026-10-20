@@ -11,4 +11,5 @@ export * from './ngssm-clear-data-source-additional-property-value.action';
 export * from './ngssm-register-data-source.action';
 export * from './ngssm-unregister-data-source.action';
 export * from './ngssm-update-data-source-parameter.action';
+export * from './ngssm-update-data-source-parameter-with-function.action';
 export * from './ngssm-set-data-source-parameter-validity.action';

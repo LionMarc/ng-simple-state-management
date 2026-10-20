@@ -6,11 +6,18 @@ import {
   NgssmDataActionType,
   NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceParameterValidityAction,
-  NgssmUpdateDataSourceParameterAction
+  NgssmUpdateDataSourceParameterAction,
+  NgssmUpdateDataSourceParameterWithFunctionAction
 } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
 import { DataSourceParameterReducer } from './data-source-parameter.reducer';
+
+interface DataProvidersParameter {
+  label?: string;
+  onlyLast?: boolean;
+  description?: string;
+}
 
 describe('DataSourceParameterReducer', () => {
   let reducer: DataSourceParameterReducer;
@@ -26,6 +33,7 @@ describe('DataSourceParameterReducer', () => {
   [
     NgssmDataActionType.setDataSourceParameter,
     NgssmDataActionType.updateDataSourceParameter,
+    NgssmDataActionType.updateDataSourceParameterWithFunction,
     NgssmDataActionType.setDataSourceParameterValidity
   ].forEach((actionType: string) => {
     it(`should process action of type '${actionType}'`, () => {
@@ -170,7 +178,7 @@ describe('DataSourceParameterReducer', () => {
   });
 
   describe(`when processing action of type '${NgssmDataActionType.updateDataSourceParameter}'`, () => {
-    const action = new NgssmUpdateDataSourceParameterAction('data-providers', {
+    const action = new NgssmUpdateDataSourceParameterAction<DataProvidersParameter>('data-providers', {
       onlyLast: false,
       description: 'something'
     });
@@ -216,7 +224,7 @@ describe('DataSourceParameterReducer', () => {
     it(`should not set source value valueOutdated to true when doNotMarkParameterAsModified is set to true`, () => {
       const updatedState = reducer.updateState(
         state,
-        new NgssmUpdateDataSourceParameterAction(
+        new NgssmUpdateDataSourceParameterAction<DataProvidersParameter>(
           'data-providers',
           {
             onlyLast: false,
@@ -233,6 +241,37 @@ describe('DataSourceParameterReducer', () => {
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameterPartialValidity).toEqual({
         testing: true
       });
+    });
+  });
+
+  describe(`when processing action of type '${NgssmDataActionType.updateDataSourceParameterWithFunction}'`, () => {
+    it('should update the parameter using the current value and mark the source value as outdated', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              parameter: { label: 'testing', onlyLast: true },
+              additionalProperties: {},
+              valueOutdated: false
+            }
+          }
+        }
+      });
+
+      const action = new NgssmUpdateDataSourceParameterWithFunctionAction<DataProvidersParameter>(
+        'data-providers',
+        (parameter) => ({ ...parameter, onlyLast: false, description: 'updated' })
+      );
+
+      const updatedState = reducer.updateState(state, action);
+
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.parameter).toEqual({
+        label: 'testing',
+        onlyLast: false,
+        description: 'updated'
+      });
+      expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers']?.valueOutdated).toBe(true);
     });
   });
 

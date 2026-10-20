@@ -9,7 +9,8 @@ import {
   NgssmDataSourceValueAction,
   NgssmSetDataSourceParameterAction,
   NgssmSetDataSourceParameterValidityAction,
-  NgssmUpdateDataSourceParameterAction
+  NgssmUpdateDataSourceParameterAction,
+  NgssmUpdateDataSourceParameterWithFunctionAction
 } from '../actions';
 import { updateNgssmDataState } from '../state';
 import { selectNgssmDataSourceValue, throwIfSourceValueDoesNotExist } from '../selectors';
@@ -19,6 +20,7 @@ export class DataSourceParameterReducer implements Reducer {
   public readonly processedActions: string[] = [
     NgssmDataActionType.setDataSourceParameter,
     NgssmDataActionType.updateDataSourceParameter,
+    NgssmDataActionType.updateDataSourceParameterWithFunction,
     NgssmDataActionType.setDataSourceParameterValidity
   ];
 
@@ -49,25 +51,25 @@ export class DataSourceParameterReducer implements Reducer {
           }
         );
 
-        const updatedState = updateNgssmDataState(state, {
-          dataSourceValues: {
-            [ngssmUpdateDataSourceParameterAction.key]: {
-              parameter: { $set: newParameter }
-            }
-          }
-        });
+        return this.updateParameter(
+          state,
+          ngssmUpdateDataSourceParameterAction.key,
+          newParameter,
+          ngssmUpdateDataSourceParameterAction.doNotUpdateValueOutdated
+        );
+      }
 
-        if (ngssmUpdateDataSourceParameterAction.doNotUpdateValueOutdated === true) {
-          return updatedState;
-        }
+      case NgssmDataActionType.updateDataSourceParameterWithFunction: {
+        const ngssmUpdateDataSourceParameterAction = action as NgssmUpdateDataSourceParameterWithFunctionAction;
+        const currentParameter = selectNgssmDataSourceValue(state, ngssmUpdateDataSourceParameterAction.key)?.parameter;
+        const newParameter = ngssmUpdateDataSourceParameterAction.updateParameter(currentParameter);
 
-        return updateNgssmDataState(updatedState, {
-          dataSourceValues: {
-            [ngssmUpdateDataSourceParameterAction.key]: {
-              valueOutdated: { $set: true }
-            }
-          }
-        });
+        return this.updateParameter(
+          state,
+          ngssmUpdateDataSourceParameterAction.key,
+          newParameter,
+          ngssmUpdateDataSourceParameterAction.doNotUpdateValueOutdated
+        );
       }
 
       case NgssmDataActionType.setDataSourceParameterValidity: {
@@ -91,6 +93,28 @@ export class DataSourceParameterReducer implements Reducer {
     }
 
     return state;
+  }
+
+  private updateParameter(state: State, key: string, parameter: unknown, doNotUpdateValueOutdated?: boolean): State {
+    const updatedState = updateNgssmDataState(state, {
+      dataSourceValues: {
+        [key]: {
+          parameter: { $set: parameter }
+        }
+      }
+    });
+
+    if (doNotUpdateValueOutdated === true) {
+      return updatedState;
+    }
+
+    return updateNgssmDataState(updatedState, {
+      dataSourceValues: {
+        [key]: {
+          valueOutdated: { $set: true }
+        }
+      }
+    });
   }
 
   private setGlobalValidity(state: State, key: string, isValid: boolean, clearPartialValidities?: boolean): State {
