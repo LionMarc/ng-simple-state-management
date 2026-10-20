@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { of, throwError } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 
 import { Logger, State, Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
@@ -227,6 +227,41 @@ describe('DataLoadingEffect', () => {
     });
 
     describe(`when loading function contains no inject call`, () => {
+      it('should not start a second load for the same key while one is in progress', () => {
+        const loadingSubject = new Subject<string[]>();
+        const loadingFunc = vi.fn(() => loadingSubject.asObservable());
+        const state = updateNgssmDataState(store.stateValue, {
+          dataSources: {
+            ['data-in-flight']: {
+              $set: {
+                key: 'data-in-flight',
+                dataLoadingFunc: loadingFunc
+              }
+            }
+          },
+          dataSourceValues: {
+            ['data-in-flight']: {
+              $set: {
+                status: NgssmDataSourceValueStatus.loading,
+                additionalProperties: {}
+              }
+            }
+          }
+        });
+        const action = new NgssmLoadDataSourceValueAction('data-in-flight');
+
+        effect.processAction(store, state, action);
+        effect.processAction(store, state, action);
+
+        expect(loadingFunc).toHaveBeenCalledTimes(1);
+        expect(logger.information).toHaveBeenCalledWith(`Data source value for 'data-in-flight' is already loading`);
+
+        loadingSubject.complete();
+        effect.processAction(store, state, action);
+
+        expect(loadingFunc).toHaveBeenCalledTimes(2);
+      });
+
       it(`should execute the loading function`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers');
 
