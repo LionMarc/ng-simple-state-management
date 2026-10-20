@@ -1,11 +1,11 @@
-import { ApplicationRef, EnvironmentInjector, Injectable, Signal, inject, runInInjectionContext, signal } from '@angular/core';
+import { ApplicationRef, EnvironmentInjector, Service, Signal, inject, runInInjectionContext, signal } from '@angular/core';
 
 import update from 'immutability-helper';
 
 import { FeatureStateSpecification } from './feature-state';
 import { State } from './state';
 import { Action } from './action';
-import { NGSSM_REDUCER, Reducer } from './reducer';
+import { ReducerCollection } from './reducer-collection';
 import { Effect, NGSSM_EFFECT } from './effect';
 import { NGSSM_STATE_INITIALIZER, StateInitializer } from './state-initializer';
 import { Logger } from './logging';
@@ -35,9 +35,7 @@ export const NgSsmFeatureState = (specification: FeatureStateSpecification) => {
  * - Dispatch actions using `dispatchAction` or `dispatchActionType`.
  * - Read state updates using `state` (Angular signal).
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class Store implements ActionDispatcher {
   // If true, an action is processed in a macro-task by using setTimoeout. Otherwise, Promise.resolve() is used
   // When using micro task, an issue can occur with angular root effects that want to process state or action signals.
@@ -49,8 +47,8 @@ export class Store implements ActionDispatcher {
 
   // Logger service for debugging and monitoring.
   private readonly logger = inject(Logger);
-  // Array of reducers to process state updates.
-  private readonly reducers: Reducer[] | null = inject(NGSSM_REDUCER, { optional: true }) as unknown as Reducer[];
+  // Handles reducer registration and state transitions.
+  private readonly reducerCollection = inject(ReducerCollection);
   //  Array of effects to handle side effects.
   private readonly effects: Effect[] | null = inject(NGSSM_EFFECT, { optional: true }) as unknown as Effect[];
   // Array of state initializers to set up the initial state.
@@ -61,9 +59,6 @@ export class Store implements ActionDispatcher {
 
   // A queue to ensure actions are processed sequentially.
   private readonly actionQueue: Action[] = [];
-
-  // Maps action types to their corresponding reducers.
-  private readonly reducersPerActionType = new Map<string, Reducer[]>();
 
   // Maps action types to their corresponding effects.
   private readonly effectsPerActionType = new Map<string, Effect[]>();
@@ -94,9 +89,7 @@ export class Store implements ActionDispatcher {
     // Update the state with the initialized values.
     this._stateSignal.set(state);
 
-    // Register reducers and effects.
-    this.logger.information(`[Store] ---> initialization of ${(this.reducers ?? []).length} reducers...`);
-    this.initializeProcessors(this.reducers ?? [], this.reducersPerActionType, (r) => r.processedActions);
+    // Register effects.
     this.logger.information(`[Store] ---> initialization of ${(this.effects ?? []).length} effects...`);
     this.initializeProcessors(this.effects ?? [], this.effectsPerActionType, (e) => e.processedActions);
   }
@@ -156,7 +149,17 @@ export class Store implements ActionDispatcher {
 
     try {
       // Apply reducers to update the state.
-      const updatedState = this.applyReducers(nextAction);
+      const currentState = this._stateSignal();
+      let updatedState: State;
+      try {
+        updatedState = this.reducerCollection.applyReducers(currentState, nextAction);
+        if (updatedState !== currentState) {
+          this._stateSignal.set(updatedState);
+        }
+      } finally {
+        this.logger.debug(`[Store] Notify action ${nextAction.type} as processed`);
+        this._processedAction.set(nextAction);
+      }
 
       if (this.forceChangeDetectionAfterActionProcessed) {
         this.applicationRef.tick();
@@ -186,31 +189,6 @@ export class Store implements ActionDispatcher {
   }
 
   /**
-   * Applies reducers to the current state based on the dispatched action.
-   * Updates the state if there are changes and sets the processed action signal.
-   *
-   * @param nextAction - The action being processed.
-   * @returns The updated state after applying reducers.
-   */
-  private applyReducers(nextAction: Action): State {
-    try {
-      const reducers = this.reducersPerActionType.get(nextAction.type) ?? [];
-      this.logger.debug(`[Store] ${reducers.length} reducers found to process the action ${nextAction.type}`, reducers);
-      const currentState = this._stateSignal();
-      const updatedState = reducers.reduce((p, c) => c.updateState(p, nextAction), currentState);
-
-      if (updatedState !== currentState) {
-        this._stateSignal.set(updatedState);
-      }
-
-      return updatedState;
-    } finally {
-      this.logger.debug(`[Store] Notify action ${nextAction.type} as processed`);
-      this._processedAction.set(nextAction);
-    }
-  }
-
-  /**
    * Executes an effect for a given action.
    * Handles any errors that occur during effect execution.
    *
@@ -231,9 +209,9 @@ export class Store implements ActionDispatcher {
   }
 
   /**
-   * Initializes reducers or effects and maps them to their corresponding action types.
+   * Initializes effects and maps them to their corresponding action types.
    *
-   * @param processors - The array of reducers or effects to initialize.
+   * @param processors - The array of effects to initialize.
    * @param processorMap - The map to store processors by action type.
    * @param getProcessedActions - A function to retrieve the action types processed by a processor.
    */

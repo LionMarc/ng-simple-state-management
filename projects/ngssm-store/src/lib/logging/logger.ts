@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { LogEvent } from './log-event';
 import { LogLevel } from './log-level';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class Logger {
   private readonly _logEvents$ = new Subject<LogEvent>();
 
