@@ -188,6 +188,25 @@ export class MyComponent {
 }
 ```
 
+Use `dataSourceSignals` when the key is dynamic or when the component needs all
+data source signals together:
+
+```typescript
+import { signal } from '@angular/core';
+import { dataSourceSignals } from 'ngssm-data';
+
+export class MyComponent {
+  private readonly selectedKey = signal('users');
+  protected readonly users = dataSourceSignals<User[]>(this.selectedKey);
+}
+```
+
+The returned object exposes `key`, `value`, `parameter`, `status`, and
+`httpErrorResponse` signals.
+Changing `selectedKey` updates all four signals. `defaultValue`,
+`defaultParameter`, and `defaultStatus` can be provided for missing values or
+an unregistered data source.
+
 ### Scoped Data Sources
 
 Register data sources with component lifecycle:
