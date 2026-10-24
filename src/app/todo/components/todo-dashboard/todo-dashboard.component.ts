@@ -18,7 +18,8 @@ import {
   getNgssmActionsCellColDef,
   NgssmAgGridConfig,
   NgssmAgGridDirective,
-  NgssmAgGridThemeDirective
+  NgssmAgGridThemeDirective,
+  NgssmClearSelectedRowsAction
 } from 'ngssm-ag-grid';
 import { NgssmComponentOverlayDirective } from 'ngssm-toolkit';
 import { NgssmDataReloadButtonComponent, NgssmDataSourceValueStatus, selectNgssmDataSourceValue } from 'ngssm-data';
@@ -47,14 +48,14 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
   providers: [provideFeatureState('todo-dashboard', {})]
 })
 export class TodoDashboardComponent {
-  public readonly deleteHidden = signal<boolean>(false);
-  public readonly deleteHiddenControl = new FormControl<boolean>(false);
-  public readonly waitingOverlayRendered = createSignal<boolean>(
+  protected readonly deleteHidden = signal<boolean>(false);
+  protected readonly deleteHiddenControl = new FormControl<boolean>(false);
+  protected readonly waitingOverlayRendered = createSignal<boolean>(
     (state) => selectNgssmDataSourceValue<TodoItem[]>(state, todoItemsKey)?.status === NgssmDataSourceValueStatus.loading
   );
-  public readonly todoItems = createSignal<TodoItem[]>((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value ?? []);
-  public readonly allowRestoringGridControl = new FormControl(true);
-  public readonly gridOptions: GridOptions = {
+  protected readonly todoItems = createSignal<TodoItem[]>((s) => selectNgssmDataSourceValue<TodoItem[]>(s, todoItemsKey)?.value ?? []);
+  protected readonly allowRestoringGridControl = new FormControl(true);
+  protected readonly gridOptions: GridOptions = {
     columnDefs: [
       {
         field: 'id',
@@ -161,9 +162,9 @@ export class TodoDashboardComponent {
     rowSelection: 'multiple'
   };
 
-  public readonly remoteDataKey = todoItemsKey;
+  protected readonly remoteDataKey = todoItemsKey;
 
-  public agGridConfig: NgssmAgGridConfig = {
+  protected agGridConfig: NgssmAgGridConfig = {
     gridId: 'todo-items',
     keepSelection: true,
     canSaveOnDiskColumnStates: true,
@@ -208,7 +209,11 @@ export class TodoDashboardComponent {
     this.deleteHiddenControl.valueChanges.subscribe((v) => this.deleteHidden.set(v ?? false));
   }
 
-  public addTodo(): void {
+  protected addTodo(): void {
     this.store.dispatchActionType(TodoActionType.addTodoItem);
+  }
+
+  protected clearSelectedRows(): void {
+    this.store.dispatchAction(new NgssmClearSelectedRowsAction(this.agGridConfig.gridId));
   }
 }

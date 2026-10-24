@@ -89,13 +89,14 @@ The provider accepts `theme`, `defaultColDef`, and `statusBar` options as well. 
 The library provides actions for updating grid state and controlling persistence. The state-setting actions are registered by `provideNgssmAgGrid` and update the store when dispatched:
 
 ```ts
-import { ChangeOrigin, NgssmSetAgGridStateAction, NgssmSetSelectedRowsAction } from 'ngssm-ag-grid';
+import { ChangeOrigin, NgssmClearSelectedRowsAction, NgssmSetAgGridStateAction, NgssmSetSelectedRowsAction } from 'ngssm-ag-grid';
 
 store.dispatchAction(new NgssmSetAgGridStateAction(gridId, ChangeOrigin.other, columnStates, columnGroupStates, filterModel));
 store.dispatchAction(new NgssmSetSelectedRowsAction(gridId, ChangeOrigin.other, selectedRowIds));
+store.dispatchAction(new NgssmClearSelectedRowsAction(gridId));
 ```
 
-`NgssmSetAgGridStateAction` sets a grid's column states, column group states, and filter model. `NgssmSetSelectedRowsAction` sets the selected row IDs. Use `ChangeOrigin.other` for changes made outside AG Grid so the directive applies them to the grid; the directive itself dispatches changes with `ChangeOrigin.agGrid`.
+`NgssmSetAgGridStateAction` sets a grid's column states, column group states, and filter model. `NgssmSetSelectedRowsAction` sets the selected row IDs. `NgssmClearSelectedRowsAction` clears the selected IDs and deselects rows in the grid. Use `ChangeOrigin.other` for changes made outside AG Grid so the directive applies them to the grid; the directive itself dispatches changes with `ChangeOrigin.agGrid`.
 
 To save or restore a grid's column state in `localStorage`, dispatch `NgssmAgGridAction` with the corresponding action type:
 
@@ -106,7 +107,7 @@ store.dispatchAction(new NgssmAgGridAction(NgssmAgGridActionType.saveColumnState
 store.dispatchAction(new NgssmAgGridAction(NgssmAgGridActionType.restoreColumnStatesFromDisk, gridId));
 ```
 
-The action types are `setAgGridState`, `setSelectedRows`, `saveColumnStatesOnDisk`, and `restoreColumnStatesFromDisk` on `NgssmAgGridActionType`. The directive can dispatch state and selection actions automatically; disk actions are also used by the optional context-menu commands.
+The action types are `setAgGridState`, `setSelectedRows`, `clearSelectedRows`, `saveColumnStatesOnDisk`, and `restoreColumnStatesFromDisk` on `NgssmAgGridActionType`. The directive can dispatch state and selection actions automatically; disk actions are also used by the optional context-menu commands.
 
 ## Exports
 

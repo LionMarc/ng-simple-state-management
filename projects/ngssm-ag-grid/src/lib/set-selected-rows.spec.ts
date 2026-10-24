@@ -38,6 +38,7 @@ describe('setSelectedRows', () => {
         }
       }
     });
+
     expect(state[NgssmAgGridStateSpecification.featureStateKey]).toEqual(NgssmAgGridStateSpecification.initialState);
   });
 
