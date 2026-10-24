@@ -7,9 +7,11 @@ import { DefaultMenuItem, GetContextMenuItemsParams, MenuItemDef } from 'ag-grid
 
 import { createSignal, Logger, Store } from 'ngssm-store';
 
-import { AgGridAction, AgGridActionType, RegisterAgGridStateAction, RegisterSelectedRowsAction } from '../actions';
-import { ChangeOrigin, ColumnGroupState, selectAgGridState } from '../state';
+import { ChangeOrigin, ColumnGroupState, selectNgssmAgGridState } from '../state';
 import { defaultAgGridColumnsEvents, NgssmAgGridConfig } from './ngssm-ag-grid-config';
+import { NgssmSetAgGridStateAction } from '../set-ag-grid-state';
+import { NgssmAgGridAction, NgssmAgGridActionType } from '../ngssm-ag-grid-action-type';
+import { NgssmSetSelectedRowsAction } from '../set-selected-rows';
 
 @Directive({
   selector: '[ngssmAgGrid]'
@@ -37,8 +39,8 @@ export class NgssmAgGridDirective {
   private readonly injector = inject(Injector);
 
   private readonly gridInitialized = signal(false);
-  private readonly gridStates = createSignal((state) => selectAgGridState(state).gridStates);
-  private readonly selectedRows = createSignal((state) => selectAgGridState(state).selectedRows);
+  private readonly gridStates = createSignal((state) => selectNgssmAgGridState(state).gridStates);
+  private readonly selectedRows = createSignal((state) => selectNgssmAgGridState(state).selectedRows);
 
   constructor() {
     this.logger.information(`[NgssmAgGridDirective] Initialization...`);
@@ -141,7 +143,7 @@ export class NgssmAgGridDirective {
     const filterModel = this.agGridAngular.api.getFilterModel();
     const columnGroupStates: ColumnGroupState[] = this.agGridAngular.api.getColumnGroupState();
     this.store.dispatchAction(
-      new RegisterAgGridStateAction(this.config().gridId, ChangeOrigin.agGrid, state, columnGroupStates, filterModel)
+      new NgssmSetAgGridStateAction(this.config().gridId, ChangeOrigin.agGrid, state, columnGroupStates, filterModel)
     );
   }
 
@@ -155,7 +157,7 @@ export class NgssmAgGridDirective {
       .map((n) => n.id ?? '')
       .filter((n) => n !== '');
 
-    this.store.dispatchAction(new RegisterSelectedRowsAction(this.config().gridId, ChangeOrigin.agGrid, selectedRows));
+    this.store.dispatchAction(new NgssmSetSelectedRowsAction(this.config().gridId, ChangeOrigin.agGrid, selectedRows));
   }
 
   private getContextMenuItems(params: GetContextMenuItemsParams): (DefaultMenuItem | MenuItemDef)[] {
@@ -175,12 +177,12 @@ export class NgssmAgGridDirective {
           'separator' as DefaultMenuItem,
           {
             name: 'Save columns state',
-            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.saveColumnStatesOnDisk, gridId)),
+            action: () => this.store.dispatchAction(new NgssmAgGridAction(NgssmAgGridActionType.saveColumnStatesOnDisk, gridId)),
             icon: '<i class="fa-regular fa-floppy-disk"></i>'
           },
           {
             name: 'Restore columns state',
-            action: () => this.store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, gridId)),
+            action: () => this.store.dispatchAction(new NgssmAgGridAction(NgssmAgGridActionType.restoreColumnStatesFromDisk, gridId)),
             icon: '<i class="fa-solid fa-rotate-right"></i>'
           },
           {

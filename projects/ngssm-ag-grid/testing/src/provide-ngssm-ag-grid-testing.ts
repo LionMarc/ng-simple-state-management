@@ -1,8 +1,8 @@
 import { EnvironmentProviders, inject, makeEnvironmentProviders, provideAppInitializer } from '@angular/core';
 
 import { Logger, Store } from 'ngssm-store';
+import { NgssmAgGridStateSpecification } from 'ngssm-ag-grid';
 import { StoreMock } from 'ngssm-store/testing';
-import { AgGridStateSpecification } from 'ngssm-ag-grid';
 
 /**
  * App initializer that sets up the AgGrid state in the StoreMock for testing purposes.
@@ -18,7 +18,7 @@ export const ngssmAgGridStateInitializer = () => {
 
   store.stateValue = {
     ...store.stateValue,
-    [AgGridStateSpecification.featureStateKey]: AgGridStateSpecification.initialState
+    [NgssmAgGridStateSpecification.featureStateKey]: NgssmAgGridStateSpecification.initialState
   };
 };
 

@@ -8,7 +8,7 @@ import { GetRowIdParams, GridOptions } from 'ag-grid-community';
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
-import { AgGridStateSpecification, ChangeOrigin, updateAgGridState } from '../state';
+import { ChangeOrigin, NgssmAgGridStateSpecification, updateNgssmAgGridState } from '../state';
 import { NgssmAgGridDirective } from './ngssm-ag-grid.directive';
 import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
 
@@ -188,7 +188,7 @@ describe('NgssmAgGridDirective', () => {
   });
 
   beforeEach(() => {
-    store = new StoreMock({ [AgGridStateSpecification.featureStateKey]: AgGridStateSpecification.initialState });
+    store = new StoreMock({ [NgssmAgGridStateSpecification.featureStateKey]: NgssmAgGridStateSpecification.initialState });
   });
 
   describe('when using string as directive config', () => {
@@ -220,7 +220,7 @@ describe('NgssmAgGridDirective', () => {
         createComponent();
 
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           gridStates: {
             items: {
               $set: {
@@ -262,7 +262,7 @@ describe('NgssmAgGridDirective', () => {
 
     describe('when state has been already initialized', () => {
       const initializeStateAndComponent = async () => {
-        const state = updateAgGridState(store.stateValue, {
+        const state = updateNgssmAgGridState(store.stateValue, {
           gridStates: {
             items: {
               $set: {
@@ -301,7 +301,7 @@ describe('NgssmAgGridDirective', () => {
       it('should update the grid when the state update has other as origin', async () => {
         await initializeStateAndComponent();
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           gridStates: {
             items: {
               $set: {
@@ -343,7 +343,7 @@ describe('NgssmAgGridDirective', () => {
       it('should not update the grid when the state update has agGrid as origin', async () => {
         await initializeStateAndComponent();
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           gridStates: {
             items: {
               $set: {
@@ -411,7 +411,7 @@ describe('NgssmAgGridDirective', () => {
       it(`should initialize the grid column state when the state has been updated by '${origin}' `, async () => {
         createCompoenent();
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           gridStates: {
             items: {
               $set: {
@@ -458,7 +458,7 @@ describe('NgssmAgGridDirective', () => {
       it(`should initialize the selected rows when the state has been updated by '${origin}' `, async () => {
         createCompoenent();
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           selectedRows: {
             items: {
               $set: {
@@ -489,7 +489,7 @@ describe('NgssmAgGridDirective', () => {
         createCompoenent();
 
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           gridStates: {
             items: {
               $set: {
@@ -533,7 +533,7 @@ describe('NgssmAgGridDirective', () => {
       it('should update the grid when the state update has other as origin', async () => {
         await initializeStateAndComponent();
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           gridStates: {
             items: {
               $set: {
@@ -578,7 +578,7 @@ describe('NgssmAgGridDirective', () => {
       it('should not update the grid when the state update has agGrid as origin', async () => {
         await initializeStateAndComponent();
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           gridStates: {
             items: {
               $set: {
@@ -623,7 +623,7 @@ describe('NgssmAgGridDirective', () => {
       it('should update the selected rows when the state update has other as origin', async () => {
         await initializeStateAndComponent();
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           selectedRows: {
             items: {
               $set: {
@@ -652,7 +652,7 @@ describe('NgssmAgGridDirective', () => {
         await initializeStateAndComponent();
 
         let state = store.stateValue;
-        state = updateAgGridState(state, {
+        state = updateNgssmAgGridState(state, {
           selectedRows: {
             items: {
               $set: {

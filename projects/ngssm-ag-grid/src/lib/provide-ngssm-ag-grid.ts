@@ -1,12 +1,13 @@
 import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
 
-import { Logger, provideEffect, provideReducers, Store } from 'ngssm-store';
+import { Logger, provideEffectFunc, provideReducerFunc, Store } from 'ngssm-store';
 
-import { LocalStorageEffect } from './effects/local-storage.effect';
-import { GridStatesReducer } from './reducers/grid-states.reducer';
-import { SelectedRowsReducer } from './reducers/selected-rows.reducer';
 import { NGSSM_AG_GRID_OPTIONS, NgssmAgGridOptions } from './ngssm-ag-grid-options';
-import { AgGridAction, AgGridActionType } from './actions';
+import { NgssmAgGridAction, NgssmAgGridActionType } from './ngssm-ag-grid-action-type';
+import { setAgGridState } from './set-ag-grid-state';
+import { setSelectedRows } from './set-selected-rows';
+import { saveColumnStatesOnDisk } from './save-column-states-on-disk';
+import { restoreColumnStatesFromDisk } from './restore-column-states-from-disk';
 
 /**
  * Loads saved grid states from localStorage at application startup if enabled in options.
@@ -27,7 +28,7 @@ export const loadGridStates = () => {
     if (key?.startsWith(wantedPrefix)) {
       const gridId = key.slice(wantedPrefix.length);
       logger.information(`[ag-grid] Restoring '${gridId}'.`);
-      store.dispatchAction(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, gridId));
+      store.dispatchAction(new NgssmAgGridAction(NgssmAgGridActionType.restoreColumnStatesFromDisk, gridId));
     }
   }
 };
@@ -44,7 +45,9 @@ export const provideNgssmAgGrid = (options?: NgssmAgGridOptions): EnvironmentPro
       provide: NGSSM_AG_GRID_OPTIONS,
       useValue: options ?? null
     },
-    provideReducers(GridStatesReducer, SelectedRowsReducer),
-    provideEffect(LocalStorageEffect)
+    provideReducerFunc([NgssmAgGridActionType.setAgGridState], setAgGridState),
+    provideReducerFunc([NgssmAgGridActionType.setSelectedRows], setSelectedRows),
+    provideEffectFunc(NgssmAgGridActionType.saveColumnStatesOnDisk, saveColumnStatesOnDisk),
+    provideEffectFunc(NgssmAgGridActionType.restoreColumnStatesFromDisk, restoreColumnStatesFromDisk)
   ]);
 };
