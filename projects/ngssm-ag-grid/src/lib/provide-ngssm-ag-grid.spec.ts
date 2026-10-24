@@ -4,9 +4,9 @@ import { ApplicationInitStatus, EnvironmentProviders } from '@angular/core';
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
-import { AgGridActionType, AgGridAction } from './actions';
 import { provideNgssmAgGrid } from './provide-ngssm-ag-grid';
 import { NGSSM_AG_GRID_OPTIONS, NgssmAgGridOptions } from './ngssm-ag-grid-options';
+import { NgssmAgGridAction, NgssmAgGridActionType } from './ngssm-ag-grid-action-type';
 
 describe('provideNgssmAgGrid', () => {
   let store: StoreMock;
@@ -52,8 +52,8 @@ describe('provideNgssmAgGrid', () => {
   it('should restore grid states when loadSavedGridStatesAtStartup is true', async () => {
     await setupTest(true);
 
-    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'todo'));
-    expect(store.dispatchAction).toHaveBeenCalledWith(new AgGridAction(AgGridActionType.resetColumnStatesFromDisk, 'sources'));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmAgGridAction(NgssmAgGridActionType.restoreColumnStatesFromDisk, 'todo'));
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmAgGridAction(NgssmAgGridActionType.restoreColumnStatesFromDisk, 'sources'));
   });
 
   it('should not restore grid states when loadSavedGridStatesAtStartup is false', async () => {

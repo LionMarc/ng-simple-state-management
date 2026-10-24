@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { Store } from 'ngssm-store';
 import { provideNgssmStoreTesting, StoreMock } from 'ngssm-store/testing';
-import { AgGridStateSpecification } from 'ngssm-ag-grid';
+import { NgssmAgGridStateSpecification } from 'ngssm-ag-grid';
 
 import { ngssmAgGridStateInitializer, provideNgssmAgGridTesting } from './provide-ngssm-ag-grid-testing';
 
@@ -23,6 +23,6 @@ describe('provideNgssmAgGridTesting', () => {
     });
 
     const store = TestBed.inject(Store) as unknown as StoreMock;
-    expect(store.stateValue[AgGridStateSpecification.featureStateKey]).toBeTruthy();
+    expect(store.stateValue[NgssmAgGridStateSpecification.featureStateKey]).toBeTruthy();
   });
 });
