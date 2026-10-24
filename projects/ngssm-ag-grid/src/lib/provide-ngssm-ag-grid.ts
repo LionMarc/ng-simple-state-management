@@ -4,6 +4,7 @@ import { Logger, provideEffectFunc, provideReducerFunc, Store } from 'ngssm-stor
 
 import { NGSSM_AG_GRID_OPTIONS, NgssmAgGridOptions } from './ngssm-ag-grid-options';
 import { NgssmAgGridAction, NgssmAgGridActionType } from './ngssm-ag-grid-action-type';
+import { clearSelectedRows } from './clear-selected-rows';
 import { setAgGridState } from './set-ag-grid-state';
 import { setSelectedRows } from './set-selected-rows';
 import { saveColumnStatesOnDisk } from './save-column-states-on-disk';
@@ -47,6 +48,7 @@ export const provideNgssmAgGrid = (options?: NgssmAgGridOptions): EnvironmentPro
     },
     provideReducerFunc([NgssmAgGridActionType.setAgGridState], setAgGridState),
     provideReducerFunc([NgssmAgGridActionType.setSelectedRows], setSelectedRows),
+    provideReducerFunc([NgssmAgGridActionType.clearSelectedRows], clearSelectedRows),
     provideEffectFunc(NgssmAgGridActionType.saveColumnStatesOnDisk, saveColumnStatesOnDisk),
     provideEffectFunc(NgssmAgGridActionType.restoreColumnStatesFromDisk, restoreColumnStatesFromDisk)
   ]);
