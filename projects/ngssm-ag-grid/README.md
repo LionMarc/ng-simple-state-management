@@ -7,6 +7,7 @@
 - Tracks column order and visibility, sorting, pinning, resizing, column groups, and filter models in the NgSsm store.
 - Restores stored column and filter state when a grid is initialized, and applies later state changes made outside the grid UI.
 - Optionally keeps selected row IDs in the store and restores the selection when the grid is initialized.
+- Exposes selected row IDs as a reactive signal for a grid.
 - Can save and restore column state using browser `localStorage`. Startup loading and the grid context-menu commands can be enabled through configuration.
 - Includes a theme directive, action cell renderer, confirmation popup, base cell editor, and column-definition helpers.
 
@@ -56,6 +57,24 @@ export class OrdersComponent {
 ```
 
 Each grid needs a unique `gridId`. When `keepSelection` is enabled, provide AG Grid with a stable `getRowId` callback so selections can be restored reliably.
+
+## Read selected row IDs
+
+Use `selectedRowsIdsSignal` inside an Angular injection context, such as a component field initializer, to get a reactive signal of selected row IDs. It accepts either a grid ID string or a `Signal<string>`:
+
+```ts
+import { signal } from '@angular/core';
+import { selectedRowsIdsSignal } from 'ngssm-ag-grid';
+
+export class OrdersComponent {
+  public readonly selectedOrderIds = selectedRowsIdsSignal('orders');
+
+  public readonly activeGridId = signal('orders');
+  public readonly activeGridSelectedIds = selectedRowsIdsSignal(this.activeGridId);
+}
+```
+
+The returned signal updates when the selection in the store changes or, when given a grid ID signal, when that ID changes. It returns an empty array when the grid has no selected rows.
 
 `NgssmAgGridConfig` also supports:
 
