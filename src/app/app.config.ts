@@ -4,7 +4,7 @@ import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/com
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { provideNgssmStore, provideConsoleAppender, Store, Logger } from 'ngssm-store';
+import { provideNgssmStore, provideConsoleAppender, Store, Logger, LogLevel } from 'ngssm-store';
 import { provideNgssmAgGrid } from 'ngssm-ag-grid';
 import { provideNgssmRemoteCall, provideNgssmRemoteData } from 'ngssm-remote-data';
 import { provideNgssmMatDialog, useDefaultErrorStateMatcher } from 'ngssm-toolkit';
@@ -59,7 +59,7 @@ export const appConfig: ApplicationConfig = {
       useValue: { horizontalPosition: 'right', verticalPosition: 'top', duration: 1000 }
     },
     provideNgssmStore(),
-    provideConsoleAppender('Main'),
+    provideConsoleAppender('Main', LogLevel.information),
     useDefaultErrorStateMatcher,
     provideNgssmShell(),
     provideNgssmRemoteData(),
