@@ -9,6 +9,7 @@ import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
 import { ChangeOrigin, NgssmAgGridStateSpecification, updateNgssmAgGridState } from '../state';
+import { NgssmSetSelectedRowsAction } from '../set-selected-rows';
 import { NgssmAgGridDirective } from './ngssm-ag-grid.directive';
 import { NgssmAgGridConfig } from './ngssm-ag-grid-config';
 
@@ -405,6 +406,24 @@ describe('NgssmAgGridDirective', () => {
       createCompoenent();
       const directive = fixture.debugElement.queryAll(By.directive(NgssmAgGridDirective))[0].injector.get(NgssmAgGridDirective);
       expect(directive).toBeTruthy();
+    });
+
+    it('should save selected row ids from the selectionChanged event', async () => {
+      createCompoenent();
+      fixture.detectChanges();
+      await vi.runAllTimersAsync();
+      fixture.detectChanges();
+
+      const agGrid = fixture.debugElement.query(By.css('ag-grid-angular')).injector.get(AgGridAngular);
+      const getSelectedNodes = vi.spyOn(agGrid.api, 'getSelectedNodes');
+      vi.spyOn(store, 'dispatchAction');
+
+      agGrid.api.getRowNode('1')?.setSelected(true);
+      fixture.detectChanges();
+      await vi.runAllTimersAsync();
+
+      expect(getSelectedNodes).not.toHaveBeenCalled();
+      expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmSetSelectedRowsAction('items', ChangeOrigin.agGrid, ['1']));
     });
 
     [ChangeOrigin.agGrid, ChangeOrigin.other].forEach((origin) => {

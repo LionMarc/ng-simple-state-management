@@ -1,9 +1,8 @@
 import { Directive, inject, signal, input, effect, runInInjectionContext, Injector } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { DefaultMenuItem, GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community';
+import { DefaultMenuItem, GetContextMenuItemsParams, MenuItemDef, SelectionChangedEvent } from 'ag-grid-community';
 
 import { createSignal, Logger, Store } from 'ngssm-store';
 
@@ -135,7 +134,7 @@ export class NgssmAgGridDirective {
       this.agGridAngular.api.addEventListener(eventType, () => this.saveGridState());
     });
 
-    this.agGridAngular.rowSelected.pipe(takeUntilDestroyed()).subscribe(() => this.processSelectionChanged());
+    this.agGridAngular.api.addEventListener('selectionChanged', (event) => this.processSelectionChanged(event));
   }
 
   private saveGridState(): void {
@@ -147,15 +146,12 @@ export class NgssmAgGridDirective {
     );
   }
 
-  private processSelectionChanged(): void {
+  private processSelectionChanged(event: SelectionChangedEvent): void {
     if (this.config().keepSelection !== true) {
       return;
     }
 
-    const selectedRows = this.agGridAngular.api
-      .getSelectedNodes()
-      .map((n) => n.id ?? '')
-      .filter((n) => n !== '');
+    const selectedRows = (event.selectedNodes ?? []).map((n) => n.id ?? '').filter((n) => n !== '');
 
     this.store.dispatchAction(new NgssmSetSelectedRowsAction(this.config().gridId, ChangeOrigin.agGrid, selectedRows));
   }
