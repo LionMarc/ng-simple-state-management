@@ -4,7 +4,7 @@ import { LogLevel } from './log-level';
 import { Logger } from './logger';
 
 describe('Logger', () => {
-  [LogLevel.debug, LogLevel.information, LogLevel.error].forEach((level) => {
+  [LogLevel.debug, LogLevel.information, LogLevel.warn, LogLevel.error].forEach((level) => {
     it(`should publish a ${level} message`, () => {
       const logger = new Logger();
       let logEvent: LogEvent | undefined;
@@ -17,6 +17,10 @@ describe('Logger', () => {
 
         case LogLevel.error:
           logger.error('Testing message', { title: 'test of payload' });
+          break;
+
+        case LogLevel.warn:
+          logger.warn('Testing message', { title: 'test of payload' });
           break;
 
         case LogLevel.information:

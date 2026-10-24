@@ -57,12 +57,15 @@ describe('ConsoleAppender', () => {
 
     it('should display messages at or above the minimum log level', () => {
       vi.spyOn(console, 'log');
+      vi.spyOn(console, 'warn');
       vi.spyOn(console, 'error');
 
       logger.information('Information message');
+      logger.warn('Warning message');
       logger.error('Error message');
 
       expect(console.log).toHaveBeenCalledOnce();
+      expect(console.warn).toHaveBeenCalledOnce();
       expect(console.error).toHaveBeenCalledOnce();
     });
   });
