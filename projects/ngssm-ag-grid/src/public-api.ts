@@ -9,3 +9,4 @@ export * from './lib/ngssm-ag-grid-options';
 export * from './lib/helpers';
 export * from './lib/provide-ngssm-ag-grid';
 export * from './lib/set-ag-grid-state';
+export * from './lib/set-selected-rows';
