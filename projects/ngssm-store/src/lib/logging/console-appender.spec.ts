@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ConsoleAppender } from './console-appender';
 import { Logger } from './logger';
+import { LogLevel } from './log-level';
 
 describe('ConsoleAppender', () => {
   let appender: ConsoleAppender;
@@ -38,6 +39,31 @@ describe('ConsoleAppender', () => {
 
         expect(console.log).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('when appender has a minimum log level', () => {
+    beforeEach(() => {
+      appender.start(undefined, LogLevel.information);
+    });
+
+    it('should ignore messages below the minimum log level', () => {
+      vi.spyOn(console, 'log');
+
+      logger.debug('Debug message');
+
+      expect(console.log).not.toHaveBeenCalled();
+    });
+
+    it('should display messages at or above the minimum log level', () => {
+      vi.spyOn(console, 'log');
+      vi.spyOn(console, 'error');
+
+      logger.information('Information message');
+      logger.error('Error message');
+
+      expect(console.log).toHaveBeenCalledOnce();
+      expect(console.error).toHaveBeenCalledOnce();
     });
   });
 });
