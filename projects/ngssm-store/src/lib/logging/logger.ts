@@ -20,6 +20,10 @@ export class Logger {
     this.log(LogLevel.information, message, payload);
   }
 
+  public warn(message: string, payload?: unknown): void {
+    this.log(LogLevel.warn, message, payload);
+  }
+
   public error(message: string, payload?: unknown): void {
     this.log(LogLevel.error, message, payload);
   }

@@ -6,7 +6,8 @@ import { LogLevel } from './log-level';
 const logLevelOrder: Record<LogLevel, number> = {
   [LogLevel.debug]: 0,
   [LogLevel.information]: 1,
-  [LogLevel.error]: 2
+  [LogLevel.warn]: 2,
+  [LogLevel.error]: 3
 };
 
 @Injectable({
@@ -27,6 +28,10 @@ export class ConsoleAppender {
       switch (logEvent.level) {
         case LogLevel.error:
           logFunction = console.error;
+          break;
+
+        case LogLevel.warn:
+          logFunction = console.warn;
           break;
 
         default:
