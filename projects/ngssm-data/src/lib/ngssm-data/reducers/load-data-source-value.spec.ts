@@ -2,18 +2,16 @@ import { State } from 'ngssm-store';
 
 import { DateTime } from 'luxon';
 
-import { LoadDataSourceValueReducer } from './load-data-source-value.reducer';
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
-import { NgssmDataSource } from 'ngssm-data';
+import { NgssmDataSource } from '../model';
+import { loadDataSourceValue } from './load-data-source-value';
 
-describe('LoadLoadDataSourceValueReducer', () => {
-  let reducer: LoadDataSourceValueReducer;
+describe('loadDataSourceValue', () => {
   let state: State;
 
   beforeEach(() => {
-    reducer = new LoadDataSourceValueReducer();
     state = {
       [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
     };
@@ -26,14 +24,8 @@ describe('LoadLoadDataSourceValueReducer', () => {
     });
   });
 
-  [NgssmDataActionType.loadDataSourceValue].forEach((actionType: string) => {
-    it(`should process action of type '${actionType}'`, () => {
-      expect(reducer.processedActions).toContain(actionType);
-    });
-  });
-
-  it('should return input state when processing not valid action type', () => {
-    const updatedState = reducer.updateState(state, { type: 'not-processed' });
+  it('should return input state when data source is not registered', () => {
+    const updatedState = loadDataSourceValue(state, new NgssmLoadDataSourceValueAction('not-registered'));
 
     expect(updatedState).toBe(state);
   });
@@ -60,7 +52,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
         const action = new NgssmLoadDataSourceValueAction('data-providers');
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loading);
         expect(selectNgssmDataState(updatedState).dataSourceValues['team-managers'].status).toEqual(NgssmDataSourceValueStatus.none);
@@ -84,7 +76,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
       const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: false, parameter: { value: 'next' } });
 
-      const updatedState = reducer.updateState(state, action);
+      const updatedState = loadDataSourceValue(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].parameter).toEqual('next');
     });
@@ -107,7 +99,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
       const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true });
 
-      const updatedState = reducer.updateState(state, action);
+      const updatedState = loadDataSourceValue(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].valueOutdated).toEqual(false);
     });
@@ -140,7 +132,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
       it(`should clear the additional properties when reloading source`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true, keepAdditionalProperties: false });
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({});
       });
@@ -148,7 +140,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
       it(`should clear the value when option resetValue is set to true`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true, resetValue: true });
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].value).toBeFalsy();
       });
@@ -156,7 +148,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
       it(`should clear the additional properties when reloading source when options keepAdditionalProperties is set to true`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true, keepAdditionalProperties: true });
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].additionalProperties).toEqual({
           first: {
@@ -184,7 +176,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
         const action = new NgssmLoadDataSourceValueAction('data-providers');
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loaded);
       });
@@ -205,7 +197,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
         const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true });
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loading);
       });
@@ -226,7 +218,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
         const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: false, parameter: { value: 'testing' } });
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loading);
       });
@@ -247,7 +239,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
         const action = new NgssmLoadDataSourceValueAction('data-providers');
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loading);
       });
@@ -267,7 +259,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
 
         const action = new NgssmLoadDataSourceValueAction('data-providers');
 
-        const updatedState = reducer.updateState(state, action);
+        const updatedState = loadDataSourceValue(state, action);
 
         expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.loading);
       });
@@ -315,7 +307,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
         it(`should not update the status of the source`, () => {
           const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true });
 
-          const updatedState = reducer.updateState(state, action);
+          const updatedState = loadDataSourceValue(state, action);
 
           expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].status).toEqual(NgssmDataSourceValueStatus.none);
         });
@@ -323,7 +315,7 @@ describe('LoadLoadDataSourceValueReducer', () => {
         it(`should store the action in order to execute it later`, () => {
           const action = new NgssmLoadDataSourceValueAction('data-providers', { forceReload: true });
 
-          const updatedState = reducer.updateState(state, action);
+          const updatedState = loadDataSourceValue(state, action);
 
           expect(selectNgssmDataState(updatedState).delayedActions['team-managers']).toEqual(action);
         });
