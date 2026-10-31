@@ -60,8 +60,10 @@ type NgssmDataLoading<TData = unknown, TParameter = unknown> = (
   state: State,
   dataSourceKey: string,
   parameter?: TParameter
-) => Observable<TData>;
+) => TData | Observable<TData>;
 ```
+
+Return a value directly for synchronous derived data, or an `Observable` for asynchronous data.
 
 ### Data Source Value
 

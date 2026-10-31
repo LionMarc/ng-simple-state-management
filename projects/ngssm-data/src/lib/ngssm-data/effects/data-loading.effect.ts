@@ -1,5 +1,5 @@
 import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
-import { defer, finalize } from 'rxjs';
+import { defer, finalize, isObservable, of } from 'rxjs';
 
 import { Effect, State, Action, Logger, ActionDispatcher } from 'ngssm-store';
 
@@ -50,7 +50,10 @@ export class DataLoadingEffect implements Effect {
 
         runInInjectionContext(this.injector, () => {
           this.inFlightDataSourceKeys.add(key);
-          defer(() => dataSource.dataLoadingFunc(state, key, dataSourceValue.parameter))
+          defer(() => {
+            const result = dataSource.dataLoadingFunc(state, key, dataSourceValue.parameter);
+            return isObservable(result) ? result : of(result);
+          })
             .pipe(finalize(() => this.inFlightDataSourceKeys.delete(key)))
             .subscribe({
               next: (value) => {
