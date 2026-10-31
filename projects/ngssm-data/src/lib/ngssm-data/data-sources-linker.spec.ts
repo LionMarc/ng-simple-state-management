@@ -54,6 +54,41 @@ describe('data-sources-linker', () => {
     expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
   });
 
+  it(`should force the reload of a data source linked to multiple sources`, () => {
+    const state = updateNgssmDataState(store.stateValue, {
+      dataSources: {
+        first: {
+          $set: {
+            key: 'first',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        second: {
+          $set: {
+            key: 'second',
+            dataLoadingFunc: () => of('')
+          }
+        },
+        content: {
+          $set: {
+            key: 'content',
+            dataLoadingFunc: () => of(''),
+            linkedToDataSources: ['first', 'second']
+          }
+        }
+      }
+    });
+
+    store.stateValue = state;
+    vi.spyOn(store, 'dispatchAction');
+
+    store.processedAction.set(new NgssmSetDataSourceValueAction('second', NgssmDataSourceValueStatus.loaded, 'test'));
+    TestBed.tick();
+
+    expect(store.dispatchAction).toHaveBeenCalledTimes(1);
+    expect(store.dispatchAction).toHaveBeenCalledWith(new NgssmLoadDataSourceValueAction('content', { forceReload: true }));
+  });
+
   it(`should force the reload of all the linked data sources`, () => {
     const state = updateNgssmDataState(store.stateValue, {
       dataSources: {

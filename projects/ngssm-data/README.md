@@ -45,6 +45,7 @@ interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditionalProp
   initialParameter?: TParameter;                 // Parameter passed on first load
   initialParameterInvalid?: boolean;             // Flag to mark initial parameter as invalid
   linkedToDataSource?: string;                   // Reload when this source updates
+  linkedToDataSources?: string[];                // Reload when any of these sources update
   linkedDataSources?: string[];                  // Sources to reload when this updates
   dependsOnDataSource?: string;                  // Load this first before loading current source
 }
@@ -129,6 +130,7 @@ The `provideNgssmDataSource` function accepts:
   - `initialParameter`: Parameter used on first load
   - `initialParameterInvalid`: Mark initial parameter as invalid
   - `linkedToDataSource`: Reload when another source updates
+  - `linkedToDataSources`: Reload when any listed source updates
   - `linkedDataSources`: Sources to reload when this updates
   - `dependsOnDataSource`: Load this source first before loading current
   - `additionalPropertyLoadingFunc`: Function to load additional properties

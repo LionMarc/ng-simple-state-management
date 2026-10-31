@@ -254,6 +254,43 @@ describe('selectors', () => {
       expect(result).toBe(true);
     });
 
+    it('should return true when a source linked via linkedToDataSources is loading and linked checks are enabled', () => {
+      state = updateNgssmDataState(state, {
+        dataSourceValues: {
+          'my-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              additionalProperties: {}
+            }
+          },
+          'linked-data-source': {
+            $set: {
+              status: NgssmDataSourceValueStatus.loading,
+              additionalProperties: {}
+            }
+          }
+        },
+        dataSources: {
+          'my-source': {
+            $set: {
+              key: 'my-source',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading
+            }
+          },
+          'linked-data-source': {
+            $set: {
+              key: 'linked-data-source',
+              dataLoadingFunc: (() => of([])) as NgssmDataLoading,
+              linkedToDataSources: ['my-source', 'another-source']
+            }
+          }
+        }
+      });
+
+      const result = isNgssmDataSourceLoading(state, 'my-source', true);
+      expect(result).toBe(true);
+    });
+
     it('should return false when a source linked via linkedToDataSource is loading and linked checks are not enabled', () => {
       state = updateNgssmDataState(state, {
         dataSourceValues: {

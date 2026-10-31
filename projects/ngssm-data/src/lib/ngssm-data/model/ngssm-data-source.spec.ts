@@ -60,6 +60,18 @@ describe('NgssmDataSource', () => {
       expect(selectNgssmDataState(state).dataSources['testing'].linkedToDataSource).toBe('another-one');
     });
 
+    it(`should register a data source linked to multiple sources`, async () => {
+      TestBed.configureTestingModule({
+        providers: [provideNgssmData(), provideNgssmDataSource('testing', loader, { linkedToDataSources: ['one', 'two'] })]
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+      await vi.runAllTimersAsync();
+
+      const state = TestBed.inject(Store).state();
+      expect(selectNgssmDataState(state).dataSources['testing'].linkedToDataSources).toEqual(['one', 'two']);
+    });
+
     it(`should register linked data sources`, async () => {
       TestBed.configureTestingModule({
         providers: [provideNgssmData(), provideNgssmDataSource('testing', loader, { linkedDataSources: ['another-one'] })]
