@@ -108,6 +108,12 @@
     },
     {
       "path": "./projects/ngssm-remote-data/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngssm-smusdi/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngssm-smusdi/tsconfig.spec.json"
     }
   ]
 }
