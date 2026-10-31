@@ -1,13 +1,13 @@
-import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
-import { Store } from '../store';
-import { NgssmRegisterFeatureStateAction } from '../actions';
+import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import update from 'immutability-helper';
 
-const registerFeatureState = (featureStateKey: string, initialValue: object) => {
-  return () => {
-    inject(Store).dispatchAction(new NgssmRegisterFeatureStateAction(featureStateKey, initialValue));
-  };
-};
+import { NGSSM_STATE_INITIALIZER, StateInitializer } from '../state-initializer';
+import { State } from '../state';
 
 export const provideNgssmFeatureState = (featureStateKey: string, initialValue: object): EnvironmentProviders => {
-  return makeEnvironmentProviders([provideAppInitializer(registerFeatureState(featureStateKey, initialValue))]);
+  const initializer: StateInitializer = {
+    initializeState: (state: State) => update(state, { [featureStateKey]: { $set: initialValue } })
+  };
+
+  return makeEnvironmentProviders([{ provide: NGSSM_STATE_INITIALIZER, useValue: initializer, multi: true }]);
 };
