@@ -1,14 +1,22 @@
 import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
 
-import { Store, provideEffectFunc, provideEffects, provideReducers } from 'ngssm-store';
+import { Store, provideEffectFunc, provideEffects, provideReducerFunc } from 'ngssm-store';
 
 import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
 import {
-  DataSourceAdditionalPropertyValueReducer,
-  DataSourceParameterReducer,
-  DataSourceValueReducer,
-  DataSourcesRegistrationReducer,
-  LoadDataSourceValueReducer
+  clearDataSourceAdditionalPropertyValue,
+  clearDataSourceValue,
+  loadDataSourceAdditionalPropertyValue,
+  loadDataSourceValue,
+  registerDataSource,
+  registerDataSources,
+  setDataSourceAdditionalPropertyValue,
+  setDataSourceParameter,
+  setDataSourceParameterValidity,
+  setDataSourceValue,
+  unregisterDataSource,
+  updateDataSourceParameter,
+  updateDataSourceParameterWithFunction
 } from './reducers';
 import { DataLoadingEffect } from './effects';
 import { NgssmDataActionType, NgssmRegisterDataSourcesAction } from './actions';
@@ -30,13 +38,19 @@ export const provideNgssmData = (): EnvironmentProviders => {
     provideAppInitializer(postLoadingActionExecutorInitializer),
     provideAppInitializer(dataSourcesLinkerInitializer),
     provideAppInitializer(dependentDataSourceLoadInitializer),
-    provideReducers(
-      DataSourcesRegistrationReducer,
-      DataSourceValueReducer,
-      LoadDataSourceValueReducer,
-      DataSourceAdditionalPropertyValueReducer,
-      DataSourceParameterReducer
-    ),
+    provideReducerFunc([NgssmDataActionType.registerDataSources], registerDataSources),
+    provideReducerFunc([NgssmDataActionType.registerDataSource], registerDataSource),
+    provideReducerFunc([NgssmDataActionType.unregisterDataSource], unregisterDataSource),
+    provideReducerFunc([NgssmDataActionType.loadDataSourceValue], loadDataSourceValue),
+    provideReducerFunc([NgssmDataActionType.setDataSourceValue], setDataSourceValue),
+    provideReducerFunc([NgssmDataActionType.clearDataSourceValue], clearDataSourceValue),
+    provideReducerFunc([NgssmDataActionType.loadDataSourceAdditionalPropertyValue], loadDataSourceAdditionalPropertyValue),
+    provideReducerFunc([NgssmDataActionType.setDataSourceAdditionalPropertyValue], setDataSourceAdditionalPropertyValue),
+    provideReducerFunc([NgssmDataActionType.clearDataSourceAdditionalPropertyValue], clearDataSourceAdditionalPropertyValue),
+    provideReducerFunc([NgssmDataActionType.setDataSourceParameter], setDataSourceParameter),
+    provideReducerFunc([NgssmDataActionType.updateDataSourceParameter], updateDataSourceParameter),
+    provideReducerFunc([NgssmDataActionType.updateDataSourceParameterWithFunction], updateDataSourceParameterWithFunction),
+    provideReducerFunc([NgssmDataActionType.setDataSourceParameterValidity], setDataSourceParameterValidity),
     provideEffects(DataLoadingEffect),
     provideEffectFunc(NgssmDataActionType.loadDataSourceValue, loadDataSourceWithDependencyEffect)
   ]);
