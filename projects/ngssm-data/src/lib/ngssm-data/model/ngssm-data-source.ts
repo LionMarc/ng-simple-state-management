@@ -1,5 +1,5 @@
 import { EnvironmentProviders, InjectionToken, inject, makeEnvironmentProviders } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { State, Store } from 'ngssm-store';
 import { NgssmLoadDataSourceValueAction } from '../actions';
@@ -10,13 +10,23 @@ import { NgssmLoadDataSourceValueAction } from '../actions';
  * - dataSourceKey: the unique key of the data source being loaded.
  * - parameter: optional parameter passed to the loader.
  *
- * May return the requested data directly or an Observable that emits it.
+ * Returns an Observable that emits the requested data.
  */
 export type NgssmDataLoading<TData = unknown, TParameter = unknown> = (
   state: State,
   dataSourceKey: string,
   parameter?: TParameter
-) => TData | Observable<TData>;
+) => Observable<TData>;
+
+/**
+ * Function signature for synchronously computing a data source value.
+ * Use provideNgssmDataSourceSync to register this loader.
+ */
+export type NgssmSyncDataLoading<TData = unknown, TParameter = unknown> = (
+  state: State,
+  dataSourceKey: string,
+  parameter?: TParameter
+) => TData;
 
 /**
  * Function signature for loading an additional property of a data source (e.g. row detail).
@@ -97,7 +107,7 @@ export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditio
  * Injection token used to register data sources via DI.
  * Provide one or several NgssmDataSource objects using this token (multi: true).
  */
-export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource>('NGSSM_DATA_SOURCE');
+export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource[]>('NGSSM_DATA_SOURCE');
 
 /**
  * Options accepted when providing a data source via provideNgssmDataSource.
@@ -168,6 +178,17 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
     }
   ]);
 };
+
+/**
+ * Registers a data source whose value is computed synchronously.
+ * The computed value is wrapped in an Observable before it is stored in the data source.
+ */
+export const provideNgssmDataSourceSync = <TData = unknown, TParameter = unknown, TAdditionalProperty = unknown>(
+  key: string,
+  loadingFunc: NgssmSyncDataLoading<TData, TParameter>,
+  options?: NgssmDataSourceProvideOptions<TData, TParameter, TAdditionalProperty>
+): EnvironmentProviders =>
+  provideNgssmDataSource(key, (state, dataSourceKey, parameter) => of(loadingFunc(state, dataSourceKey, parameter)), options);
 
 /**
  * Guard / initializer helper that dispatches a NgssmLoadDataSourceValueAction for the given key.

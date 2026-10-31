@@ -2,7 +2,7 @@ import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppIniti
 
 import { Store, provideEffectFunc, provideEffects, provideReducerFunc } from 'ngssm-store';
 
-import { NGSSM_DATA_SOURCE, NgssmDataSource } from './model';
+import { NGSSM_DATA_SOURCE } from './model';
 import {
   clearDataSourceAdditionalPropertyValue,
   clearDataSourceValue,
@@ -26,7 +26,7 @@ import { dependentDataSourceLoadInitializer, loadDataSourceWithDependencyEffect 
 
 const initDataSourceValues = () => {
   const store = inject(Store);
-  const dataSources = (inject(NGSSM_DATA_SOURCE, { optional: true }) as unknown as NgssmDataSource[]) ?? [];
+  const dataSources = inject(NGSSM_DATA_SOURCE, { optional: true }) ?? [];
   if (dataSources.length > 0) {
     store.dispatchAction(new NgssmRegisterDataSourcesAction(dataSources));
   }

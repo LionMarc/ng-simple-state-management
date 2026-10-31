@@ -33,6 +33,11 @@ classDiagram
         loadData(state:State, dataSourceKey: string, parameter?: TParameter = undefined): Observable<TData>
     }
 
+    class NgssmSyncDataLoading~TData, TParameter~{
+        <<interface>>
+        loadData(state:State, dataSourceKey: string, parameter?: TParameter = undefined): TData
+    }
+
     class NgssmAdditionalPropertyLoading~TData~{
         <<interface>>
         loadData(state:State, dataSourceKey: string, additionalProperty:string): Observable<TData>
@@ -66,6 +71,11 @@ export const appConfig: ApplicationConfig = {
   ]
 };
 ```
+
+For data computed synchronously, use _NgssmSyncDataLoading_ with
+_provideNgssmDataSourceSync_. The helper wraps the returned value in an
+Observable, so the registered data source continues to use the standard
+Observable loader contract.
 
 A data source could also be added by using the action **NgssmRegisterDataSource**. It could then be removed with the action **NgssmUnregisterDataSource**.
 

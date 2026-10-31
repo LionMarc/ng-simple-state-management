@@ -60,10 +60,12 @@ type NgssmDataLoading<TData = unknown, TParameter = unknown> = (
   state: State,
   dataSourceKey: string,
   parameter?: TParameter
-) => TData | Observable<TData>;
+) => Observable<TData>;
 ```
 
-Return a value directly for synchronous derived data, or an `Observable` for asynchronous data.
+For synchronously computed data, use `NgssmSyncDataLoading` with
+`provideNgssmDataSourceSync`; the helper wraps the returned value in an
+`Observable` so registered data sources always use the same loader contract.
 
 ### Data Source Value
 
@@ -139,6 +141,9 @@ The `provideNgssmDataSource` function accepts:
   - `onLoaded`: Callback run after successful value load (in DI context)
   - `onLoadError`: Callback run after failed load (in DI context)
 
+`provideNgssmDataSourceSync` accepts the same options, but its loader returns a
+value synchronously rather than an `Observable`.
+
 #### Callback example
 
 ```ts
@@ -152,6 +157,17 @@ provideNgssmDataSource('users', usersLoader, {
     audit.trackLoadFailure(key, parameter, error);
   }
 });
+```
+
+Synchronous derived data can be registered separately:
+
+```typescript
+import { provideNgssmDataSourceSync, NgssmSyncDataLoading } from 'ngssm-data';
+
+const mergedUsers: NgssmSyncDataLoading<User[]> = (state) =>
+  selectUsersFromState(state).filter((user) => user.active);
+
+provideNgssmDataSourceSync('active-users', mergedUsers);
 ```
 
 ## Usage
