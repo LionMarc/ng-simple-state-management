@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { State } from 'ngssm-store';
-import { NgssmDataLoading } from 'ngssm-data';
 
 import { OauthInfo } from './oauth-info';
 
@@ -22,7 +22,7 @@ export interface ServiceInfo {
   serviceUrl?: string;
 }
 
-export const serviceInfoLoader: NgssmDataLoading<ServiceInfo, string> = (_: State, dataSourceKey, parameter?: string) => {
+export const serviceInfoLoader = (_: State, dataSourceKey: string, parameter?: string): Observable<ServiceInfo> => {
   const httpClient = inject(HttpClient);
   return httpClient.get<ServiceInfo>(parameter ?? '');
 };

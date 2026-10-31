@@ -10,13 +10,13 @@ import { NgssmLoadDataSourceValueAction } from '../actions';
  * - dataSourceKey: the unique key of the data source being loaded.
  * - parameter: optional parameter passed to the loader.
  *
- * Must return an Observable that emits the requested data.
+ * May return the requested data directly or an Observable that emits it.
  */
 export type NgssmDataLoading<TData = unknown, TParameter = unknown> = (
   state: State,
   dataSourceKey: string,
   parameter?: TParameter
-) => Observable<TData>;
+) => TData | Observable<TData>;
 
 /**
  * Function signature for loading an additional property of a data source (e.g. row detail).
