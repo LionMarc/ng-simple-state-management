@@ -72,6 +72,7 @@ export type NgssmDataSourceLoadFailureCallback<TParameter = unknown> = (
  * - initialParameter: optional parameter used initially when registering the data source.
  * - initialParameterInvalid: flag indicating the initial parameter should be considered invalid.
  * - linkedToDataSource: if specified, this data source is reloaded when the target source is updated.
+ * - linkedToDataSources: list of source keys that reload this data source when updated.
  * - linkedDataSources: list of other data sources to reload when this source is updated.
  * - dependsOnDataSource: optional dependency key; when loading this source, the dependency will be loaded first.
  * - onLoaded: optional callback invoked after successful load (value is available).
@@ -85,6 +86,7 @@ export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditio
   initialParameter?: TParameter;
   initialParameterInvalid?: boolean;
   linkedToDataSource?: string;
+  linkedToDataSources?: string[];
   linkedDataSources?: string[];
   dependsOnDataSource?: string;
   onLoaded?: NgssmDataSourceLoadSuccessCallback<TData, TParameter>;
@@ -107,6 +109,7 @@ export interface NgssmDataSourceProvideOptions<TData = unknown, TParameter = unk
   initialParameterInvalid?: boolean;
   additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionalProperty>;
   linkedToDataSource?: string;
+  linkedToDataSources?: string[];
   linkedDataSources?: string[];
   dependsOnDataSource?: string;
   onLoaded?: NgssmDataSourceLoadSuccessCallback<TData, TParameter>;
@@ -145,6 +148,10 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
 
         if (options?.linkedToDataSource) {
           dataSource.linkedToDataSource = options?.linkedToDataSource;
+        }
+
+        if (options?.linkedToDataSources) {
+          dataSource.linkedToDataSources = options.linkedToDataSources;
         }
 
         if (options?.linkedDataSources) {

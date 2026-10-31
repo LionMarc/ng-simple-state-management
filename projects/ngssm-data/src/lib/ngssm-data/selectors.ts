@@ -94,7 +94,11 @@ export const isNgssmDataSourceLoading = (
 
   const linkedDataSourceKeys = new Set<string>(dataSource.linkedDataSources ?? []);
   Object.keys(dataState.dataSources)
-    .filter((key) => dataState.dataSources[key].linkedToDataSource === dataSourceKey)
+    .filter(
+      (key) =>
+        dataState.dataSources[key].linkedToDataSource === dataSourceKey ||
+        dataState.dataSources[key].linkedToDataSources?.includes(dataSourceKey)
+    )
     .forEach((key) => linkedDataSourceKeys.add(key));
 
   for (const linkedKey of linkedDataSourceKeys) {
