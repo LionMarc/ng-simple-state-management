@@ -259,10 +259,11 @@ describe('DataSourceParameterReducer', () => {
         }
       });
 
-      const action = new NgssmUpdateDataSourceParameterWithFunctionAction<DataProvidersParameter>(
-        'data-providers',
-        (parameter) => ({ ...parameter, onlyLast: false, description: 'updated' })
-      );
+      const action = new NgssmUpdateDataSourceParameterWithFunctionAction<DataProvidersParameter>('data-providers', (parameter) => ({
+        ...parameter,
+        onlyLast: false,
+        description: 'updated'
+      }));
 
       const updatedState = reducer.updateState(state, action);
 
