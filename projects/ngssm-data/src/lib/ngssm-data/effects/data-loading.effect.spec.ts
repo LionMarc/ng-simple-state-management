@@ -283,34 +283,6 @@ describe('DataLoadingEffect', () => {
         expect(logger.information).toHaveBeenCalledWith('onLoaded called for data-providers with value test');
       });
 
-      it('should emit a directly returned value as a single loaded value', () => {
-        const mergedValue = ['first', 'second'];
-        const state = updateNgssmDataState(store.stateValue, {
-          dataSources: {
-            merged: {
-              $set: {
-                key: 'merged',
-                dataLoadingFunc: () => mergedValue
-              }
-            }
-          },
-          dataSourceValues: {
-            merged: {
-              $set: {
-                status: NgssmDataSourceValueStatus.loading,
-                additionalProperties: {}
-              }
-            }
-          }
-        });
-
-        effect.processAction(store, state, new NgssmLoadDataSourceValueAction('merged'));
-
-        expect(store.dispatchAction).toHaveBeenCalledWith(
-          new NgssmSetDataSourceValueAction('merged', NgssmDataSourceValueStatus.loaded, mergedValue)
-        );
-      });
-
       it(`should dispatch an action of type '${NgssmDataActionType.setDataSourceValue}' with status '${NgssmDataSourceValueStatus.error}' when loading fails`, () => {
         const action = new NgssmLoadDataSourceValueAction('data-providers-ko');
 

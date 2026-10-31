@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { NgssmUnregisterDataSourceAction } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
@@ -8,7 +10,7 @@ describe('unregisterDataSource', () => {
     const state = updateNgssmDataState(
       { [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState },
       {
-        dataSources: { source: { $set: { key: 'source', dataLoadingFunc: () => ({}) } } },
+        dataSources: { source: { $set: { key: 'source', dataLoadingFunc: () => of({}) } } },
         dataSourceValues: {
           source: { $set: { status: NgssmDataSourceValueStatus.loaded, additionalProperties: {} } }
         }

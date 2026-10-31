@@ -1,11 +1,17 @@
 import { ApplicationInitStatus } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, isObservable, of } from 'rxjs';
 
 import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
-import { NgssmDataLoading, ngssmLoadDataSourceValue, provideNgssmDataSource } from './ngssm-data-source';
+import {
+  NGSSM_DATA_SOURCE,
+  NgssmDataLoading,
+  ngssmLoadDataSourceValue,
+  provideNgssmDataSource,
+  provideNgssmDataSourceSync
+} from './ngssm-data-source';
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
 import { provideNgssmData } from '../provide-ngssm-data';
 import { selectNgssmDataState } from '../state';
@@ -82,6 +88,25 @@ describe('NgssmDataSource', () => {
 
       const state = TestBed.inject(Store).state();
       expect(selectNgssmDataState(state).dataSources['testing'].linkedDataSources).toEqual(['another-one']);
+    });
+  });
+
+  describe('provideNgssmDataSourceSync', () => {
+    it('should register synchronous values as an Observable loader', async () => {
+      TestBed.configureTestingModule({
+        providers: [provideNgssmDataSourceSync('testing', () => ['first', 'second'])]
+      });
+
+      const dataSources = TestBed.inject(NGSSM_DATA_SOURCE);
+      const dataSource = dataSources.find((source) => source.key === 'testing');
+      if (!dataSource) {
+        throw new Error('Expected the synchronous data source to be registered');
+      }
+
+      const result = dataSource.dataLoadingFunc({}, 'testing');
+
+      expect(isObservable(result)).toBe(true);
+      await expect(firstValueFrom(result)).resolves.toEqual(['first', 'second']);
     });
   });
 });
