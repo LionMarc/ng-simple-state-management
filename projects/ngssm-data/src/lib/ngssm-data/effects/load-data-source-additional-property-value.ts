@@ -6,10 +6,7 @@ import { NgssmLoadDataSourceAdditionalPropertyValueAction, NgssmSetDataSourceAdd
 import { selectNgssmDataState } from '../state';
 import { isNgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
 
-export const loadDataSourceAdditionalPropertyValueEffect: EffectFunc<NgssmLoadDataSourceAdditionalPropertyValueAction> = (
-  state,
-  action
-) => {
+export const loadDataSourceAdditionalPropertyValue: EffectFunc<NgssmLoadDataSourceAdditionalPropertyValueAction> = (state, action) => {
   const store = inject(Store);
   const logger = inject(Logger);
   const injector = inject(EnvironmentInjector);
