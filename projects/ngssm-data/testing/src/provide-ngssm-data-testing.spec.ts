@@ -6,6 +6,7 @@ import {
   NgssmDataLoading,
   NgssmDataSourceValueStatus,
   NgssmDataStateSpecification,
+  provideNgssmComputedDataSource,
   provideNgssmDataSource,
   selectNgssmDataSourceValue
 } from 'ngssm-data';
@@ -46,12 +47,14 @@ describe('provideNgssmDataTesting', () => {
         provideNgssmStoreTesting(),
         provideNgssmDataTesting(),
         provideNgssmDataSource('first', firstSourceLoading, { dataLifetimeInSeconds: 560 }),
-        provideNgssmDataSource('second', secondSourceLoading)
+        provideNgssmDataSource('second', secondSourceLoading),
+        provideNgssmComputedDataSource('computed', () => [], { linkedToDataSource: 'first' })
       ]
     });
 
     const store = TestBed.inject(Store) as unknown as StoreMock;
     expect(selectNgssmDataSourceValue(store.stateValue, 'first').status).toEqual(NgssmDataSourceValueStatus.none);
     expect(selectNgssmDataSourceValue(store.stateValue, 'second').status).toEqual(NgssmDataSourceValueStatus.none);
+    expect(selectNgssmDataSourceValue(store.stateValue, 'computed').status).toEqual(NgssmDataSourceValueStatus.none);
   });
 });

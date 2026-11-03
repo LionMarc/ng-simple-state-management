@@ -4,7 +4,7 @@ import { EffectFunc, State, Logger, Store } from 'ngssm-store';
 
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from './actions';
 import { selectNgssmDataSourceValue } from './selectors';
-import { NgssmDataSourceValueStatus } from './model';
+import { isNgssmComputedDataSource, NgssmDataSourceValueStatus } from './model';
 import { selectNgssmDataState } from './state';
 
 /**
@@ -28,6 +28,9 @@ export const loadDataSourceWithDependencyEffect: EffectFunc<NgssmLoadDataSourceV
   }
 
   const dataSource = selectNgssmDataState(state).dataSources[action.key];
+  if (!dataSource || isNgssmComputedDataSource(dataSource)) {
+    return;
+  }
 
   const dependency = dataSource.dependsOnDataSource;
   if (!dependency) {

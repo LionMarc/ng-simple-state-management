@@ -1,9 +1,29 @@
 import { NgssmLoadDataSourceAdditionalPropertyValueAction } from '../actions';
-import { NgssmDataSourceValueStatus } from '../model';
+import { NgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
 import { loadDataSourceAdditionalPropertyValue } from './load-data-source-additional-property-value';
 
 describe('loadDataSourceAdditionalPropertyValue', () => {
+  it('should not load an additional property for a computed data source', () => {
+    const state = updateNgssmDataState(
+      { [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState },
+      {
+        dataSources: {
+          computed: {
+            $set: { key: 'computed', linkedToDataSource: 'source', computationFunc: () => 'computed' } as NgssmComputedDataSource
+          }
+        },
+        dataSourceValues: {
+          computed: { $set: { status: NgssmDataSourceValueStatus.loaded, additionalProperties: {} } }
+        }
+      }
+    );
+
+    expect(loadDataSourceAdditionalPropertyValue(state, new NgssmLoadDataSourceAdditionalPropertyValueAction('computed', 'detail'))).toBe(
+      state
+    );
+  });
+
   it('should mark a new property as loading', () => {
     const state = updateNgssmDataState(
       { [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState },

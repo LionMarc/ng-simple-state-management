@@ -7,6 +7,7 @@ A comprehensive Angular library for managing remote and computed data with built
 `ngssm-data` provides a robust abstraction layer for handling asynchronous data operations in Angular applications. It integrates seamlessly with the **ngssm-store** for centralized state management and offers powerful features like:
 
 - **Data Source Registration**: Define and register data sources with automatic state management
+- **Computed Data Sources**: Derive values synchronously from one or more data sources
 - **Caching with TTL**: Automatic cache invalidation based on configurable lifetime
 - **Dependency Management**: Automatically load dependent data sources in the correct order
 - **Data Linking**: Establish relationships between data sources with automatic reloading
@@ -66,6 +67,31 @@ type NgssmDataLoading<TData = unknown, TParameter = unknown> = (
 For synchronously computed data, use `NgssmSyncDataLoading` with
 `provideNgssmDataSourceSync`; the helper wraps the returned value in an
 `Observable` so registered data sources always use the same loader contract.
+
+### Computed Data Sources
+
+Use `provideNgssmComputedDataSource` for a value derived from registered data
+sources. Its computation receives the global state and runs inside the
+`setDataSourceValue` reducer whenever any linked source is updated. The
+computed source is stored as loaded and cannot be loaded or reloaded directly.
+
+```typescript
+provideNgssmComputedDataSource(
+  'active-users',
+  (state) => selectUsersFromState(state).filter((user) => user.active),
+  { linkedToDataSources: ['users', 'user-status'] }
+);
+```
+
+For a single dependency, use `linkedToDataSource` instead:
+
+```typescript
+provideNgssmComputedDataSource(
+  'active-users',
+  (state) => selectUsersFromState(state).filter((user) => user.active),
+  { linkedToDataSource: 'users' }
+);
+```
 
 ### Data Source Value
 
@@ -169,6 +195,10 @@ const mergedUsers: NgssmSyncDataLoading<User[]> = (state) =>
 
 provideNgssmDataSourceSync('active-users', mergedUsers);
 ```
+
+`provideNgssmDataSourceSync` remains a loadable source: it executes only when
+that source is loaded. Use `provideNgssmComputedDataSource` when the value must
+be recomputed automatically as linked sources update.
 
 ## Usage
 

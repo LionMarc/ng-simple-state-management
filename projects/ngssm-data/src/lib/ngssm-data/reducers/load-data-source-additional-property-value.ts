@@ -1,7 +1,7 @@
 import { Action, ReducerFunc } from 'ngssm-store';
 
 import { NgssmDataActionType } from '../actions/ngssm-data-action-type';
-import { NgssmDataSourceValueStatus } from '../model';
+import { isNgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
 
 export class NgssmLoadDataSourceAdditionalPropertyValueAction implements Action {
@@ -16,7 +16,12 @@ export class NgssmLoadDataSourceAdditionalPropertyValueAction implements Action 
 }
 
 export const loadDataSourceAdditionalPropertyValue: ReducerFunc<NgssmLoadDataSourceAdditionalPropertyValueAction> = (state, action) => {
-  const propertyValue = selectNgssmDataState(state).dataSourceValues[action.key]?.additionalProperties[action.property];
+  const dataState = selectNgssmDataState(state);
+  if (isNgssmComputedDataSource(dataState.dataSources[action.key])) {
+    return state;
+  }
+
+  const propertyValue = dataState.dataSourceValues[action.key]?.additionalProperties[action.property];
 
   if (propertyValue?.status === NgssmDataSourceValueStatus.loaded && action.forceReload !== true) {
     return state;

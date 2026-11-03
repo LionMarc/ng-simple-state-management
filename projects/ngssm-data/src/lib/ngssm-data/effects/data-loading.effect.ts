@@ -11,7 +11,7 @@ import {
   NgssmSetDataSourceValueAction
 } from '../actions';
 import { selectNgssmDataState } from '../state';
-import { NgssmDataSourceValueStatus } from '../model';
+import { isNgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
 
 @Injectable()
 export class DataLoadingEffect implements Effect {
@@ -29,6 +29,10 @@ export class DataLoadingEffect implements Effect {
     const dataSource = selectNgssmDataState(state).dataSources[key];
     if (!dataSource) {
       this.logger.error(`No data source setup for key '${key}'`);
+      return;
+    }
+
+    if (isNgssmComputedDataSource(dataSource)) {
       return;
     }
 

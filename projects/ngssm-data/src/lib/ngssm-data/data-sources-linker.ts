@@ -3,6 +3,7 @@ import { effect, inject, untracked } from '@angular/core';
 import { Logger, State, Store } from 'ngssm-store';
 
 import { NgssmSetDataSourceValueAction, NgssmDataActionType, NgssmLoadDataSourceValueAction } from './actions';
+import { isNgssmComputedDataSource } from './model';
 import { selectNgssmDataState } from './state';
 
 export const dataSourcesLinkerInitializer = async () => {
@@ -18,11 +19,14 @@ export const dataSourcesLinkerInitializer = async () => {
     const setDataSourceValueAction = action as NgssmSetDataSourceValueAction;
     const state = selectNgssmDataState(untracked<State>(() => store.state())).dataSources;
 
-    const linkedKeys = new Set(state[setDataSourceValueAction.key]?.linkedDataSources ?? []);
+    const linkedKeys = new Set(
+      (state[setDataSourceValueAction.key]?.linkedDataSources ?? []).filter((key) => !isNgssmComputedDataSource(state[key]))
+    );
     for (const linkedKey of Object.keys(state).filter(
       (key) =>
-        state[key].linkedToDataSource === setDataSourceValueAction.key ||
-        state[key].linkedToDataSources?.includes(setDataSourceValueAction.key)
+        !isNgssmComputedDataSource(state[key]) &&
+        (state[key].linkedToDataSource === setDataSourceValueAction.key ||
+          state[key].linkedToDataSources?.includes(setDataSourceValueAction.key))
     )) {
       logger.information(`Force reload of data source'${linkedKey}' linked to '${setDataSourceValueAction.key}'`);
       linkedKeys.add(linkedKey);

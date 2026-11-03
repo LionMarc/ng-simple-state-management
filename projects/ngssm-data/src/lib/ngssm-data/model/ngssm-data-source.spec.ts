@@ -1,4 +1,4 @@
-import { ApplicationInitStatus } from '@angular/core';
+import { ApplicationInitStatus, effect, inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, isObservable, of } from 'rxjs';
 
@@ -6,13 +6,16 @@ import { Store } from 'ngssm-store';
 import { StoreMock } from 'ngssm-store/testing';
 
 import {
+  NGSSM_COMPUTED_DATA_SOURCE,
   NGSSM_DATA_SOURCE,
   NgssmDataLoading,
   ngssmLoadDataSourceValue,
+  provideNgssmComputedDataSource,
   provideNgssmDataSource,
   provideNgssmDataSourceSync
 } from './ngssm-data-source';
-import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
+import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from '../actions';
+import { NgssmDataSourceValueStatus } from './ngssm-data-source-value';
 import { provideNgssmData } from '../provide-ngssm-data';
 import { selectNgssmDataState } from '../state';
 
@@ -107,6 +110,57 @@ describe('NgssmDataSource', () => {
 
       expect(isObservable(result)).toBe(true);
       await expect(firstValueFrom(result)).resolves.toEqual(['first', 'second']);
+    });
+  });
+
+  describe('provideNgssmComputedDataSource', () => {
+    it('should register a computed source and its linked sources', () => {
+      TestBed.configureTestingModule({
+        providers: [provideNgssmComputedDataSource('computed', () => 'value', { linkedToDataSources: ['first', 'second'] })]
+      });
+
+      const [dataSource] = TestBed.inject(NGSSM_COMPUTED_DATA_SOURCE);
+      expect(dataSource.key).toBe('computed');
+      expect(dataSource.linkedToDataSources).toEqual(['first', 'second']);
+      expect(dataSource.computationFunc({})).toBe('value');
+    });
+
+    const waitDataSourceUpdated = async () => {
+      let resolver: (value: boolean | PromiseLike<boolean>) => void;
+      const promise = new Promise<boolean>((resolve) => (resolver = resolve));
+      TestBed.runInInjectionContext(() => {
+        const store = inject(Store);
+        effect(() => {
+          const action = store.processedAction();
+          if (action.type === NgssmDataActionType.setDataSourceValue) {
+            resolver(true);
+          }
+        });
+      });
+
+      await promise;
+    };
+
+    it('should register and compute the source when a linked source is updated', async () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideNgssmData(),
+          provideNgssmDataSource('source', () => of('value')),
+          provideNgssmComputedDataSource(
+            'computed',
+            (state) => `${selectNgssmDataState(state).dataSourceValues['source']?.value}-derived`,
+            { linkedToDataSource: 'source' }
+          )
+        ]
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+
+      const store = TestBed.inject(Store);
+      store.dispatchAction(new NgssmSetDataSourceValueAction('source', NgssmDataSourceValueStatus.loaded, 'updated'));
+      await waitDataSourceUpdated();
+
+      expect(selectNgssmDataState(store.state()).dataSourceValues['computed']?.value).toBe('updated-derived');
     });
   });
 });

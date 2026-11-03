@@ -1,18 +1,18 @@
 import { Action, ReducerFunc } from 'ngssm-store';
 
 import { NgssmDataActionType } from '../actions/ngssm-data-action-type';
-import { NgssmDataSource, NgssmDataSourceValue, NgssmDataSourceValueStatus } from '../model';
+import { isNgssmComputedDataSource, NgssmDataSourceValue, NgssmDataSourceValueStatus, NgssmRegisteredDataSource } from '../model';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
 
 export class NgssmRegisterDataSourcesAction implements Action {
   public readonly type: string = NgssmDataActionType.registerDataSources;
 
-  constructor(public readonly dataSources: NgssmDataSource[]) {}
+  constructor(public readonly dataSources: NgssmRegisteredDataSource[]) {}
 }
 
 export const registerDataSources: ReducerFunc<NgssmRegisterDataSourcesAction> = (state, action) => {
   const dataSourceValues: Record<string, NgssmDataSourceValue> = {};
-  const dataSources: Record<string, NgssmDataSource> = {};
+  const dataSources: Record<string, NgssmRegisteredDataSource> = {};
 
   action.dataSources.forEach((dataSource) => {
     if (selectNgssmDataState(state).dataSources[dataSource.key]) {
@@ -24,16 +24,18 @@ export const registerDataSources: ReducerFunc<NgssmRegisterDataSourcesAction> = 
       additionalProperties: {}
     };
 
-    if (dataSource.dataLifetimeInSeconds) {
-      dataSourceValues[dataSource.key].dataLifetimeInSeconds = dataSource.dataLifetimeInSeconds;
-    }
+    if (!isNgssmComputedDataSource(dataSource)) {
+      if (dataSource.dataLifetimeInSeconds) {
+        dataSourceValues[dataSource.key].dataLifetimeInSeconds = dataSource.dataLifetimeInSeconds;
+      }
 
-    if (dataSource.initialParameter) {
-      dataSourceValues[dataSource.key].parameter = dataSource.initialParameter;
-    }
+      if (dataSource.initialParameter) {
+        dataSourceValues[dataSource.key].parameter = dataSource.initialParameter;
+      }
 
-    if (dataSource.initialParameterInvalid) {
-      dataSourceValues[dataSource.key].parameterIsValid = false;
+      if (dataSource.initialParameterInvalid) {
+        dataSourceValues[dataSource.key].parameterIsValid = false;
+      }
     }
 
     dataSources[dataSource.key] = dataSource;
