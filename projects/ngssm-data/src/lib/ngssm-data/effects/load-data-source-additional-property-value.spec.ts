@@ -13,9 +13,9 @@ import {
 } from '../actions';
 import { NgssmDataStateSpecification, updateNgssmDataState } from '../state';
 import { NgssmDataSourceLoadSuccessCallback, NgssmDataSourceValueStatus } from '../model';
-import { loadDataSourceAdditionalPropertyValueEffect } from './data-source-additional-property-value-loading.effect';
+import { loadDataSourceAdditionalPropertyValue } from './load-data-source-additional-property-value';
 
-describe('loadDataSourceAdditionalPropertyValueEffect', () => {
+describe('loadDataSourceAdditionalPropertyValue', () => {
   let logger: Logger;
   let store: StoreMock;
 
@@ -57,7 +57,7 @@ describe('loadDataSourceAdditionalPropertyValueEffect', () => {
   });
 
   const processAction = (action: NgssmLoadDataSourceAdditionalPropertyValueAction) =>
-    TestBed.runInInjectionContext(() => loadDataSourceAdditionalPropertyValueEffect(store.stateValue, action));
+    TestBed.runInInjectionContext(() => loadDataSourceAdditionalPropertyValue(store.stateValue, action));
 
   const dataProvidersLoadingFunc = vi.fn(() => of(['test']));
   const dataProvidersAdditionalPropertyLoadingFunc = vi.fn((state: State, dataSourceKey, property: string) =>

@@ -9,9 +9,9 @@ import { StoreMock } from 'ngssm-store/testing';
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from '../actions';
 import { NgssmDataStateSpecification, updateNgssmDataState } from '../state';
 import { NgssmDataSourceLoadSuccessCallback, NgssmDataSourceValueStatus } from '../model';
-import { loadDataSourceValueEffect } from './data-source-value-loading.effect';
+import { loadDataSourceValue } from './load-data-source-value';
 
-describe('loadDataSourceValueEffect', () => {
+describe('loadDataSourceValue', () => {
   let logger: Logger;
   let store: StoreMock;
 
@@ -53,7 +53,7 @@ describe('loadDataSourceValueEffect', () => {
   });
 
   const processAction = (action: NgssmLoadDataSourceValueAction) =>
-    TestBed.runInInjectionContext(() => loadDataSourceValueEffect(store.stateValue, action));
+    TestBed.runInInjectionContext(() => loadDataSourceValue(store.stateValue, action));
 
   const dataProvidersLoadingFunc = vi.fn(() => of(['test']));
   const dataProvidersAdditionalPropertyLoadingFunc = vi.fn((state: State, dataSourceKey, property: string) =>
@@ -239,14 +239,14 @@ describe('loadDataSourceValueEffect', () => {
         });
         const action = new NgssmLoadDataSourceValueAction('data-in-flight');
 
-        TestBed.runInInjectionContext(() => loadDataSourceValueEffect(state, action));
-        TestBed.runInInjectionContext(() => loadDataSourceValueEffect(state, action));
+        TestBed.runInInjectionContext(() => loadDataSourceValue(state, action));
+        TestBed.runInInjectionContext(() => loadDataSourceValue(state, action));
 
         expect(loadingFunc).toHaveBeenCalledTimes(1);
         expect(logger.information).toHaveBeenCalledWith(`Data source value for 'data-in-flight' is already loading`);
 
         loadingSubject.complete();
-        TestBed.runInInjectionContext(() => loadDataSourceValueEffect(state, action));
+        TestBed.runInInjectionContext(() => loadDataSourceValue(state, action));
 
         expect(loadingFunc).toHaveBeenCalledTimes(2);
       });

@@ -9,7 +9,7 @@ import { isNgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model'
 
 const inFlightDataSourceKeys = new WeakMap<Store, Set<string>>();
 
-export const loadDataSourceValueEffect: EffectFunc<NgssmLoadDataSourceValueAction> = (state, action) => {
+export const loadDataSourceValue: EffectFunc<NgssmLoadDataSourceValueAction> = (state, action) => {
   const store = inject(Store);
   const logger = inject(Logger);
   const injector = inject(EnvironmentInjector);
