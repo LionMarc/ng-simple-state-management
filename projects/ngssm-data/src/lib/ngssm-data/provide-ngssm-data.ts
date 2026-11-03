@@ -1,6 +1,6 @@
 import { EnvironmentProviders, makeEnvironmentProviders, inject, provideAppInitializer } from '@angular/core';
 
-import { Store, provideEffectFunc, provideEffects, provideReducerFunc } from 'ngssm-store';
+import { Store, provideEffectFunc, provideReducerFunc } from 'ngssm-store';
 
 import { NGSSM_COMPUTED_DATA_SOURCE, NGSSM_DATA_SOURCE } from './model';
 import {
@@ -18,7 +18,7 @@ import {
   updateDataSourceParameter,
   updateDataSourceParameterWithFunction
 } from './reducers';
-import { DataLoadingEffect } from './effects';
+import { loadDataSourceAdditionalPropertyValueEffect, loadDataSourceValueEffect } from './effects';
 import { NgssmDataActionType, NgssmRegisterDataSourcesAction } from './actions';
 import { postLoadingActionExecutorInitializer } from './post-loading-action-executor';
 import { dataSourcesLinkerInitializer } from './data-sources-linker';
@@ -54,7 +54,8 @@ export const provideNgssmData = (): EnvironmentProviders => {
     provideReducerFunc([NgssmDataActionType.updateDataSourceParameter], updateDataSourceParameter),
     provideReducerFunc([NgssmDataActionType.updateDataSourceParameterWithFunction], updateDataSourceParameterWithFunction),
     provideReducerFunc([NgssmDataActionType.setDataSourceParameterValidity], setDataSourceParameterValidity),
-    provideEffects(DataLoadingEffect),
+    provideEffectFunc(NgssmDataActionType.loadDataSourceValue, loadDataSourceValueEffect),
+    provideEffectFunc(NgssmDataActionType.loadDataSourceAdditionalPropertyValue, loadDataSourceAdditionalPropertyValueEffect),
     provideEffectFunc(NgssmDataActionType.loadDataSourceValue, loadDataSourceWithDependencyEffect)
   ]);
 };
