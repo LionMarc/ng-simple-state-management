@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { State } from 'ngssm-store';
 import { of } from 'rxjs';
+
+import { State } from 'ngssm-store';
 
 import { NgssmSetDataSourceValueAction } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';

@@ -31,6 +31,7 @@ export class DataLoadingEffect implements Effect {
       this.logger.error(`No data source setup for key '${key}'`);
       return;
     }
+
     if (isNgssmComputedDataSource(dataSource)) {
       return;
     }
