@@ -3,7 +3,7 @@ import { State } from 'ngssm-store';
 import { DateTime } from 'luxon';
 
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
-import { NgssmDataSourceValueStatus } from '../model';
+import { NgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
 import { NgssmDataStateSpecification, selectNgssmDataState, updateNgssmDataState } from '../state';
 import { NgssmDataSource } from '../model';
 import { loadDataSourceValue } from './load-data-source-value';
@@ -28,6 +28,21 @@ describe('loadDataSourceValue', () => {
     const updatedState = loadDataSourceValue(state, new NgssmLoadDataSourceValueAction('not-registered'));
 
     expect(updatedState).toBe(state);
+  });
+
+  it('should not load a computed data source', () => {
+    state = updateNgssmDataState(state, {
+      dataSources: {
+        computed: {
+          $set: { key: 'computed', linkedToDataSource: 'data-providers', computationFunc: () => 'computed' } as NgssmComputedDataSource
+        }
+      },
+      dataSourceValues: {
+        computed: { $set: { status: NgssmDataSourceValueStatus.none, additionalProperties: {} } }
+      }
+    });
+
+    expect(loadDataSourceValue(state, new NgssmLoadDataSourceValueAction('computed'))).toBe(state);
   });
 
   describe(`when processing action of type '${NgssmDataActionType.loadDataSourceValue}'`, () => {

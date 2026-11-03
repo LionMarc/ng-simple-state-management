@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 
 import { NgssmDataActionType } from '../actions/ngssm-data-action-type';
 import { NgssmDataSourceValueAction } from '../actions/ngssm-data-source-value.action';
-import { NgssmDataSourceValueStatus } from '../model';
+import { isNgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
 import { NgssmLoadDataSourceOptions } from '../model/ngssm-load-data-source-options';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
 
@@ -18,7 +18,7 @@ export class NgssmLoadDataSourceValueAction<TParameter = unknown> extends NgssmD
 
 export const loadDataSourceValue: ReducerFunc<NgssmLoadDataSourceValueAction> = (state, action) => {
   const dataSource = selectNgssmDataState(state).dataSources[action.key];
-  if (!dataSource) {
+  if (!dataSource || isNgssmComputedDataSource(dataSource)) {
     return state;
   }
 

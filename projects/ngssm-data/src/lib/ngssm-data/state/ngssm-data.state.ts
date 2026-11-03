@@ -1,7 +1,7 @@
 import update, { Spec } from 'immutability-helper';
 
 import { Action, NgSsmFeatureState, State } from 'ngssm-store';
-import { NgssmDataSource, NgssmDataSourceValue } from '../model';
+import { NgssmDataSourceValue, NgssmRegisteredDataSource } from '../model';
 
 export const selectNgssmDataState = (state: State): NgssmDataState => state[NgssmDataStateSpecification.featureStateKey] as NgssmDataState;
 
@@ -12,7 +12,7 @@ export const updateNgssmDataState = (state: State, command: Spec<NgssmDataState,
 
 export interface NgssmDataState {
   dataSourceValues: Record<string, NgssmDataSourceValue>;
-  dataSources: Record<string, NgssmDataSource>;
+  dataSources: Record<string, NgssmRegisteredDataSource>;
   delayedActions: Record<string, Action>;
 }
 

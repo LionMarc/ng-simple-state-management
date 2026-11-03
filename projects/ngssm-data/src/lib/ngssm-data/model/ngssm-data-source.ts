@@ -104,10 +104,32 @@ export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditio
 }
 
 /**
+ * Describes a data source whose value is synchronously derived from other data sources.
+ * Computed data sources are updated by the set-data-source-value reducer and cannot be loaded.
+ */
+export interface NgssmComputedDataSource<TData = unknown> {
+  key: string;
+  computationFunc: (state: State) => TData;
+  linkedToDataSource?: string;
+  linkedToDataSources?: string[];
+  linkedDataSources?: string[];
+}
+
+export type NgssmRegisteredDataSource = NgssmDataSource | NgssmComputedDataSource;
+
+export const isNgssmComputedDataSource = (dataSource: NgssmRegisteredDataSource | undefined): dataSource is NgssmComputedDataSource =>
+  dataSource !== undefined && 'computationFunc' in dataSource;
+
+/**
  * Injection token used to register data sources via DI.
  * Provide one or several NgssmDataSource objects using this token (multi: true).
  */
 export const NGSSM_DATA_SOURCE = new InjectionToken<NgssmDataSource[]>('NGSSM_DATA_SOURCE');
+
+/**
+ * Injection token used to register computed data sources via DI.
+ */
+export const NGSSM_COMPUTED_DATA_SOURCE = new InjectionToken<NgssmComputedDataSource[]>('NGSSM_COMPUTED_DATA_SOURCE');
 
 /**
  * Options accepted when providing a data source via provideNgssmDataSource.
@@ -178,6 +200,30 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
     }
   ]);
 };
+
+export type NgssmComputedDataSourceProvideOptions =
+  { linkedToDataSource: string; linkedToDataSources?: string[] } | { linkedToDataSource?: string; linkedToDataSources: string[] };
+
+/**
+ * Registers a computed data source that is recalculated when any linked source is updated.
+ */
+export const provideNgssmComputedDataSource = <TData = unknown>(
+  key: string,
+  computationFunc: (state: State) => TData,
+  options: NgssmComputedDataSourceProvideOptions
+): EnvironmentProviders =>
+  makeEnvironmentProviders([
+    {
+      provide: NGSSM_COMPUTED_DATA_SOURCE,
+      useFactory: () => ({
+        key,
+        computationFunc,
+        linkedToDataSource: options.linkedToDataSource,
+        linkedToDataSources: options.linkedToDataSources
+      }),
+      multi: true
+    }
+  ]);
 
 /**
  * Registers a data source whose value is computed synchronously.

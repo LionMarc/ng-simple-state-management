@@ -1,8 +1,8 @@
 import { EnvironmentProviders, inject, makeEnvironmentProviders, provideAppInitializer } from '@angular/core';
 
 import {
+  NGSSM_COMPUTED_DATA_SOURCE,
   NGSSM_DATA_SOURCE,
-  NgssmDataSource,
   NgssmDataSourceValueStatus,
   NgssmDataStateSpecification,
   updateNgssmDataState
@@ -25,7 +25,10 @@ export const ngssmDataStateAndSourcesInitializer = () => {
     [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState
   };
 
-  const dataSources = (inject(NGSSM_DATA_SOURCE, { optional: true }) as unknown as NgssmDataSource[]) ?? [];
+  const dataSources = [
+    ...(inject(NGSSM_DATA_SOURCE, { optional: true }) ?? []),
+    ...(inject(NGSSM_COMPUTED_DATA_SOURCE, { optional: true }) ?? [])
+  ];
   store.stateValue = dataSources.reduce((previous, current) => {
     return updateNgssmDataState(previous, {
       dataSourceValues: {
