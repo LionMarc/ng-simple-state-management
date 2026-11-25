@@ -140,9 +140,13 @@
       "prefix": "ngssm",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-toolkit/ng-package.json"
+            "tsConfig": "projects/ngssm-toolkit/tsconfig.lib.prod.json",
+            "assets": [
+              "projects/ngssm-toolkit/assets",
+              "projects/ngssm-toolkit/styles"
+            ]
           },
           "configurations": {
             "production": {
@@ -191,9 +195,9 @@
       "prefix": "ngssm",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-store/ng-package.json"
+            "tsConfig": "projects/ngssm-store/tsconfig.lib.prod.json"
           },
           "configurations": {
             "production": {
@@ -243,9 +247,12 @@
       "prefix": "ngssm",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-remote-data/ng-package.json"
+            "tsConfig": "projects/ngssm-remote-data/tsconfig.lib.prod.json",
+            "assets": [
+              "projects/ngssm-remote-data/styles"
+            ]
           },
           "configurations": {
             "production": {
@@ -294,9 +301,9 @@
       "prefix": "ngssm",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-navigation/ng-package.json"
+            "tsConfig": "projects/ngssm-navigation/tsconfig.lib.prod.json"
           },
           "configurations": {
             "production": {
@@ -345,9 +352,12 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-ag-grid/ng-package.json"
+            "tsConfig": "projects/ngssm-ag-grid/tsconfig.lib.prod.json",
+            "assets": [
+              "projects/ngssm-ag-grid/styles"
+            ]
           },
           "configurations": {
             "production": {
@@ -404,9 +414,12 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-shell/ng-package.json"
+            "tsConfig": "projects/ngssm-shell/tsconfig.lib.prod.json",
+            "assets": [
+              "projects/ngssm-shell/styles"
+            ]
           },
           "configurations": {
             "production": {
@@ -455,9 +468,9 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-ace-editor/ng-package.json"
+            "tsConfig": "projects/ngssm-ace-editor/tsconfig.lib.prod.json"
           },
           "configurations": {
             "production": {
@@ -511,9 +524,12 @@
       "prefix": "ngssm",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-tree/ng-package.json"
+            "tsConfig": "projects/ngssm-tree/tsconfig.lib.prod.json",
+            "assets": [
+              "projects/ngssm-tree/styles"
+            ]
           },
           "configurations": {
             "production": {
@@ -562,9 +578,9 @@
       "prefix": "ngssm",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-data/ng-package.json"
+            "tsConfig": "projects/ngssm-data/tsconfig.lib.prod.json"
           },
           "configurations": {
             "production": {
@@ -613,9 +629,9 @@
       "prefix": "ngssm",
       "architect": {
         "build": {
-          "builder": "@angular/build:ng-packagr",
+          "builder": "@angular/build:library",
           "options": {
-            "project": "projects/ngssm-smusdi/ng-package.json"
+            "tsConfig": "projects/ngssm-smusdi/tsconfig.lib.prod.json"
           },
           "configurations": {
             "production": {

@@ -1,5 +1,8 @@
 {
   "name": "ngssm-ace-editor",
+  "exports": {
+    ".": "./src/public-api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Simple warpper of ace-editor.",
   "author": "Lion Marc",

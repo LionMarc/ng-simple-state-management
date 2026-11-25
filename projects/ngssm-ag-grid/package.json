@@ -1,5 +1,9 @@
 {
   "name": "ngssm-ag-grid",
+  "exports": {
+    ".": "./src/public-api.ts",
+    "./testing": "./testing/public_api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Helpers for ag-grid and columns state save/restore feature.",
   "author": "Lion Marc",

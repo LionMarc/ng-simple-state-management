@@ -1,5 +1,9 @@
 {
   "name": "ngssm-data",
+  "exports": {
+    ".": "./src/public-api.ts",
+    "./testing": "./testing/public_api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Library used to facilitate the management of data get from remote service or computed locally.",
   "author": "Lion Marc",
