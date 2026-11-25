@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { of } from 'rxjs';
 
 import { NgssmClearDataSourceValueAction } from '../actions';
 import { NgssmDataSourceValueStatus } from '../model';
@@ -60,6 +61,40 @@ describe('clearDataSourceValue', () => {
     expect(value?.parameter).toBeUndefined();
     expect(value?.parameterIsValid).toBeUndefined();
     expect(value?.parameterPartialValidity).toBeUndefined();
+  });
+
+  it('should validate the parameter when it is cleared', () => {
+    const state = updateNgssmDataState(
+      { [NgssmDataStateSpecification.featureStateKey]: NgssmDataStateSpecification.initialState },
+      {
+        dataSources: {
+          source: {
+            $set: {
+              key: 'source',
+              dataLoadingFunc: () => of([]),
+              parameterValidationFunc: (parameter) => parameter !== undefined
+            }
+          }
+        },
+        dataSourceValues: {
+          source: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              parameter: 'parameter',
+              parameterIsValid: true,
+              additionalProperties: {}
+            }
+          }
+        }
+      }
+    );
+
+    const value = selectNgssmDataState(clearDataSourceValue(state, new NgssmClearDataSourceValueAction('source', true))).dataSourceValues[
+      'source'
+    ];
+
+    expect(value?.parameter).toBeUndefined();
+    expect(value?.parameterIsValid).toBe(false);
   });
 
   it('should clear a previous HTTP error', () => {
