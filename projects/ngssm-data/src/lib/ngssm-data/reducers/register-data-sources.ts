@@ -29,12 +29,13 @@ export const registerDataSources: ReducerFunc<NgssmRegisterDataSourcesAction> = 
         dataSourceValues[dataSource.key].dataLifetimeInSeconds = dataSource.dataLifetimeInSeconds;
       }
 
-      if (dataSource.initialParameter) {
+      if (dataSource.initialParameter !== undefined) {
         dataSourceValues[dataSource.key].parameter = dataSource.initialParameter;
       }
 
-      if (dataSource.initialParameterInvalid) {
-        dataSourceValues[dataSource.key].parameterIsValid = false;
+      const parameterIsValid = dataSource.parameterValidationFunc?.(dataSource.initialParameter);
+      if (parameterIsValid !== undefined || dataSource.initialParameterInvalid) {
+        dataSourceValues[dataSource.key].parameterIsValid = dataSource.initialParameterInvalid === true ? false : parameterIsValid;
       }
     }
 

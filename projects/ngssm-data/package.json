@@ -9,8 +9,9 @@
   "author": "Lion Marc",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": ">=20.0.0",
-    "@angular/core": ">=20.0.0",
+    "@angular/common": ">=22.0.0",
+    "@angular/core": ">=22.0.0",
+    "@angular/forms": ">=22.0.0",
     "ngssm-store": ">=18.0.0",
     "luxon": "^3.4.4"
   },

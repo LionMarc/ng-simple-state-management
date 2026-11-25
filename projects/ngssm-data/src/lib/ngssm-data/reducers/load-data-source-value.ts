@@ -6,6 +6,7 @@ import { NgssmDataSourceValueAction } from '../actions/ngssm-data-source-value.a
 import { isNgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
 import { NgssmLoadDataSourceOptions } from '../model/ngssm-load-data-source-options';
 import { selectNgssmDataState, updateNgssmDataState } from '../state';
+import { validateDataSourceParameter } from './validate-data-source-parameter';
 
 export class NgssmLoadDataSourceValueAction<TParameter = unknown> extends NgssmDataSourceValueAction {
   constructor(
@@ -45,16 +46,30 @@ export const loadDataSourceValue: ReducerFunc<NgssmLoadDataSourceValueAction> = 
     return state;
   }
 
+  const parameterOptions = action.options?.parameter;
+  const hasParameter = parameterOptions !== undefined;
+  const schemaValidity = hasParameter ? validateDataSourceParameter(state, action.key, parameterOptions.value) : undefined;
+
   let shouldReload = false;
-  if (action.options?.parameter) {
+  if (hasParameter) {
     shouldReload = true;
     currentState = updateNgssmDataState(currentState, {
       dataSourceValues: {
         [action.key]: {
-          parameter: { $set: action.options.parameter.value }
+          parameter: { $set: parameterOptions.value }
         }
       }
     });
+    if (schemaValidity !== undefined) {
+      currentState = updateNgssmDataState(currentState, {
+        dataSourceValues: {
+          [action.key]: {
+            parameterIsValid: { $set: schemaValidity },
+            parameterPartialValidity: { $set: undefined }
+          }
+        }
+      });
+    }
   }
 
   if (dataSourceValue.status === NgssmDataSourceValueStatus.loaded) {
@@ -70,7 +85,17 @@ export const loadDataSourceValue: ReducerFunc<NgssmLoadDataSourceValueAction> = 
     shouldReload = true;
   }
 
-  if (dataSourceValue.parameterIsValid === false) {
+  if (schemaValidity === false) {
+    return updateNgssmDataState(currentState, {
+      dataSourceValues: {
+        [action.key]: {
+          valueOutdated: { $set: true }
+        }
+      }
+    });
+  }
+
+  if (schemaValidity === undefined && dataSourceValue.parameterIsValid === false) {
     shouldReload = false;
   }
 

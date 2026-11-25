@@ -27,6 +27,7 @@ interface NgssmDataSourceValue<TData, TParameter> {
 - `undefined` (default): Parameter is considered valid
 - `true`: Parameter is explicitly valid
 - `false`: Parameter is invalid, blocking data loading
+- With `parameterSchemaFunctions`, the value is computed from all configured schemas on every parameter update
 
 ### Partial Parameter Validity
 
@@ -41,6 +42,7 @@ interface NgssmDataSourceValue<TData, TParameter> {
 ```
 
 This allows tracking validity for individual parameter fields:
+
 ```typescript
 {
   parameterPartialValidity: {
@@ -50,6 +52,31 @@ This allows tracking validity for individual parameter fields:
   }
 }
 ```
+
+### Automatic validation with Signal Forms schemas
+
+Data sources registered with `provideNgssmDataSource` can accept a list of Angular Signal Forms
+`SchemaFn`s. All schemas are applied to one form and the form's validity is recalculated whenever the
+parameter is set, partially updated, or updated with a function:
+
+```typescript
+import { required, minLength } from '@angular/forms/signals';
+
+interface SearchParameter {
+  query: string;
+}
+
+provideNgssmDataSource('search-results', (state, key, parameter?: SearchParameter) => http.get('/api/search', { params: parameter }), {
+  initialParameter: { query: '' },
+  parameterSchemaFunctions: [(path) => required(path.query), (path) => minLength(path.query, 3)]
+});
+```
+
+Schema validation populates the existing `parameterIsValid` flag, so invalid parameters block data
+loading as before. Full-schema validity takes precedence over partial validity and clears any prior
+`parameterPartialValidity` map. Use synchronous Signal Forms validators; asynchronous validators cannot
+be resolved during the synchronous parameter update. Signal Forms error details are not copied into
+ngssm-data state; only the aggregate validity flag is stored. This option requires Angular 22 or later.
 
 ### Validity Resolution Logic
 

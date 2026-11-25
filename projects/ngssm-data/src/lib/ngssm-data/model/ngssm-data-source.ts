@@ -1,4 +1,6 @@
-import { EnvironmentProviders, InjectionToken, inject, makeEnvironmentProviders } from '@angular/core';
+import { EnvironmentProviders, InjectionToken, Injector, inject, makeEnvironmentProviders, signal } from '@angular/core';
+import { form } from '@angular/forms/signals';
+import type { FieldState, SchemaFn } from '@angular/forms/signals';
 import { Observable, of } from 'rxjs';
 
 import { State, Store } from 'ngssm-store';
@@ -95,6 +97,8 @@ export interface NgssmDataSource<TData = unknown, TParameter = unknown, TAdditio
   additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionalProperty>;
   initialParameter?: TParameter;
   initialParameterInvalid?: boolean;
+  /** Synchronous parameter validator generated from parameterSchemaFunctions when using the provider helper. */
+  parameterValidationFunc?: (parameter: TParameter | undefined) => boolean;
   linkedToDataSource?: string;
   linkedToDataSources?: string[];
   linkedDataSources?: string[];
@@ -139,6 +143,8 @@ export interface NgssmDataSourceProvideOptions<TData = unknown, TParameter = unk
   dataLifetimeInSeconds?: number;
   initialParameter?: TParameter;
   initialParameterInvalid?: boolean;
+  /** Signal Forms schemas composed together and evaluated on every parameter change. */
+  parameterSchemaFunctions?: readonly SchemaFn<TParameter>[];
   additionalPropertyLoadingFunc?: NgssmAdditionalPropertyLoading<TAdditionalProperty>;
   linkedToDataSource?: string;
   linkedToDataSources?: string[];
@@ -161,17 +167,32 @@ export const provideNgssmDataSource = <TData = unknown, TParameter = unknown, TA
     {
       provide: NGSSM_DATA_SOURCE,
       useFactory: () => {
+        let parameterValidationFunc: ((parameter: TParameter | undefined) => boolean) | undefined;
+        if (options?.parameterSchemaFunctions?.length) {
+          const schemaFunctions = options.parameterSchemaFunctions;
+          const parameter = signal<TParameter>(options.initialParameter as TParameter);
+          const parameterForm = form(parameter, (path) => schemaFunctions.forEach((schemaFunction) => schemaFunction(path)), {
+            injector: inject(Injector)
+          });
+          parameterValidationFunc = (value) => {
+            const parameterField = parameterForm() as FieldState<TParameter>;
+            parameterField.value.set(value as TParameter);
+            return parameterField.valid();
+          };
+        }
+
         const dataSource: NgssmDataSource<TData, TParameter, TAdditionalProperty> = {
           key,
           dataLifetimeInSeconds: options?.dataLifetimeInSeconds,
           dataLoadingFunc: loadingFunc,
+          parameterValidationFunc,
           additionalPropertyLoadingFunc: options?.additionalPropertyLoadingFunc,
           onLoaded: options?.onLoaded,
           onLoadError: options?.onLoadError
         };
 
-        if (options?.initialParameter) {
-          dataSource.initialParameter = options?.initialParameter;
+        if (options?.initialParameter !== undefined) {
+          dataSource.initialParameter = options.initialParameter;
         }
 
         if (options?.initialParameterInvalid) {

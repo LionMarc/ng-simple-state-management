@@ -1,6 +1,7 @@
 import { State } from 'ngssm-store';
 
 import { DateTime } from 'luxon';
+import { of } from 'rxjs';
 
 import { NgssmDataActionType, NgssmLoadDataSourceValueAction } from '../actions';
 import { NgssmComputedDataSource, NgssmDataSourceValueStatus } from '../model';
@@ -94,6 +95,76 @@ describe('loadDataSourceValue', () => {
       const updatedState = loadDataSourceValue(state, action);
 
       expect(selectNgssmDataState(updatedState).dataSourceValues['data-providers'].parameter).toEqual('next');
+    });
+
+    it('should validate a parameter supplied with a load action and load when valid', () => {
+      state = updateNgssmDataState(state, {
+        dataSources: {
+          ['data-providers']: {
+            $set: {
+              key: 'data-providers',
+              dataLoadingFunc: () => of([]),
+              parameterValidationFunc: (parameter) => parameter === 'valid'
+            }
+          }
+        },
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              parameter: 'invalid',
+              parameterIsValid: false,
+              parameterPartialValidity: { field: false },
+              additionalProperties: {}
+            }
+          }
+        }
+      });
+
+      const updatedState = loadDataSourceValue(
+        state,
+        new NgssmLoadDataSourceValueAction('data-providers', { parameter: { value: 'valid' } })
+      );
+      const value = selectNgssmDataState(updatedState).dataSourceValues['data-providers'];
+
+      expect(value.parameter).toBe('valid');
+      expect(value.parameterIsValid).toBe(true);
+      expect(value.parameterPartialValidity).toBeUndefined();
+      expect(value.status).toBe(NgssmDataSourceValueStatus.loading);
+    });
+
+    it('should retain an invalid parameter without starting a load', () => {
+      state = updateNgssmDataState(state, {
+        dataSources: {
+          ['data-providers']: {
+            $set: {
+              key: 'data-providers',
+              dataLoadingFunc: () => of([]),
+              parameterValidationFunc: (parameter) => parameter === 'valid'
+            }
+          }
+        },
+        dataSourceValues: {
+          ['data-providers']: {
+            $set: {
+              status: NgssmDataSourceValueStatus.loaded,
+              parameter: 'previous',
+              additionalProperties: {}
+            }
+          }
+        }
+      });
+
+      const updatedState = loadDataSourceValue(
+        state,
+        new NgssmLoadDataSourceValueAction('data-providers', { parameter: { value: 'invalid' } })
+      );
+      const value = selectNgssmDataState(updatedState).dataSourceValues['data-providers'];
+
+      expect(value.parameter).toBe('invalid');
+      expect(value.parameterIsValid).toBe(false);
+      expect(value.valueOutdated).toBe(true);
+      expect(value.status).toBe(NgssmDataSourceValueStatus.loaded);
     });
 
     it(`should set the valueOutdated to false`, () => {

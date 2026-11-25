@@ -1,5 +1,6 @@
 import { ApplicationInitStatus, effect, inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { minLength, required } from '@angular/forms/signals';
 import { firstValueFrom, isObservable, of } from 'rxjs';
 
 import { Store } from 'ngssm-store';
@@ -14,7 +15,14 @@ import {
   provideNgssmDataSource,
   provideNgssmDataSourceSync
 } from './ngssm-data-source';
-import { NgssmDataActionType, NgssmLoadDataSourceValueAction, NgssmSetDataSourceValueAction } from '../actions';
+import {
+  NgssmDataActionType,
+  NgssmLoadDataSourceValueAction,
+  NgssmSetDataSourceParameterAction,
+  NgssmSetDataSourceValueAction,
+  NgssmUpdateDataSourceParameterAction,
+  NgssmUpdateDataSourceParameterWithFunctionAction
+} from '../actions';
 import { NgssmDataSourceValueStatus } from './ngssm-data-source-value';
 import { provideNgssmData } from '../provide-ngssm-data';
 import { selectNgssmDataState } from '../state';
@@ -91,6 +99,63 @@ describe('NgssmDataSource', () => {
 
       const state = TestBed.inject(Store).state();
       expect(selectNgssmDataState(state).dataSources['testing'].linkedDataSources).toEqual(['another-one']);
+    });
+
+    it('should validate the initial and updated parameters with all configured Signal Forms schemas', async () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideNgssmData(),
+          provideNgssmDataSource('search', (_state, _key, parameter?: { query: string }) => of(parameter), {
+            initialParameter: { query: '' },
+            parameterSchemaFunctions: [(path) => required(path.query), (path) => minLength(path.query, 3)]
+          })
+        ]
+      });
+
+      const source = TestBed.inject(NGSSM_DATA_SOURCE).find((dataSource) => dataSource.key === 'search');
+      expect(source?.parameterValidationFunc?.({ query: '' })).toBe(false);
+      expect(source?.parameterValidationFunc?.({ query: 'first' })).toBe(true);
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+      await vi.runAllTimersAsync();
+      const store = TestBed.inject(Store);
+      expect(selectNgssmDataState(store.state()).dataSourceValues['search']?.parameterIsValid).toBe(false);
+
+      store.dispatchAction(new NgssmSetDataSourceParameterAction('search', { query: 'first' }));
+      await vi.runAllTimersAsync();
+      expect(selectNgssmDataState(store.state()).dataSourceValues['search']?.parameterIsValid).toBe(true);
+
+      store.dispatchAction(new NgssmUpdateDataSourceParameterAction('search', { query: '' }));
+      await vi.runAllTimersAsync();
+      expect(selectNgssmDataState(store.state()).dataSourceValues['search']?.parameterIsValid).toBe(false);
+
+      store.dispatchAction(
+        new NgssmUpdateDataSourceParameterWithFunctionAction<{ query: string }>('search', (parameter) => ({
+          ...parameter,
+          query: 'again'
+        }))
+      );
+      await vi.runAllTimersAsync();
+      expect(selectNgssmDataState(store.state()).dataSourceValues['search']?.parameterIsValid).toBe(true);
+    });
+
+    it('should retain and validate a falsy initial parameter', async () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideNgssmData(),
+          provideNgssmDataSource('search', (_state, _key, parameter?: string) => of(parameter), {
+            initialParameter: '',
+            parameterSchemaFunctions: [(path) => required(path)]
+          })
+        ]
+      });
+
+      await TestBed.inject(ApplicationInitStatus).donePromise;
+      await vi.runAllTimersAsync();
+      const value = selectNgssmDataState(TestBed.inject(Store).state()).dataSourceValues['search'];
+
+      expect(value?.parameter).toBe('');
+      expect(value?.parameterIsValid).toBe(false);
     });
   });
 
