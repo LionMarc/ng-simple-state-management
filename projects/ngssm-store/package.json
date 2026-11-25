@@ -1,5 +1,13 @@
 {
   "name": "ngssm-store",
+  "exports": {
+    ".": "./src/public-api.ts",
+    "./caching": "./caching/public_api.ts",
+    "./caching/testing": "./caching/testing/public_api.ts",
+    "./testing": "./testing/public_api.ts",
+    "./visibility": "./visibility/public_api.ts",
+    "./visibility/testing": "./visibility/testing/public_api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Simple state management implementation.",
   "author": "Lion Marc",

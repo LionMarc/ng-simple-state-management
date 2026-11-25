@@ -1,5 +1,8 @@
 {
   "name": "ngssm-tree",
+  "exports": {
+    ".": "./src/public-api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Tree implementation.",
   "author": "Lion Marc",

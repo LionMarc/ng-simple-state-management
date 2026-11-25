@@ -1,5 +1,9 @@
 {
   "name": "ngssm-remote-data",
+  "exports": {
+    ".": "./src/public-api.ts",
+    "./testing": "./testing/public_api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Utilities to manage data loaded from remote services with the store.",
   "author": "Lion Marc",

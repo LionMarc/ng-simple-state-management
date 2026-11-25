@@ -1,5 +1,8 @@
 {
   "name": "ngssm-shell",
+  "exports": {
+    ".": "./src/public-api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - A complete shell with header, footer, side navigation...",
   "author": "Lion Marc",

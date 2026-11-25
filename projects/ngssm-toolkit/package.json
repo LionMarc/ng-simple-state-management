@@ -1,5 +1,9 @@
 {
   "name": "ngssm-toolkit",
+  "exports": {
+    ".": "./src/public-api.ts",
+    "./testing": "./testing/public_api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Utilities for angular applications.",
   "author": "Lion Marc",

@@ -1,5 +1,8 @@
 {
   "name": "ngssm-navigation",
+  "exports": {
+    ".": "./src/public-api.ts"
+  },
   "version": "0.0.1",
   "description": "NgSsm - Helpers to control angular navigation.",
   "author": "Lion Marc",
